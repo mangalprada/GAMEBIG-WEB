@@ -10,7 +10,7 @@ export default function NavigationItems({ clicked }: Props) {
   return (
     <ul className={styles.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
-      <NavigationItem href="/organizations">Organizations</NavigationItem>
+      <NavigationItem href="/organization">Organizations</NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
       <NavigationItem href="/profile">Profile</NavigationItem>
     </ul>

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   Button,
   CardContent,
@@ -9,7 +10,6 @@ import {
 import { grey } from '@material-ui/core/colors';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { AddRounded } from '@material-ui/icons';
-import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,25 +40,27 @@ export default function NoOrganization() {
     <Container className={styles.root}>
       <Typography
         variant="h6"
-        component="h2"
+        component="h6"
         gutterBottom
         className={styles.header}
       >
         Creating your organization page is just simple clicks away.
       </Typography>
       <div className={styles.buttonContainer}>
-        <Button
-          variant="outlined"
-          endIcon={<AddRounded color="primary" fontSize="large" />}
-        >
-          <Typography
-            variant="body1"
-            color="primary"
-            className={styles.buttonText}
+        <Link href="/organization/create" passHref>
+          <Button
+            variant="outlined"
+            endIcon={<AddRounded color="primary" fontSize="large" />}
           >
-            Create Your Organization Page
-          </Typography>
-        </Button>
+            <Typography
+              variant="body1"
+              color="primary"
+              className={styles.buttonText}
+            >
+              Create Your Organization Page
+            </Typography>
+          </Button>
+        </Link>
       </div>
       <div className={styles.cardContainer}>
         <CardHeader title="Who is it for?" />

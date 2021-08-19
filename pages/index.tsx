@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import styles from '../styles/Home.module.scss';
+import TournamentCard from '../components/UI/Card/TournamentCard';
 
 export default function Home() {
   return (
@@ -13,6 +14,10 @@ export default function Home() {
       <Aux>
         <main className={styles.Main}>
           <h1>Welcome to DLord</h1>
+          <div>
+            <TournamentCard />
+            <TournamentCard />
+          </div>
         </main>
       </Aux>
     </div>

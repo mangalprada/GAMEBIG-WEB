@@ -2,3 +2,17 @@
   width: 100%;
   margin: 1rem auto;
 }
+
+.FlexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.FlexColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}

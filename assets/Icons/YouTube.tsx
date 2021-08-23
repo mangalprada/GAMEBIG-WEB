@@ -8,7 +8,13 @@ type Props = {
 const YouTube: FC<Props> = ({ size, onClick }: Props) => {
   return (
     <div onClick={onClick}>
-      <svg width={size * 1.3} height={size} viewBox="0 0 48 34" fill="none">
+      <svg
+        width={size * 1.3}
+        height={size}
+        style={{ margin: 10 }}
+        viewBox="0 0 48 34"
+        fill="none"
+      >
         <path
           fillRule="evenodd"
           clipRule="evenodd"

@@ -8,27 +8,18 @@ type Props = {
   clicked?: () => void;
 };
 
-export default function NavigationItems({ clicked, uid }) {
+export default function NavigationItems({ clicked }: Props) {
+  const user = firebase.auth().currentUser || null;
   return (
     <ul className={styles.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
       <NavigationItem href="/organization">Organizations</NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
-      {uid ? (
-        <NavigationItem href={`/profile/${uid}`}>Profile</NavigationItem>
+      {user ? (
+        <NavigationItem href={`/profile/${user.uid}`}>Profile</NavigationItem>
       ) : (
         <NavigationItem href="/auth">Sign In</NavigationItem>
       )}
     </ul>
   );
-}
-
-export async function getStaticProps() {
-  const getUser = async () => await firebase.auth().currentUser;
-  const currentUser = getUser();
-  const uid = currentUser ? currentUser.uid : null;
-  console.log(uid, 'uid------------------------');
-  return {
-    props: { uid },
-  };
 }

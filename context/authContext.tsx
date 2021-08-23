@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  createContext,
+  FC,
+} from 'react';
 import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
-import { User } from '../utilities/types';
+import { User, UserData } from '../utilities/types';
 
 const authContext = createContext(null);
 
@@ -98,7 +104,7 @@ function useProvideAuth() {
     return signInWithProvider(provider);
   };
 
-  const getUserData = (uid) => {
+  const getUserData = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
 
     docRef
@@ -123,21 +129,6 @@ function useProvideAuth() {
     }
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = () => {
-  //     const user = firebase.auth().currentUser;
-
-  //     if (user) {
-  //       const { uid, email, displayName, photoURL } = user;
-  //       setUserData({ ...userData, uid, email, displayName, photoURL });
-  //     } else {
-  //       setUserData(null);
-  //     }
-  //   };
-
-  //   return () => unsubscribe();
-  // }, [userData]);
-
   return {
     userData,
     signin,
@@ -150,10 +141,10 @@ function useProvideAuth() {
   };
 }
 
-export function AuthProvider({ children }) {
+export const AuthProvider: FC<{}> = ({ children }) => {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-}
+};
 
 export const useAuth = () => {
   return useContext(authContext);

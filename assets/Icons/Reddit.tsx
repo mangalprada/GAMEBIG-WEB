@@ -8,7 +8,12 @@ type Props = {
 const Reddit: FC<Props> = ({ size, onClick }: Props) => {
   return (
     <div onClick={onClick}>
-      <svg width={size} height={size} viewBox="-25.65 -42.75 222.3 256.5">
+      <svg
+        width={size}
+        height={size}
+        style={{ margin: 10 }}
+        viewBox="-25.65 -42.75 222.3 256.5"
+      >
         <g transform="translate(-85.4 -85.4)">
           <circle r="85.5" cy="170.9" cx="170.9" fill="#ff4500" />
           <path

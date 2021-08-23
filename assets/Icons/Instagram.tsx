@@ -8,7 +8,13 @@ type Props = {
 const Instagram: FC<Props> = ({ size, onClick }: Props) => {
   return (
     <div onClick={onClick}>
-      <svg width={size} height={size} viewBox="0 0 96 96" fill="none">
+      <svg
+        width={size}
+        height={size}
+        style={{ margin: 10 }}
+        viewBox="0 0 96 96"
+        fill="none"
+      >
         <path
           d="M68.034 83.98L28.034 84.018C19.234 84.026 12.028 76.834 12.018 68.034L11.98 28.034C11.972 19.234 19.164 12.028 27.964 12.018L67.964 11.98C76.764 11.972 83.97 19.164 83.98 27.964L84.018 67.964C84.028 76.766 76.834 83.972 68.034 83.98Z"
           fill="url(#paint0_radial)"

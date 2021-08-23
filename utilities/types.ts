@@ -1,22 +1,25 @@
 export interface User {
   uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-  country: string | null;
-  phoneNumber: string | null;
+  email: string | undefined;
+  displayName: string | undefined;
+  photoURL: string | undefined;
+  country: string | undefined;
+  phoneNumber: string | undefined;
 }
 
 export interface UserData {
-  name: string | null;
-  dob: string | null;
-  country: string | null;
-  phoneNumber: string | null;
-  email: string | null;
-  youtubeLink: string | null;
-  twitchLink: string | null;
-  facebookLink: string | null;
-  instagramLink: string | null;
-  twitterLink: string | null;
-  redditLink: string | null;
+  photoURL: string | undefined;
+  uid: string;
+  displayName: string | undefined;
+  name: string | undefined;
+  dob: string | undefined;
+  country: string | undefined;
+  phoneNumber: string | undefined;
+  email: string | undefined;
+  youtubeLink: string | undefined;
+  twitchLink: string | undefined;
+  facebookLink: string | undefined;
+  instagramLink: string | undefined;
+  twitterLink: string | undefined;
+  redditLink: string | undefined;
 }

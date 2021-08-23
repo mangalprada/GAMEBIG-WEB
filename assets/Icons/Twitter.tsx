@@ -11,6 +11,7 @@ const Twitter: FC<Props> = ({ size, onClick }: Props) => {
       <svg
         width={size}
         height={size}
+        style={{ margin: 10 }}
         viewBox="0 0 99 81"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

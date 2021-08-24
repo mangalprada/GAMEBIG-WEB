@@ -1,10 +1,17 @@
-import React, { useState, useContext, createContext, FC } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+  FC,
+} from 'react';
 import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
 import { UserData } from '../utilities/types';
+import { User } from '../utilities/types';
 
 const authContext = createContext({
-  userData: {},
+  user: { uid: '', displayName: '', photoURL: '' },
   signout: () => {},
   signInByFacebook: () => {},
   signInByGoogle: () => {},
@@ -12,7 +19,7 @@ const authContext = createContext({
 
 function useProvideAuth() {
   const router = useRouter();
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const signout = () => {
     return firebase
@@ -20,7 +27,7 @@ function useProvideAuth() {
       .signOut()
       .then(() => {
         router.push('/');
-        setUserData(null);
+        setUser(null);
       });
   };
 
@@ -32,14 +39,12 @@ function useProvideAuth() {
       .signInWithPopup(provider)
       .then(({ user }) => {
         if (user) {
-          const { uid, email, displayName, photoURL } = user;
-          const currentUserData = getUserData(uid);
-
-          if (currentUserData !== null) {
-            setUserData(currentUserData);
-          } else if (email && displayName && photoURL) {
-            createUserData({ uid, email, displayName, photoURL });
-            setUserData({ uid, email, displayName, photoURL });
+          const { uid, displayName, photoURL } = user;
+          const isDataPresent = isDataPresentInDb(uid);
+          if (uid && displayName && photoURL) {
+            isDataPresent === null &&
+              createUserData({ uid, displayName, photoURL });
+            setUser({ uid, displayName, photoURL });
           }
           router.push('/');
         }
@@ -62,7 +67,7 @@ function useProvideAuth() {
     return signInWithProvider(provider);
   };
 
-  const getUserData = (uid: string) => {
+  const isDataPresentInDb = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
     docRef
       .get()
@@ -86,8 +91,23 @@ function useProvideAuth() {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const { uid, displayName, photoURL } = user;
+        if (uid && displayName && photoURL) {
+          setUser({ uid, displayName, photoURL });
+        }
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return {
-    userData,
+    user,
     signout,
     signInByFacebook,
     signInByGoogle,

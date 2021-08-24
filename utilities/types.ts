@@ -1,10 +1,8 @@
 export interface User {
   uid: string;
-  email: string | undefined;
-  displayName: string | undefined;
-  photoURL: string | undefined;
-  country: string | undefined;
-  phoneNumber: string | undefined;
+  email?: string | undefined;
+  displayName?: string | undefined;
+  photoURL?: string | undefined;
 }
 
 export interface UserData {

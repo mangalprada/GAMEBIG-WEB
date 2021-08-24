@@ -151,7 +151,7 @@ export default function Home({ userData }: { userData: UserData }) {
           onClick={() =>
             router.push({
               pathname: `/profile/${userData.uid}/edit`,
-              query: userData,
+              query: { ...userData },
             })
           }
           className={styles.button}

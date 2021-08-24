@@ -54,7 +54,12 @@ const emptyInitialValues = {
   redditLink: '',
 };
 
-function ProfileForm({ oldValues, push }) {
+type Props = {
+  oldValues: UserData;
+  push: (path: string) => void;
+};
+
+function ProfileForm({ oldValues, push }: Props) {
   const styles = useStyles();
 
   const saveUserData = async (uid: string, userData: UserData) => {
@@ -82,8 +87,11 @@ function ProfileForm({ oldValues, push }) {
       <Formik
         initialValues={{ ...emptyInitialValues, ...oldValues }}
         validate={(values) => {
-          const errors = {};
-          if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+          const errors = { email: '' };
+          if (
+            values.email &&
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
             errors.email = 'Invalid email address';
           }
           return errors;

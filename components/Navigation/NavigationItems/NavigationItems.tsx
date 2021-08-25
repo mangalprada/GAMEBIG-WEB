@@ -13,10 +13,10 @@ export default function NavigationItems({ clicked }: Props) {
       <NavigationItem href="/">Tournaments</NavigationItem>
       <NavigationItem href="/organization">Organizations</NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
-      {user ? (
+      {user.uid ? (
         <NavigationItem href={`/profile/${user.uid}`}>Profile</NavigationItem>
       ) : (
-        <NavigationItem href="/auth">Sign In</NavigationItem>
+        <NavigationItem href="/auth">Sign&nbsp;In </NavigationItem>
       )}
     </ul>
   );

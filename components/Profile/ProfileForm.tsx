@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import {
   Button,
   createStyles,
@@ -10,10 +11,12 @@ import {
 import { ArrowBackRounded } from '@material-ui/icons';
 import { Formik } from 'formik';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import MuiPhoneNumber from 'material-ui-phone-number';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/config';
 import { countries } from '../../utilities/CountryData';
+const MuiPhoneNumber = dynamic(import('material-ui-phone-number'), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,20 +43,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const emptyInitialValues = {
-  displayName: '',
-  dob: '',
-  country: '',
-  phoneNumber: '',
-  email: '',
-  youtubeLink: '',
-  twitchLink: '',
-  facebookLink: '',
-  instagramLink: '',
-  twitterLink: '',
-  redditLink: '',
-};
-
 type Props = {
   oldValues: UserData;
   push: (path: string) => void;
@@ -63,6 +52,7 @@ function ProfileForm({ oldValues, push }: Props) {
   const styles = useStyles();
 
   const saveUserData = async (uid: string, userData: UserData) => {
+    console.log('saving user data -------------', userData);
     try {
       await db.collection('users').doc(uid).update(userData);
     } catch (err) {
@@ -71,6 +61,7 @@ function ProfileForm({ oldValues, push }: Props) {
       push(`/profile/${uid}`);
     }
   };
+
   return (
     <div className={styles.root}>
       <Link href={`/profile/${oldValues.uid}`} passHref>
@@ -85,7 +76,7 @@ function ProfileForm({ oldValues, push }: Props) {
         Update Your Profile
       </Typography>
       <Formik
-        initialValues={{ ...emptyInitialValues, ...oldValues }}
+        initialValues={oldValues}
         validate={(values) => {
           const errors = { email: '' };
           if (
@@ -97,6 +88,7 @@ function ProfileForm({ oldValues, push }: Props) {
           return errors;
         }}
         onSubmit={(values, { resetForm, setSubmitting }) => {
+          console.log('values ===================', values);
           saveUserData(oldValues.uid, values);
           resetForm();
         }}

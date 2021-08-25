@@ -11,15 +11,21 @@ import { UserData } from '../utilities/types';
 import { User } from '../utilities/types';
 
 const authContext = createContext({
-  user: { uid: '', displayName: '', photoURL: '' },
-  signout: () => {},
-  signInByFacebook: () => {},
-  signInByGoogle: () => {},
+  user: { uid: '', displayName: '', photoURL: '' } as User,
+  signout: (): Promise<void> => {
+    return Promise.resolve();
+  },
+  signInByFacebook: (): Promise<void> => {
+    return Promise.resolve();
+  },
+  signInByGoogle: (): Promise<void> => {
+    return Promise.resolve();
+  },
 });
 
 function useProvideAuth() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>({} as User);
 
   const signout = () => {
     return firebase
@@ -27,7 +33,7 @@ function useProvideAuth() {
       .signOut()
       .then(() => {
         router.push('/');
-        setUser(null);
+        setUser({} as User);
       });
   };
 
@@ -99,7 +105,7 @@ function useProvideAuth() {
           setUser({ uid, displayName, photoURL });
         }
       } else {
-        setUser(null);
+        setUser({} as User);
       }
     });
 
@@ -114,7 +120,14 @@ function useProvideAuth() {
   };
 }
 
-export const AuthProvider: FC<{}> = ({ children }) => {
+type Props = {
+  user: User;
+  signout: () => void;
+  signInByFacebook: () => void;
+  signInByGoogle: () => void;
+};
+
+export const AuthProvider: FC<Props> = ({ children }) => {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };

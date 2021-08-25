@@ -67,12 +67,14 @@ export default function Home({ userData }: { userData: UserData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.root}>
-        <img
-          src={userData.photoURL}
-          width={100}
-          height={100}
-          alt="Picture of the user"
-        />
+        {userData.photoURL ? (
+          <Image
+            src={userData.photoURL}
+            width={100}
+            height={100}
+            alt="Picture of the user"
+          />
+        ) : null}
         {userData.displayName ? <h1>{userData.displayName}</h1> : null}
         {userData.dob ? (
           <div className={styles.flexRow}>

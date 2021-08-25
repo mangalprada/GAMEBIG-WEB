@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import {
   Button,
   createStyles,
@@ -14,9 +13,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/config';
 import { countries } from '../../utilities/CountryData';
-const MuiPhoneNumber = dynamic(import('material-ui-phone-number'), {
-  ssr: false,
-});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,7 +48,6 @@ function ProfileForm({ oldValues, push }: Props) {
   const styles = useStyles();
 
   const saveUserData = async (uid: string, userData: UserData) => {
-    console.log('saving user data -------------', userData);
     try {
       await db.collection('users').doc(uid).update(userData);
     } catch (err) {
@@ -78,7 +73,7 @@ function ProfileForm({ oldValues, push }: Props) {
       <Formik
         initialValues={oldValues}
         validate={(values) => {
-          const errors = { email: '' };
+          const errors = {};
           if (
             values.email &&
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
@@ -87,8 +82,7 @@ function ProfileForm({ oldValues, push }: Props) {
           }
           return errors;
         }}
-        onSubmit={(values, { resetForm, setSubmitting }) => {
-          console.log('values ===================', values);
+        onSubmit={(values, { resetForm }) => {
           saveUserData(oldValues.uid, values);
           resetForm();
         }}
@@ -100,6 +94,7 @@ function ProfileForm({ oldValues, push }: Props) {
           handleChange,
           handleBlur,
           handleSubmit,
+          setFieldValue,
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit}>
@@ -128,23 +123,26 @@ function ProfileForm({ oldValues, push }: Props) {
             />
             {errors.dob && touched.dob && errors.dob}
             <Autocomplete
-              id="combo-box-demo"
               options={countries}
               getOptionLabel={(option) => option.name}
-              style={{ width: 300 }}
+              onChange={(e, value) => {
+                if (value) {
+                  setFieldValue('country', value.name);
+                }
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="Country" variant="outlined" />
               )}
             />
             {errors.country && touched.country && errors.country}
-            <MuiPhoneNumber
-              defaultCountry={'us'}
-              label="Phone Number"
-              value={values.phoneNumber}
-              onChange={handleChange}
+            <TextField
+              name="phoneNumber"
+              label="Phone Number (with Country Code)"
               variant="outlined"
+              placeholder="+1 (123) 456-7890"
+              onChange={handleChange}
               onBlur={handleBlur}
-              onlyCountries={['de', 'es', 'in', 'us']}
+              value={values.phoneNumber}
             />
             {errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}
             <TextField

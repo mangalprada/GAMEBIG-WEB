@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    marginBottom: 20,
   },
   tabIndicator: {
     backgroundColor: grey[500],
@@ -32,8 +33,8 @@ export default function TabNavigator({ tabNumber }: Props) {
           value={tabNumber}
           classes={{ indicator: styles.tabIndicator }}
         >
-          <TabNavItem label="About" href={`/organization/${id}`} />
           <TabNavItem label="Events" href={`/organization/${id}/tournaments`} />
+          <TabNavItem label="About" href={`/organization/${id}`} />
         </Tabs>
       </AppBar>
     </div>

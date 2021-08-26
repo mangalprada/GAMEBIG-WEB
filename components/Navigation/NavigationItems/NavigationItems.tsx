@@ -13,7 +13,9 @@ export default function NavigationItems({ clicked }: Props) {
     <ul className={styles.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
       <NavigationItem
-        href={isOrgExists ? `/organization/${orgId}` : `/organization`}
+        href={
+          isOrgExists ? `/organization/${orgId}/tournaments` : `/organization`
+        }
       >
         Organizations
       </NavigationItem>

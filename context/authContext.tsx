@@ -47,9 +47,11 @@ function useProvideAuth() {
         if (user) {
           const { uid, displayName, photoURL } = user;
           const isDataPresent = isDataPresentInDb(uid);
+          console.log({ isDataPresent });
           if (uid && displayName && photoURL) {
-            isDataPresent === null &&
+            if (!isDataPresent) {
               createUserData({ uid, displayName, photoURL });
+            }
             setUser({ uid, displayName, photoURL });
           }
           router.push('/');
@@ -75,18 +77,18 @@ function useProvideAuth() {
 
   const isDataPresentInDb = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
+    let returnValue = false;
     docRef
       .get()
       .then((doc) => {
         if (doc.exists) {
-          return doc.data();
-        } else {
-          return null;
+          returnValue = true;
         }
       })
       .catch((error) => {
         console.log('Error getting document:', error);
       });
+    return returnValue;
   };
 
   const createUserData = async (userData: UserData) => {

@@ -155,35 +155,3 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
     </div>
   );
 }
-
-export async function getStaticPaths() {
-  return {
-    fallback: true,
-    paths: [
-      {
-        params: {
-          userId: 'Sdo3A6hPTUfQ63SaSqYMGyrqx093',
-        },
-      },
-    ],
-  };
-}
-
-export async function getStaticProps(context: { params: { userId: string } }) {
-  const userId = context.params.userId;
-  let userData = null;
-  await db
-    .collection('users')
-    .doc(userId)
-    .get()
-    .then((doc) => {
-      userData = doc.data();
-    })
-    .catch((error) => {
-      console.log('Error getting cached document:', error);
-    });
-  return {
-    props: { userData },
-    revalidate: 10,
-  };
-}

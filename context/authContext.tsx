@@ -43,13 +43,14 @@ function useProvideAuth() {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(({ user }) => {
+      .then(async ({ user }) => {
         if (user) {
           const { uid, displayName, photoURL } = user;
-          const isDataPresent = isDataPresentInDb(uid);
+          const isDataPresent = await isDataPresentInDb(uid);
           if (uid && displayName && photoURL) {
-            isDataPresent === null &&
-              createUserData({ uid, displayName, photoURL });
+            if (!isDataPresent) {
+              await createUserData({ uid, displayName, photoURL });
+            }
             setUser({ uid, displayName, photoURL });
           }
           router.push('/');
@@ -75,18 +76,18 @@ function useProvideAuth() {
 
   const isDataPresentInDb = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
+    let returnValue = false;
     docRef
       .get()
       .then((doc) => {
         if (doc.exists) {
-          return doc.data();
-        } else {
-          return null;
+          returnValue = true;
         }
       })
       .catch((error) => {
         console.log('Error getting document:', error);
       });
+    return returnValue;
   };
 
   const createUserData = async (userData: UserData) => {

@@ -43,14 +43,13 @@ function useProvideAuth() {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(({ user }) => {
+      .then(async ({ user }) => {
         if (user) {
           const { uid, displayName, photoURL } = user;
-          const isDataPresent = isDataPresentInDb(uid);
-          console.log({ isDataPresent });
+          const isDataPresent = await isDataPresentInDb(uid);
           if (uid && displayName && photoURL) {
             if (!isDataPresent) {
-              createUserData({ uid, displayName, photoURL });
+              await createUserData({ uid, displayName, photoURL });
             }
             setUser({ uid, displayName, photoURL });
           }

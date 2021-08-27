@@ -19,6 +19,10 @@ import {
   MoneyRounded,
   SportsEsportsRounded,
 } from '@material-ui/icons';
+import Link from 'next/link';
+
+let tournId = 123;
+let orgId = 1;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -180,7 +184,18 @@ export default function TournamentCard({ isOrganizer }: Props) {
             Register
           </Button>
         )}
-        <Button color="primary">Details</Button>
+        {isOrganizer ? (
+          <Link
+            href={`/organization/${orgId}/tournaments/${tournId}/`}
+            passHref
+          >
+            <Button color="primary">Details</Button>
+          </Link>
+        ) : (
+          <Link href={`/${tournId}/`} passHref>
+            <Button color="primary">Details</Button>
+          </Link>
+        )}
       </div>
     </Card>
   );

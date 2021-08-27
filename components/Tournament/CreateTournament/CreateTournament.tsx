@@ -19,7 +19,7 @@ export default function CreateTournament() {
     <div className={styles.root}>
       <Link href={`/organization/${id}/tournaments/create`} passHref>
         <Button
-          variant="outlined"
+          variant="contained"
           color="primary"
           endIcon={<EmojiEventsRounded fontSize="medium" />}
         >

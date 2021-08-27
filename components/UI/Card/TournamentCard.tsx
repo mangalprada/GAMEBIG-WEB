@@ -7,14 +7,22 @@ import {
   Avatar,
   Typography,
   Button,
+  Chip,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import {
   AccessTimeRounded,
+  AvTimerRounded,
   EmojiEventsRounded,
+  HomeRounded,
   LocationOnRounded,
   MoneyRounded,
+  SportsEsportsRounded,
 } from '@material-ui/icons';
+import Link from 'next/link';
+
+let tournId = 123;
+let orgId = 1;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontWeight: 'bold',
     },
+    cardContentContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginInline: 5,
+    },
     element: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: 5,
+      marginTop: 5,
+      width: 200,
+    },
+    headerElement: {
       display: 'flex',
       alignItems: 'center',
       marginBottom: 5,
@@ -38,9 +59,19 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       marginLeft: 7,
     },
+    chipContainer: {
+      display: 'flex',
+      marginBottom: 10,
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    chipElement: {
+      marginBlock: 5,
+    },
     buttonContainer: {
       display: 'flex',
       justifyContent: 'space-between',
+      flexDirection: 'row-reverse',
       paddingInline: 10,
       marginBottom: 15,
     },
@@ -51,13 +82,14 @@ type Props = {
   title?: string;
   date?: string;
   content?: string[];
+  isOrganizer: boolean;
 };
 
-export default function RecipeReviewCard({ title }: Props) {
+export default function TournamentCard({ isOrganizer }: Props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={3}>
       <CardHeader
         classes={{ title: classes.title }}
         avatar={
@@ -66,7 +98,7 @@ export default function RecipeReviewCard({ title }: Props) {
           </Avatar>
         }
         action={
-          <div className={classes.element}>
+          <div className={classes.headerElement}>
             <LocationOnRounded fontSize="small" />
             <Typography
               variant="body1"
@@ -82,7 +114,19 @@ export default function RecipeReviewCard({ title }: Props) {
         title="Seven Esports"
         subheader="September 14, 2016"
       />
-      <CardContent>
+      <CardContent className={classes.cardContentContainer}>
+        <div className={classes.element}>
+          <SportsEsportsRounded fontSize="small" />
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            component="body"
+            display="inline"
+            className={classes.content}
+          >
+            BGMI - Squad
+          </Typography>
+        </div>
         <div className={classes.element}>
           <AccessTimeRounded fontSize="small" />
           <Typography
@@ -120,11 +164,38 @@ export default function RecipeReviewCard({ title }: Props) {
           </Typography>
         </div>
       </CardContent>
+      <div className={classes.chipContainer}>
+        <Chip
+          className={classes.chipElement}
+          label="25 Slots available"
+          variant="outlined"
+          icon={<HomeRounded fontSize="small" />}
+        />
+        <Chip
+          className={classes.chipElement}
+          label="Registration open till 31.08.2021, 8:00 PM"
+          variant="outlined"
+          icon={<AvTimerRounded fontSize="small" />}
+        />
+      </div>
       <div className={classes.buttonContainer}>
-        <Button>Details</Button>
-        <Button variant="contained" color="primary">
-          Register
-        </Button>
+        {!isOrganizer && (
+          <Button variant="contained" color="primary">
+            Register
+          </Button>
+        )}
+        {isOrganizer ? (
+          <Link
+            href={`/organization/${orgId}/tournaments/${tournId}/`}
+            passHref
+          >
+            <Button color="primary">Details</Button>
+          </Link>
+        ) : (
+          <Link href={`/${tournId}/`} passHref>
+            <Button color="primary">Details</Button>
+          </Link>
+        )}
       </div>
     </Card>
   );

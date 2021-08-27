@@ -122,13 +122,14 @@ function useProvideAuth() {
 }
 
 type Props = {
-  user: User;
-  signout: () => void;
-  signInByFacebook: () => void;
-  signInByGoogle: () => void;
+  user?: User;
+  signout?: () => void;
+  signInByFacebook?: () => void;
+  signInByGoogle?: () => void;
+  children: React.ReactNode;
 };
 
-export const AuthProvider: FC<Props> = ({ children }) => {
+export const AuthProvider = ({ children }: Props) => {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };

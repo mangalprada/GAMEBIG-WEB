@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import OrganizationIntro from '../../components/Organization/OrganizationsIntro/OrganizationIntro';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import styles from '../../styles/Home.module.scss';
 
 export default function Home() {
   return (

@@ -7,11 +7,20 @@ type Props = {
 };
 
 export default function NavigationItems({ clicked }: Props) {
+  const isOrgExists = true;
+  const orgId = 1;
+
   const { user } = useAuth();
   return (
     <ul className={styles.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
-      <NavigationItem href="/organization">Organizations</NavigationItem>
+      <NavigationItem
+        href={
+          isOrgExists ? `/organization/${orgId}/tournaments` : `/organization`
+        }
+      >
+        Organizations
+      </NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
       {user.uid ? (
         <NavigationItem href={`/profile/${user.uid}`}>Profile</NavigationItem>

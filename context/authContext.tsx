@@ -12,6 +12,8 @@ import { User } from '../utilities/types';
 
 const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '' } as User,
+  isAuthBackdropOpen: false,
+  setIsAuthBackdropOpen: (param: boolean) => {},
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -26,17 +28,15 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
+  const [isAuthBackdropOpen, setIsAuthBackdropOpen] = useState(false);
 
-  const signout = () => {
-    return firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        router.push('/');
-        setUser({} as User);
-      });
+  const signout = async () => {
+    await firebase.auth().signOut();
+    router.push('/');
+    setUser({} as User);
   };
 
+  // handles the complete auth flow
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
     firebase.auth().useDeviceLanguage();
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -46,14 +46,13 @@ function useProvideAuth() {
       .then(async ({ user }) => {
         if (user) {
           const { uid, displayName, photoURL } = user;
-          const isDataPresent = await isDataPresentInDb(uid);
-          if (uid && displayName && photoURL) {
-            if (!isDataPresent) {
-              await createUserData({ uid, displayName, photoURL });
-            }
+          const userExists = await checkUserExistence(uid);
+          if (userExists && displayName && photoURL) {
             setUser({ uid, displayName, photoURL });
+            router.push('/');
+          } else {
+            setIsAuthBackdropOpen(true);
           }
-          router.push('/');
         }
       })
       .catch((error) => {
@@ -74,7 +73,7 @@ function useProvideAuth() {
     return signInWithProvider(provider);
   };
 
-  const isDataPresentInDb = (uid: string) => {
+  const checkUserExistence = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
     let returnValue = false;
     docRef
@@ -115,6 +114,8 @@ function useProvideAuth() {
 
   return {
     user,
+    isAuthBackdropOpen,
+    setIsAuthBackdropOpen,
     signout,
     signInByFacebook,
     signInByGoogle,
@@ -123,6 +124,8 @@ function useProvideAuth() {
 
 type Props = {
   user: User;
+  isAuthBackdropOpen: boolean;
+  setIsAuthBackdropOpen: (param: boolean) => void;
   signout: () => void;
   signInByFacebook: () => void;
   signInByGoogle: () => void;

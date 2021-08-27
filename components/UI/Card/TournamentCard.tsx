@@ -12,6 +12,7 @@ import {
 import { red } from '@material-ui/core/colors';
 import {
   AccessTimeRounded,
+  AvTimerRounded,
   EmojiEventsRounded,
   HomeRounded,
   LocationOnRounded,
@@ -54,16 +55,21 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       marginLeft: 7,
     },
-    buttonContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      paddingInline: 10,
-      marginBottom: 15,
-    },
     chipContainer: {
       display: 'flex',
       marginBottom: 10,
-      marginInline: 20,
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    chipElement: {
+      marginBlock: 5,
+    },
+    buttonContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'row-reverse',
+      paddingInline: 10,
+      marginBottom: 15,
     },
   })
 );
@@ -72,13 +78,14 @@ type Props = {
   title?: string;
   date?: string;
   content?: string[];
+  isOrganizer: boolean;
 };
 
-export default function RecipeReviewCard({ title }: Props) {
+export default function TournamentCard({ isOrganizer }: Props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} elevation={3}>
       <CardHeader
         classes={{ title: classes.title }}
         avatar={
@@ -155,16 +162,25 @@ export default function RecipeReviewCard({ title }: Props) {
       </CardContent>
       <div className={classes.chipContainer}>
         <Chip
+          className={classes.chipElement}
           label="25 Slots available"
           variant="outlined"
           icon={<HomeRounded fontSize="small" />}
         />
+        <Chip
+          className={classes.chipElement}
+          label="Registration open till 31.08.2021, 8:00 PM"
+          variant="outlined"
+          icon={<AvTimerRounded fontSize="small" />}
+        />
       </div>
       <div className={classes.buttonContainer}>
-        <Button>Details</Button>
-        <Button variant="contained" color="primary">
-          Register
-        </Button>
+        {!isOrganizer && (
+          <Button variant="contained" color="primary">
+            Register
+          </Button>
+        )}
+        <Button color="primary">Details</Button>
       </div>
     </Card>
   );

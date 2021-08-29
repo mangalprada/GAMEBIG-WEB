@@ -13,7 +13,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
 import { countries } from '../../utilities/CountryData';
 import { debounce } from '../../utilities/functions';
-import { Minimize } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,8 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function BasicUserData({ userData, setUserData }) {
   const styles = useStyles();
-  // const debounceOnChange = useCallback(debounce(onChange, 400), []);
   const { setAuthPageNumber, createUser, isUserNameTaken } = useAuth();
+  // useUseformik hook and pass values.username
+  const debounceOnChange = useCallback(debounce(isUserNameTaken, 300), []);
   const [showError, setShowError] = useState(false);
 
   const handleClose = () => {
@@ -90,7 +90,7 @@ function BasicUserData({ userData, setUserData }) {
               variant="outlined"
               onChange={(e) => {
                 handleChange(e);
-                const isTaken = debounce(isUserNameTaken(e.target.value), 400);
+                const isTaken = debounceOnChange(e.target.value);
                 // if (isTaken) setShowError(true);
               }}
               onBlur={handleBlur}

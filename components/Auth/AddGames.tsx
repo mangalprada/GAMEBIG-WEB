@@ -1,29 +1,28 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   Button,
   createStyles,
   makeStyles,
-  TextField,
   Theme,
   Typography,
 } from '@material-ui/core';
-import Image from 'next/image';
-import { ArrowBackRounded } from '@material-ui/icons';
-import { Formik } from 'formik';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { UserData } from '../../utilities/types';
+import SnackbarAlert from '../Snackbar';
+import { useAuth } from '../../context/authContext';
 import GameItem from './GameItem';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      '& .MuiTextField-root': {
-        width: '100%',
-        marginTop: 10,
-        marginBottom: 10,
+      '& > * + *': {
+        marginTop: theme.spacing(2),
       },
-      width: '50%',
-      maxWidth: '100%',
+      width: '100%',
+      maxWidth: '1000px',
       background: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
     },
     buttonContainer: {
       display: 'flex',
@@ -32,9 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
     },
     button: {
-      width: '30%',
-      //   margin: '0 auto',
-      margin: 10,
+      width: '50%',
+      marginLeft: 10,
+      marginRight: 10,
     },
     buttonText: {
       fontWeight: 'bold',
@@ -43,23 +42,52 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function AddGames({
-  setPageNumber,
-}: {
-  setPageNumber: (pageNumber: number) => void;
-}) {
+function AddGames() {
   const styles = useStyles();
+  const { setAuthPageNumber } = useAuth();
+  const [numberOfGames, setNumberOfGames] = useState(0);
+  const [showError, setShowError] = useState(false);
+  const router = useRouter();
+
+  const increaseNumberOfGames = () => {
+    setNumberOfGames(numberOfGames + 1);
+  };
+
+  const handleClose = () => {
+    setShowError(false);
+  };
+
+  const handleFinish = () => {
+    if (numberOfGames > 0) router.push('/');
+    else setShowError(true);
+  };
+
   return (
     <div className={styles.root}>
-      <GameItem />
-      <GameItem />
-      <GameItem />
+      <GameItem
+        src="https://play-lh.googleusercontent.com/jwL7aqLp7v_7owPxf30e41MCggN-ot3MeP3zxbIMVKdiGkUs33jmGW7c7QmYxMFamHSj=s180-rw"
+        name="BATTLEGROUNDS MOBILE INDIA"
+        gameCode="bgmi-m"
+        increaseNumberOfGames={increaseNumberOfGames}
+      />
+      <GameItem
+        src="https://play-lh.googleusercontent.com/r42Js__Kw3TM5-vAG-1LdGZWjJD9-K52i32aXp92SCddIklg0XP5eAisge-pG0qRPkfk=s180-rw"
+        name="Call of Duty: Mobile"
+        gameCode="cod-m"
+        increaseNumberOfGames={increaseNumberOfGames}
+      />
+      <GameItem
+        src="https://play-lh.googleusercontent.com/k9mpwqPYChfePRtUlTSEkX73TCDnwyvSkD5AvsdUTAQ4H0c2OAIEiiiUwrVEd7_k1E8=s180-rw"
+        name="Garena Free Fire"
+        gameCode="gff-m"
+        increaseNumberOfGames={increaseNumberOfGames}
+      />
       <div className={styles.buttonContainer}>
         <Button
           type="submit"
           variant="contained"
           className={styles.button}
-          onClick={() => setPageNumber(1)}
+          onClick={() => setAuthPageNumber(2)}
         >
           <Typography variant="body1" className={styles.buttonText}>
             Previous
@@ -70,12 +98,23 @@ function AddGames({
           variant="contained"
           color="primary"
           className={styles.button}
+          onClick={handleFinish}
         >
           <Typography variant="body1" className={styles.buttonText}>
-            Save
+            Finish
           </Typography>
         </Button>
       </div>
+      <h4>2/2</h4>
+      <SnackbarAlert
+        vertical="bottom"
+        horizontal="center"
+        open={showError}
+        onClose={handleClose}
+        autoHideDuration={5000}
+        message="Please Add Atleast 1 Game!"
+        severity="warning"
+      />
     </div>
   );
 }

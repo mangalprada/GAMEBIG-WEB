@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import {
   Button,
   createStyles,
@@ -7,13 +8,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Formik } from 'formik';
+import SnackbarAlert from '../Snackbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { useAuth } from '../../context/authContext';
 import { countries } from '../../utilities/CountryData';
+import { debounce } from '../../utilities/functions';
+import { Minimize } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: 10,
         marginBottom: 10,
       },
-      width: '50%',
-      maxWidth: '100%',
+      width: '100%',
+      maxWidth: '800px',
       background: theme.palette.background.paper,
     },
     form: { display: 'flex', flexDirection: 'column' },
@@ -37,25 +37,24 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       letterSpacing: 0.5,
     },
+    text: { marginLeft: '48%' },
   })
 );
 
-function BasicUserData({
-  setPageNumber,
-}: {
-  setPageNumber: (pageNumber: number) => void;
-}) {
+function BasicUserData({ userData, setUserData }) {
   const styles = useStyles();
+  // const debounceOnChange = useCallback(debounce(onChange, 400), []);
+  const { setAuthPageNumber, createUser, isUserNameTaken } = useAuth();
+  const [showError, setShowError] = useState(false);
+
+  const handleClose = () => {
+    setShowError(false);
+  };
+
   return (
     <div className={styles.root}>
       <Formik
-        initialValues={{
-          userName: '',
-          email: '',
-          country: '',
-          dob: new Date('2014-08-18T21:11:54'),
-          phoneNumber: '',
-        }}
+        initialValues={userData}
         validate={(values) => {
           const errors = {};
           if (
@@ -67,9 +66,10 @@ function BasicUserData({
           return errors;
         }}
         onSubmit={(values, { resetForm }) => {
-          //   saveUserData(oldValues.uid, values);
+          createUser(values);
+          setUserData(values);
           resetForm();
-          setPageNumber(2);
+          setAuthPageNumber(3);
         }}
       >
         {({
@@ -88,24 +88,15 @@ function BasicUserData({
               name="userName"
               label="UserName"
               variant="outlined"
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                const isTaken = debounce(isUserNameTaken(e.target.value), 400);
+                // if (isTaken) setShowError(true);
+              }}
               onBlur={handleBlur}
               value={values.userName}
             />
             {errors.userName && touched.userName && errors.userName}
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
-            <KeyboardDatePicker
-              margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
-              format="MM/dd/yyyy"
-              value={values.dob}
-              onChange={handleChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            {/* </MuiPickersUtilsProvider> */}
             <TextField
               id="dob"
               label="Birthday"
@@ -128,6 +119,7 @@ function BasicUserData({
                   setFieldValue('country', value.name);
                 }
               }}
+              defaultValue={values.country}
               renderInput={(params) => (
                 <TextField {...params} label="Country" variant="outlined" />
               )}
@@ -161,13 +153,22 @@ function BasicUserData({
               className={styles.button}
             >
               <Typography variant="body1" className={styles.buttonText}>
-                Next
+                Save and Continue
               </Typography>
             </Button>
           </form>
         )}
       </Formik>
-      <h3>1/2</h3>
+      <h3 className={styles.text}>1/2</h3>
+      <SnackbarAlert
+        vertical="bottom"
+        horizontal="center"
+        open={showError}
+        onClose={handleClose}
+        autoHideDuration={5000}
+        message="UserName is taken!"
+        severity="warning"
+      />
     </div>
   );
 }

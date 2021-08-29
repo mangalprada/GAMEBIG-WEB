@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Button,
   createStyles,
@@ -6,26 +7,24 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import Image from 'next/image';
-import { ArrowBackRounded } from '@material-ui/icons';
 import { Formik } from 'formik';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { UserData } from '../../utilities/types';
+import Image from 'next/image';
+import { useAuth } from '../../context/authContext';
+import { db } from '../../firebase/config';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       '& .MuiTextField-root': {
-        width: '100%',
         marginTop: 10,
         marginLeft: 20,
       },
+      width: '100%',
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
       maxWidth: 1280,
-      marginTop: 20,
+      marginBottom: 10,
     },
     header: {
       marginLeft: 20,
@@ -37,37 +36,125 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
     },
+    flexRow: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    imageCard: {
+      position: 'relative',
+      width: '168px',
+      height: '168px',
+      margin: 10,
+    },
+    button: {
+      marginTop: 10,
+      marginLeft: 20,
+    },
   })
 );
 
-function AddGames() {
+function AddGames({
+  src,
+  name,
+  gameCode,
+  increaseNumberOfGames,
+}: {
+  src: string;
+  name: string;
+  gameCode: string;
+  increaseNumberOfGames: () => void;
+}) {
   const styles = useStyles();
+  const { user } = useAuth();
+
+  const saveGame = async (game: {
+    gameCode: string;
+    inGameName: string;
+    inGameId: string;
+  }) => {
+    try {
+      await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('games')
+        .doc(gameCode)
+        .set(game);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
   return (
     <div className={styles.root}>
-      <div>
-        <Image
-          src="https://play-lh.googleusercontent.com/k9mpwqPYChfePRtUlTSEkX73TCDnwyvSkD5AvsdUTAQ4H0c2OAIEiiiUwrVEd7_k1E8=s180-rw"
-          alt="Picture of the author"
-          width={128}
-          height={128}
-        />
-      </div>
-      <div className={styles.flexColumn}>
-        <Typography variant="body1" className={styles.header}>
-          Game Name
-        </Typography>
-        <TextField
-          type="text"
-          name="inGameName"
-          label="In Game Name"
-          variant="outlined"
-        />
-        <TextField
-          type="text"
-          name="inGameId"
-          label="In Game Id"
-          variant="outlined"
-        />
+      <Typography variant="body1" className={styles.header}>
+        {name}
+      </Typography>
+      <div className={styles.flexRow}>
+        <div className={styles.imageCard}>
+          <Image
+            src={src}
+            alt="Picture of the author"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+        <Formik
+          initialValues={{ inGameName: '', inGameId: '' }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.inGameName) {
+              errors.inGameName = 'Required';
+            }
+            if (!values.inGameId) {
+              errors.inGameId = 'Required';
+            }
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            increaseNumberOfGames();
+            saveGame(values);
+            setSubmitting(false);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form className={styles.flexColumn} onSubmit={handleSubmit}>
+              <TextField
+                type="text"
+                name="inGameName"
+                label="In Game Name"
+                variant="outlined"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.inGameName}
+              />
+              <TextField
+                type="text"
+                name="inGameId"
+                label="In Game Id"
+                variant="outlined"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.inGameId}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isSubmitting}
+                className={styles.button}
+              >
+                Add Game
+              </Button>
+            </form>
+          )}
+        </Formik>
       </div>
     </div>
   );

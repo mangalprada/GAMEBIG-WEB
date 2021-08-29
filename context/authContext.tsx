@@ -12,8 +12,10 @@ import { User } from '../utilities/types';
 
 const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '' } as User,
-  isAuthBackdropOpen: false,
-  setIsAuthBackdropOpen: (param: boolean) => {},
+  authPageNumber: 1,
+  createUser: (userData: UserData) => {},
+  isUserNameTaken: (userName: string) => true,
+  setAuthPageNumber: (param: Number) => {},
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -28,7 +30,7 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
-  const [isAuthBackdropOpen, setIsAuthBackdropOpen] = useState(false);
+  const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
     await firebase.auth().signOut();
@@ -46,12 +48,15 @@ function useProvideAuth() {
       .then(async ({ user }) => {
         if (user) {
           const { uid, displayName, photoURL } = user;
-          const userExists = await checkUserExistence(uid);
-          if (userExists && displayName && photoURL) {
+          if (uid && displayName && photoURL) {
             setUser({ uid, displayName, photoURL });
+          }
+
+          const userExists = await checkUserExistence(uid);
+          if (userExists) {
             router.push('/');
           } else {
-            setIsAuthBackdropOpen(true);
+            setAuthPageNumber(2);
           }
         }
       })
@@ -89,9 +94,26 @@ function useProvideAuth() {
     return returnValue;
   };
 
-  const createUserData = async (userData: UserData) => {
+  const isUserNameTaken = async (userName: string) => {
+    let returnValue = false;
+    await db
+      .collection('users')
+      .where('userName', '==', userName)
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.size > 0) {
+          returnValue = true;
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+    return returnValue;
+  };
+
+  const createUser = async (userData: UserData) => {
     try {
-      await db.collection('users').doc(userData.uid).set(userData);
+      await db.collection('users').doc(user.uid).set(userData);
     } catch (err) {
       console.log('err', err);
     }
@@ -114,8 +136,10 @@ function useProvideAuth() {
 
   return {
     user,
-    isAuthBackdropOpen,
-    setIsAuthBackdropOpen,
+    authPageNumber,
+    createUser,
+    isUserNameTaken,
+    setAuthPageNumber,
     signout,
     signInByFacebook,
     signInByGoogle,
@@ -124,8 +148,10 @@ function useProvideAuth() {
 
 type Props = {
   user: User;
-  isAuthBackdropOpen: boolean;
-  setIsAuthBackdropOpen: (param: boolean) => void;
+  authPageNumber: number;
+  createUser: (userData: UserData) => void;
+  isUserNameTaken: (userName: string) => boolean;
+  setAuthPageNumber: (param: number) => void;
   signout: () => void;
   signInByFacebook: () => void;
   signInByGoogle: () => void;

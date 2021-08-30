@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import {
   Button,
   createStyles,
@@ -11,6 +11,7 @@ import { Formik } from 'formik';
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
+import SnackbarAlert from '../Snackbar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,8 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      maxWidth: 1280,
+      maxWidth: 800,
       marginBottom: 10,
     },
     header: {
@@ -35,16 +35,22 @@ const useStyles = makeStyles((theme: Theme) =>
     flexColumn: {
       display: 'flex',
       flexDirection: 'column',
+      width: '70%',
     },
     flexRow: {
       display: 'flex',
       flexDirection: 'row',
+      justifyContent: 'space-around',
     },
     imageCard: {
       position: 'relative',
       width: '168px',
       height: '168px',
       margin: 10,
+    },
+    image: {
+      borderRadius: '6%',
+      border: '5px solid #555',
     },
     button: {
       marginTop: 10,
@@ -66,6 +72,15 @@ function AddGames({
 }) {
   const styles = useStyles();
   const { user } = useAuth();
+  const [snackbarData, setSnackbarData] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  const handleClose = () => {
+    setSnackbarData({ ...snackbarData, open: false });
+  };
 
   const saveGame = async (game: {
     gameCode: string;
@@ -79,6 +94,11 @@ function AddGames({
         .collection('games')
         .doc(gameCode)
         .set(game);
+      setSnackbarData({
+        ...snackbarData,
+        open: true,
+        message: `${name} added!`,
+      });
     } catch (err) {
       console.log('err', err);
     }
@@ -92,6 +112,7 @@ function AddGames({
       <div className={styles.flexRow}>
         <div className={styles.imageCard}>
           <Image
+            className={styles.image}
             src={src}
             alt="Picture of the author"
             layout="fill"
@@ -149,6 +170,7 @@ function AddGames({
                 variant="contained"
                 disabled={isSubmitting}
                 className={styles.button}
+                color="secondary"
               >
                 Add Game
               </Button>
@@ -156,6 +178,15 @@ function AddGames({
           )}
         </Formik>
       </div>
+      <SnackbarAlert
+        vertical="bottom"
+        horizontal="center"
+        open={snackbarData.open}
+        onClose={handleClose}
+        autoHideDuration={5000}
+        message={snackbarData.message}
+        severity={snackbarData.severity}
+      />
     </div>
   );
 }

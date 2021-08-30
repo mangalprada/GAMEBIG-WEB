@@ -18,11 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: theme.spacing(2),
       },
       width: '100%',
-      maxWidth: '1000px',
       background: theme.palette.background.paper,
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
     },
     buttonContainer: {
       display: 'flex',
@@ -39,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       letterSpacing: 0.5,
     },
+    text: { marginLeft: '48%' },
   })
 );
 
@@ -105,7 +104,7 @@ function AddGames() {
           </Typography>
         </Button>
       </div>
-      <h4>2/2</h4>
+      <h4 className={styles.text}>2/2</h4>
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"

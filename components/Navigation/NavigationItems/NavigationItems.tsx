@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default function NavigationItems({ clicked }: Props) {
-  const isOrgExists = false;
+  const isOrgExists = true;
   const orgId = 1;
 
   const { user } = useAuth();

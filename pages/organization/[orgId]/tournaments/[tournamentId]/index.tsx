@@ -1,5 +1,24 @@
-import React from 'react';
+import DetailsAsOrganizer from '../../../../../components/Tournament/Details/DetailsAsOrganizer';
+import DetailsAsParticipant from '../../../../../components/Tournament/Details/DetailsAsParticipant';
+import ParticipantList from '../../../../../components/Tournament/ParticipantList/ParticipantList';
+import RegisterTournamentForm from '../../../../../components/Tournament/Register/RegisterTournamentForm';
+import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 
 export default function Tournament() {
-  return <div>Start editing this page</div>;
+  let isOrganizer = false;
+  return (
+    <Aux>
+      {isOrganizer ? (
+        <>
+          <DetailsAsOrganizer />
+          <ParticipantList />
+        </>
+      ) : (
+        <>
+          <DetailsAsParticipant />
+          <RegisterTournamentForm />
+        </>
+      )}
+    </Aux>
+  );
 }

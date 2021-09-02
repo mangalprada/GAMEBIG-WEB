@@ -8,7 +8,6 @@ import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/config';
 import Twitch from '../../assets/Icons/Twitch';
 import YouTube from '../../assets/Icons/YouTube';
 import Instagram from '../../assets/Icons/Instagram';
@@ -68,6 +67,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
         />
       ) : null}
       {userData.displayName ? <h1>{userData.displayName}</h1> : null}
+      {userData.userId ? <h1>{userData.userId}</h1> : null}
       {userData.dob ? (
         <div className={styles.flexRow}>
           <CakeIcon />
@@ -141,12 +141,13 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
       </div>
       <Button
         variant="contained"
-        onClick={() =>
+        onClick={() => {
+          console.log(userData, '---------');
           router.push({
             pathname: `/profile/${userData.uid}/edit`,
-            query: { ...userData },
-          })
-        }
+            query: userData,
+          });
+        }}
         className={styles.button}
       >
         Edit Profile

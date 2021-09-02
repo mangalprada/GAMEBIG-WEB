@@ -7,7 +7,8 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
@@ -59,10 +60,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function AddGames({
+const validationSchema = yup.object({
+  ingamename: yup.string().required('In Game Name is required'),
+  ingameid: yup.string().required('In Game Id is required'),
+});
+
+function GameForm({
   src,
   name,
-  gameCode,
   increaseNumberOfGames,
 }: {
   src: string;
@@ -75,25 +80,16 @@ function AddGames({
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
-    severity: 'success',
+    severity: 'success' as const,
   });
 
   const handleClose = () => {
     setSnackbarData({ ...snackbarData, open: false });
   };
 
-  const saveGame = async (game: {
-    gameCode: string;
-    inGameName: string;
-    inGameId: string;
-  }) => {
+  const saveGame = async (game: { ingamename: string; ingameid: string }) => {
     try {
-      await db
-        .collection('users')
-        .doc(user.uid)
-        .collection('games')
-        .doc(gameCode)
-        .set(game);
+      await db.collection('users').doc(user.uid).collection('games').add(game);
       setSnackbarData({
         ...snackbarData,
         open: true,
@@ -103,6 +99,20 @@ function AddGames({
       console.log('err', err);
     }
   };
+
+  const formik = useFormik({
+    initialValues: {
+      ingamename: '',
+      ingameid: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values, { setSubmitting }) => {
+      setSubmitting(true);
+      increaseNumberOfGames();
+      saveGame(values);
+      setSubmitting(false);
+    },
+  });
 
   return (
     <div className={styles.root}>
@@ -119,64 +129,41 @@ function AddGames({
             objectFit="contain"
           />
         </div>
-        <Formik
-          initialValues={{ inGameName: '', inGameId: '' }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.inGameName) {
-              errors.inGameName = 'Required';
+        <form className={styles.flexColumn} onSubmit={formik.handleSubmit}>
+          <TextField
+            type="text"
+            name="ingamename"
+            label="In Game Name"
+            variant="outlined"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.ingamename}
+            error={
+              formik.touched.ingamename && Boolean(formik.errors.ingamename)
             }
-            if (!values.inGameId) {
-              errors.inGameId = 'Required';
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            increaseNumberOfGames();
-            saveGame(values);
-            setSubmitting(false);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <form className={styles.flexColumn} onSubmit={handleSubmit}>
-              <TextField
-                type="text"
-                name="inGameName"
-                label="In Game Name"
-                variant="outlined"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.inGameName}
-              />
-              <TextField
-                type="text"
-                name="inGameId"
-                label="In Game Id"
-                variant="outlined"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.inGameId}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={isSubmitting}
-                className={styles.button}
-                color="secondary"
-              >
-                Add Game
-              </Button>
-            </form>
-          )}
-        </Formik>
+            helperText={formik.touched.ingamename && formik.errors.ingamename}
+          />
+          <TextField
+            type="text"
+            name="ingameid"
+            label="In Game Id"
+            variant="outlined"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.ingameid}
+            error={formik.touched.ingameid && Boolean(formik.errors.ingameid)}
+            helperText={formik.touched.ingameid && formik.errors.ingameid}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={formik.isSubmitting}
+            className={styles.button}
+            color="secondary"
+          >
+            Add Game
+          </Button>
+        </form>
       </div>
       <SnackbarAlert
         vertical="bottom"
@@ -191,4 +178,4 @@ function AddGames({
   );
 }
 
-export default AddGames;
+export default GameForm;

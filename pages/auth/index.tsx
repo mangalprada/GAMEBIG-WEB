@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import BasicUserData from '../../components/Auth/BasicUserData';
 import AddGames from '../../components/Auth/AddGames';
 import AuthButtons from '../../components/Auth/AuthButtons';
+import BasicForm from '../../components/Auth/BasicForm';
+import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,16 +18,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const inititalValues: UserData = {
+  uid: '',
+  userId: '',
+  email: '',
+  country: '',
+  dob: new Date('2014-08-18T21:11:54'),
+  phoneNumber: '',
+};
+
 export default function Home() {
   const styles = useStyles();
   const { authPageNumber } = useAuth();
-  const [userData, setUserData] = useState({
-    userName: '',
-    email: '',
-    country: '',
-    dob: new Date('2014-08-18T21:11:54'),
-    phoneNumber: '',
-  });
+  const [userData, setUserData] = useState(inititalValues);
   return (
     <Aux>
       <Head>
@@ -38,7 +42,7 @@ export default function Home() {
         {
           {
             1: <AuthButtons />,
-            2: <BasicUserData userData={userData} setUserData={setUserData} />,
+            2: <BasicForm userData={userData} setUserData={setUserData} />,
             3: <AddGames />,
           }[authPageNumber]
         }

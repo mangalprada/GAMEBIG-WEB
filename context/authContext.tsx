@@ -7,15 +7,16 @@ import React, {
 } from 'react';
 import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
-import { UserData } from '../utilities/types';
-import { User } from '../utilities/types';
+import { User, UserData } from '../utilities/types';
 
 const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '' } as User,
   authPageNumber: 1,
   createUser: (userData: UserData) => {},
-  isUserNameTaken: (userName: string) => true,
   setAuthPageNumber: (param: Number) => {},
+  isUserIdTaken: (userId: string): Promise<boolean> => {
+    return Promise.resolve(false);
+  },
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -38,7 +39,6 @@ function useProvideAuth() {
     setUser({} as User);
   };
 
-  // handles the complete auth flow
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
     firebase.auth().useDeviceLanguage();
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -94,11 +94,12 @@ function useProvideAuth() {
     return returnValue;
   };
 
-  const isUserNameTaken = async (userName: string) => {
-    let returnValue = false;
+  const isUserIdTaken = async (userId: string) => {
+    let returnValue = null;
     await db
       .collection('users')
-      .where('userName', '==', userName)
+      .where('userId', '==', userId)
+      .where('uid', '!=', user.uid)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
@@ -111,9 +112,12 @@ function useProvideAuth() {
     return returnValue;
   };
 
-  const createUser = async (userData: UserData) => {
+  const createUser = async (userData: UserData | UserData) => {
     try {
-      await db.collection('users').doc(user.uid).set(userData);
+      await db
+        .collection('users')
+        .doc(user.uid)
+        .set({ ...userData, uid: user.uid, photoURL: user.photoURL });
     } catch (err) {
       console.log('err', err);
     }
@@ -138,7 +142,7 @@ function useProvideAuth() {
     user,
     authPageNumber,
     createUser,
-    isUserNameTaken,
+    isUserIdTaken,
     setAuthPageNumber,
     signout,
     signInByFacebook,
@@ -150,7 +154,7 @@ type Props = {
   user: User;
   authPageNumber: number;
   createUser: (userData: UserData) => void;
-  isUserNameTaken: (userName: string) => boolean;
+  isUserIdTaken: (userId: string) => void;
   setAuthPageNumber: (param: number) => void;
   signout: () => void;
   signInByFacebook: () => void;

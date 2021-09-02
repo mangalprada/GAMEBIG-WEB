@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ProfileForm from '../../../components/Profile/ProfileForm';
+import { UserData } from '../../../utilities/types';
 
 const emptyInitialValues = {
+  userId: '',
   uid: '',
   displayName: '',
-  dob: '',
+  dob: new Date('2014-08-18T21:11:54'),
   country: '',
   phoneNumber: '',
   email: '',
@@ -21,6 +23,7 @@ const emptyInitialValues = {
 export default function Home() {
   const router = useRouter();
   const oldValues = { ...emptyInitialValues, ...router.query };
+  console.log(router.query, '0000000000');
   return (
     <Aux>
       <Head>

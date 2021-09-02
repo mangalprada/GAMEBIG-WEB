@@ -50,6 +50,7 @@ export async function getServerSideProps(context: {
     .catch((error) => {
       console.log('Error getting cached document:', error);
     });
+
   return {
     props: { userData },
   };

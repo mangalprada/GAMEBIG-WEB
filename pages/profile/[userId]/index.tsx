@@ -1,10 +1,13 @@
 import Head from 'next/head';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import { useAuth } from '../../../context/authContext';
 import { db } from '../../../firebase/config';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData } from '../../../utilities/types';
+import { UserData, GameData } from '../../../utilities/types';
 import PersonalInfo from '../../../components/Profile/ProfileInfo';
 import TeamIntro from '../../../components/Profile/TeamIntro';
+import GameItem from '../../../components/Profile/GameItem';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,7 +21,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Home({ userData }: { userData: UserData }) {
+export default function Home({
+  userData,
+  games,
+}: {
+  userData: UserData;
+  games: Array<GameData>;
+}) {
+  const { signout } = useAuth();
   const styles = useStyles();
   return (
     <Aux>
@@ -30,6 +40,10 @@ export default function Home({ userData }: { userData: UserData }) {
       <div className={styles.container}>
         <PersonalInfo userData={userData} />
         <TeamIntro />
+        {games.map((game, index) => {
+          return <GameItem game={game} key={index} />;
+        })}
+        <Button onClick={signout}>Sign Out</Button>
       </div>
     </Aux>
   );
@@ -40,6 +54,7 @@ export async function getServerSideProps(context: {
 }) {
   const { userId } = context.params;
   let userData = null;
+  let games;
   await db
     .collection('users')
     .doc(userId)
@@ -50,8 +65,19 @@ export async function getServerSideProps(context: {
     .catch((error) => {
       console.log('Error getting cached document:', error);
     });
+  await db
+    .collection('users')
+    .doc(userId)
+    .collection('games')
+    .get()
+    .then((querySnapshot) => {
+      games = querySnapshot.docs.map((doc) => doc.data());
+    })
+    .catch((error) => {
+      console.log('Error getting cached document:', error);
+    });
 
   return {
-    props: { userData },
+    props: { userData, games },
   };
 }

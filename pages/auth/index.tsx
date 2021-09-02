@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
@@ -29,8 +29,11 @@ const inititalValues: UserData = {
 
 export default function Home() {
   const styles = useStyles();
-  const { authPageNumber } = useAuth();
+  const { authPageNumber, setAuthPageNumber } = useAuth();
   const [userData, setUserData] = useState(inititalValues);
+  useEffect(() => {
+    setAuthPageNumber(1);
+  }, [setAuthPageNumber]);
   return (
     <Aux>
       <Head>

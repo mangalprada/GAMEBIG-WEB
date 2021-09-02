@@ -21,3 +21,9 @@ export interface UserData {
   twitterLink?: string | undefined;
   redditLink?: string | undefined;
 }
+
+export interface GameData {
+  gameCode: string | undefined;
+  ingamename: string | undefined;
+  ingameid: string | undefined;
+}

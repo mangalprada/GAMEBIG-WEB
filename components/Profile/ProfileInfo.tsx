@@ -7,7 +7,6 @@ import { grey } from '@material-ui/core/colors';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { useAuth } from '../../context/authContext';
 import Twitch from '../../assets/Icons/Twitch';
 import YouTube from '../../assets/Icons/YouTube';
 import Instagram from '../../assets/Icons/Instagram';
@@ -24,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       marginTop: 15,
+      marginBottom: 20,
       width: '100%',
     },
     text: {
@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function ProfileInfo({ userData }: { userData: UserData }) {
   const router = useRouter();
   const styles = useStyles();
-  const { signout } = useAuth();
 
   const goToEditPage = () => {
     if (userData) {
@@ -88,7 +87,6 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
           </Typography>
         </div>
       ) : null}
-
       {userData.country ? (
         <div className={styles.flexRow}>
           <LocationOnIcon />
@@ -160,7 +158,6 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
           Edit Profile
         </Typography>
       </Button>
-      <h4 onClick={signout}>Sign Out</h4>
     </div>
   );
 }

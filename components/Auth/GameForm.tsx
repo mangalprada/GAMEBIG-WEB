@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
 import SnackbarAlert from '../Snackbar';
+import { GameData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,13 +67,14 @@ const validationSchema = yup.object({
 });
 
 function GameForm({
-  src,
-  name,
+  game,
   increaseNumberOfGames,
 }: {
-  src: string;
-  name: string;
-  gameCode: string;
+  game: {
+    gameCode: string;
+    name: string;
+    imageSource: string;
+  };
   increaseNumberOfGames: () => void;
 }) {
   const styles = useStyles();
@@ -82,6 +84,7 @@ function GameForm({
     message: '',
     severity: 'success' as const,
   });
+  const { gameCode, imageSource, name } = game;
 
   const handleClose = () => {
     setSnackbarData({ ...snackbarData, open: false });
@@ -89,7 +92,11 @@ function GameForm({
 
   const saveGame = async (game: { ingamename: string; ingameid: string }) => {
     try {
-      await db.collection('users').doc(user.uid).collection('games').add(game);
+      await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('games')
+        .add({ gameCode, ...game });
       setSnackbarData({
         ...snackbarData,
         open: true,
@@ -123,7 +130,7 @@ function GameForm({
         <div className={styles.imageCard}>
           <Image
             className={styles.image}
-            src={src}
+            src={imageSource}
             alt="Picture of the author"
             layout="fill"
             objectFit="contain"
@@ -161,7 +168,7 @@ function GameForm({
             className={styles.button}
             color="secondary"
           >
-            Add Game
+            Save Game
           </Button>
         </form>
       </div>

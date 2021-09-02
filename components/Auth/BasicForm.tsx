@@ -144,8 +144,6 @@ function BasicForm({ userData, setUserData }: Props) {
           renderInput={(params) => (
             <TextField {...params} label="Country" variant="outlined" />
           )}
-          error={formik.touched.country && Boolean(formik.errors.country)}
-          helperText={formik.touched.country && formik.errors.country}
         />
         <TextField
           name="phoneNumber"

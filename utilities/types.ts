@@ -11,7 +11,7 @@ export interface UserData {
   userId: string;
   displayName?: string | undefined;
   dob?: Date | undefined;
-  country?: string | undefined;
+  country: string;
   phoneNumber?: string | undefined;
   email?: string | undefined;
   youtubeLink?: string | undefined;

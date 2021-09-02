@@ -18,12 +18,16 @@ const emptyInitialValues = {
   instagramLink: '',
   twitterLink: '',
   redditLink: '',
-};
+} as UserData;
 
 export default function Home() {
   const router = useRouter();
-  const oldValues = { ...emptyInitialValues, ...router.query };
-  console.log(router.query, '0000000000');
+  const { data } = router.query;
+  let userData;
+  if (typeof data === 'string') {
+    userData = JSON.parse(data);
+  }
+  const oldValues = { ...emptyInitialValues, ...userData };
   return (
     <Aux>
       <Head>

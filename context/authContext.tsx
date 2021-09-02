@@ -13,9 +13,9 @@ const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '' } as User,
   authPageNumber: 1,
   createUser: (userData: UserData) => {},
-  setAuthPageNumber: (param: Number) => {},
-  isUserIdTaken: (userId: string): Promise<boolean> => {
-    return Promise.resolve(false);
+  setAuthPageNumber: (pageNumber: number) => {},
+  isUserIdTaken: (userId: string): Promise<null> => {
+    return Promise.resolve(null);
   },
   signout: (): Promise<void> => {
     return Promise.resolve();

@@ -18,16 +18,13 @@ import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      //   maxWidth: 600,
-    },
     header: {
       letterSpacing: 1,
       color: grey[700],
     },
     button: {
       marginTop: 15,
-      width: '50%',
+      width: '100%',
     },
     text: {
       fontWeight: 'bold',
@@ -49,6 +46,10 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       marginTop: 15,
     },
+    buttonText: {
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+    },
   })
 );
 
@@ -56,8 +57,19 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
   const router = useRouter();
   const styles = useStyles();
   const { signout } = useAuth();
+
+  const goToEditPage = () => {
+    if (userData) {
+      const stringifiedUsedData: string = JSON.stringify(userData);
+      router.push({
+        pathname: `/profile/${userData.uid}/edit`,
+        query: { data: stringifiedUsedData },
+      });
+    }
+  };
+
   return (
-    <div className={styles.root}>
+    <div>
       {userData.photoURL ? (
         <Image
           src={userData.photoURL}
@@ -141,16 +153,12 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
       </div>
       <Button
         variant="contained"
-        onClick={() => {
-          console.log(userData, '---------');
-          router.push({
-            pathname: `/profile/${userData.uid}/edit`,
-            query: userData,
-          });
-        }}
+        onClick={goToEditPage}
         className={styles.button}
       >
-        Edit Profile
+        <Typography variant="body1" className={styles.buttonText}>
+          Edit Profile
+        </Typography>
       </Button>
       <h4 onClick={signout}>Sign Out</h4>
     </div>

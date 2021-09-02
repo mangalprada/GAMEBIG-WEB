@@ -161,7 +161,7 @@ type Props = {
   signInByGoogle: () => void;
 };
 
-export const AuthProvider: FC<Props> = ({ children }) => {
+export const AuthProvider = ({ children }: Props) => {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };

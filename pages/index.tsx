@@ -15,8 +15,8 @@ export default function Home() {
         <main className={styles.Main}>
           <h1>Welcome to DLord</h1>
           <div>
-            <TournamentCard />
-            <TournamentCard />
+            <TournamentCard isOrganizer={false} />
+            <TournamentCard isOrganizer={false} />
           </div>
         </main>
       </Aux>

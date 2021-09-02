@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { Button, Typography } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

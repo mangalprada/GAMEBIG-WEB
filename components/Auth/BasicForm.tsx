@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import SnackbarAlert from '../Snackbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
-import { countries } from '../../utilities/CountryData';
+import { countries } from '../../utilities/CountryList';
 import { debounce } from '../../utilities/functions';
 import { UserData } from '../../utilities/types';
 
@@ -147,9 +147,9 @@ function BasicForm({ userData, setUserData }: Props) {
         />
         <TextField
           name="phoneNumber"
-          label="Phone Number (with Country Code)"
+          label="Phone Number"
           variant="outlined"
-          placeholder="+1 (123) 456-7890"
+          placeholder="123-456-7890"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.phoneNumber}

@@ -17,7 +17,7 @@ import { debounce } from '../../utilities/functions';
 import SnackbarAlert from '../Snackbar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/config';
-import { countries } from '../../utilities/CountryData';
+import { countries } from '../../utilities/CountryList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -52,9 +52,11 @@ function useProvideAuth() {
             setUser({ uid, displayName, photoURL });
           }
 
-          const userExists = await checkUserExistence(uid);
-          if (userExists) {
+          const isUser = await checkUserExistence(uid);
+          console.log(isUser, 'isuser');
+          if (isUser) {
             router.push('/');
+            setAuthPageNumber(1);
           } else {
             setAuthPageNumber(2);
           }

@@ -10,6 +10,7 @@ import firebase, { db } from '../firebase/config';
 import { User, UserData } from '../utilities/types';
 
 const authContext = createContext({
+  isSignedIn: false,
   user: { uid: '', displayName: '', photoURL: '' } as User,
   authPageNumber: 1,
   createUser: (userData: UserData) => {},
@@ -31,12 +32,15 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
     await firebase.auth().signOut();
     router.push('/');
+    setIsSignedIn(false);
     setUser({} as User);
+    setAuthPageNumber(1);
   };
 
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
@@ -49,11 +53,10 @@ function useProvideAuth() {
         if (user) {
           const { uid, displayName, photoURL } = user;
           if (uid && displayName && photoURL) {
+            setIsSignedIn(true);
             setUser({ uid, displayName, photoURL });
           }
-
           const isUser = await checkUserExistence(uid);
-          console.log(isUser, 'isuser');
           if (isUser) {
             router.push('/');
             setAuthPageNumber(1);
@@ -86,9 +89,7 @@ function useProvideAuth() {
     docRef
       .get()
       .then((doc) => {
-        if (doc.exists) {
-          returnValue = true;
-        }
+        returnValue = doc.exists;
       })
       .catch((error) => {
         console.log('Error getting document:', error);
@@ -130,10 +131,13 @@ function useProvideAuth() {
       if (user) {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
+          setIsSignedIn(true);
           setUser({ uid, displayName, photoURL });
         }
       } else {
+        setIsSignedIn(false);
         setUser({} as User);
+        setAuthPageNumber(1);
       }
     });
 

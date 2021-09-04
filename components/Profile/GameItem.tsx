@@ -6,9 +6,11 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import * as yup from 'yup';
 import Image from 'next/image';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useAuth } from '../../context/authContext';
+import { db } from '../../firebase/config';
 import { games } from '../../utilities/GameList';
 import { GameData } from '../../utilities/types';
 
@@ -58,24 +60,47 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const validationSchema = yup.object({
-  ingamename: yup.string().required('In Game Name is required'),
-  ingameid: yup.string().required('In Game Id is required'),
-});
-
-export default function GameItem({ game }: { game: GameData }) {
+export default function GameItem({
+  game,
+  setBackdrop,
+  removeGame,
+}: {
+  game: GameData;
+  setBackdrop: (open: boolean) => void;
+  removeGame: (docId: string) => void;
+}) {
   const styles = useStyles();
+  const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
     severity: 'success' as const,
   });
-  const { gameCode, ingameid, ingamename } = game;
+  const { gameCode, ingameid, ingamename, docId } = game;
 
   const handleClose = () => {
     setSnackbarData({ ...snackbarData, open: false });
   };
 
+  const deleteGame = async () => {
+    try {
+      await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('games')
+        .doc(docId)
+        .delete();
+      if (gameCode)
+        setSnackbarData({
+          ...snackbarData,
+          open: true,
+          message: `${games[gameCode].name} Deleted!`,
+        });
+      if (docId) removeGame(docId);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
   return (
     <div className={styles.root}>
       {gameCode ? (
@@ -102,7 +127,22 @@ export default function GameItem({ game }: { game: GameData }) {
           <Typography variant="body1" className={styles.header}>
             In Game Id: {ingameid}
           </Typography>
-          <EditIcon />
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<EditIcon />}
+            onClick={() => setBackdrop(true)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={deleteGame}
+          >
+            Delete
+          </Button>
         </div>
       </div>
     </div>

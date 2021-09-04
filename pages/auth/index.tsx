@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
@@ -29,11 +30,12 @@ const inititalValues: UserData = {
 
 export default function Home() {
   const styles = useStyles();
-  const { authPageNumber, setAuthPageNumber } = useAuth();
+  const router = useRouter();
+  const { authPageNumber, isSignedIn } = useAuth();
   const [userData, setUserData] = useState(inititalValues);
   useEffect(() => {
-    setAuthPageNumber(1);
-  }, [setAuthPageNumber]);
+    if (isSignedIn) router.push('/');
+  }, [isSignedIn, router]);
   return (
     <Aux>
       <Head>

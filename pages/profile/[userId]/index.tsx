@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Backdrop from '@material-ui/core/Backdrop';
 import { useAuth } from '../../../context/authContext';
 import { db } from '../../../firebase/config';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -8,6 +11,8 @@ import { UserData, GameData } from '../../../utilities/types';
 import PersonalInfo from '../../../components/Profile/ProfileInfo';
 import TeamIntro from '../../../components/Profile/TeamIntro';
 import GameItem from '../../../components/Profile/GameItem';
+import GameForm from '../../../components/Auth/GameForm';
+import { games as allSupportedGames } from '../../../utilities/GameList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,18 +23,46 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-around',
       alignItems: 'center',
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      width: '100%',
+      background: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+    },
   })
 );
 
 export default function Home({
   userData,
-  games,
+  savedGames,
 }: {
   userData: UserData;
-  games: Array<GameData>;
+  savedGames: Array<GameData>;
 }) {
-  const { signout } = useAuth();
   const styles = useStyles();
+  const { signout } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [currentGames, setCurrentGames] = useState(savedGames);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const removeGame = (docId: string) => {
+    const temp = currentGames.filter((gameItem) => {
+      return docId !== gameItem.docId;
+    });
+    setCurrentGames(temp);
+  };
+
+  const addToCurrentGames = (game: GameData) => {
+    setCurrentGames([...currentGames, game]);
+  };
+
+  const getOldValues = (key: string) => {
+    return currentGames.find((element) => element.gameCode === key);
+  };
+
   return (
     <Aux>
       <Head>
@@ -40,10 +73,40 @@ export default function Home({
       <div className={styles.container}>
         <PersonalInfo userData={userData} />
         <TeamIntro />
-        {games.map((game, index) => {
-          return <GameItem game={game} key={index} />;
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<AddIcon />}
+          onClick={() => setOpen(true)}
+        >
+          Add Game
+        </Button>
+        {currentGames.map((game, index) => {
+          return (
+            <GameItem
+              game={game}
+              key={index}
+              removeGame={removeGame}
+              setBackdrop={setOpen}
+            />
+          );
         })}
         <Button onClick={signout}>Sign Out</Button>
+        <Backdrop className={styles.backdrop} open={open}>
+          {Object.keys(allSupportedGames).map(function (key, index) {
+            return (
+              <GameForm
+                game={allSupportedGames[key]}
+                key={key}
+                oldValues={getOldValues(key)}
+                addToCurrentGames={addToCurrentGames}
+              />
+            );
+          })}
+          <Button variant="contained" color="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Backdrop>
       </div>
     </Aux>
   );
@@ -54,7 +117,6 @@ export async function getServerSideProps(context: {
 }) {
   const { userId } = context.params;
   let userData = null;
-  let games;
   await db
     .collection('users')
     .doc(userId)
@@ -65,19 +127,24 @@ export async function getServerSideProps(context: {
     .catch((error) => {
       console.log('Error getting cached document:', error);
     });
+
+  const savedGames: Array<GameData> = [];
   await db
     .collection('users')
     .doc(userId)
     .collection('games')
     .get()
     .then((querySnapshot) => {
-      games = querySnapshot.docs.map((doc) => doc.data());
+      querySnapshot.forEach((doc) => {
+        const { ingamename, ingameid, gameCode } = doc.data();
+        savedGames.push({ ingamename, ingameid, gameCode, docId: doc.id });
+      });
     })
     .catch((error) => {
-      console.log('Error getting cached document:', error);
+      console.log('Error getting documents: ', error);
     });
 
   return {
-    props: { userData, games },
+    props: { userData, savedGames },
   };
 }

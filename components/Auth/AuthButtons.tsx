@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { Button, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
 
@@ -15,14 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AuthButtons() {
   const styles = useStyles();
-  const router = useRouter();
-  const { signInByFacebook, signInByGoogle, user } = useAuth();
+  const { signInByFacebook, signInByGoogle } = useAuth();
 
-  useEffect(() => {
-    if (user) router.push('/');
-  }, [router, user]);
-
-  if (user) return null;
   return (
     <div>
       <Button

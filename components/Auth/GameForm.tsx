@@ -66,16 +66,27 @@ const validationSchema = yup.object({
   ingameid: yup.string().required('In Game Id is required'),
 });
 
+const emptyValues = {
+  ingamename: '',
+  ingameid: '',
+};
+
 function GameForm({
   game,
   increaseNumberOfGames,
+  handleBackdropClose,
+  oldValues,
+  addToCurrentGames,
 }: {
   game: {
     gameCode: string;
     name: string;
     imageSource: string;
   };
-  increaseNumberOfGames: () => void;
+  increaseNumberOfGames?: () => void;
+  handleBackdropClose?: () => void;
+  oldValues?: GameData;
+  addToCurrentGames?: (games: GameData) => void;
 }) {
   const styles = useStyles();
   const { user } = useAuth();
@@ -84,23 +95,25 @@ function GameForm({
     message: '',
     severity: 'success' as const,
   });
-  const { gameCode, imageSource, name } = game;
 
-  const handleClose = () => {
+  const handleSnackbarClose = () => {
     setSnackbarData({ ...snackbarData, open: false });
   };
 
-  const saveGame = async (game: { ingamename: string; ingameid: string }) => {
+  const saveGame = async (gameData: {
+    ingamename: string;
+    ingameid: string;
+  }) => {
     try {
       await db
         .collection('users')
         .doc(user.uid)
         .collection('games')
-        .add({ gameCode, ...game });
+        .add({ gameCode: game.gameCode, ...gameData });
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${name} added!`,
+        message: `${game.name} added!`,
       });
     } catch (err) {
       console.log('err', err);
@@ -109,28 +122,30 @@ function GameForm({
 
   const formik = useFormik({
     initialValues: {
-      ingamename: '',
-      ingameid: '',
+      ...emptyValues,
+      ...oldValues,
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
-      increaseNumberOfGames();
       saveGame(values);
       setSubmitting(false);
+      if (increaseNumberOfGames) increaseNumberOfGames();
+      if (handleBackdropClose) handleBackdropClose();
+      if (addToCurrentGames) addToCurrentGames(values);
     },
   });
 
   return (
     <div className={styles.root}>
       <Typography variant="body1" className={styles.header}>
-        {name}
+        {game.name}
       </Typography>
       <div className={styles.flexRow}>
         <div className={styles.imageCard}>
           <Image
             className={styles.image}
-            src={imageSource}
+            src={game.imageSource}
             alt="Picture of the author"
             layout="fill"
             objectFit="contain"
@@ -170,13 +185,24 @@ function GameForm({
           >
             Save Game
           </Button>
+          {handleBackdropClose ? (
+            <Button
+              variant="contained"
+              disabled={formik.isSubmitting}
+              className={styles.button}
+              color="secondary"
+              onClick={handleBackdropClose}
+            >
+              Close
+            </Button>
+          ) : null}
         </form>
       </div>
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"
         open={snackbarData.open}
-        onClose={handleClose}
+        onClose={handleSnackbarClose}
         autoHideDuration={5000}
         message={snackbarData.message}
         severity={snackbarData.severity}

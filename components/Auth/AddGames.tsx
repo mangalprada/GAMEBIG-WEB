@@ -71,7 +71,7 @@ function AddGames() {
           <GameForm
             game={games[key]}
             increaseNumberOfGames={increaseNumberOfGames}
-            key={key}
+            key={index}
           />
         );
       })}

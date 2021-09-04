@@ -23,7 +23,8 @@ export interface UserData {
 }
 
 export interface GameData {
-  gameCode: string | undefined;
+  docId?: string | undefined;
+  gameCode?: string | undefined;
   ingamename: string | undefined;
   ingameid: string | undefined;
 }

@@ -73,8 +73,6 @@ const emptyValues = {
 
 function GameForm({
   game,
-  increaseNumberOfGames,
-  handleBackdropClose,
   oldValues,
   addToCurrentGames,
 }: {
@@ -83,10 +81,8 @@ function GameForm({
     name: string;
     imageSource: string;
   };
-  increaseNumberOfGames?: () => void;
-  handleBackdropClose?: () => void;
   oldValues?: GameData;
-  addToCurrentGames?: (games: GameData) => void;
+  addToCurrentGames: (games: GameData) => void;
 }) {
   const styles = useStyles();
   const { user } = useAuth();
@@ -130,9 +126,7 @@ function GameForm({
       setSubmitting(true);
       saveGame(values);
       setSubmitting(false);
-      if (increaseNumberOfGames) increaseNumberOfGames();
-      if (handleBackdropClose) handleBackdropClose();
-      if (addToCurrentGames) addToCurrentGames(values);
+      addToCurrentGames(values);
     },
   });
 
@@ -185,17 +179,6 @@ function GameForm({
           >
             Save Game
           </Button>
-          {handleBackdropClose ? (
-            <Button
-              variant="contained"
-              disabled={formik.isSubmitting}
-              className={styles.button}
-              color="secondary"
-              onClick={handleBackdropClose}
-            >
-              Close
-            </Button>
-          ) : null}
         </form>
       </div>
       <SnackbarAlert

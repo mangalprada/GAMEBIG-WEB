@@ -10,6 +10,7 @@ import {
 import SnackbarAlert from '../Snackbar';
 import { useAuth } from '../../context/authContext';
 import { games } from '../../utilities/GameList';
+import { GameData } from '../../utilities/types';
 import GameForm from './GameForm';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,12 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
 function AddGames() {
   const styles = useStyles();
   const { setAuthPageNumber } = useAuth();
-  const [numberOfGames, setNumberOfGames] = useState(0);
+  const [currentGames, setCurrentGames] = useState<Array<GameData>>([]);
   const [showError, setShowError] = useState(false);
   const router = useRouter();
 
-  const increaseNumberOfGames = () => {
-    setNumberOfGames(numberOfGames + 1);
+  const addToCurrentGames = (game: GameData) => {
+    setCurrentGames([...currentGames, game]);
   };
 
   const handleClose = () => {
@@ -58,7 +59,7 @@ function AddGames() {
   };
 
   const handleFinish = () => {
-    if (numberOfGames > 0) {
+    if (currentGames.length > 0) {
       router.push('/');
       setAuthPageNumber(1);
     } else setShowError(true);
@@ -70,7 +71,7 @@ function AddGames() {
         return (
           <GameForm
             game={games[key]}
-            increaseNumberOfGames={increaseNumberOfGames}
+            addToCurrentGames={addToCurrentGames}
             key={index}
           />
         );

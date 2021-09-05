@@ -23,7 +23,7 @@ export default function CreateTournament() {
           color="primary"
           endIcon={<EmojiEventsRounded fontSize="medium" />}
         >
-          Start a Tournament
+          Start a Tournament / Custom
         </Button>
       </Link>
     </div>

@@ -122,11 +122,12 @@ function GameForm({
       ...oldValues,
     },
     validationSchema: validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting, resetForm }) => {
       setSubmitting(true);
       saveGame(values);
-      setSubmitting(false);
       addToCurrentGames(values);
+      resetForm();
+      setSubmitting(false);
     },
   });
 

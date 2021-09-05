@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, Typography } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import CreateTeam from './createTeam';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,7 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
+      width: '100%',
+      background: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
     },
   })
 );
@@ -41,8 +45,8 @@ export default function TeamIntro() {
       >
         Create Team
       </Button>
-      <Backdrop className={styles.backdrop} open={open} onClick={handleClose}>
-        <h1>Hello</h1>
+      <Backdrop className={styles.backdrop} open={open}>
+        <CreateTeam handleBackdropClose={handleClose} />
       </Backdrop>
     </div>
   );

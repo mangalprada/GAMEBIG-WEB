@@ -56,7 +56,7 @@ function useProvideAuth() {
             setIsSignedIn(true);
             setUser({ uid, displayName, photoURL });
           }
-          const isUser = await checkUserExistence(uid);
+          const isUser = getUser(uid);
           if (isUser) {
             router.push('/');
             setAuthPageNumber(1);
@@ -83,13 +83,13 @@ function useProvideAuth() {
     return signInWithProvider(provider);
   };
 
-  const checkUserExistence = (uid: string) => {
+  const getUser = (uid: string) => {
     var docRef = db.collection('users').doc(uid);
-    let returnValue = false;
+    let returnValue;
     docRef
       .get()
       .then((doc) => {
-        returnValue = doc.exists;
+        returnValue = doc.data();
       })
       .catch((error) => {
         console.log('Error getting document:', error);
@@ -97,8 +97,7 @@ function useProvideAuth() {
     return returnValue;
   };
 
-  const isUserIdTaken = async (userId: string) => {
-    let returnValue = null;
+  const isUserIdTaken = async (userId: string) =>
     await db
       .collection('users')
       .where('userId', '==', userId)
@@ -106,14 +105,13 @@ function useProvideAuth() {
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
-          returnValue = true;
+          return true;
         }
+        return false;
       })
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
-    return returnValue;
-  };
 
   const createUser = async (userData: UserData | UserData) => {
     try {

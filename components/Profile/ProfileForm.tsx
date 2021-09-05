@@ -130,6 +130,7 @@ function ProfileForm({ oldValues, push }: Props) {
           onChange={(e) => {
             formik.handleChange(e);
             const isTaken = debounceOnChange(e.target.value);
+            console.log('isTaken', isTaken);
             if (isTaken !== null) setShowError(true);
           }}
           onBlur={formik.handleBlur}

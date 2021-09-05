@@ -18,19 +18,25 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  name: string;
   label: string;
   value: Date | null;
   handleTimeChange: (date: Date | null) => void;
 }
 
-export default function TimePicker({ value, label, handleTimeChange }: Props) {
+export default function TimePicker({
+  name,
+  value,
+  label,
+  handleTimeChange,
+}: Props) {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <KeyboardTimePicker
         margin="normal"
-        id="time-picker"
+        name={name}
         label={label}
         value={value}
         onChange={handleTimeChange}

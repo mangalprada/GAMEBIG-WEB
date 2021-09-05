@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  name: string;
   value: number;
   onSlide: (event: any, newValue: number | number[]) => void;
 }
@@ -37,13 +38,14 @@ const VALUES_LABEL = [
   },
 ];
 
-export default function SliderSelect({ value, onSlide }: Props) {
+export default function SliderSelect({ name, value, onSlide }: Props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <FormLabel component="legend">Max Slots Available</FormLabel>
       <Slider
+        name={name}
         defaultValue={10}
         aria-labelledby="continuous-slider"
         valueLabelDisplay="on"

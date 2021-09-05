@@ -3,7 +3,6 @@ import {
   createStyles,
   FormControl,
   FormLabel,
-  InputLabel,
   makeStyles,
   MenuItem,
   Select,
@@ -26,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  name: string;
   label: string;
   value: string;
   menuItems: { id: string; name: string }[];
@@ -33,6 +33,7 @@ interface Props {
 }
 
 export default function SelectDropDown({
+  name,
   label,
   value,
   handleChange,
@@ -52,6 +53,7 @@ export default function SelectDropDown({
         <Select
           labelId="dropdown"
           id="games"
+          name={name}
           value={value}
           onChange={handleChange}
           displayEmpty

@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  name: string;
   label: string;
   value: string;
   items: { id: string; name: string }[];
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export default function SelectRadioButton({
+  name,
   label,
   value,
   handleChange,
@@ -49,7 +51,7 @@ export default function SelectRadioButton({
         <FormLabel component="legend">{label}</FormLabel>
         <RadioGroup
           aria-label="mode"
-          name="game-mode"
+          name={name}
           value={value}
           onChange={handleChange}
         >

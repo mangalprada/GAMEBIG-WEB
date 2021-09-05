@@ -184,18 +184,9 @@ export default function TournamentCard({ isOrganizer }: Props) {
             Register
           </Button>
         )}
-        {isOrganizer ? (
-          <Link
-            href={`/organization/${orgId}/tournaments/${tournId}/`}
-            passHref
-          >
-            <Button color="primary">Details</Button>
-          </Link>
-        ) : (
-          <Link href={`/${tournId}/`} passHref>
-            <Button color="primary">Details</Button>
-          </Link>
-        )}
+        <Link href={`/organization/${orgId}/tournaments/${tournId}/`} passHref>
+          <Button color="primary">Details</Button>
+        </Link>
       </div>
     </Card>
   );

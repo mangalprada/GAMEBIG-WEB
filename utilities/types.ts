@@ -3,6 +3,7 @@ export interface User {
   email?: string | undefined;
   displayName?: string | undefined;
   photoURL?: string | undefined;
+  linkedOrgId?: string | null | undefined;
 }
 
 export interface UserData {
@@ -19,4 +20,5 @@ export interface UserData {
   instagramLink?: string | undefined;
   twitterLink?: string | undefined;
   redditLink?: string | undefined;
+  linkedOrganizationId?: string | null;
 }

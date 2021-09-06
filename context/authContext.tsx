@@ -9,9 +9,11 @@ import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
 import { UserData } from '../utilities/types';
 import { User } from '../utilities/types';
+import { getOrganizationId } from '../lib/getOrganizationId';
 
 const authContext = createContext({
-  user: { uid: '', displayName: '', photoURL: '' } as User,
+  user: { uid: '', displayName: '', photoURL: '', linkedOrgId: null } as User,
+  linkedOrgId: null as string | null,
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -26,6 +28,7 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
+  const [linkedOrgId, setLinkedOrgId] = useState<string | null>(null);
 
   const signout = () => {
     return firebase
@@ -33,6 +36,7 @@ function useProvideAuth() {
       .signOut()
       .then(() => {
         router.push('/');
+        setLinkedOrgId(null);
         setUser({} as User);
       });
   };
@@ -104,6 +108,7 @@ function useProvideAuth() {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           setUser({ uid, displayName, photoURL });
+          setOrgId(uid);
         }
       } else {
         setUser({} as User);
@@ -113,8 +118,14 @@ function useProvideAuth() {
     return () => unsubscribe();
   }, []);
 
+  const setOrgId = async (uid: string) => {
+    const linkedId = await getOrganizationId(uid);
+    await setLinkedOrgId(linkedId);
+  };
+
   return {
     user,
+    linkedOrgId,
     signout,
     signInByFacebook,
     signInByGoogle,
@@ -123,6 +134,7 @@ function useProvideAuth() {
 
 type Props = {
   user?: User;
+  linkedOrgId?: null | string;
   signout?: () => void;
   signInByFacebook?: () => void;
   signInByGoogle?: () => void;

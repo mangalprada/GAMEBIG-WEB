@@ -17,13 +17,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   tabNumber: number;
+  tabs: Array<{ label: string; href: string }>;
 }
 
-export default function TabNavigator({ tabNumber }: Props) {
+export default function TabNavigator({ tabNumber, tabs }: Props) {
   const styles = useStyles();
-
-  let id = 1;
-
   return (
     <div className={styles.root}>
       <AppBar position="static" color="transparent" elevation={0}>
@@ -33,8 +31,9 @@ export default function TabNavigator({ tabNumber }: Props) {
           value={tabNumber}
           classes={{ indicator: styles.tabIndicator }}
         >
-          <TabNavItem label="Events" href={`/organization/${id}/tournaments`} />
-          <TabNavItem label="About" href={`/organization/${id}`} />
+          {tabs.map((tab) => (
+            <TabNavItem key={tab.label} label={tab.label} href={tab.href} />
+          ))}
         </Tabs>
       </AppBar>
     </div>

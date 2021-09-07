@@ -1,50 +1,34 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import { Button, Typography } from '@material-ui/core';
-import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      maxWidth: 400,
-    },
     button: {
       marginTop: 15,
       width: '50%',
     },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
   })
 );
 
-export default function TeamIntro() {
-  const router = useRouter();
+export default function TeamIntro({
+  openBackdrop,
+}: {
+  openBackdrop: () => void;
+}) {
   const styles = useStyles();
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
   return (
-    <div className={styles.root}>
-      <h1>Create a Team to Participate in Tournaments</h1>
+    <div>
+      <Typography variant="h5" color="textPrimary">
+        Create a Team And Participate in Tournaments
+      </Typography>
       <Button
         variant="contained"
         color="primary"
-        onClick={handleToggle}
+        onClick={openBackdrop}
         className={styles.button}
       >
         Create Team
       </Button>
-      <Backdrop className={styles.backdrop} open={open} onClick={handleClose}>
-        <h1>Hello</h1>
-      </Backdrop>
     </div>
   );
 }

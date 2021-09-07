@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import {
   Button,
   createStyles,
@@ -13,7 +13,6 @@ import SnackbarAlert from '../Snackbar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
 import { countries } from '../../utilities/CountryList';
-import { debounce } from '../../utilities/functions';
 import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,17 +44,17 @@ const useStyles = makeStyles((theme: Theme) =>
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-const userIdRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
+const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
 const validationSchema = yup.object({
   email: yup
     .string()
     .email('Enter a valid email')
     .required('Email is required'),
-  userId: yup
+  username: yup
     .string()
-    .matches(userIdRegExp, 'UserId can contain only letters and numbers')
-    .required('UserId is required'),
+    .matches(usernameRegExp, 'username can contain only letters and numbers')
+    .required('username is required'),
   dob: yup
     .date()
     .default(function () {
@@ -76,24 +75,25 @@ type Props = {
 
 function BasicForm({ userData, setUserData }: Props) {
   const styles = useStyles();
-  const { setAuthPageNumber, createUser, isUserIdTaken } = useAuth();
+  const { setAuthPageNumber, createUser, isUsernameTaken } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const formik = useFormik({
     initialValues: userData,
     validationSchema: validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting, setErrors }) => {
       setSubmitting(true);
-      createUser(values);
-      setUserData(values);
-      setAuthPageNumber(3);
+      const isTaken = await isUsernameTaken(values.username);
+      if (isTaken) {
+        setErrors({ username: 'This username is taken!' });
+      } else {
+        createUser(values);
+        setUserData(values);
+        setAuthPageNumber(3);
+      }
       setSubmitting(false);
     },
   });
-
-  const debounceOnChange = useCallback(debounce(isUserIdTaken, 300), [
-    formik.values.userId,
-  ]);
 
   const handleClose = () => {
     setShowError(false);
@@ -104,18 +104,14 @@ function BasicForm({ userData, setUserData }: Props) {
       <form className={styles.form} onSubmit={formik.handleSubmit}>
         <TextField
           type="text"
-          name="userId"
-          label="UserId"
+          name="username"
+          label="username"
           variant="outlined"
-          onChange={(e) => {
-            formik.handleChange(e);
-            const isTaken = debounceOnChange(e.target.value);
-            if (isTaken !== null) setShowError(true);
-          }}
+          onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.userId}
-          error={formik.touched.userId && Boolean(formik.errors.userId)}
-          helperText={formik.touched.userId && formik.errors.userId}
+          value={formik.values.username}
+          error={formik.touched.username && Boolean(formik.errors.username)}
+          helperText={formik.touched.username && formik.errors.username}
         />
         <TextField
           id="dob"
@@ -188,7 +184,7 @@ function BasicForm({ userData, setUserData }: Props) {
         open={showError}
         onClose={handleClose}
         autoHideDuration={5000}
-        message="UserId is taken!"
+        message="username is taken!"
         severity="warning"
       />
     </div>

@@ -84,11 +84,11 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId: uid } = context.params;
+  const { userId } = context.params;
   let userData: any = null;
   await db
     .collection('users')
-    .doc(uid)
+    .doc(userId)
     .get()
     .then((doc) => {
       userData = doc.data();
@@ -101,7 +101,7 @@ export async function getServerSideProps(context: {
   if (userData) {
     await db
       .collection('teams')
-      .where('players', 'array-contains-any', [userData.userId])
+      .where('players', 'array-contains-any', [userData.username])
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

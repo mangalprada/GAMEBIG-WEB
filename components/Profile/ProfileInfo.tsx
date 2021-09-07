@@ -107,9 +107,9 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
         </Button>
       </div>
       <div className={styles.infocard}>
-        {userData.userId ? (
+        {userData.username ? (
           <Typography variant="body1" className={styles.header}>
-            @{userData.userId}
+            @{userData.username}
           </Typography>
         ) : null}
         {userData.displayName ? (

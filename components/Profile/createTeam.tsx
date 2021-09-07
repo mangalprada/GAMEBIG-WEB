@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const validationSchema = yup.object({
   teamName: yup.string().required('Team name is required'),
-  userId: yup.string(),
+  username: yup.string(),
   inGameLead: yup.string().required('In Game Lead is required'),
 });
 
@@ -81,7 +81,7 @@ type SnackbarDataType = {
 };
 
 const emptyValues = {
-  userId: '',
+  username: '',
   teamName: '',
   inGameLead: '',
 };
@@ -160,7 +160,7 @@ export default function CreateTeam({ teamData, closeBackdrop }: PropsType) {
   const isUserValid = async (id: string) =>
     await db
       .collection('users')
-      .where('userId', '==', id)
+      .where('username', '==', id)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
@@ -174,18 +174,18 @@ export default function CreateTeam({ teamData, closeBackdrop }: PropsType) {
 
   const addPlayer = async () => {
     setLoading(true);
-    const { userId } = formik.values;
-    if (userId === '' || players.indexOf(userId) !== -1) {
-      formik.setFieldValue('userId', '');
+    const { username } = formik.values;
+    if (username === '' || players.indexOf(username) !== -1) {
+      formik.setFieldValue('username', '');
       setLoading(false);
       return;
     }
-    const userValidity = await isUserValid(userId);
+    const userValidity = await isUserValid(username);
     if (userValidity) {
-      setPlayers([...players, userId]);
-      formik.setFieldValue('userId', '');
+      setPlayers([...players, username]);
+      formik.setFieldValue('username', '');
     } else {
-      formik.setErrors({ userId: 'No User exist with this UserId' });
+      formik.setErrors({ username: 'No User exist with this username' });
     }
     setLoading(false);
   };
@@ -213,15 +213,15 @@ export default function CreateTeam({ teamData, closeBackdrop }: PropsType) {
         <div className={styles.flexRow}>
           <TextField
             type="text"
-            name="userId"
-            label="DLord UserId"
+            name="username"
+            label="DLord username"
             variant="outlined"
-            placeholder="DLord UserId"
+            placeholder="DLord username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.userId}
-            error={formik.touched.userId && Boolean(formik.errors.userId)}
-            helperText={formik.touched.userId && formik.errors.userId}
+            value={formik.values.username}
+            error={formik.touched.username && Boolean(formik.errors.username)}
+            helperText={formik.touched.username && formik.errors.username}
           />
           {!loading ? (
             <Button
@@ -240,14 +240,14 @@ export default function CreateTeam({ teamData, closeBackdrop }: PropsType) {
             <CircularProgress color="secondary" className={styles.loader} />
           )}
         </div>
-        {players.map((userId, index) => (
+        {players.map((username, index) => (
           <div key={index} className={styles.playerItem}>
             <Typography variant="body1" className={styles.playerText}>
-              {index + 1}. {userId}
+              {index + 1}. {username}
             </Typography>
             <DeleteIcon
               onClick={() => {
-                removePlayer(userId);
+                removePlayer(username);
               }}
             />
           </div>

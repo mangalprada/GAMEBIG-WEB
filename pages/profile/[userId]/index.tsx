@@ -108,11 +108,11 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId: uid } = context.params;
+  const { userId } = context.params;
   let userData = null;
   await db
     .collection('users')
-    .doc(uid)
+    .doc(userId)
     .get()
     .then((doc) => {
       userData = doc.data();
@@ -124,7 +124,7 @@ export async function getServerSideProps(context: {
   const savedGames: Array<GameData> = [];
   await db
     .collection('users')
-    .doc(uid)
+    .doc(userId)
     .collection('games')
     .get()
     .then((querySnapshot) => {

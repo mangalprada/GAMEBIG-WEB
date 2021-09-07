@@ -15,7 +15,7 @@ const authContext = createContext({
   authPageNumber: 1,
   createUser: (userData: UserData) => {},
   setAuthPageNumber: (pageNumber: number) => {},
-  isUserIdTaken: (userId: string): Promise<null> => {
+  isUsernameTaken: (username: string): Promise<null> => {
     return Promise.resolve(null);
   },
   signout: (): Promise<void> => {
@@ -94,10 +94,10 @@ function useProvideAuth() {
     return returnValue;
   };
 
-  const isUserIdTaken = async (userId: string) =>
+  const isUsernameTaken = async (username: string) =>
     await db
       .collection('users')
-      .where('userId', '==', userId)
+      .where('username', '==', username)
       .where('uid', '!=', user.uid)
       .get()
       .then((querySnapshot) => {
@@ -141,7 +141,7 @@ function useProvideAuth() {
     user,
     authPageNumber,
     createUser,
-    isUserIdTaken,
+    isUsernameTaken,
     setAuthPageNumber,
     signout,
     signInByFacebook,
@@ -153,7 +153,7 @@ type Props = {
   user: User;
   authPageNumber: number;
   createUser: (userData: UserData) => void;
-  isUserIdTaken: (userId: string) => void;
+  isUsernameTaken: (username: string) => void;
   setAuthPageNumber: (param: number) => void;
   signout: () => void;
   signInByFacebook: () => void;

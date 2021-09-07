@@ -5,7 +5,7 @@ import ProfileForm from '../../../components/Profile/ProfileForm';
 import { UserData } from '../../../utilities/types';
 
 const emptyInitialValues = {
-  userId: '',
+  username: '',
   uid: '',
   displayName: '',
   dob: new Date('2014-08-18T21:11:54'),

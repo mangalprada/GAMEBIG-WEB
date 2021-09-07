@@ -8,7 +8,7 @@ export interface User {
 export interface UserData {
   photoURL?: string | undefined;
   uid: string;
-  userId: string;
+  username: string;
   displayName?: string | undefined;
   dob?: Date | undefined;
   country: string;

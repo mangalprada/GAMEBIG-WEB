@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const inititalValues: UserData = {
   uid: '',
-  userId: '',
+  username: '',
   email: '',
   country: '',
   dob: new Date('2014-08-18T21:11:54'),

@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import Link from 'next/link';
+import router from 'next/router';
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   createStyles,
   makeStyles,
   TextField,
@@ -11,7 +15,11 @@ import { ArrowBackRounded } from '@material-ui/icons';
 import { useFormik } from 'formik';
 import { OrgFormData } from '../../../utilities/organization/types';
 import { validationSchema } from '../../../utilities/organization/validator';
-import router from 'next/router';
+import {
+  addOrganization,
+  addOrganizationIdtoAdminUser,
+} from '../../../lib/addOrganization';
+import { useAuth } from '../../../context/authContext';
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -40,11 +48,18 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       letterSpacing: 0.5,
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   })
 );
 
 function CreateOrganizationForm() {
-  const styles = useStyles();
+  const classes = useStyles();
+  const { user, updateOrgId } = useAuth();
+
+  const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
   const initialValues: OrgFormData = {
     name: '',
@@ -65,12 +80,22 @@ function CreateOrganizationForm() {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: () => router.push('/organization/loading'),
+    onSubmit: async (value, { resetForm }) => {
+      setIsBackDropOpen(true);
+      const orgId = await addOrganization(value);
+      if (orgId) {
+        updateOrgId(orgId);
+        await addOrganizationIdtoAdminUser(user.uid, orgId);
+        router.push(`/organization/${orgId}`);
+      }
+      await setIsBackDropOpen(false);
+      await resetForm();
+    },
   });
 
   return (
     <form
-      className={styles.root}
+      className={classes.root}
       onSubmit={formik.handleSubmit}
       noValidate
       autoComplete="false"
@@ -83,7 +108,7 @@ function CreateOrganizationForm() {
           Go Back
         </Button>
       </Link>
-      <Typography variant="h5" className={styles.header}>
+      <Typography variant="h5" className={classes.header}>
         Create Organization
       </Typography>
       <TextField
@@ -132,7 +157,7 @@ function CreateOrganizationForm() {
         error={formik.touched.phone && Boolean(formik.errors.phone)}
         helperText={formik.touched.phone && formik.errors.phone}
       />
-      <Typography variant="h6" className={styles.header} color="textPrimary">
+      <Typography variant="h6" className={classes.header} color="textPrimary">
         Social Links
       </Typography>
       <TextField
@@ -207,7 +232,7 @@ function CreateOrganizationForm() {
         error={formik.touched.reddit && Boolean(formik.errors.reddit)}
         helperText={formik.touched.reddit && formik.errors.reddit}
       />
-      <div className={styles.buttonContainer}>
+      <div className={classes.buttonContainer}>
         <Button
           variant="contained"
           color="primary"
@@ -215,11 +240,14 @@ function CreateOrganizationForm() {
           type="submit"
           onClick={() => scrollToTop()}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Create
           </Typography>
         </Button>
       </div>
+      <Backdrop className={classes.backdrop} open={isBackDropOpen}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </form>
   );
 }

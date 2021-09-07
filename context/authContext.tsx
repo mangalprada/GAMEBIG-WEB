@@ -14,6 +14,7 @@ import { getOrganizationId } from '../lib/getOrganizationId';
 const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '', linkedOrgId: null } as User,
   linkedOrgId: null as string | null,
+  updateOrgId: (id: string) => {},
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -123,9 +124,14 @@ function useProvideAuth() {
     await setLinkedOrgId(linkedId);
   };
 
+  const updateOrgId = (id: string) => {
+    setLinkedOrgId(id);
+  };
+
   return {
     user,
     linkedOrgId,
+    updateOrgId,
     signout,
     signInByFacebook,
     signInByGoogle,
@@ -135,6 +141,7 @@ function useProvideAuth() {
 type Props = {
   user?: User;
   linkedOrgId?: null | string;
+  updateOrgId?: () => void;
   signout?: () => void;
   signInByFacebook?: () => void;
   signInByGoogle?: () => void;

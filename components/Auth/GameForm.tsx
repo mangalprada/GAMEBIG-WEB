@@ -105,7 +105,8 @@ function GameForm({
         .collection('users')
         .doc(user.uid)
         .collection('games')
-        .add({ gameCode: game.gameCode, ...gameData });
+        .doc(game.gameCode)
+        .set({ gameCode: game.gameCode, ...gameData });
       setSnackbarData({
         ...snackbarData,
         open: true,

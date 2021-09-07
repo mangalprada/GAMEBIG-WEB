@@ -1,5 +1,5 @@
 import PersonalInfo from './ProfileInfo';
-import TabNavigator from '../../components/Navigation/OrgNavigation/TabNavigator';
+import TabNavigator from '../Navigation/TabNavigation/TabNavigator';
 import { UserData } from '../../utilities/types';
 
 function ProfileHeader({

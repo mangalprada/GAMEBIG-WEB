@@ -8,7 +8,7 @@ import {
 import { red } from '@material-ui/core/colors';
 import { LocationOnRounded } from '@material-ui/icons';
 import Head from 'next/head';
-import TabNavigator from '../../../components/Navigation/OrgNavigation/TabNavigator';
+import TabNavigator from '../../Navigation/TabNavigation/TabNavigator';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 interface Props {

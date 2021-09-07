@@ -1,5 +1,6 @@
 import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import React from 'react';
+import { OrgFormData } from '../../../utilities/organization/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +33,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function OrganizationProfile() {
+interface Props {
+  data: OrgFormData;
+}
+
+export default function OrganizationProfile({ data }: Props) {
   const styles = useStyles();
 
   return (
@@ -40,9 +45,7 @@ export default function OrganizationProfile() {
       <div>
         <Typography variant="subtitle2">About us</Typography>
         <Typography variant="body1" color="textPrimary">
-          We organize tournaments for T1 &amp; T2 tiers for BGMI, COD and Free
-          Fire. Seven Esports has a large community of more that 16k followers
-          in youtube and 8k members on it’s Discord chanel.
+          {data.about}
         </Typography>
       </div>
       <div className={styles.contactContainer}>
@@ -51,7 +54,7 @@ export default function OrganizationProfile() {
             Admin&apos;s email address
           </Typography>
           <Typography variant="body1" color="textPrimary">
-            seven.esports@gmail.com
+            {data.email}
           </Typography>
         </div>
         <div className={styles.contacts}>
@@ -59,7 +62,13 @@ export default function OrganizationProfile() {
             Admin&apos;s contact number
           </Typography>
           <Typography variant="body1" color="textPrimary">
-            +91 9988776655
+            +91 {data.phone}
+          </Typography>
+        </div>
+        <div className={styles.contacts}>
+          <Typography variant="subtitle2">Official Website</Typography>
+          <Typography variant="body1" color="textPrimary">
+            {data.website ? data.website : '-'}
           </Typography>
         </div>
       </div>
@@ -69,13 +78,13 @@ export default function OrganizationProfile() {
           <div className={styles.social}>
             <Typography variant="subtitle2">Facebook</Typography>
             <Typography variant="body1" color="textPrimary">
-              facebook.com/sevenesports
+              {data.facebook ? data.facebook : '-'}
             </Typography>
           </div>
           <div className={styles.social}>
             <Typography variant="subtitle2">Twitter</Typography>
             <Typography variant="body1" color="textPrimary">
-              twitter.com/sevenesports
+              {data.twitter ? data.twitter : '-'}
             </Typography>
           </div>
         </div>
@@ -83,13 +92,13 @@ export default function OrganizationProfile() {
           <div className={styles.social}>
             <Typography variant="subtitle2">Discord</Typography>
             <Typography variant="body1" color="textPrimary">
-              discord.gg/sevenesports
+              {data.discord ? data.discord : '-'}
             </Typography>
           </div>
           <div className={styles.social}>
             <Typography variant="subtitle2">Youtube</Typography>
             <Typography variant="body1" color="textPrimary">
-              youtube.com/sevenesports
+              {data.youtube ? data.youtube : '-'}
             </Typography>
           </div>
         </div>
@@ -97,13 +106,13 @@ export default function OrganizationProfile() {
           <div className={styles.social}>
             <Typography variant="subtitle2">Twitch</Typography>
             <Typography variant="body1" color="textPrimary">
-              twitch.com/sevenesports
+              {data.twitch ? data.twitch : '-'}
             </Typography>
           </div>
           <div className={styles.social}>
             <Typography variant="subtitle2">Reddit</Typography>
             <Typography variant="body1" color="textPrimary">
-              reddit.com/sevenesports
+              {data.reddit ? data.reddit : '-'}
             </Typography>
           </div>
         </div>

@@ -8,7 +8,7 @@ export const getOrganizationId = async (userId: string) => {
   if (!doc.exists) {
     console.log('No such document!');
   } else {
-    const data = await doc.data();
+    const data = doc.data();
     if (data && data.linkedOrganizationId) {
       orgId = data.linkedOrganizationId;
     }

@@ -84,7 +84,7 @@ function ProfileForm({ oldValues, push }: Props) {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       setSubmitting(true);
-      const isTaken = await isUsernameTaken(oldValues.username);
+      const isTaken = await isUsernameTaken(values.username);
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {

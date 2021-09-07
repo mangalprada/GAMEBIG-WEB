@@ -185,7 +185,7 @@ function GameForm({
       </div>
       <SnackbarAlert
         vertical="bottom"
-        horizontal="center"
+        horizontal="right"
         open={snackbarData.open}
         onClose={handleSnackbarClose}
         autoHideDuration={5000}

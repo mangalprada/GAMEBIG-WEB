@@ -24,10 +24,17 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      maxWidth: 800,
-      marginBottom: 10,
+      maxWidth: 500,
+      marginBottom: 20,
+      marginTop: 20,
     },
     header: {
+      marginBottom: 10,
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+      color: '#555',
+    },
+    text: {
       marginLeft: 20,
       fontWeight: 'bold',
       letterSpacing: 0.5,
@@ -41,13 +48,11 @@ const useStyles = makeStyles((theme: Theme) =>
     flexRow: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-around',
     },
     imageCard: {
       position: 'relative',
-      width: '168px',
-      height: '168px',
-      margin: 10,
+      width: '100px',
+      height: '100px',
     },
     image: {
       borderRadius: '6%',
@@ -55,7 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       marginTop: 10,
-      marginLeft: 20,
+      marginLeft: 10,
+      marginRight: 10,
     },
   })
 );
@@ -77,10 +83,6 @@ export default function GameItem({
     severity: 'success' as const,
   });
   const { gameCode, ingameid, ingamename, docId } = game;
-
-  const handleClose = () => {
-    setSnackbarData({ ...snackbarData, open: false });
-  };
 
   const deleteGame = async () => {
     try {
@@ -104,7 +106,7 @@ export default function GameItem({
   return (
     <div className={styles.root}>
       {gameCode ? (
-        <Typography variant="body1" className={styles.header}>
+        <Typography variant="h6" className={styles.header}>
           {games[gameCode].name}
         </Typography>
       ) : null}
@@ -114,35 +116,37 @@ export default function GameItem({
             <Image
               className={styles.image}
               src={games[gameCode].imageSource}
-              alt="Picture of the author"
+              alt="Picture of the game"
               layout="fill"
               objectFit="contain"
             />
           </div>
         ) : null}
         <div className={styles.flexColumn}>
-          <Typography variant="body1" className={styles.header}>
+          <Typography variant="body1" className={styles.text}>
             In Game Name: {ingamename}
           </Typography>
-          <Typography variant="body1" className={styles.header}>
+          <Typography variant="body1" className={styles.text}>
             In Game Id: {ingameid}
           </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<EditIcon />}
-            onClick={() => setBackdrop(true)}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<DeleteIcon />}
-            onClick={deleteGame}
-          >
-            Delete
-          </Button>
+          <div className={styles.flexRow}>
+            <Button
+              variant="contained"
+              startIcon={<EditIcon />}
+              onClick={() => setBackdrop(true)}
+              className={styles.button}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              onClick={deleteGame}
+              className={styles.button}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </div>

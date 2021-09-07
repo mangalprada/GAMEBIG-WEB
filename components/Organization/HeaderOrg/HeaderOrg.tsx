@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function HeaderOrg({ tabNumber }: Props) {
   const styles = useStyles();
 
+  const id = 1;
+  const tabs = [
+    { label: 'Events', href: `/organization/${id}/tournaments` },
+    { label: 'About', href: `/organization/${id}` },
+  ];
+
   return (
     <Aux>
       <Head>
@@ -70,7 +76,7 @@ export default function HeaderOrg({ tabNumber }: Props) {
           </div>
         </div>
       </div>
-      <TabNavigator tabNumber={tabNumber} />
+      <TabNavigator tabNumber={tabNumber} tabs={tabs} />
     </Aux>
   );
 }

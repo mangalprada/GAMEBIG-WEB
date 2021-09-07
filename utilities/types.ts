@@ -28,3 +28,10 @@ export interface GameData {
   ingamename: string | undefined;
   ingameid: string | undefined;
 }
+
+export type TeamType = {
+  teamName: string;
+  players: Array<string>;
+  inGameLead: string;
+  docId?: string;
+};

@@ -32,13 +32,11 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
     await firebase.auth().signOut();
     router.push('/');
-    setIsSignedIn(false);
     setUser({} as User);
     setAuthPageNumber(1);
   };
@@ -53,7 +51,6 @@ function useProvideAuth() {
         if (user) {
           const { uid, displayName, photoURL } = user;
           if (uid && displayName && photoURL) {
-            setIsSignedIn(true);
             setUser({ uid, displayName, photoURL });
           }
           const isUser = getUser(uid);
@@ -129,11 +126,9 @@ function useProvideAuth() {
       if (user) {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
-          setIsSignedIn(true);
           setUser({ uid, displayName, photoURL });
         }
       } else {
-        setIsSignedIn(false);
         setUser({} as User);
         setAuthPageNumber(1);
       }

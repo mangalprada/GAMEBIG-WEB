@@ -15,6 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SnackbarAlert from '../Snackbar';
 import { db } from '../../firebase/config';
+import { TeamType } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,12 +70,8 @@ const validationSchema = yup.object({
 });
 
 type PropsType = {
-  userData?: {
-    userId: string;
-    teamName: string;
-    inGameLead: string;
-  };
-  handleBackdropClose: () => void;
+  teamData?: TeamType;
+  closeBackdrop: () => void;
 };
 
 type SnackbarDataType = {
@@ -95,18 +92,21 @@ const initialSnackbarData = {
   severity: 'warning' as const,
 };
 
-export default function CreateTeam({
-  userData,
-  handleBackdropClose,
-}: PropsType) {
+export default function CreateTeam({ teamData, closeBackdrop }: PropsType) {
   const styles = useStyles();
   const [loading, setLoading] = useState(false);
-  const [players, setPlayers] = useState<Array<string>>([]);
+  const [players, setPlayers] = useState<Array<string>>(
+    teamData?.players || []
+  );
   const [snackbarData, setSnackbarData] =
     useState<SnackbarDataType>(initialSnackbarData);
 
   const formik = useFormik({
-    initialValues: { ...emptyValues, ...userData },
+    initialValues: {
+      ...emptyValues,
+      teamName: teamData?.teamName,
+      inGameLead: teamData?.teamName,
+    },
     validationSchema: validationSchema,
     onSubmit: ({ teamName, inGameLead }, { setSubmitting, resetForm }) => {
       setSubmitting(true);
@@ -120,9 +120,9 @@ export default function CreateTeam({
   };
 
   const saveTeam = async (team: {
-    teamName: string;
+    teamName: string | undefined;
     players: Array<string>;
-    inGameLead: string;
+    inGameLead: string | undefined;
   }) => {
     if (players.length !== 4) {
       setSnackbarData({
@@ -151,7 +151,7 @@ export default function CreateTeam({
         severity: 'success' as const,
       });
       formik.resetForm();
-      handleBackdropClose();
+      closeBackdrop();
     } catch (err) {
       console.log('err', err);
     }
@@ -272,7 +272,7 @@ export default function CreateTeam({
             variant="contained"
             disabled={formik.isSubmitting}
             className={styles.button}
-            onClick={handleBackdropClose}
+            onClick={closeBackdrop}
           >
             <Typography variant="body1" className={styles.buttonText}>
               Cancel

@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ProfileForm from '../../../components/Profile/ProfileForm';
+import { UserData } from '../../../utilities/types';
 
 const emptyInitialValues = {
+  username: '',
   uid: '',
   displayName: '',
-  dob: '',
+  dob: new Date('2014-08-18T21:11:54'),
   country: '',
   phoneNumber: '',
   email: '',
@@ -16,11 +18,16 @@ const emptyInitialValues = {
   instagramLink: '',
   twitterLink: '',
   redditLink: '',
-};
+} as UserData;
 
 export default function Home() {
   const router = useRouter();
-  const oldValues = { ...emptyInitialValues, ...router.query };
+  const { data } = router.query;
+  let userData;
+  if (typeof data === 'string') {
+    userData = JSON.parse(data);
+  }
+  const oldValues = { ...emptyInitialValues, ...userData };
   return (
     <Aux>
       <Head>

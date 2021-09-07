@@ -7,8 +7,6 @@ import { grey } from '@material-ui/core/colors';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/config';
 import Twitch from '../../assets/Icons/Twitch';
 import YouTube from '../../assets/Icons/YouTube';
 import Instagram from '../../assets/Icons/Instagram';
@@ -20,29 +18,30 @@ import { UserData } from '../../utilities/types';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      //   maxWidth: 600,
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
     },
     header: {
-      letterSpacing: 1,
-      color: grey[700],
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+      marginBottom: 10,
     },
     button: {
       marginTop: 15,
-      width: '50%',
+      marginBottom: 20,
+      width: '100%',
     },
     text: {
       fontWeight: 'bold',
       letterSpacing: 0.5,
-      marginTop: 10,
-      marginLeft: 10,
-    },
-    cardContainer: {
-      marginTop: 50,
+      marginLeft: 20,
     },
     flexRow: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
+      marginTop: 10,
     },
     iconRow: {
       display: 'flex',
@@ -50,108 +49,145 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       marginTop: 15,
     },
+    buttonText: {
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+    },
+    imageCard: {
+      position: 'relative',
+      width: '200px',
+      height: '200px',
+    },
+    image: {
+      borderRadius: '4%',
+      border: '5px solid #555',
+    },
+    infocard: {
+      marginLeft: '8%',
+    },
   })
 );
 
 export default function ProfileInfo({ userData }: { userData: UserData }) {
   const router = useRouter();
   const styles = useStyles();
-  const { signout } = useAuth();
+
+  const goToEditPage = () => {
+    if (userData) {
+      const stringifiedUsedData: string = JSON.stringify(userData);
+      router.push({
+        pathname: `/profile/${userData.uid}/edit`,
+        query: { data: stringifiedUsedData },
+      });
+    }
+  };
+
   return (
     <div className={styles.root}>
-      {userData.photoURL ? (
-        <Image
-          src={userData.photoURL}
-          width={100}
-          height={100}
-          alt="Picture of the user"
-        />
-      ) : null}
-      {userData.displayName ? <h1>{userData.displayName}</h1> : null}
-      {userData.dob ? (
-        <div className={styles.flexRow}>
-          <CakeIcon />
-          <Typography variant="body1" className={styles.text}>
-            {userData.dob}
+      <div>
+        {userData.photoURL ? (
+          <div className={styles.imageCard}>
+            <Image
+              src={userData.photoURL}
+              alt="Picture of the user"
+              className={styles.image}
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+        ) : null}
+        <Button
+          variant="contained"
+          onClick={goToEditPage}
+          className={styles.button}
+        >
+          <Typography variant="body1" className={styles.buttonText}>
+            Edit Profile
           </Typography>
-        </div>
-      ) : null}
-
-      {userData.country ? (
-        <div className={styles.flexRow}>
-          <LocationOnIcon />
-          <Typography variant="body1" className={styles.text}>
-            {userData.country}
-          </Typography>
-        </div>
-      ) : null}
-      {userData.phoneNumber ? (
-        <div className={styles.flexRow}>
-          <SmartphoneIcon />
-          <Typography variant="body1" className={styles.text}>
-            {userData.phoneNumber}
-          </Typography>
-        </div>
-      ) : null}
-      {userData.email ? (
-        <div className={styles.flexRow}>
-          <EmailIcon />
-          <Typography variant="body1" className={styles.text}>
-            {userData.email}
-          </Typography>
-        </div>
-      ) : null}
-      <div className={styles.iconRow}>
-        {userData.twitchLink ? (
-          <Twitch
-            size={30}
-            onClick={() => window.open(userData.twitchLink, '_blank')}
-          />
-        ) : null}
-        {userData.youtubeLink ? (
-          <YouTube
-            size={28}
-            onClick={() => window.open(userData.youtubeLink, '_blank')}
-          />
-        ) : null}
-        {userData.instagramLink ? (
-          <Instagram
-            size={36}
-            onClick={() => window.open(userData.instagramLink, '_blank')}
-          />
-        ) : null}
-        {userData.facebookLink ? (
-          <Facebook
-            size={40}
-            onClick={() => window.open(userData.facebookLink, '_blank')}
-          />
-        ) : null}
-        {userData.twitterLink ? (
-          <Twitter
-            size={30}
-            onClick={() => window.open(userData.twitterLink, '_blank')}
-          />
-        ) : null}
-        {userData.redditLink ? (
-          <Reddit
-            size={38}
-            onClick={() => window.open(userData.redditLink, '_blank')}
-          />
-        ) : null}
+        </Button>
       </div>
-      <Button
-        variant="contained"
-        onClick={() =>
-          router.push({
-            pathname: `/profile/${userData.uid}/edit`,
-            query: { ...userData },
-          })
-        }
-        className={styles.button}
-      >
-        Edit Profile
-      </Button>
-      <h4 onClick={signout}>Sign Out</h4>
+      <div className={styles.infocard}>
+        {userData.username ? (
+          <Typography variant="body1" className={styles.header}>
+            @{userData.username}
+          </Typography>
+        ) : null}
+        {userData.displayName ? (
+          <Typography variant="body1" className={styles.buttonText}>
+            {userData.displayName}
+          </Typography>
+        ) : null}
+        {userData.dob ? (
+          <div className={styles.flexRow}>
+            <CakeIcon />
+            <Typography variant="body1" className={styles.text}>
+              {userData.dob}
+            </Typography>
+          </div>
+        ) : null}
+        {userData.country ? (
+          <div className={styles.flexRow}>
+            <LocationOnIcon />
+            <Typography variant="body1" className={styles.text}>
+              {userData.country}
+            </Typography>
+          </div>
+        ) : null}
+        {userData.phoneNumber ? (
+          <div className={styles.flexRow}>
+            <SmartphoneIcon />
+            <Typography variant="body1" className={styles.text}>
+              {userData.phoneNumber}
+            </Typography>
+          </div>
+        ) : null}
+        {userData.email ? (
+          <div className={styles.flexRow}>
+            <EmailIcon />
+            <Typography variant="body1" className={styles.text}>
+              {userData.email}
+            </Typography>
+          </div>
+        ) : null}
+        <div className={styles.iconRow}>
+          {userData.twitchLink ? (
+            <Twitch
+              size={30}
+              onClick={() => window.open(userData.twitchLink, '_blank')}
+            />
+          ) : null}
+          {userData.youtubeLink ? (
+            <YouTube
+              size={28}
+              onClick={() => window.open(userData.youtubeLink, '_blank')}
+            />
+          ) : null}
+          {userData.instagramLink ? (
+            <Instagram
+              size={36}
+              onClick={() => window.open(userData.instagramLink, '_blank')}
+            />
+          ) : null}
+          {userData.facebookLink ? (
+            <Facebook
+              size={40}
+              onClick={() => window.open(userData.facebookLink, '_blank')}
+            />
+          ) : null}
+          {userData.twitterLink ? (
+            <Twitter
+              size={30}
+              onClick={() => window.open(userData.twitterLink, '_blank')}
+            />
+          ) : null}
+          {userData.redditLink ? (
+            <Reddit
+              size={38}
+              onClick={() => window.open(userData.redditLink, '_blank')}
+            />
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }

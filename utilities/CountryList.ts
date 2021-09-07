@@ -2325,14 +2325,14 @@ export const countries = [
     timezones: ['UTC+02:00'],
     flag: 'https://restcountries.eu/data/zwe.svg',
   },
-];
+] as Array<TypeCountry>;
 
 export type TypeCountry = {
   name: string;
-  alpha2Code: string;
-  callingCodes: Array<string>;
-  region: string;
-  subregion: string;
-  timezones: Array<string>;
-  flag: string;
+  alpha2Code?: string | undefined;
+  callingCodes?: Array<string> | undefined;
+  region?: string | undefined;
+  subregion?: string | undefined;
+  timezones?: Array<string> | undefined;
+  flag?: string | undefined;
 };

@@ -123,8 +123,9 @@ function GameForm({
     },
     validationSchema: validationSchema,
     onSubmit: (values, { setSubmitting, resetForm }) => {
+      const { ingameid, ingamename } = values;
       setSubmitting(true);
-      saveGame(values);
+      saveGame({ ingameid, ingamename });
       addToCurrentGames(values);
       resetForm();
       setSubmitting(false);

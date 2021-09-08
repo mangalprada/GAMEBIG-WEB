@@ -1,7 +1,10 @@
 import firebase, { db } from '../firebase/config';
-import { TournamentData } from '../utilities/tournament/types';
+import { TournamentFormData } from '../utilities/tournament/types';
 
-export const addNewTournament = async (orgId: string, data: TournamentData) => {
+export const addNewTournament = async (
+  orgId: string,
+  data: TournamentFormData
+) => {
   let tournamentId = null;
   try {
     const tournamentRef = await db.collection('tournaments').add({

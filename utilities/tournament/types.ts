@@ -1,4 +1,4 @@
-export interface TournamentData {
+export interface TournamentFormData {
   game: string;
   mode: string;
   type: string;
@@ -7,4 +7,17 @@ export interface TournamentData {
   startTime: Date;
   description: string;
   prize: string;
+}
+
+export interface TournamentData {
+  id: string;
+  game: string;
+  mode: string;
+  type: string;
+  tier: string;
+  noOfSlots: number;
+  startTime: string;
+  description: string;
+  prize: string;
+  createdAt: string;
 }

@@ -39,7 +39,7 @@ export default function SelectRadioButton({
   const listItems = items.map((item) => (
     <FormControlLabel
       key={item.id}
-      value={item.id}
+      value={item.name}
       control={<Radio />}
       label={item.name}
     />

@@ -20,7 +20,7 @@ import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
 import TimePicker from '../../UI/Picker/TimePicker';
 import SliderSelect from '../../UI/Slider/SliderSelect';
-import { TournamentData } from '../../../utilities/tournament/types';
+import { TournamentFormData } from '../../../utilities/tournament/types';
 import { validationSchema } from '../../../utilities/tournament/validator';
 import { addNewTournament } from '../../../lib/createTournament';
 import { useAuth } from '../../../context/authContext';
@@ -52,11 +52,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const INITIAL_STATE: TournamentData = {
+const INITIAL_STATE: TournamentFormData = {
   game: 'BGMI',
-  mode: 'squad',
+  mode: 'Squad',
   type: 'custom',
-  tier: 't3',
+  tier: 'T3',
   noOfSlots: 10,
   startTime: new Date(),
   description: '',
@@ -71,7 +71,7 @@ export default function CreateTournamentForm() {
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
-    onSubmit: async (value: TournamentData, { resetForm }) => {
+    onSubmit: async (value: TournamentFormData, { resetForm }) => {
       console.log(value);
       setIsBackDropOpen(true);
       if (linkedOrgId) {

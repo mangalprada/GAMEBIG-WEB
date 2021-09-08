@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function AddGames() {
   const styles = useStyles();
-  const { setAuthPageNumber } = useAuth();
+  const { updateAuthPageNumber } = useAuth();
   const [currentGames, setCurrentGames] = useState<Array<GameData>>([]);
   const [showError, setShowError] = useState(false);
   const router = useRouter();
@@ -61,7 +61,7 @@ function AddGames() {
   const handleFinish = () => {
     if (currentGames.length > 0) {
       router.push('/');
-      setAuthPageNumber(1);
+      updateAuthPageNumber(1);
     } else setShowError(true);
   };
 
@@ -81,7 +81,7 @@ function AddGames() {
           type="submit"
           variant="contained"
           className={styles.button}
-          onClick={() => setAuthPageNumber(2)}
+          onClick={() => updateAuthPageNumber(2)}
         >
           <Typography variant="body1" className={styles.buttonText}>
             Previous

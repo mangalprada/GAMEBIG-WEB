@@ -75,7 +75,7 @@ type Props = {
 
 function BasicForm({ userData, setUserData }: Props) {
   const styles = useStyles();
-  const { setAuthPageNumber, createUser, isUsernameTaken } = useAuth();
+  const { updateAuthPageNumber, createUser, isUsernameTaken } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const formik = useFormik({
@@ -89,7 +89,7 @@ function BasicForm({ userData, setUserData }: Props) {
       } else {
         createUser(values);
         setUserData(values);
-        setAuthPageNumber(3);
+        updateAuthPageNumber(3);
       }
       setSubmitting(false);
     },

@@ -10,13 +10,14 @@ import React from 'react';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginBlock: 15,
+      marginBlock: 20,
       marginLeft: 10,
       maxWidth: 300,
       paddingRight: 40,
     },
     sliderContainer: {
       marginTop: 45,
+      marginLeft: 5,
     },
   })
 );

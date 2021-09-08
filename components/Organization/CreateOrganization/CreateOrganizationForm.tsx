@@ -88,8 +88,8 @@ function CreateOrganizationForm() {
         await addOrganizationIdtoAdminUser(user.uid, orgId);
         router.push(`/organization/${orgId}`);
       }
-      await setIsBackDropOpen(false);
-      await resetForm();
+      setIsBackDropOpen(false);
+      resetForm();
     },
   });
 

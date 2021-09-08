@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/config';
 import { countries } from '../../utilities/CountryList';

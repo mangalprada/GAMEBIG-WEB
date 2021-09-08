@@ -7,7 +7,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { useAuth } from '../../context/authContext';
 import { games } from '../../utilities/GameList';
 import { GameData } from '../../utilities/types';

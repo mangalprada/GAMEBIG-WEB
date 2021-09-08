@@ -10,8 +10,8 @@ function ProfileHeader({
   tabNumber: number;
 }) {
   const tabs = [
-    { label: 'Games', href: `/profile/${userData.uid}/` },
-    { label: 'Teams', href: `/profile/${userData.uid}/teams` },
+    { label: 'Games', href: `/profile/${userData.username}/` },
+    { label: 'Teams', href: `/profile/${userData.username}/teams` },
   ];
   return (
     <div>

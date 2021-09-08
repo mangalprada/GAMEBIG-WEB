@@ -76,7 +76,6 @@ export default function GameItem({
   removeGame: (docId: string) => void;
 }) {
   const styles = useStyles();
-  const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -86,12 +85,7 @@ export default function GameItem({
 
   const deleteGame = async () => {
     try {
-      await db
-        .collection('users')
-        .doc(user.uid)
-        .collection('games')
-        .doc(docId)
-        .delete();
+      await db.collection('games').doc(docId).delete();
       if (gameCode)
         setSnackbarData({
           ...snackbarData,

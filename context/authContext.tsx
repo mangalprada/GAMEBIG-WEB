@@ -1,20 +1,19 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-  FC,
-} from 'react';
+import React, { useEffect, useState, useContext, createContext } from 'react';
 import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
 import { User, UserData } from '../utilities/types';
-import { getOrganizationId } from '../lib/getOrganizationId';
+import getUser from '../lib/getUser';
 
 const authContext = createContext({
-  user: { uid: '', displayName: '', photoURL: '', linkedOrgId: null } as User,
+  user: { uid: '', username: '', photoURL: '', linkedOrgId: null } as User,
+  isSignedIn: false,
+  userData: {} as UserData,
   linkedOrgId: null as string | null,
   updateOrgId: (id: string) => {},
   authPageNumber: 1,
+  updateDisplayName: (displayName: string): Promise<void> => {
+    return Promise.resolve();
+  },
   createUser: (userData: UserData): Promise<void> => {
     return Promise.resolve();
   },
@@ -36,12 +35,15 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userData, setUserData] = useState<UserData>({} as UserData);
   const [linkedOrgId, setLinkedOrgId] = useState<string | null>(null);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
     await firebase.auth().signOut();
     router.push('/');
+    setIsSignedIn(false);
     setUser({} as User);
     setLinkedOrgId(null);
     setAuthPageNumber(1);
@@ -55,16 +57,18 @@ function useProvideAuth() {
       .signInWithPopup(provider)
       .then(async ({ user }) => {
         if (user) {
+          setIsSignedIn(true);
           const { uid, displayName, photoURL } = user;
           if (uid && displayName && photoURL) {
-            setUser({ uid, displayName, photoURL });
-          }
-          const isUser = getUser(uid);
-          if (isUser) {
-            router.push('/');
-            setAuthPageNumber(1);
-          } else {
-            setAuthPageNumber(2);
+            const isUser = await getUser(displayName);
+            const username = isUser ? displayName : displayName.split(' ')[0];
+            if (isUser) {
+              router.push('/');
+              setAuthPageNumber(1);
+            } else {
+              setAuthPageNumber(2);
+            }
+            setUser({ uid, username, photoURL });
           }
         }
       })
@@ -86,25 +90,11 @@ function useProvideAuth() {
     return signInWithProvider(provider);
   };
 
-  const getUser = (uid: string) => {
-    var docRef = db.collection('users').doc(uid);
-    let returnValue;
-    docRef
-      .get()
-      .then((doc) => {
-        returnValue = doc.data();
-      })
-      .catch((error) => {
-        console.log('Error getting document:', error);
-      });
-    return returnValue;
-  };
-
   const isUsernameTaken = async (username: string) =>
     await db
       .collection('users')
       .where('username', '==', username)
-      .where('uid', '!=', user.uid)
+      .where('username', '!=', user.username)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
@@ -117,26 +107,51 @@ function useProvideAuth() {
         return false;
       });
 
+  const updateDisplayName = async (displayName: string) => {
+    const user = firebase.auth().currentUser;
+    if (user)
+      user
+        .updateProfile({
+          displayName,
+        })
+        .then(() => {
+          console.log('User display name updated successfully');
+        })
+        .catch((error) => {
+          console.log('User display name update failed');
+        });
+  };
+
   const createUser = async (userData: UserData | UserData) => {
     try {
       await db
         .collection('users')
-        .doc(user.uid)
-        .set({ ...userData, uid: user.uid, photoURL: user.photoURL });
+        .add({ ...userData, uid: user.uid, photoURL: user.photoURL });
     } catch (err) {
       console.log('err', err);
     }
   };
 
   useEffect(() => {
+    const getAndSetUserData = async (username: string) => {
+      const data = await getUser(username);
+      if (data) {
+        setUserData(data);
+        const { linkedOrganizationId } = data;
+        setLinkedOrgId(linkedOrganizationId);
+      }
+    };
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        setIsSignedIn(true);
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
-          setUser({ uid, displayName, photoURL });
-          setOrgId(uid);
+          const username = displayName;
+          setUser({ uid, username, photoURL });
+          getAndSetUserData(username);
         }
       } else {
+        setIsSignedIn(false);
         setUser({} as User);
         setAuthPageNumber(1);
       }
@@ -144,11 +159,6 @@ function useProvideAuth() {
 
     return () => unsubscribe();
   }, []);
-
-  const setOrgId = async (uid: string) => {
-    const linkedId = await getOrganizationId(uid);
-    await setLinkedOrgId(linkedId);
-  };
 
   const updateOrgId = (id: string) => {
     setLinkedOrgId(id);
@@ -160,9 +170,12 @@ function useProvideAuth() {
 
   return {
     user,
+    isSignedIn,
+    userData,
     linkedOrgId,
     updateOrgId,
     authPageNumber,
+    updateDisplayName,
     createUser,
     isUsernameTaken,
     updateAuthPageNumber,
@@ -174,10 +187,13 @@ function useProvideAuth() {
 
 type Props = {
   user?: User;
+  isSignedIn?: boolean;
+  userData?: UserData;
   linkedOrgId?: null | string;
   updateOrgId?: () => void;
   children: React.ReactNode;
   authPageNumber?: number;
+  updateDisplayName?: (displayName: string) => void;
   createUser?: (userData: UserData) => void;
   isUsernameTaken?: (username: string) => boolean;
   updateAuthPageNumber?: (param: number) => void;

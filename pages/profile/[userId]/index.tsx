@@ -12,6 +12,7 @@ import GameItem from '../../../components/Profile/GameItem';
 import GameForm from '../../../components/Auth/GameForm';
 import { games as allSupportedGames } from '../../../utilities/GameList';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
+import getUser from '../../../lib/getUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,33 +110,25 @@ export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
   const { userId } = context.params;
-  let userData = null;
-  await db
-    .collection('users')
-    .doc(userId)
-    .get()
-    .then((doc) => {
-      userData = doc.data();
-    })
-    .catch((error) => {
-      console.log('Error getting cached document:', error);
-    });
+  let userData = await getUser(userId);
 
   const savedGames: Array<GameData> = [];
-  await db
-    .collection('users')
-    .doc(userId)
-    .collection('games')
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const { ingamename, ingameid, gameCode } = doc.data();
-        savedGames.push({ ingamename, ingameid, gameCode, docId: doc.id });
+  if (userData) {
+    const { username } = userData;
+    await db
+      .collection('games')
+      .where('username', '==', username)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const { ingamename, ingameid, gameCode } = doc.data();
+          savedGames.push({ ingamename, ingameid, gameCode, docId: doc.id });
+        });
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
       });
-    })
-    .catch((error) => {
-      console.log('Error getting documents: ', error);
-    });
+  }
 
   return {
     props: { userData, savedGames },

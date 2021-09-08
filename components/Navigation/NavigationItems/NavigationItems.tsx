@@ -21,8 +21,10 @@ export default function NavigationItems({ clicked }: Props) {
         Organizations
       </NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
-      {user.uid ? (
-        <NavigationItem href={`/profile/${user.uid}`}>Profile</NavigationItem>
+      {user.username ? (
+        <NavigationItem href={`/profile/${user.username}`}>
+          Profile
+        </NavigationItem>
       ) : (
         <NavigationItem href="/auth">Sign&nbsp;In </NavigationItem>
       )}

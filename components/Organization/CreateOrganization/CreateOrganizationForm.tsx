@@ -85,7 +85,8 @@ function CreateOrganizationForm() {
       const orgId = await addOrganization(value);
       if (orgId) {
         updateOrgId(orgId);
-        await addOrganizationIdtoAdminUser(user.uid, orgId);
+        if (user.username)
+          await addOrganizationIdtoAdminUser(user.username, orgId);
         router.push(`/organization/${orgId}`);
       }
       await setIsBackDropOpen(false);

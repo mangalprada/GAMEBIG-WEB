@@ -7,7 +7,7 @@ import { UserData } from '../../../utilities/types';
 const emptyInitialValues = {
   username: '',
   uid: '',
-  displayName: '',
+  name: '',
   dob: new Date('2014-08-18T21:11:54'),
   country: '',
   phoneNumber: '',

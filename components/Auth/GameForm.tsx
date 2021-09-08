@@ -103,7 +103,7 @@ function GameForm({
     try {
       await db
         .collection('users')
-        .doc(user.uid)
+        .doc(user.username)
         .collection('games')
         .doc(game.gameCode)
         .set({ gameCode: game.gameCode, ...gameData });

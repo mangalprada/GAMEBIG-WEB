@@ -61,6 +61,9 @@ const validationSchema = yup.object({
     .string()
     .matches(usernameRegExp, 'username can only contain letters and numbers')
     .required('username is required'),
+  name: yup
+    .string()
+    .matches(usernameRegExp, 'username can only contain letters and numbers'),
   dob: yup.date().required('Date of Birth is required'),
   phoneNumber: yup
     .string()
@@ -76,7 +79,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken } = useAuth();
+  const { isUsernameTaken, updateDisplayName } = useAuth();
   const styles = useStyles();
   const [showError, setShowError] = useState(false);
   const formik = useFormik({
@@ -88,7 +91,7 @@ function ProfileForm({ oldValues, push }: Props) {
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {
-        saveUserData(oldValues.uid, values);
+        saveUserData(oldValues.username, values);
         resetForm();
       }
       setSubmitting(false);
@@ -99,19 +102,20 @@ function ProfileForm({ oldValues, push }: Props) {
     setShowError(false);
   };
 
-  const saveUserData = async (uid: string, userData: UserData) => {
+  const saveUserData = async (username: string, userData: UserData) => {
+    updateDisplayName(userData.username);
     try {
-      await db.collection('users').doc(uid).update(userData);
+      await db.collection('users').doc(username).update(userData);
     } catch (err) {
       console.log('err', err);
     } finally {
-      push(`/profile/${uid}`);
+      push(`/profile/${username}`);
     }
   };
 
   return (
     <div className={styles.root}>
-      <Link href={`/profile/${oldValues.uid}`} passHref>
+      <Link href={`/profile/${oldValues.username}`} passHref>
         <Button
           color="primary"
           startIcon={<ArrowBackRounded color="primary" />}
@@ -136,16 +140,14 @@ function ProfileForm({ oldValues, push }: Props) {
         />
         <TextField
           type="text"
-          name="displayName"
+          name="name"
           label="Name"
           variant="outlined"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.displayName}
-          error={
-            formik.touched.displayName && Boolean(formik.errors.displayName)
-          }
-          helperText={formik.touched.displayName && formik.errors.displayName}
+          value={formik.values.name}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
         />
         <TextField
           id="dob"

@@ -1,7 +1,7 @@
 export interface User {
   uid: string;
   email?: string | undefined;
-  displayName?: string | undefined;
+  username?: string;
   photoURL?: string | undefined;
   linkedOrgId?: string | null | undefined;
 }
@@ -10,7 +10,7 @@ export interface UserData {
   photoURL?: string | undefined;
   uid: string;
   username: string;
-  displayName?: string | undefined;
+  name?: string | undefined;
   dob?: Date | undefined;
   country: string;
   phoneNumber?: string | undefined;

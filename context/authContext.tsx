@@ -12,6 +12,7 @@ import { getOrganizationId } from '../lib/getOrganizationId';
 
 const authContext = createContext({
   user: { uid: '', displayName: '', photoURL: '', linkedOrgId: null } as User,
+  isSignedIn: false,
   linkedOrgId: null as string | null,
   updateOrgId: (id: string) => {},
   authPageNumber: 1,
@@ -36,6 +37,7 @@ const authContext = createContext({
 function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [linkedOrgId, setLinkedOrgId] = useState<string | null>(null);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
@@ -43,6 +45,7 @@ function useProvideAuth() {
     await firebase.auth().signOut();
     router.push('/');
     setUser({} as User);
+    setIsSignedIn(false);
     setLinkedOrgId(null);
     setAuthPageNumber(1);
   };
@@ -55,6 +58,7 @@ function useProvideAuth() {
       .signInWithPopup(provider)
       .then(async ({ user }) => {
         if (user) {
+          setIsSignedIn(true);
           const { uid, displayName, photoURL } = user;
           if (uid && displayName && photoURL) {
             setUser({ uid, displayName, photoURL });
@@ -131,12 +135,14 @@ function useProvideAuth() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        setIsSignedIn(true);
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           setUser({ uid, displayName, photoURL });
           setOrgId(uid);
         }
       } else {
+        setIsSignedIn(false);
         setUser({} as User);
         setAuthPageNumber(1);
       }
@@ -161,6 +167,7 @@ function useProvideAuth() {
   return {
     user,
     linkedOrgId,
+    isSignedIn,
     updateOrgId,
     authPageNumber,
     createUser,
@@ -174,6 +181,7 @@ function useProvideAuth() {
 
 type Props = {
   user?: User;
+  isSignedIn?: boolean;
   linkedOrgId?: null | string;
   updateOrgId?: () => void;
   children: React.ReactNode;

@@ -6,20 +6,30 @@ import { OrgFormData } from '../../../../utilities/organization/types';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { fetchOrganizationData } from '../../../../lib/fetchOrganizationData';
+import { fetchTournamentsDataByOrgId } from '../../../../lib/getAllTournaments';
+import { TournamentData } from '../../../../utilities/tournament/types';
 
 interface Props {
   organizationData: OrgFormData | undefined;
+  tournaments: TournamentData[];
 }
 
-export default function Tournaments({ organizationData }: Props) {
+export default function Tournaments({ organizationData, tournaments }: Props) {
   return (
     <Aux>
       {organizationData ? (
         <>
           <HeaderOrg data={organizationData} tabNumber={0} />
-          <CreateTournamentButton />
-          <TournamentCard isOrganizer={true} />
-          <TournamentCard isOrganizer={true} />
+          {organizationData.id && (
+            <CreateTournamentButton orgId={organizationData.id} />
+          )}
+          {tournaments.map((tournament: TournamentData) => (
+            <TournamentCard
+              key={tournament.id}
+              data={tournament}
+              isOrganizer={false}
+            />
+          ))}
         </>
       ) : (
         <div>Network Error</div>
@@ -36,9 +46,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { orgId } = context.params as IParams;
   let organizationData = undefined;
   organizationData = await fetchOrganizationData(orgId);
+  let tournaments = await fetchTournamentsDataByOrgId(orgId);
+  tournaments = tournaments === undefined ? [] : tournaments;
   return {
     props: {
       organizationData,
+      tournaments,
     },
   };
 };

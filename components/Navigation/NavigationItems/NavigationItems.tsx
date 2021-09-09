@@ -7,22 +7,27 @@ type Props = {
 };
 
 export default function NavigationItems({ clicked }: Props) {
-  const { user, linkedOrgId } = useAuth();
+  const {
+    user,
+    userData: { linkedOrganizationId },
+  } = useAuth();
   return (
     <ul className={styles.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
       <NavigationItem
         href={
-          linkedOrgId
-            ? `/organization/${linkedOrgId}/tournaments`
+          linkedOrganizationId
+            ? `/organization/${linkedOrganizationId}/tournaments`
             : `/organization`
         }
       >
         Organizations
       </NavigationItem>
       <NavigationItem href="/about">About</NavigationItem>
-      {user.uid ? (
-        <NavigationItem href={`/profile/${user.uid}`}>Profile</NavigationItem>
+      {user.username ? (
+        <NavigationItem href={`/profile/${user.username}`}>
+          Profile
+        </NavigationItem>
       ) : (
         <NavigationItem href="/auth">Sign&nbsp;In </NavigationItem>
       )}

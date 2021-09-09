@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
 import { countries } from '../../utilities/CountryList';
@@ -64,6 +64,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
+    .length(10, 'Phone number must be 10 digits long')
     .required('Phone number is required'),
   country: yup.string().required('Country is required'),
 });
@@ -75,7 +76,14 @@ type Props = {
 
 function BasicForm({ userData, setUserData }: Props) {
   const styles = useStyles();
-  const { updateAuthPageNumber, createUser, isUsernameTaken } = useAuth();
+  const {
+    user,
+    updateAuthPageNumber,
+    updateDisplayName,
+    createUser,
+    updateUser,
+    isUsernameTaken,
+  } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const formik = useFormik({
@@ -87,8 +95,10 @@ function BasicForm({ userData, setUserData }: Props) {
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {
+        updateUser({ ...user, username: values.username });
         createUser(values);
         setUserData(values);
+        updateDisplayName(values.username);
         updateAuthPageNumber(3);
       }
       setSubmitting(false);

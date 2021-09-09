@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/config';
 import { countries } from '../../utilities/CountryList';
@@ -61,10 +61,14 @@ const validationSchema = yup.object({
     .string()
     .matches(usernameRegExp, 'username can only contain letters and numbers')
     .required('username is required'),
+  name: yup
+    .string()
+    .matches(usernameRegExp, 'username can only contain letters and numbers'),
   dob: yup.date().required('Date of Birth is required'),
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
+    .length(10, 'Phone number must be 10 digits long')
     .required('Phone number is required'),
   country: yup.string().required('Country is required'),
   youtubeLink: yup.string().url(),
@@ -76,7 +80,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken } = useAuth();
+  const { isUsernameTaken, updateDisplayName } = useAuth();
   const styles = useStyles();
   const [showError, setShowError] = useState(false);
   const formik = useFormik({
@@ -88,7 +92,7 @@ function ProfileForm({ oldValues, push }: Props) {
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {
-        saveUserData(oldValues.uid, values);
+        saveUserData(oldValues.username, values);
         resetForm();
       }
       setSubmitting(false);
@@ -99,19 +103,20 @@ function ProfileForm({ oldValues, push }: Props) {
     setShowError(false);
   };
 
-  const saveUserData = async (uid: string, userData: UserData) => {
+  const saveUserData = async (username: string, userData: UserData) => {
+    updateDisplayName(userData.username);
     try {
-      await db.collection('users').doc(uid).update(userData);
+      await db.collection('users').doc(oldValues.docId).update(userData);
     } catch (err) {
       console.log('err', err);
     } finally {
-      push(`/profile/${uid}`);
+      push(`/profile/${username}`);
     }
   };
 
   return (
     <div className={styles.root}>
-      <Link href={`/profile/${oldValues.uid}`} passHref>
+      <Link href={`/profile/${oldValues.username}`} passHref>
         <Button
           color="primary"
           startIcon={<ArrowBackRounded color="primary" />}
@@ -124,6 +129,7 @@ function ProfileForm({ oldValues, push }: Props) {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
+          disabled
           type="text"
           name="username"
           label="username"
@@ -136,16 +142,14 @@ function ProfileForm({ oldValues, push }: Props) {
         />
         <TextField
           type="text"
-          name="displayName"
+          name="name"
           label="Name"
           variant="outlined"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.displayName}
-          error={
-            formik.touched.displayName && Boolean(formik.errors.displayName)
-          }
-          helperText={formik.touched.displayName && formik.errors.displayName}
+          value={formik.values.name}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
         />
         <TextField
           id="dob"
@@ -163,6 +167,7 @@ function ProfileForm({ oldValues, push }: Props) {
           helperText={formik.touched.dob && formik.errors.dob}
         />
         <Autocomplete
+          disabled
           options={countries}
           getOptionLabel={(option) => option.name}
           onChange={(e, value) => {
@@ -177,9 +182,9 @@ function ProfileForm({ oldValues, push }: Props) {
         />
         <TextField
           name="phoneNumber"
-          label="Phone Number (with Country Code)"
+          label="Phone Number"
           variant="outlined"
-          placeholder="+1 (123) 456-7890"
+          placeholder="9876543210"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.phoneNumber}

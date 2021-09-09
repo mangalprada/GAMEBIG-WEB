@@ -2,8 +2,15 @@ import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import styles from '../styles/Home.module.scss';
 import TournamentCard from '../components/UI/Card/TournamentCard';
+import { GetStaticProps } from 'next';
+import { fetchAllTournamentData } from '../lib/getAllTournaments';
+import { TournamentData } from '../utilities/tournament/types';
 
-export default function Home() {
+interface Props {
+  tournaments: TournamentData[];
+}
+
+export default function Home({ tournaments }: Props) {
   return (
     <div>
       <Head>
@@ -15,11 +22,25 @@ export default function Home() {
         <main className={styles.Main}>
           <h1>Welcome to DLord</h1>
           <div>
-            <TournamentCard isOrganizer={false} />
-            <TournamentCard isOrganizer={false} />
+            {tournaments.map((tournament: TournamentData) => (
+              <TournamentCard
+                key={tournament.id}
+                data={tournament}
+                isOrganizer={false}
+              />
+            ))}
           </div>
         </main>
       </Aux>
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const tournaments = await fetchAllTournamentData();
+  return {
+    props: {
+      tournaments,
+    },
+  };
+};

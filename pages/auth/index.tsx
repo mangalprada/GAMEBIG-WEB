@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Head from 'next/head';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
@@ -30,12 +29,8 @@ const inititalValues: UserData = {
 
 export default function Home() {
   const styles = useStyles();
-  const router = useRouter();
-  const { authPageNumber, isSignedIn } = useAuth();
+  const { authPageNumber } = useAuth();
   const [userData, setUserData] = useState(inititalValues);
-  useEffect(() => {
-    if (isSignedIn) router.push('/');
-  }, [isSignedIn, router]);
   return (
     <Aux>
       <Head>
@@ -48,7 +43,7 @@ export default function Home() {
           {
             1: <AuthButtons />,
             2: <BasicForm userData={userData} setUserData={setUserData} />,
-            3: <AddGames />,
+            3: <AddGames isUpdating={false} username={userData.username} />,
           }[authPageNumber]
         }
       </div>

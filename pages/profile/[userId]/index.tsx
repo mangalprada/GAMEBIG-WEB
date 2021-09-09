@@ -12,6 +12,7 @@ import GameItem from '../../../components/Profile/GameItem';
 import GameForm from '../../../components/Auth/GameForm';
 import { games as allSupportedGames } from '../../../utilities/GameList';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
+import getUser from '../../../lib/getUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +40,7 @@ export default function Home({
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log(currentGames, '+++++++++++');
   const removeGame = (docId: string) => {
     const temp = currentGames.filter((gameItem) => {
       return docId !== gameItem.docId;
@@ -89,6 +90,8 @@ export default function Home({
           {Object.keys(allSupportedGames).map(function (key, index) {
             return (
               <GameForm
+                isUpdating={true}
+                username={userData.username}
                 game={allSupportedGames[key]}
                 key={key}
                 oldValues={getOldValues(key)}
@@ -108,24 +111,12 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId } = context.params;
-  let userData = null;
-  await db
-    .collection('users')
-    .doc(userId)
-    .get()
-    .then((doc) => {
-      userData = doc.data();
-    })
-    .catch((error) => {
-      console.log('Error getting cached document:', error);
-    });
-
+  const { userId: username } = context.params;
+  let userData = await getUser(username);
   const savedGames: Array<GameData> = [];
   await db
-    .collection('users')
-    .doc(userId)
     .collection('games')
+    .where('username', '==', username)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -136,7 +127,6 @@ export async function getServerSideProps(context: {
     .catch((error) => {
       console.log('Error getting documents: ', error);
     });
-
   return {
     props: { userData, savedGames },
   };

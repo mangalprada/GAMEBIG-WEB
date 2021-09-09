@@ -9,7 +9,6 @@ import {
 import Image from 'next/image';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
 import { games } from '../../utilities/GameList';
 import { GameData } from '../../utilities/types';
@@ -76,7 +75,6 @@ export default function GameItem({
   removeGame: (docId: string) => void;
 }) {
   const styles = useStyles();
-  const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -86,12 +84,7 @@ export default function GameItem({
 
   const deleteGame = async () => {
     try {
-      await db
-        .collection('users')
-        .doc(user.uid)
-        .collection('games')
-        .doc(docId)
-        .delete();
+      await db.collection('games').doc(docId).delete();
       if (gameCode)
         setSnackbarData({
           ...snackbarData,

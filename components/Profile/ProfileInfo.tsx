@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CakeIcon from '@material-ui/icons/Cake';
-import { grey } from '@material-ui/core/colors';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -76,7 +75,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
     if (userData) {
       const stringifiedUsedData: string = JSON.stringify(userData);
       router.push({
-        pathname: `/profile/${userData.uid}/edit`,
+        pathname: `/profile/${userData.username}/edit`,
         query: { data: stringifiedUsedData },
       });
     }
@@ -112,9 +111,9 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
             @{userData.username}
           </Typography>
         ) : null}
-        {userData.displayName ? (
+        {userData.name ? (
           <Typography variant="body1" className={styles.buttonText}>
-            {userData.displayName}
+            {userData.name}
           </Typography>
         ) : null}
         {userData.dob ? (

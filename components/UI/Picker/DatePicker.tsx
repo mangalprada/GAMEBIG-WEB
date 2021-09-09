@@ -1,6 +1,5 @@
-import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { KeyboardTimePicker } from '@material-ui/pickers';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,27 +15,28 @@ interface Props {
   name: string;
   label: string;
   value: Date | null;
-  handleTimeChange: (date: Date | null) => void;
+  handleDateChange: (date: Date | null) => void;
 }
 
-export default function TimePicker({
+export default function DatePicker({
   name,
   value,
   label,
-  handleTimeChange,
+  handleDateChange,
 }: Props) {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
-      <KeyboardTimePicker
+      <KeyboardDatePicker
         margin="normal"
         name={name}
         label={label}
+        format="MM/dd/yyyy"
         value={value}
-        onChange={handleTimeChange}
+        onChange={handleDateChange}
         KeyboardButtonProps={{
-          'aria-label': 'change time',
+          'aria-label': 'change date',
         }}
       />
     </div>

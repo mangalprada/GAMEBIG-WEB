@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { GameData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -72,10 +72,14 @@ const emptyValues = {
 };
 
 function GameForm({
+  isUpdating,
+  username,
   game,
   oldValues,
   addToCurrentGames,
 }: {
+  isUpdating: boolean;
+  username: string;
   game: {
     gameCode: string;
     name: string;
@@ -85,7 +89,6 @@ function GameForm({
   addToCurrentGames: (games: GameData) => void;
 }) {
   const styles = useStyles();
-  const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -102,15 +105,28 @@ function GameForm({
   }) => {
     try {
       await db
-        .collection('users')
-        .doc(user.uid)
         .collection('games')
-        .doc(game.gameCode)
-        .set({ gameCode: game.gameCode, ...gameData });
+        .add({ username: username, gameCode: game.gameCode, ...gameData });
       setSnackbarData({
         ...snackbarData,
         open: true,
         message: `${game.name} added!`,
+      });
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  const updateGame = async (gameData: {
+    ingamename: string;
+    ingameid: string;
+  }) => {
+    try {
+      await db.collection('games').doc(oldValues?.docId).update(gameData);
+      setSnackbarData({
+        ...snackbarData,
+        open: true,
+        message: `${game.name} updated!`,
       });
     } catch (err) {
       console.log('err', err);
@@ -126,7 +142,11 @@ function GameForm({
     onSubmit: (values, { setSubmitting, resetForm }) => {
       const { ingameid, ingamename } = values;
       setSubmitting(true);
-      saveGame({ ingameid, ingamename });
+      if (isUpdating) {
+        updateGame({ ingameid, ingamename });
+      } else {
+        saveGame({ ingameid, ingamename });
+      }
       addToCurrentGames(values);
       resetForm();
       setSubmitting(false);

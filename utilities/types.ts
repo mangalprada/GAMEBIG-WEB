@@ -1,16 +1,17 @@
 export interface User {
   uid: string;
   email?: string | undefined;
-  displayName?: string | undefined;
+  username?: string;
   photoURL?: string | undefined;
   linkedOrgId?: string | null | undefined;
 }
 
 export interface UserData {
+  docId?: string;
   photoURL?: string | undefined;
   uid: string;
   username: string;
-  displayName?: string | undefined;
+  name?: string | undefined;
   dob?: Date | undefined;
   country: string;
   phoneNumber?: string | undefined;
@@ -22,6 +23,7 @@ export interface UserData {
   twitterLink?: string | undefined;
   redditLink?: string | undefined;
   linkedOrganizationId?: string | null;
+  linkedOrganizationName?: string | null;
 }
 
 export interface GameData {

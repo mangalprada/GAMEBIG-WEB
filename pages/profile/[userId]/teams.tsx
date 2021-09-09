@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Backdrop from '@material-ui/core/Backdrop';
 import CreateTeam from '../../../components/Profile/createTeam';
 import { db } from '../../../firebase/config';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -9,18 +7,7 @@ import { UserData, TeamType } from '../../../utilities/types';
 import TeamIntro from '../../../components/Profile/TeamIntro';
 import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      width: '100%',
-      background: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  })
-);
+import getUser from '../../../lib/getUser';
 
 export default function Home({
   userData,
@@ -29,7 +16,6 @@ export default function Home({
   userData: UserData;
   teams: Array<TeamType>;
 }) {
-  const styles = useStyles();
   const [open, setOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
@@ -73,9 +59,11 @@ export default function Home({
         ) : (
           <TeamIntro openBackdrop={openBackdrop} />
         )}
-        <Backdrop className={styles.backdrop} open={open}>
-          <CreateTeam teamData={selectedTeam} closeBackdrop={closeBackdrop} />
-        </Backdrop>
+        <CreateTeam
+          open={open}
+          teamData={selectedTeam}
+          closeBackdrop={closeBackdrop}
+        />
       </div>
     </Aux>
   );
@@ -84,35 +72,24 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId } = context.params;
-  let userData: any = null;
-  await db
-    .collection('users')
-    .doc(userId)
-    .get()
-    .then((doc) => {
-      userData = doc.data();
-    })
-    .catch((error) => {
-      console.log('Error getting cached document:', error);
-    });
+  const { userId: username } = context.params;
+  const userData = await getUser(username);
 
   const teams: Array<TeamType> = [];
-  if (userData) {
-    await db
-      .collection('teams')
-      .where('players', 'array-contains-any', [userData.username])
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const { teamName, players, inGameLead } = doc.data();
-          teams.push({ teamName, players, inGameLead, docId: doc.id });
-        });
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
+
+  await db
+    .collection('teams')
+    .where('players', 'array-contains-any', [username])
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const { teamName, players, inGameLead } = doc.data();
+        teams.push({ teamName, players, inGameLead, docId: doc.id });
       });
-  }
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
 
   return {
     props: { userData, teams },

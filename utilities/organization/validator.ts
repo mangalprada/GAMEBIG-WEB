@@ -17,10 +17,9 @@ export const validationSchema = yup.object({
     .required('Email is required'),
   phone: yup
     .string()
+    .length(10, 'Phone number must be 10 digits long')
     .required('Mobile number is required')
-    .matches(phoneRegExp, 'Contact number is not valid')
-    .min(10, 'Too short')
-    .max(10, 'Too long'),
+    .matches(phoneRegExp, 'Contact number is not valid'),
   website: yup.string().url('Enter a valid URL').notRequired(),
   youtube: yup.string().url('Enter a valid URL').notRequired(),
   twitch: yup.string().url('Enter a valid URL').notRequired(),

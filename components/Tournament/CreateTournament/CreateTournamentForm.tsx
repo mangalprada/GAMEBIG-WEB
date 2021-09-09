@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const INITIAL_STATE: TournamentFormData = {
   game: 'BGMI',
   mode: 'Squad',
-  type: 'custom',
+  type: 'Custom Room',
   tier: 'T3',
   noOfSlots: 10,
   startTime: new Date(),
@@ -64,7 +64,7 @@ const INITIAL_STATE: TournamentFormData = {
 };
 
 export default function CreateTournamentForm() {
-  const { linkedOrgId } = useAuth();
+  const { linkedOrgId, linkedOrgName } = useAuth();
   const classes = useStyles();
   const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
@@ -75,7 +75,11 @@ export default function CreateTournamentForm() {
       console.log(value);
       setIsBackDropOpen(true);
       if (linkedOrgId) {
-        const tournId = await addNewTournament(linkedOrgId, value);
+        const tournId = await addNewTournament(
+          linkedOrgId,
+          linkedOrgName,
+          value
+        );
         if (tournId) {
           router.push(`/organization/${linkedOrgId}/tournaments`);
         } else {

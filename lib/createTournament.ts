@@ -3,6 +3,7 @@ import { TournamentFormData } from '../utilities/tournament/types';
 
 export const addNewTournament = async (
   orgId: string,
+  orgName: string | null,
   data: TournamentFormData
 ) => {
   let tournamentId = null;
@@ -10,6 +11,7 @@ export const addNewTournament = async (
     const tournamentRef = await db.collection('tournaments').add({
       ...data,
       linkedOrgId: orgId,
+      linkedOrgName: orgName,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     tournamentId = tournamentRef.id;

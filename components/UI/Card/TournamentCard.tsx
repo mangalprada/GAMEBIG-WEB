@@ -1,4 +1,3 @@
-import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -23,12 +22,8 @@ import Link from 'next/link';
 import { TournamentData } from '../../../utilities/tournament/types';
 import {
   getDecoratedDate,
-  getDecoratedDateExcludeMonthName,
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
-
-let tournId = 123;
-let orgId = 1;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -98,7 +93,7 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
         classes={{ title: classes.title }}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            {data.linkedOrgName[0]}
           </Avatar>
         }
         action={
@@ -115,7 +110,7 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
             </Typography>
           </div>
         }
-        title="Seven Esports"
+        title={data.linkedOrgName}
         subheader={getDecoratedDate(data.createdAt)}
       />
       <CardContent className={classes.cardContentContainer}>
@@ -191,7 +186,10 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
             Register
           </Button>
         )}
-        <Link href={`/organization/${orgId}/tournaments/${tournId}/`} passHref>
+        <Link
+          href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/`}
+          passHref
+        >
           <Button color="primary">Details</Button>
         </Link>
       </div>

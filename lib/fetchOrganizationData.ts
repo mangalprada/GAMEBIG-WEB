@@ -10,6 +10,7 @@ export const fetchOrganizationData = async (orgId: string) => {
       const data = orgDoc.data();
       if (data) {
         organizationData = {
+          id: orgId,
           name: data.name,
           about: data.about,
           location: data.location,

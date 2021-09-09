@@ -12,12 +12,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CreateTournament() {
+interface Props {
+  orgId: string;
+}
+
+export default function CreateTournament({ orgId }: Props) {
   const styles = useStyles();
-  let id = 1;
   return (
     <div className={styles.root}>
-      <Link href={`/organization/${id}/tournaments/create`} passHref>
+      <Link href={`/organization/${orgId}/tournaments/create`} passHref>
         <Button
           variant="contained"
           color="primary"

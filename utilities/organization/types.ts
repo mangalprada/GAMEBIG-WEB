@@ -1,4 +1,5 @@
 export interface OrgFormData {
+  id?: string;
   name: string;
   about: string;
   location: string;

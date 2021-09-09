@@ -1,7 +1,8 @@
 import { db } from '../firebase/config';
 
-export const getOrganizationId = async (userId: string) => {
+export const getOrganizationIdAndName = async (userId: string) => {
   let orgId: string | null = null;
+  let orgName: string | null = null;
 
   const userRef = db.collection('users').doc(userId);
   const doc = await userRef.get();
@@ -11,7 +12,8 @@ export const getOrganizationId = async (userId: string) => {
     const data = doc.data();
     if (data && data.linkedOrganizationId) {
       orgId = data.linkedOrganizationId;
+      orgName = data.linkedOrganizationName;
     }
   }
-  return orgId;
+  return { orgId, orgName };
 };

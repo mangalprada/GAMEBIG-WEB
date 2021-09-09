@@ -1,19 +1,15 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-  FC,
-} from 'react';
+import React, { useEffect, useState, useContext, createContext } from 'react';
 import { useRouter } from 'next/router';
 import firebase, { db } from '../firebase/config';
 import { User, UserData } from '../utilities/types';
-import { getOrganizationId } from '../lib/getOrganizationId';
+import { getOrganizationIdAndName } from '../lib/getOrganizationId';
 
 const authContext = createContext({
-  user: { uid: '', displayName: '', photoURL: '', linkedOrgId: null } as User,
+  user: { uid: '', displayName: '', photoURL: '' } as User,
   linkedOrgId: null as string | null,
+  linkedOrgName: null as string | null,
   updateOrgId: (id: string) => {},
+  updateOrgName: (name: string) => {},
   authPageNumber: 1,
   createUser: (userData: UserData): Promise<void> => {
     return Promise.resolve();
@@ -37,6 +33,7 @@ function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
   const [linkedOrgId, setLinkedOrgId] = useState<string | null>(null);
+  const [linkedOrgName, setLinkedOrgName] = useState<string | null>(null);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
@@ -134,7 +131,7 @@ function useProvideAuth() {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           setUser({ uid, displayName, photoURL });
-          setOrgId(uid);
+          setOrgIdAndName(uid);
         }
       } else {
         setUser({} as User);
@@ -145,13 +142,18 @@ function useProvideAuth() {
     return () => unsubscribe();
   }, []);
 
-  const setOrgId = async (uid: string) => {
-    const linkedId = await getOrganizationId(uid);
-    await setLinkedOrgId(linkedId);
+  const setOrgIdAndName = async (uid: string) => {
+    const linkedOrgData = await getOrganizationIdAndName(uid);
+    setLinkedOrgId(linkedOrgData.orgId);
+    setLinkedOrgName(linkedOrgData.orgName);
   };
 
   const updateOrgId = (id: string) => {
     setLinkedOrgId(id);
+  };
+
+  const updateOrgName = (name: string) => {
+    setLinkedOrgName(name);
   };
 
   const updateAuthPageNumber = (pageNo: number) => {
@@ -161,7 +163,9 @@ function useProvideAuth() {
   return {
     user,
     linkedOrgId,
+    linkedOrgName,
     updateOrgId,
+    updateOrgName,
     authPageNumber,
     createUser,
     isUsernameTaken,
@@ -175,7 +179,9 @@ function useProvideAuth() {
 type Props = {
   user?: User;
   linkedOrgId?: null | string;
+  linkedOrgName?: null | string;
   updateOrgId?: () => void;
+  updateOrgName: () => void;
   children: React.ReactNode;
   authPageNumber?: number;
   createUser?: (userData: UserData) => void;

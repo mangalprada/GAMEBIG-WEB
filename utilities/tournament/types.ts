@@ -20,4 +20,6 @@ export interface TournamentData {
   description: string;
   prize: string;
   createdAt: string;
+  linkedOrgId: string;
+  linkedOrgName: string;
 }

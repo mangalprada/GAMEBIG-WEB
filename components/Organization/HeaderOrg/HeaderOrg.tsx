@@ -45,10 +45,15 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function HeaderOrg({ tabNumber, data }: Props) {
   const styles = useStyles();
 
-  const { linkedOrgId } = useAuth();
+  const {
+    userData: { linkedOrganizationId },
+  } = useAuth();
   const tabs = [
-    { label: 'Events', href: `/organization/${linkedOrgId}/tournaments` },
-    { label: 'About', href: `/organization/${linkedOrgId}` },
+    {
+      label: 'Events',
+      href: `/organization/${linkedOrganizationId}/tournaments`,
+    },
+    { label: 'About', href: `/organization/${linkedOrganizationId}` },
   ];
 
   return (

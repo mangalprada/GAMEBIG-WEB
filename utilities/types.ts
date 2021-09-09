@@ -23,6 +23,7 @@ export interface UserData {
   twitterLink?: string | undefined;
   redditLink?: string | undefined;
   linkedOrganizationId?: string | null;
+  linkedOrganizationName?: string | null;
 }
 
 export interface GameData {

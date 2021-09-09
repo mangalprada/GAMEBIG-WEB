@@ -64,7 +64,9 @@ const INITIAL_STATE: TournamentFormData = {
 };
 
 export default function CreateTournamentForm() {
-  const { linkedOrgId, linkedOrgName } = useAuth();
+  const {
+    userData: { linkedOrganizationId, linkedOrganizationName },
+  } = useAuth();
   const classes = useStyles();
   const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
@@ -72,16 +74,16 @@ export default function CreateTournamentForm() {
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
     onSubmit: async (value: TournamentFormData, { resetForm }) => {
-      console.log(value);
+      console.log(value, 'id:', linkedOrganizationId, linkedOrganizationName);
       setIsBackDropOpen(true);
-      if (linkedOrgId) {
+      if (linkedOrganizationId && linkedOrganizationName) {
         const tournId = await addNewTournament(
-          linkedOrgId,
-          linkedOrgName,
+          linkedOrganizationId,
+          linkedOrganizationName,
           value
         );
         if (tournId) {
-          router.push(`/organization/${linkedOrgId}/tournaments`);
+          router.push(`/organization/${linkedOrganizationId}/tournaments`);
         } else {
           router.push('/404');
         }

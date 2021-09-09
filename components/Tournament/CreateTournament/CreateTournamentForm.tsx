@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import router from 'next/router';
+import { useFormik } from 'formik';
 import {
   Button,
   Typography,
@@ -6,9 +9,10 @@ import {
   Theme,
   TextField,
   FormLabel,
+  Backdrop,
+  CircularProgress,
 } from '@material-ui/core';
 import { ArrowBackIosRounded } from '@material-ui/icons';
-import router from 'next/router';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { GAMES } from '../../../assets/data/Games';
 import { MODES, SCREAMS, TYPES } from '../../../assets/data/Utils';
@@ -16,9 +20,11 @@ import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
 import TimePicker from '../../UI/Picker/TimePicker';
 import SliderSelect from '../../UI/Slider/SliderSelect';
-import { TournamentData } from '../../../utilities/tournament/types';
-import { useFormik } from 'formik';
+import { TournamentFormData } from '../../../utilities/tournament/types';
 import { validationSchema } from '../../../utilities/tournament/validator';
+import { addNewTournament } from '../../../lib/createTournament';
+import { useAuth } from '../../../context/authContext';
+import DatePicker from '../../UI/Picker/DatePicker';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,27 +45,50 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       marginRight: 20,
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   })
 );
 
-const INITIAL_STATE: TournamentData = {
+const INITIAL_STATE: TournamentFormData = {
   game: 'BGMI',
-  mode: 'squad',
-  type: 'custom',
-  tier: 't3',
+  mode: 'Squad',
+  type: 'Custom Room',
+  tier: 'T3',
   noOfSlots: 10,
-  startTime: new Date('2014-08-18T21:11:54'),
+  startTime: new Date(),
   description: '',
   prize: '',
 };
 
 export default function CreateTournamentForm() {
+  const { linkedOrgId, linkedOrgName } = useAuth();
   const classes = useStyles();
+  const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
-    onSubmit: (value: TournamentData) => console.log('Clicked'),
+    onSubmit: async (value: TournamentFormData, { resetForm }) => {
+      console.log(value);
+      setIsBackDropOpen(true);
+      if (linkedOrgId) {
+        const tournId = await addNewTournament(
+          linkedOrgId,
+          linkedOrgName,
+          value
+        );
+        if (tournId) {
+          router.push(`/organization/${linkedOrgId}/tournaments`);
+        } else {
+          router.push('/404');
+        }
+      }
+      setIsBackDropOpen(false);
+      resetForm();
+    },
   });
 
   return (
@@ -108,6 +137,12 @@ export default function CreateTournamentForm() {
           items={SCREAMS}
         />
         {/** Timing*/}
+        <DatePicker
+          name="startDate"
+          value={formik.values.startTime}
+          label="Match Date"
+          handleDateChange={(date) => formik.setFieldValue('startTime', date)}
+        />
         <TimePicker
           name="startTime"
           value={formik.values.startTime}
@@ -162,6 +197,9 @@ export default function CreateTournamentForm() {
             Start Registration
           </Button>
         </div>
+        <Backdrop className={classes.backdrop} open={isBackDropOpen}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </form>
     </Aux>
   );

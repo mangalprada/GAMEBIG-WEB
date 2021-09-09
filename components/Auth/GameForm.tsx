@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
-import SnackbarAlert from '../Snackbar';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { GameData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>

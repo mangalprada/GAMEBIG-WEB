@@ -5,11 +5,11 @@ import { User, UserData } from '../utilities/types';
 import getUser from '../lib/getUser';
 
 const authContext = createContext({
-  user: { uid: '', username: '', photoURL: '', linkedOrgId: null } as User,
+  user: { uid: '', username: '', photoURL: '' } as User,
   userData: {} as UserData,
-  linkedOrgId: null as string | null,
-  updateOrgId: (id: string) => {},
   updateUser: (user: User) => {},
+  updateOrgId: (id: string) => {},
+  updateOrgName: (name: string) => {},
   authPageNumber: 1,
   updateDisplayName: (displayName: string): Promise<void> => {
     return Promise.resolve();
@@ -36,14 +36,12 @@ function useProvideAuth() {
   const router = useRouter();
   const [user, setUser] = useState<User>({} as User);
   const [userData, setUserData] = useState<UserData>({} as UserData);
-  const [linkedOrgId, setLinkedOrgId] = useState<string | null>(null);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
 
   const signout = async () => {
     await firebase.auth().signOut();
     router.push('/');
     setUser({} as User);
-    setLinkedOrgId(null);
     setAuthPageNumber(1);
   };
 
@@ -124,9 +122,7 @@ function useProvideAuth() {
         router.push('/');
         setAuthPageNumber(1);
         setUser({ uid, username: displayName, photoURL });
-        const { linkedOrganizationId } = userData;
         setUserData(userData);
-        if (linkedOrganizationId) setLinkedOrgId(linkedOrganizationId);
       } else {
         setAuthPageNumber(2);
         setUser({ uid, username: displayName.split(' ')[0], photoURL });
@@ -144,9 +140,7 @@ function useProvideAuth() {
       const userData = await getUser(displayName);
       if (userData) {
         setUser({ uid, username: displayName, photoURL });
-        const { linkedOrganizationId } = userData;
         setUserData(userData);
-        if (linkedOrganizationId) setLinkedOrgId(linkedOrganizationId);
       } else {
         setUser({ uid, username: displayName.split(' ')[0], photoURL });
       }
@@ -165,7 +159,11 @@ function useProvideAuth() {
   }, []);
 
   const updateOrgId = (id: string) => {
-    setLinkedOrgId(id);
+    setUserData({ ...userData, linkedOrganizationId: id });
+  };
+
+  const updateOrgName = (name: string) => {
+    setUserData({ ...userData, linkedOrganizationName: name });
   };
 
   const updateAuthPageNumber = (pageNo: number) => {
@@ -179,9 +177,9 @@ function useProvideAuth() {
   return {
     user,
     userData,
-    linkedOrgId,
     updateOrgId,
     updateUser,
+    updateOrgName,
     authPageNumber,
     updateDisplayName,
     createUser,
@@ -197,9 +195,9 @@ type Props = {
   user?: User;
   isSignedIn?: boolean;
   userData?: UserData;
-  linkedOrgId?: null | string;
   updateOrgId?: () => void;
   updateUser?: (user: User) => void;
+  updateOrgName: () => void;
   children: React.ReactNode;
   authPageNumber?: number;
   updateDisplayName?: (displayName: string) => void;

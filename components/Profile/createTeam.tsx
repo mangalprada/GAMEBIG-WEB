@@ -13,8 +13,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+<<<<<<< HEAD
 import Backdrop from '@material-ui/core/Backdrop';
 import SnackbarAlert from '../Snackbar';
+=======
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
+>>>>>>> UI
 import { db } from '../../firebase/config';
 import { TeamType } from '../../utilities/types';
 

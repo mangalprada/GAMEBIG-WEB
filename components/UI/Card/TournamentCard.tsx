@@ -1,4 +1,3 @@
-import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -20,9 +19,11 @@ import {
   SportsEsportsRounded,
 } from '@material-ui/icons';
 import Link from 'next/link';
-
-let tournId = 123;
-let orgId = 1;
+import { TournamentData } from '../../../utilities/tournament/types';
+import {
+  getDecoratedDate,
+  getDecoratedTime,
+} from '../../../utilities/functions/dateConvert';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,13 +80,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-  title?: string;
-  date?: string;
-  content?: string[];
+  data: TournamentData;
   isOrganizer: boolean;
 };
 
-export default function TournamentCard({ isOrganizer }: Props) {
+export default function TournamentCard({ isOrganizer, data }: Props) {
   const classes = useStyles();
 
   return (
@@ -94,7 +93,7 @@ export default function TournamentCard({ isOrganizer }: Props) {
         classes={{ title: classes.title }}
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            {data.linkedOrgName[0]}
           </Avatar>
         }
         action={
@@ -111,8 +110,8 @@ export default function TournamentCard({ isOrganizer }: Props) {
             </Typography>
           </div>
         }
-        title="Seven Esports"
-        subheader="September 14, 2016"
+        title={data.linkedOrgName}
+        subheader={getDecoratedDate(data.createdAt)}
       />
       <CardContent className={classes.cardContentContainer}>
         <div className={classes.element}>
@@ -124,7 +123,7 @@ export default function TournamentCard({ isOrganizer }: Props) {
             display="inline"
             className={classes.content}
           >
-            BGMI - Squad
+            {data.game} - {data.mode}
           </Typography>
         </div>
         <div className={classes.element}>
@@ -136,7 +135,8 @@ export default function TournamentCard({ isOrganizer }: Props) {
             display="inline"
             className={classes.content}
           >
-            7:00 PM - 7:30 PM
+            {getDecoratedTime(data.startTime)} {' - '}
+            {getDecoratedTime(data.startTime, 30)}
           </Typography>
         </div>
         <div className={classes.element}>
@@ -148,7 +148,7 @@ export default function TournamentCard({ isOrganizer }: Props) {
             display="inline"
             className={classes.content}
           >
-            T2 Screams
+            {data.tier} Screams
           </Typography>
         </div>
         <div className={classes.element}>
@@ -160,20 +160,22 @@ export default function TournamentCard({ isOrganizer }: Props) {
             display="inline"
             className={classes.content}
           >
-            200 ₹
+            {data.prize ? data.prize + ' ₹' : 'No Prize'}
           </Typography>
         </div>
       </CardContent>
       <div className={classes.chipContainer}>
         <Chip
           className={classes.chipElement}
-          label="25 Slots available"
+          label={`${data.noOfSlots} Slots available`}
           variant="outlined"
           icon={<HomeRounded fontSize="small" />}
         />
         <Chip
           className={classes.chipElement}
-          label="Registration open till 31.08.2021, 8:00 PM"
+          label={`Registration open till 
+          ${getDecoratedDate(data.startTime)}, 
+          ${getDecoratedTime(data.startTime)}`}
           variant="outlined"
           icon={<AvTimerRounded fontSize="small" />}
         />
@@ -184,7 +186,10 @@ export default function TournamentCard({ isOrganizer }: Props) {
             Register
           </Button>
         )}
-        <Link href={`/organization/${orgId}/tournaments/${tournId}/`} passHref>
+        <Link
+          href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/`}
+          passHref
+        >
           <Button color="primary">Details</Button>
         </Link>
       </div>

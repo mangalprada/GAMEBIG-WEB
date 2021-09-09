@@ -7,6 +7,7 @@ export interface User {
 }
 
 export interface UserData {
+  docId?: string;
   photoURL?: string | undefined;
   uid: string;
   username: string;

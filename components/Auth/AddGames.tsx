@@ -43,7 +43,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function AddGames() {
+function AddGames({
+  username,
+  isUpdating,
+}: {
+  username: string;
+  isUpdating: boolean;
+}) {
   const styles = useStyles();
   const { updateAuthPageNumber } = useAuth();
   const [currentGames, setCurrentGames] = useState<Array<GameData>>([]);
@@ -70,6 +76,8 @@ function AddGames() {
       {Object.keys(games).map(function (key, index) {
         return (
           <GameForm
+            isUpdating={isUpdating}
+            username={username}
             game={games[key]}
             addToCurrentGames={addToCurrentGames}
             key={index}

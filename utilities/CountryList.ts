@@ -1,4 +1,4 @@
-export const countries = [
+const allCountries = [
   {
     name: 'Afghanistan',
     alpha2Code: 'AF',
@@ -2327,6 +2327,17 @@ export const countries = [
   },
 ] as Array<TypeCountry>;
 
+export const countries = [
+  {
+    name: 'India',
+    alpha2Code: 'IN',
+    callingCodes: ['91'],
+    region: 'Asia',
+    subregion: 'Southern Asia',
+    timezones: ['UTC+05:30'],
+    flag: 'https://restcountries.eu/data/ind.svg',
+  },
+] as Array<TypeCountry>;
 export type TypeCountry = {
   name: string;
   alpha2Code?: string | undefined;

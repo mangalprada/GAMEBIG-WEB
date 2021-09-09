@@ -68,6 +68,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
+    .length(10, 'Phone number must be 10 digits long')
     .required('Phone number is required'),
   country: yup.string().required('Country is required'),
   youtubeLink: yup.string().url(),
@@ -105,7 +106,7 @@ function ProfileForm({ oldValues, push }: Props) {
   const saveUserData = async (username: string, userData: UserData) => {
     updateDisplayName(userData.username);
     try {
-      await db.collection('users').doc(username).update(userData);
+      await db.collection('users').doc(oldValues.docId).update(userData);
     } catch (err) {
       console.log('err', err);
     } finally {
@@ -128,6 +129,7 @@ function ProfileForm({ oldValues, push }: Props) {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
+          disabled
           type="text"
           name="username"
           label="username"
@@ -165,6 +167,7 @@ function ProfileForm({ oldValues, push }: Props) {
           helperText={formik.touched.dob && formik.errors.dob}
         />
         <Autocomplete
+          disabled
           options={countries}
           getOptionLabel={(option) => option.name}
           onChange={(e, value) => {
@@ -179,9 +182,9 @@ function ProfileForm({ oldValues, push }: Props) {
         />
         <TextField
           name="phoneNumber"
-          label="Phone Number (with Country Code)"
+          label="Phone Number"
           variant="outlined"
-          placeholder="+1 (123) 456-7890"
+          placeholder="9876543210"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.phoneNumber}

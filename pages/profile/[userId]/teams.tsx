@@ -72,26 +72,24 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId } = context.params;
-  const userData = await getUser(userId);
+  const { userId: username } = context.params;
+  const userData = await getUser(username);
 
   const teams: Array<TeamType> = [];
-  if (userData) {
-    const { username } = userData;
-    await db
-      .collection('teams')
-      .where('players', 'array-contains-any', [username])
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const { teamName, players, inGameLead } = doc.data();
-          teams.push({ teamName, players, inGameLead, docId: doc.id });
-        });
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
+
+  await db
+    .collection('teams')
+    .where('players', 'array-contains-any', [username])
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const { teamName, players, inGameLead } = doc.data();
+        teams.push({ teamName, players, inGameLead, docId: doc.id });
       });
-  }
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
 
   return {
     props: { userData, teams },

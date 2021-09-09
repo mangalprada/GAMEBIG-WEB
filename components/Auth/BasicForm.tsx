@@ -64,6 +64,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
+    .length(10, 'Phone number must be 10 digits long')
     .required('Phone number is required'),
   country: yup.string().required('Country is required'),
 });
@@ -76,9 +77,11 @@ type Props = {
 function BasicForm({ userData, setUserData }: Props) {
   const styles = useStyles();
   const {
+    user,
     updateAuthPageNumber,
     updateDisplayName,
     createUser,
+    updateUser,
     isUsernameTaken,
   } = useAuth();
   const [showError, setShowError] = useState(false);
@@ -92,6 +95,7 @@ function BasicForm({ userData, setUserData }: Props) {
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {
+        updateUser({ ...user, username: values.username });
         createUser(values);
         setUserData(values);
         updateDisplayName(values.username);

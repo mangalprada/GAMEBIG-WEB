@@ -2,21 +2,22 @@ import { db } from '../firebase/config';
 import { UserData } from '../utilities/types';
 
 const getUser = async (username: string) => {
-  let user: UserData | null = null;
-  db.collection('users')
-    .where('capital', '==', true)
+  const user: UserData[] = [];
+  await db
+    .collection('users')
+    .where('username', '==', username)
     .get()
     .then((querySnapshot) => {
-      const temp: UserData[] = [];
       querySnapshot.forEach((doc) => {
-        temp.push(doc.data() as UserData);
+        const data = doc.data() as UserData;
+        user.push({ ...data, docId: doc.id });
       });
-      user = temp[0];
     })
     .catch((error) => {
       console.log('Error getting documents: ', error);
     });
-  return user;
+
+  return user[0];
 };
 
 export default getUser;

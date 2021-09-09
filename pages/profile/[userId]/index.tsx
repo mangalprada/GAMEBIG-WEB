@@ -40,7 +40,7 @@ export default function Home({
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log(currentGames, '+++++++++++');
   const removeGame = (docId: string) => {
     const temp = currentGames.filter((gameItem) => {
       return docId !== gameItem.docId;
@@ -90,6 +90,8 @@ export default function Home({
           {Object.keys(allSupportedGames).map(function (key, index) {
             return (
               <GameForm
+                isUpdating={true}
+                username={userData.username}
                 game={allSupportedGames[key]}
                 key={key}
                 oldValues={getOldValues(key)}
@@ -109,27 +111,22 @@ export default function Home({
 export async function getServerSideProps(context: {
   params: { userId: string };
 }) {
-  const { userId } = context.params;
-  let userData = await getUser(userId);
-
+  const { userId: username } = context.params;
+  let userData = await getUser(username);
   const savedGames: Array<GameData> = [];
-  if (userData) {
-    const { username } = userData;
-    await db
-      .collection('games')
-      .where('username', '==', username)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const { ingamename, ingameid, gameCode } = doc.data();
-          savedGames.push({ ingamename, ingameid, gameCode, docId: doc.id });
-        });
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
+  await db
+    .collection('games')
+    .where('username', '==', username)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const { ingamename, ingameid, gameCode } = doc.data();
+        savedGames.push({ ingamename, ingameid, gameCode, docId: doc.id });
       });
-  }
-
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
   return {
     props: { userData, savedGames },
   };

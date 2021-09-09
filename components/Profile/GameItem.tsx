@@ -9,7 +9,6 @@ import {
 import Image from 'next/image';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
 import { games } from '../../utilities/GameList';
 import { GameData } from '../../utilities/types';

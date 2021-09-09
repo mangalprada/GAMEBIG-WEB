@@ -14,11 +14,11 @@ export const addOrganization = async (data: OrgFormData) => {
 };
 
 export const addOrganizationIdtoAdminUser = async (
-  username: string,
+  docId: string,
   orgId: string
 ) => {
   await db
     .collection('users')
-    .doc(username)
+    .doc(docId)
     .update({ linkedOrganizationId: orgId });
 };

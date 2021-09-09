@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function CreateOrganizationForm() {
   const classes = useStyles();
-  const { user, updateOrgId } = useAuth();
+  const { userData, updateOrgId } = useAuth();
 
   const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
@@ -85,8 +85,8 @@ function CreateOrganizationForm() {
       const orgId = await addOrganization(value);
       if (orgId) {
         updateOrgId(orgId);
-        if (user.username)
-          await addOrganizationIdtoAdminUser(user.username, orgId);
+        if (userData.docId)
+          await addOrganizationIdtoAdminUser(userData.docId, orgId);
         router.push(`/organization/${orgId}`);
       }
       await setIsBackDropOpen(false);

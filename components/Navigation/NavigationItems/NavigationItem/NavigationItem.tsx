@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from './NavigationItem.module.scss';
+import classes from './NavigationItem.module.scss';
 
 type Props = {
   children: string;
@@ -8,7 +8,7 @@ type Props = {
 
 export default function NavigationItem({ children, href }: Props) {
   return (
-    <li className={styles.NavigationItem}>
+    <li className={classes.NavigationItem}>
       <Link href={href}>{children}</Link>
     </li>
   );

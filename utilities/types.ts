@@ -1,7 +1,7 @@
 export interface User {
   uid: string;
   email?: string | undefined;
-  username?: string;
+  username: string;
   photoURL?: string | undefined;
   linkedOrgId?: string | null | undefined;
 }
@@ -26,16 +26,15 @@ export interface UserData {
   linkedOrganizationName?: string | null;
 }
 
-export interface GameData {
+export interface GamerData {
   docId?: string | undefined;
   gameCode?: string | undefined;
   ingamename: string | undefined;
   ingameid: string | undefined;
 }
-
-export type TeamType = {
+export interface TeamType {
   teamName: string;
-  players: Array<string>;
+  gamers: Array<string>;
   inGameLead: string;
   docId?: string;
-};
+}

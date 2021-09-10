@@ -59,7 +59,7 @@ export default function TeamItem({
   openBackdrop: (open: boolean) => void;
   setSelectedTeam: (team: TeamType) => void;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -86,26 +86,26 @@ export default function TeamItem({
   };
 
   return (
-    <div className={styles.root}>
-      <Typography variant="h6" className={styles.header}>
+    <div className={classes.root}>
+      <Typography variant="h6" className={classes.header}>
         {team.teamName}
       </Typography>
-      <Typography variant="body1" className={styles.header}>
+      <Typography variant="body1" className={classes.header}>
         {team.inGameLead}
       </Typography>
-      <div className={styles.flexColumn}>
-        {team.players.map((player, index) => (
-          <Typography key={player} variant="body1" className={styles.header}>
-            {index + 1}. {player}
+      <div className={classes.flexColumn}>
+        {team.gamers.map((gamer, index) => (
+          <Typography key={gamer} variant="body1" className={classes.header}>
+            {index + 1}. {gamer}
           </Typography>
         ))}
       </div>
-      <div className={styles.flexRow}>
+      <div className={classes.flexRow}>
         <Button
           variant="contained"
           startIcon={<EditIcon />}
           onClick={handleEdit}
-          className={styles.button}
+          className={classes.button}
         >
           Edit
         </Button>
@@ -113,7 +113,7 @@ export default function TeamItem({
           variant="contained"
           startIcon={<DeleteIcon />}
           onClick={deleteTeam}
-          className={styles.button}
+          className={classes.button}
         >
           Delete
         </Button>

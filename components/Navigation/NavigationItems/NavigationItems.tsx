@@ -1,5 +1,5 @@
 import NavigationItem from './NavigationItem/NavigationItem';
-import styles from './NavigationItems.module.scss';
+import classes from './NavigationItems.module.scss';
 import { useAuth } from '../../../context/authContext';
 
 type Props = {
@@ -12,7 +12,7 @@ export default function NavigationItems({ clicked }: Props) {
     userData: { linkedOrganizationId },
   } = useAuth();
   return (
-    <ul className={styles.NavigationItems} onClick={clicked}>
+    <ul className={classes.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
       <NavigationItem
         href={

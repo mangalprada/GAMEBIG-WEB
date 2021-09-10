@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/config';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
-import { GameData } from '../../utilities/types';
+import { GamerData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,10 +85,10 @@ function GameForm({
     name: string;
     imageSource: string;
   };
-  oldValues?: GameData;
-  addToCurrentGames: (games: GameData) => void;
+  oldValues?: GamerData;
+  addToCurrentGames: (games: GamerData) => void;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -105,7 +105,7 @@ function GameForm({
   }) => {
     try {
       await db
-        .collection('games')
+        .collection('gamers')
         .add({ username: username, gameCode: game.gameCode, ...gameData });
       setSnackbarData({
         ...snackbarData,
@@ -122,7 +122,7 @@ function GameForm({
     ingameid: string;
   }) => {
     try {
-      await db.collection('games').doc(oldValues?.docId).update(gameData);
+      await db.collection('gamers').doc(oldValues?.docId).update(gameData);
       setSnackbarData({
         ...snackbarData,
         open: true,
@@ -154,21 +154,21 @@ function GameForm({
   });
 
   return (
-    <div className={styles.root}>
-      <Typography variant="body1" className={styles.header}>
+    <div className={classes.root}>
+      <Typography variant="body1" className={classes.header}>
         {game.name}
       </Typography>
-      <div className={styles.flexRow}>
-        <div className={styles.imageCard}>
+      <div className={classes.flexRow}>
+        <div className={classes.imageCard}>
           <Image
-            className={styles.image}
+            className={classes.image}
             src={game.imageSource}
             alt="Picture of the author"
             layout="fill"
             objectFit="contain"
           />
         </div>
-        <form className={styles.flexColumn} onSubmit={formik.handleSubmit}>
+        <form className={classes.flexColumn} onSubmit={formik.handleSubmit}>
           <TextField
             type="text"
             name="ingamename"
@@ -197,7 +197,7 @@ function GameForm({
             type="submit"
             variant="contained"
             disabled={formik.isSubmitting}
-            className={styles.button}
+            className={classes.button}
             color="secondary"
           >
             Save Game

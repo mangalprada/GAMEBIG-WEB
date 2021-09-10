@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ProfileInfo({ userData }: { userData: UserData }) {
   const router = useRouter();
-  const styles = useStyles();
+  const classes = useStyles();
 
   const goToEditPage = () => {
     if (userData) {
@@ -82,14 +82,14 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       <div>
         {userData.photoURL ? (
-          <div className={styles.imageCard}>
+          <div className={classes.imageCard}>
             <Image
               src={userData.photoURL}
               alt="Picture of the user"
-              className={styles.image}
+              className={classes.image}
               layout="fill"
               objectFit="contain"
             />
@@ -98,57 +98,57 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
         <Button
           variant="contained"
           onClick={goToEditPage}
-          className={styles.button}
+          className={classes.button}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Edit Profile
           </Typography>
         </Button>
       </div>
-      <div className={styles.infocard}>
+      <div className={classes.infocard}>
         {userData.username ? (
-          <Typography variant="body1" className={styles.header}>
+          <Typography variant="body1" className={classes.header}>
             @{userData.username}
           </Typography>
         ) : null}
         {userData.name ? (
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             {userData.name}
           </Typography>
         ) : null}
         {userData.dob ? (
-          <div className={styles.flexRow}>
+          <div className={classes.flexRow}>
             <CakeIcon />
-            <Typography variant="body1" className={styles.text}>
+            <Typography variant="body1" className={classes.text}>
               {userData.dob}
             </Typography>
           </div>
         ) : null}
         {userData.country ? (
-          <div className={styles.flexRow}>
+          <div className={classes.flexRow}>
             <LocationOnIcon />
-            <Typography variant="body1" className={styles.text}>
+            <Typography variant="body1" className={classes.text}>
               {userData.country}
             </Typography>
           </div>
         ) : null}
         {userData.phoneNumber ? (
-          <div className={styles.flexRow}>
+          <div className={classes.flexRow}>
             <SmartphoneIcon />
-            <Typography variant="body1" className={styles.text}>
+            <Typography variant="body1" className={classes.text}>
               {userData.phoneNumber}
             </Typography>
           </div>
         ) : null}
         {userData.email ? (
-          <div className={styles.flexRow}>
+          <div className={classes.flexRow}>
             <EmailIcon />
-            <Typography variant="body1" className={styles.text}>
+            <Typography variant="body1" className={classes.text}>
               {userData.email}
             </Typography>
           </div>
         ) : null}
-        <div className={styles.iconRow}>
+        <div className={classes.iconRow}>
           {userData.twitchLink ? (
             <Twitch
               size={30}

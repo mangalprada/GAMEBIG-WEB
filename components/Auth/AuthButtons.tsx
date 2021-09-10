@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function AuthButtons() {
-  const styles = useStyles();
+  const classes = useStyles();
   const { signInByFacebook, signInByGoogle } = useAuth();
 
   return (
@@ -21,7 +21,7 @@ function AuthButtons() {
         variant="contained"
         color="primary"
         onClick={signInByFacebook}
-        className={styles.button}
+        className={classes.button}
       >
         <h3>Continue with Facebook</h3>
       </Button>
@@ -29,7 +29,7 @@ function AuthButtons() {
         variant="contained"
         color="secondary"
         onClick={signInByGoogle}
-        className={styles.button}
+        className={classes.button}
       >
         <h3>Continue With Google</h3>
       </Button>

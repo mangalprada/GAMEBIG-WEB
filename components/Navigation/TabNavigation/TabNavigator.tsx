@@ -21,15 +21,15 @@ interface Props {
 }
 
 export default function TabNavigator({ tabNumber, tabs }: Props) {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Tabs
           variant="scrollable"
           scrollButtons="auto"
           value={tabNumber}
-          classes={{ indicator: styles.tabIndicator }}
+          classes={{ indicator: classes.tabIndicator }}
         >
           {tabs.map((tab) => (
             <TabNavItem key={tab.label} label={tab.label} href={tab.href} />

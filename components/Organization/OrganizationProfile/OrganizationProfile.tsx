@@ -38,18 +38,18 @@ interface Props {
 }
 
 export default function OrganizationProfile({ data }: Props) {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       <div>
         <Typography variant="subtitle2">About us</Typography>
         <Typography variant="body1" color="textPrimary">
           {data.about}
         </Typography>
       </div>
-      <div className={styles.contactContainer}>
-        <div className={styles.contacts}>
+      <div className={classes.contactContainer}>
+        <div className={classes.contacts}>
           <Typography variant="subtitle2">
             Admin&apos;s email address
           </Typography>
@@ -57,7 +57,7 @@ export default function OrganizationProfile({ data }: Props) {
             {data.email}
           </Typography>
         </div>
-        <div className={styles.contacts}>
+        <div className={classes.contacts}>
           <Typography variant="subtitle2">
             Admin&apos;s contact number
           </Typography>
@@ -65,51 +65,51 @@ export default function OrganizationProfile({ data }: Props) {
             +91 {data.phone}
           </Typography>
         </div>
-        <div className={styles.contacts}>
+        <div className={classes.contacts}>
           <Typography variant="subtitle2">Official Website</Typography>
           <Typography variant="body1" color="textPrimary">
             {data.website ? data.website : '-'}
           </Typography>
         </div>
       </div>
-      <div className={styles.socialLinkContainer}>
+      <div className={classes.socialLinkContainer}>
         <Typography variant="h6">Social Links</Typography>
-        <div className={styles.socialLinkRow}>
-          <div className={styles.social}>
+        <div className={classes.socialLinkRow}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Facebook</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.facebook ? data.facebook : '-'}
             </Typography>
           </div>
-          <div className={styles.social}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Twitter</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.twitter ? data.twitter : '-'}
             </Typography>
           </div>
         </div>
-        <div className={styles.socialLinkRow}>
-          <div className={styles.social}>
+        <div className={classes.socialLinkRow}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Discord</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.discord ? data.discord : '-'}
             </Typography>
           </div>
-          <div className={styles.social}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Youtube</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.youtube ? data.youtube : '-'}
             </Typography>
           </div>
         </div>
-        <div className={styles.socialLinkRow}>
-          <div className={styles.social}>
+        <div className={classes.socialLinkRow}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Twitch</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.twitch ? data.twitch : '-'}
             </Typography>
           </div>
-          <div className={styles.social}>
+          <div className={classes.social}>
             <Typography variant="subtitle2">Reddit</Typography>
             <Typography variant="body1" color="textPrimary">
               {data.reddit ? data.reddit : '-'}

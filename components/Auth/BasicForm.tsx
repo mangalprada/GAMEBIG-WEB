@@ -75,7 +75,7 @@ type Props = {
 };
 
 function BasicForm({ userData, setUserData }: Props) {
-  const styles = useStyles();
+  const classes = useStyles();
   const {
     user,
     updateAuthPageNumber,
@@ -110,8 +110,8 @@ function BasicForm({ userData, setUserData }: Props) {
   };
 
   return (
-    <div className={styles.root}>
-      <form className={styles.form} onSubmit={formik.handleSubmit}>
+    <div className={classes.root}>
+      <form className={classes.form} onSubmit={formik.handleSubmit}>
         <TextField
           type="text"
           name="username"
@@ -180,14 +180,14 @@ function BasicForm({ userData, setUserData }: Props) {
           variant="contained"
           color="primary"
           disabled={formik.isSubmitting}
-          className={styles.button}
+          className={classes.button}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Save and Continue
           </Typography>
         </Button>
       </form>
-      <h3 className={styles.text}>1/2</h3>
+      <h3 className={classes.text}>1/2</h3>
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"

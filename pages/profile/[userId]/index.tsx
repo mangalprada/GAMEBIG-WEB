@@ -7,7 +7,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import { useAuth } from '../../../context/authContext';
 import { db } from '../../../firebase/config';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData, GameData } from '../../../utilities/types';
+import { UserData, GamerData } from '../../../utilities/types';
 import GameItem from '../../../components/Profile/GameItem';
 import GameForm from '../../../components/Auth/GameForm';
 import { games as allSupportedGames } from '../../../utilities/GameList';
@@ -31,16 +31,15 @@ export default function Home({
   savedGames,
 }: {
   userData: UserData;
-  savedGames: Array<GameData>;
+  savedGames: Array<GamerData>;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   const { signout } = useAuth();
   const [open, setOpen] = useState(false);
   const [currentGames, setCurrentGames] = useState(savedGames);
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(currentGames, '+++++++++++');
   const removeGame = (docId: string) => {
     const temp = currentGames.filter((gameItem) => {
       return docId !== gameItem.docId;
@@ -48,7 +47,7 @@ export default function Home({
     setCurrentGames(temp);
   };
 
-  const addToCurrentGames = (game: GameData) => {
+  const addToCurrentGames = (game: GamerData) => {
     setCurrentGames([...currentGames, game]);
   };
 
@@ -86,7 +85,7 @@ export default function Home({
           })}
         </div>
         <Button onClick={signout}>Sign Out</Button>
-        <Backdrop className={styles.backdrop} open={open}>
+        <Backdrop className={classes.backdrop} open={open}>
           {Object.keys(allSupportedGames).map(function (key, index) {
             return (
               <GameForm
@@ -113,9 +112,9 @@ export async function getServerSideProps(context: {
 }) {
   const { userId: username } = context.params;
   let userData = await getUser(username);
-  const savedGames: Array<GameData> = [];
+  const savedGames: Array<GamerData> = [];
   await db
-    .collection('games')
+    .collection('gamers')
     .where('username', '==', username)
     .get()
     .then((querySnapshot) => {

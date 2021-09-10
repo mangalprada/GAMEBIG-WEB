@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
-import styles from '../styles/Home.module.scss';
+import classes from '../styles/Home.module.scss';
 import TournamentCard from '../components/UI/Card/TournamentCard';
 import { GetStaticProps } from 'next';
 import { fetchAllTournamentData } from '../lib/getAllTournaments';
@@ -19,7 +19,7 @@ export default function Home({ tournaments }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Aux>
-        <main className={styles.Main}>
+        <main className={classes.Main}>
           <h1>Welcome to DLord</h1>
           <div>
             {tournaments.map((tournament: TournamentData) => (

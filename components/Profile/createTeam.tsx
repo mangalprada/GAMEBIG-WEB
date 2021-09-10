@@ -13,7 +13,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Backdrop from '@material-ui/core/Backdrop';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { db } from '../../firebase/config';
 import { TeamType } from '../../utilities/types';
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       letterSpacing: 0.5,
     },
     text: { marginLeft: '48%' },
-    playerItem: {
+    gamerItem: {
       display: 'flex',
       flexDirection: 'row',
       marginLeft: 10,
@@ -60,14 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 10,
     },
     loader: { margin: 10 },
-    playerText: { marginLeft: 10, marginRight: 20 },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      width: '100%',
-      background: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-    },
+    gamerText: { marginLeft: 10, marginRight: 20 },
   })
 );
 
@@ -79,8 +71,8 @@ const validationSchema = yup.object({
 
 type PropsType = {
   teamData?: TeamType;
-  closeBackdrop: () => void;
-  open: boolean;
+  onCancel: () => void;
+  onSubmit?: (teamData: TeamType) => void;
 };
 
 type SnackbarDataType = {
@@ -103,14 +95,12 @@ const initialSnackbarData = {
 
 export default function CreateTeam({
   teamData,
-  closeBackdrop,
-  open,
+  onCancel,
+  onSubmit,
 }: PropsType) {
-  const styles = useStyles();
+  const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [players, setPlayers] = useState<Array<string>>(
-    teamData?.players || []
-  );
+  const [gamers, setgamers] = useState<Array<string>>(teamData?.gamers || []);
   const [snackbarData, setSnackbarData] =
     useState<SnackbarDataType>(initialSnackbarData);
 
@@ -123,7 +113,7 @@ export default function CreateTeam({
     validationSchema: validationSchema,
     onSubmit: ({ teamName, inGameLead }, { setSubmitting, resetForm }) => {
       setSubmitting(true);
-      saveTeam({ teamName, players, inGameLead });
+      if (teamName && inGameLead) saveTeam({ teamName, gamers, inGameLead });
       setSubmitting(false);
     },
   });
@@ -132,16 +122,12 @@ export default function CreateTeam({
     setSnackbarData(initialSnackbarData);
   };
 
-  const saveTeam = async (team: {
-    teamName: string | undefined;
-    players: Array<string>;
-    inGameLead: string | undefined;
-  }) => {
-    if (players.length !== 4) {
+  const saveTeam = async (team: TeamType) => {
+    if (gamers.length !== 4) {
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `You need 4 players to create a Team!`,
+        message: `You need 4 gamers to create a Team!`,
         severity: 'warning' as const,
       });
       return;
@@ -163,8 +149,9 @@ export default function CreateTeam({
         message: `${team.teamName} added!`,
         severity: 'success' as const,
       });
+      if (onSubmit) onSubmit(team);
       formik.resetForm();
-      closeBackdrop();
+      onCancel();
     } catch (err) {
       console.log('err', err);
     }
@@ -185,17 +172,17 @@ export default function CreateTeam({
         console.log('Error getting documents: ', error);
       });
 
-  const addPlayer = async () => {
+  const addgamer = async () => {
     setLoading(true);
     const { username } = formik.values;
-    if (username === '' || players.indexOf(username) !== -1) {
+    if (username === '' || gamers.indexOf(username) !== -1) {
       formik.setFieldValue('username', '');
       setLoading(false);
       return;
     }
     const userValidity = await isUserValid(username);
     if (userValidity) {
-      setPlayers([...players, username]);
+      setgamers([...gamers, username]);
       formik.setFieldValue('username', '');
     } else {
       formik.setErrors({ username: 'No User exist with this username' });
@@ -203,118 +190,116 @@ export default function CreateTeam({
     setLoading(false);
   };
 
-  const removePlayer = (id: string) => {
-    const newPlayers = players.filter((player) => player !== id);
-    setPlayers(newPlayers);
+  const removegamer = (id: string) => {
+    const newgamers = gamers.filter((gamer) => gamer !== id);
+    setgamers(newgamers);
   };
 
   return (
-    <Backdrop className={styles.backdrop} open={open}>
-      <div className={styles.root}>
-        <form className={styles.flexColumn} onSubmit={formik.handleSubmit}>
-          <h2>Create Your Dream Team</h2>
+    <div className={classes.root}>
+      <form className={classes.flexColumn} onSubmit={formik.handleSubmit}>
+        <h2>Create Your Dream Team</h2>
+        <TextField
+          type="text"
+          name="teamName"
+          label="Team Name"
+          variant="outlined"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.teamName}
+          error={formik.touched.teamName && Boolean(formik.errors.teamName)}
+          helperText={formik.touched.teamName && formik.errors.teamName}
+        />
+        <div className={classes.flexRow}>
           <TextField
             type="text"
-            name="teamName"
-            label="Team Name"
+            name="username"
+            label="DLord username"
             variant="outlined"
+            placeholder="DLord username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.teamName}
-            error={formik.touched.teamName && Boolean(formik.errors.teamName)}
-            helperText={formik.touched.teamName && formik.errors.teamName}
+            value={formik.values.username}
+            error={formik.touched.username && Boolean(formik.errors.username)}
+            helperText={formik.touched.username && formik.errors.username}
           />
-          <div className={styles.flexRow}>
-            <TextField
-              type="text"
-              name="username"
-              label="DLord username"
-              variant="outlined"
-              placeholder="DLord username"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-            />
-            {!loading ? (
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={formik.isSubmitting}
-                className={styles.addButton}
-                endIcon={<AddIcon />}
-                onClick={addPlayer}
-              >
-                <Typography variant="body1" className={styles.buttonText}>
-                  Add
-                </Typography>
-              </Button>
-            ) : (
-              <CircularProgress color="secondary" className={styles.loader} />
-            )}
-          </div>
-          {players.map((username, index) => (
-            <div key={index} className={styles.playerItem}>
-              <Typography variant="body1" className={styles.playerText}>
-                {index + 1}. {username}
-              </Typography>
-              <DeleteIcon
-                onClick={() => {
-                  removePlayer(username);
-                }}
-              />
-            </div>
-          ))}
-          <Autocomplete
-            id="combo-box-demo"
-            options={players}
-            getOptionLabel={(option) => option}
-            onChange={(e, value) => {
-              if (value) {
-                formik.setFieldValue('inGameLead', value);
-              }
-            }}
-            onBlur={formik.handleBlur}
-            style={{ width: '100%', marginTop: 10 }}
-            renderInput={(params) => (
-              <TextField {...params} label="In Game Lead" variant="outlined" />
-            )}
-          />
-          <div className={styles.flexRow}>
+          {!loading ? (
             <Button
-              variant="contained"
-              disabled={formik.isSubmitting}
-              className={styles.button}
-              onClick={closeBackdrop}
-            >
-              <Typography variant="body1" className={styles.buttonText}>
-                Cancel
-              </Typography>
-            </Button>
-            <Button
-              type="submit"
               variant="contained"
               color="primary"
               disabled={formik.isSubmitting}
-              className={styles.button}
+              className={classes.addButton}
+              endIcon={<AddIcon />}
+              onClick={addgamer}
             >
-              <Typography variant="body1" className={styles.buttonText}>
-                Save
+              <Typography variant="body1" className={classes.buttonText}>
+                Add
               </Typography>
             </Button>
+          ) : (
+            <CircularProgress color="secondary" className={classes.loader} />
+          )}
+        </div>
+        {gamers.map((username, index) => (
+          <div key={index} className={classes.gamerItem}>
+            <Typography variant="body1" className={classes.gamerText}>
+              {index + 1}. {username}
+            </Typography>
+            <DeleteIcon
+              onClick={() => {
+                removegamer(username);
+              }}
+            />
           </div>
-        </form>
-        <SnackbarAlert
-          vertical="bottom"
-          horizontal="center"
-          open={snackbarData.open}
-          onClose={handleClose}
-          autoHideDuration={5000}
-          message={snackbarData.message}
-          severity={snackbarData.severity}
+        ))}
+        <Autocomplete
+          id="combo-box-demo"
+          options={gamers}
+          getOptionLabel={(option) => option}
+          onChange={(e, value) => {
+            if (value) {
+              formik.setFieldValue('inGameLead', value);
+            }
+          }}
+          onBlur={formik.handleBlur}
+          style={{ width: '100%', marginTop: 10 }}
+          renderInput={(params) => (
+            <TextField {...params} label="In Game Lead" variant="outlined" />
+          )}
         />
-      </div>
-    </Backdrop>
+        <div className={classes.flexRow}>
+          <Button
+            variant="contained"
+            disabled={formik.isSubmitting}
+            className={classes.button}
+            onClick={onCancel}
+          >
+            <Typography variant="body1" className={classes.buttonText}>
+              Cancel
+            </Typography>
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={formik.isSubmitting}
+            className={classes.button}
+          >
+            <Typography variant="body1" className={classes.buttonText}>
+              Save
+            </Typography>
+          </Button>
+        </div>
+      </form>
+      <SnackbarAlert
+        vertical="bottom"
+        horizontal="center"
+        open={snackbarData.open}
+        onClose={handleClose}
+        autoHideDuration={5000}
+        message={snackbarData.message}
+        severity={snackbarData.severity}
+      />
+    </div>
   );
 }

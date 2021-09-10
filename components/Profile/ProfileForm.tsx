@@ -81,7 +81,7 @@ const validationSchema = yup.object({
 
 function ProfileForm({ oldValues, push }: Props) {
   const { isUsernameTaken, updateDisplayName } = useAuth();
-  const styles = useStyles();
+  const classes = useStyles();
   const [showError, setShowError] = useState(false);
   const formik = useFormik({
     initialValues: oldValues,
@@ -115,7 +115,7 @@ function ProfileForm({ oldValues, push }: Props) {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       <Link href={`/profile/${oldValues.username}`} passHref>
         <Button
           color="primary"
@@ -124,7 +124,7 @@ function ProfileForm({ oldValues, push }: Props) {
           Go Back
         </Button>
       </Link>
-      <Typography variant="h5" className={styles.header}>
+      <Typography variant="h5" className={classes.header}>
         Update Your Profile
       </Typography>
       <form onSubmit={formik.handleSubmit}>
@@ -285,9 +285,9 @@ function ProfileForm({ oldValues, push }: Props) {
           variant="contained"
           color="primary"
           disabled={formik.isSubmitting}
-          className={styles.button}
+          className={classes.button}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Save Changes
           </Typography>
         </Button>

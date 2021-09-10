@@ -34,19 +34,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NoOrganization() {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
-    <Container className={styles.root}>
+    <Container className={classes.root}>
       <Typography
         variant="h6"
         component="h6"
         gutterBottom
-        className={styles.header}
+        className={classes.header}
       >
         Creating your organization page is just simple clicks away.
       </Typography>
-      <div className={styles.buttonContainer}>
+      <div className={classes.buttonContainer}>
         <Link href="/organization/create" passHref>
           <Button
             variant="outlined"
@@ -55,14 +55,14 @@ export default function NoOrganization() {
             <Typography
               variant="body1"
               color="primary"
-              className={styles.buttonText}
+              className={classes.buttonText}
             >
               Create Your Organization Page
             </Typography>
           </Button>
         </Link>
       </div>
-      <div className={styles.cardContainer}>
+      <div className={classes.cardContainer}>
         <CardHeader title="Who is it for?" />
         <CardContent>
           <ListItem>

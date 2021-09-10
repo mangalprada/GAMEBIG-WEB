@@ -1,7 +1,7 @@
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import NavigationItems from '../NavigationItems/NavigationItems';
-import styles from './SideDrawer.module.scss';
+import classes from './SideDrawer.module.scss';
 
 type Props = {
   open: boolean;
@@ -9,15 +9,15 @@ type Props = {
 };
 
 export default function SideDrawer(props: Props) {
-  let attachedClasses = [styles.SideDrawer, styles.Close];
+  let attachedClasses = [classes.SideDrawer, classes.Close];
   if (props.open) {
-    attachedClasses = [styles.SideDrawer, styles.Open];
+    attachedClasses = [classes.SideDrawer, classes.Open];
   }
   return (
     <Aux>
       <Backdrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(' ')}>
-        <div className={styles.Logo}>DLord</div>
+        <div className={classes.Logo}>DLord</div>
         <nav>
           <NavigationItems clicked={props.closed} />
         </nav>

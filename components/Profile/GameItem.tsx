@@ -11,7 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { db } from '../../firebase/config';
 import { games } from '../../utilities/GameList';
-import { GameData } from '../../utilities/types';
+import { GamerData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,11 +70,11 @@ export default function GameItem({
   setBackdrop,
   removeGame,
 }: {
-  game: GameData;
+  game: GamerData;
   setBackdrop: (open: boolean) => void;
   removeGame: (docId: string) => void;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -84,7 +84,7 @@ export default function GameItem({
 
   const deleteGame = async () => {
     try {
-      await db.collection('games').doc(docId).delete();
+      await db.collection('gamers').doc(docId).delete();
       if (gameCode)
         setSnackbarData({
           ...snackbarData,
@@ -97,17 +97,17 @@ export default function GameItem({
     }
   };
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       {gameCode ? (
-        <Typography variant="h6" className={styles.header}>
+        <Typography variant="h6" className={classes.header}>
           {games[gameCode].name}
         </Typography>
       ) : null}
-      <div className={styles.flexRow}>
+      <div className={classes.flexRow}>
         {gameCode ? (
-          <div className={styles.imageCard}>
+          <div className={classes.imageCard}>
             <Image
-              className={styles.image}
+              className={classes.image}
               src={games[gameCode].imageSource}
               alt="Picture of the game"
               layout="fill"
@@ -115,19 +115,19 @@ export default function GameItem({
             />
           </div>
         ) : null}
-        <div className={styles.flexColumn}>
-          <Typography variant="body1" className={styles.text}>
+        <div className={classes.flexColumn}>
+          <Typography variant="body1" className={classes.text}>
             In Game Name: {ingamename}
           </Typography>
-          <Typography variant="body1" className={styles.text}>
+          <Typography variant="body1" className={classes.text}>
             In Game Id: {ingameid}
           </Typography>
-          <div className={styles.flexRow}>
+          <div className={classes.flexRow}>
             <Button
               variant="contained"
               startIcon={<EditIcon />}
               onClick={() => setBackdrop(true)}
-              className={styles.button}
+              className={classes.button}
             >
               Edit
             </Button>
@@ -135,7 +135,7 @@ export default function GameItem({
               variant="contained"
               startIcon={<DeleteIcon />}
               onClick={deleteGame}
-              className={styles.button}
+              className={classes.button}
             >
               Delete
             </Button>

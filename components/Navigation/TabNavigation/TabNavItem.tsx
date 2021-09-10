@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function TabNavItem({ href, label }: Props) {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
     <Link href={href} passHref>
-      <Tab label={label} className={styles.tabStyle} textColor="secondary" />
+      <Tab label={label} className={classes.tabStyle} textColor="secondary" />
     </Link>
   );
 }

@@ -10,7 +10,7 @@ import {
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { useAuth } from '../../context/authContext';
 import { games } from '../../utilities/GameList';
-import { GameData } from '../../utilities/types';
+import { GamerData } from '../../utilities/types';
 import GameForm from './GameForm';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,13 +50,13 @@ function AddGames({
   username: string;
   isUpdating: boolean;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   const { updateAuthPageNumber } = useAuth();
-  const [currentGames, setCurrentGames] = useState<Array<GameData>>([]);
+  const [currentGames, setCurrentGames] = useState<Array<GamerData>>([]);
   const [showError, setShowError] = useState(false);
   const router = useRouter();
 
-  const addToCurrentGames = (game: GameData) => {
+  const addToCurrentGames = (game: GamerData) => {
     setCurrentGames([...currentGames, game]);
   };
 
@@ -72,7 +72,7 @@ function AddGames({
   };
 
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       {Object.keys(games).map(function (key, index) {
         return (
           <GameForm
@@ -84,14 +84,14 @@ function AddGames({
           />
         );
       })}
-      <div className={styles.buttonContainer}>
+      <div className={classes.buttonContainer}>
         <Button
           type="submit"
           variant="contained"
-          className={styles.button}
+          className={classes.button}
           onClick={() => updateAuthPageNumber(2)}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Previous
           </Typography>
         </Button>
@@ -99,15 +99,15 @@ function AddGames({
           type="submit"
           variant="contained"
           color="primary"
-          className={styles.button}
+          className={classes.button}
           onClick={handleFinish}
         >
-          <Typography variant="body1" className={styles.buttonText}>
+          <Typography variant="body1" className={classes.buttonText}>
             Finish
           </Typography>
         </Button>
       </div>
-      <h4 className={styles.text}>2/2</h4>
+      <h4 className={classes.text}>2/2</h4>
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"

@@ -1,5 +1,14 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import {
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import Backdrop from '@material-ui/core/Backdrop';
 import CreateTeam from '../../../components/Profile/createTeam';
 import { db } from '../../../firebase/config';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -9,6 +18,18 @@ import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      width: '100%',
+      background: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  })
+);
+
 export default function Home({
   userData,
   teams,
@@ -16,6 +37,7 @@ export default function Home({
   userData: UserData;
   teams: Array<TeamType>;
 }) {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
@@ -59,11 +81,9 @@ export default function Home({
         ) : (
           <TeamIntro openBackdrop={openBackdrop} />
         )}
-        <CreateTeam
-          open={open}
-          teamData={selectedTeam}
-          closeBackdrop={closeBackdrop}
-        />
+        <Backdrop className={classes.backdrop} open={open}>
+          <CreateTeam teamData={selectedTeam} onCancel={closeBackdrop} />
+        </Backdrop>
       </div>
     </Aux>
   );
@@ -79,12 +99,12 @@ export async function getServerSideProps(context: {
 
   await db
     .collection('teams')
-    .where('players', 'array-contains-any', [username])
+    .where('gamers', 'array-contains-any', [username])
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        const { teamName, players, inGameLead } = doc.data();
-        teams.push({ teamName, players, inGameLead, docId: doc.id });
+        const { teamName, gamers, inGameLead } = doc.data();
+        teams.push({ teamName, gamers, inGameLead, docId: doc.id });
       });
     })
     .catch((error) => {

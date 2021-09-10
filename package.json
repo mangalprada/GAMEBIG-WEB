@@ -28,7 +28,6 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@types/material-ui-phone-number": "^2.2.1",
     "@types/node": "^16.4.13",
     "@types/react": "^17.0.16",
     "eslint": "7.32.0",

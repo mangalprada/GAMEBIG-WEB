@@ -17,9 +17,9 @@ interface Props {
 }
 
 export default function CreateTournament({ orgId }: Props) {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       <Link href={`/organization/${orgId}/tournaments/create`} passHref>
         <Button
           variant="contained"

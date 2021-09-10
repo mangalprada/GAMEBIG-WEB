@@ -1,326 +1,143 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Button,
   createStyles,
   makeStyles,
-  TextField,
   Theme,
+  TextField,
   Typography,
 } from '@material-ui/core';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import SnackbarAlert from '../../UI/Snackbar/SnackBar';
+import Backdrop from '@material-ui/core/Backdrop';
 import { db } from '../../../firebase/config';
-import { TeamType } from '../../../utilities/types';
-
+import { GamerData, TeamType } from '../../../utilities/types';
+import { useAuth } from '../../../context/authContext';
+import CreateTeam from '../../Profile/createTeam';
+import GamerDetails from './GamerDetails';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      '& > * + *': {
-        marginLeft: theme.spacing(2),
-      },
       '& .MuiTextField-root': {
-        width: '100%',
         marginTop: 10,
+        marginLeft: 20,
       },
-      width: '80%',
-      maxWidth: '800px',
-      background: theme.palette.background.paper,
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      maxWidth: 800,
+      marginBottom: 20,
+      marginTop: 20,
     },
-
-    flexColumn: { display: 'flex', flexDirection: 'column', marginTop: 20 },
-    flexRow: { display: 'flex', flexDirection: 'row', marginTop: 20 },
-    button: {
-      width: '50%',
-      margin: 10,
-    },
-    addButton: {
-      width: '30%',
-      marginTop: 10,
-      marginLeft: 15,
-    },
-    buttonText: {
+    text: {
       fontWeight: 'bold',
       letterSpacing: 0.5,
+      color: '#555',
     },
-    text: { marginLeft: '48%' },
-    playerItem: {
-      display: 'flex',
-      flexDirection: 'row',
+    button: {
+      marginTop: 10,
       marginLeft: 10,
-      marginTop: 10,
+      marginRight: 10,
     },
-    autoComplete: {
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
       width: '100%',
-      marginTop: 10,
+      background: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
     },
-    loader: { margin: 10 },
-    playerText: { marginLeft: 10, marginRight: 20 },
   })
 );
 
-const validationSchema = yup.object({
-  teamName: yup.string().required('Team name is required'),
-  username: yup.string(),
-  inGameLead: yup.string().required('In Game Lead is required'),
-});
+export default function RegisterTournamentForm() {
+  const classes = useStyles();
+  const { user } = useAuth();
+  const [teams, setTeams] = useState<TeamType[]>([]);
+  const [selectedTeam, setSelectedTeam] = useState<TeamType>();
+  const [open, setOpen] = useState(false);
 
-type PropsType = {
-  teamData?: TeamType;
-};
+  useEffect(() => {
+    const getTeams = () => {
+      const teams: Array<TeamType> = [];
+      db.collection('teams')
+        .where('gamers', 'array-contains-any', [user.username])
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const { teamName, gamers, inGameLead } = doc.data();
+            teams.push({ teamName, gamers, inGameLead, docId: doc.id });
+          });
+        })
+        .catch((error) => {
+          console.log('Error getting documents: ', error);
+        });
+      return teams;
+    };
+    const unsubscribe = () => {
+      const teams: TeamType[] = getTeams();
+      setTeams(teams);
+    };
+    return () => unsubscribe();
+  }, [user.username]);
 
-type SnackbarDataType = {
-  open: boolean;
-  severity: 'success' | 'info' | 'warning' | 'error';
-  message: string;
-};
-
-const emptyValues = {
-  username: '',
-  teamName: '',
-  inGameLead: '',
-};
-
-const initialSnackbarData = {
-  open: false,
-  message: '',
-  severity: 'warning' as const,
-};
-
-export default function RegisterTournamentForm({ teamData }: PropsType) {
-  const styles = useStyles();
-  const [loading, setLoading] = useState(false);
-  const [players, setPlayers] = useState<Array<string>>(
-    teamData?.players || []
-  );
-  const [snackbarData, setSnackbarData] =
-    useState<SnackbarDataType>(initialSnackbarData);
-
-  const formik = useFormik({
-    initialValues: {
-      ...emptyValues,
-      teamName: teamData?.teamName,
-      inGameLead: teamData?.teamName,
-    },
-    validationSchema: validationSchema,
-    onSubmit: ({ teamName, inGameLead }, { setSubmitting, resetForm }) => {
-      setSubmitting(true);
-      saveTeam({ teamName, players, inGameLead });
-      setSubmitting(false);
-    },
-  });
-
-  const handleClose = () => {
-    setSnackbarData(initialSnackbarData);
+  const closeBackdrop = () => {
+    setOpen(false);
   };
 
-  const saveTeam = async (team: {
-    teamName: string | undefined;
-    players: Array<string>;
-    inGameLead: string | undefined;
-  }) => {
-    if (players.length !== 4) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: `You need 4 players to create a Team!`,
-        severity: 'warning' as const,
-      });
-      return;
-    }
-    if (!team.inGameLead) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: `You need a In Game Lead to create a Team!`,
-        severity: 'warning' as const,
-      });
-      return;
-    }
-    try {
-      await db.collection('teams').add(team);
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: `${team.teamName} added!`,
-        severity: 'success' as const,
-      });
-      formik.resetForm();
-    } catch (err) {
-      console.log('err', err);
-    }
+  const openBackdrop = () => {
+    setOpen(true);
   };
 
-  const isUserValid = async (id: string) =>
-    await db
-      .collection('users')
-      .where('username', '==', id)
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.size > 0) {
-          return true;
-        }
-        return false;
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
-      });
-
-  const addPlayer = async () => {
-    setLoading(true);
-    const { username } = formik.values;
-    if (username === '' || players.indexOf(username) !== -1) {
-      formik.setFieldValue('username', '');
-      setLoading(false);
-      return;
-    }
-    const userValidity = await isUserValid(username);
-    if (userValidity) {
-      setPlayers([...players, username]);
-      formik.setFieldValue('username', '');
-    } else {
-      formik.setErrors({ username: 'No User exist with this username' });
-    }
-    setLoading(false);
+  const handleCreateTeam = (team: TeamType) => {
+    setSelectedTeam(team);
+    setTeams([team, ...teams]);
   };
-
-  const removePlayer = (id: string) => {
-    const newPlayers = players.filter((player) => player !== id);
-    setPlayers(newPlayers);
-  };
-
+  //TODO: Add game code from tournament
   return (
-    <div className={styles.root}>
-      <form className={styles.flexColumn} onSubmit={formik.handleSubmit}>
-        <h2>Create Your Dream Team</h2>
-        <TextField
-          type="text"
-          name="teamName"
-          label="Team Name"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.teamName}
-          error={formik.touched.teamName && Boolean(formik.errors.teamName)}
-          helperText={formik.touched.teamName && formik.errors.teamName}
-        />
-        <div className={styles.flexRow}>
-          <TextField
-            type="text"
-            name="username"
-            label="DLord username"
-            variant="outlined"
-            placeholder="DLord username"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
-          />
-          {!loading ? (
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={formik.isSubmitting}
-              className={styles.addButton}
-              endIcon={<AddIcon />}
-              onClick={addPlayer}
-            >
-              <Typography variant="body1" className={styles.buttonText}>
-                Add
-              </Typography>
-            </Button>
-          ) : (
-            <CircularProgress color="secondary" className={styles.loader} />
-          )}
-        </div>
-        {players.map((username, index) => (
-          <div key={index} className={styles.playerItem}>
-            <Typography variant="body1" className={styles.playerText}>
-              {index + 1}. {username}
-            </Typography>
-            <DeleteIcon
-              onClick={() => {
-                removePlayer(username);
-              }}
-            />
-          </div>
-        ))}
-        <TextField
-          type="text"
-          name="username"
-          label="DLord username"
-          variant="outlined"
-          placeholder="DLord username"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.username}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
-        />
-        <TextField
-          type="text"
-          name="username"
-          label="DLord username"
-          variant="outlined"
-          placeholder="DLord username"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.username}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
-        />
-        <Autocomplete
-          id="combo-box-demo"
-          options={players}
-          getOptionLabel={(option) => option}
-          onChange={(e, value) => {
-            if (value) {
-              formik.setFieldValue('inGameLead', value);
-            }
-          }}
-          onBlur={formik.handleBlur}
-          style={{ width: '100%', marginTop: 10 }}
-          renderInput={(params) => (
-            <TextField {...params} label="In Game Lead" variant="outlined" />
-          )}
-        />
-        <div className={styles.flexRow}>
-          <Button
-            variant="contained"
-            disabled={formik.isSubmitting}
-            className={styles.button}
-          >
-            <Typography variant="body1" className={styles.buttonText}>
-              Cancel
-            </Typography>
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={formik.isSubmitting}
-            className={styles.button}
-          >
-            <Typography variant="body1" className={styles.buttonText}>
-              Save
-            </Typography>
-          </Button>
-        </div>
-      </form>
-      <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
-        open={snackbarData.open}
-        onClose={handleClose}
-        autoHideDuration={5000}
-        message={snackbarData.message}
-        severity={snackbarData.severity}
+    <div className={classes.root}>
+      <Autocomplete
+        id="combo-box-demo"
+        options={teams}
+        getOptionLabel={(option) => option.teamName}
+        onChange={(e, value) => {
+          if (value) {
+            setSelectedTeam(value);
+            openBackdrop();
+          }
+        }}
+        style={{ width: '100%', marginTop: 10 }}
+        renderInput={(params) => (
+          <TextField {...params} label="Select A Team" variant="outlined" />
+        )}
       />
+      <Typography variant="h6" className={classes.text}>
+        OR
+      </Typography>
+      {!open ? (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openBackdrop}
+          className={classes.button}
+          endIcon={<AddIcon />}
+        >
+          <Typography variant="h6" className={classes.text}>
+            Create Your New Team
+          </Typography>
+        </Button>
+      ) : null}
+      <Backdrop className={classes.backdrop} open={open}>
+        {selectedTeam ? (
+          <GamerDetails
+            onCancel={closeBackdrop}
+            team={selectedTeam}
+            gameCode={'bgmi'}
+          />
+        ) : (
+          <CreateTeam onCancel={closeBackdrop} onSubmit={handleCreateTeam} />
+        )}
+      </Backdrop>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function TeamIntro({
 }: {
   openBackdrop: () => void;
 }) {
-  const styles = useStyles();
+  const classes = useStyles();
   return (
     <div>
       <Typography variant="h5" color="textPrimary">
@@ -25,7 +25,7 @@ export default function TeamIntro({
         variant="contained"
         color="primary"
         onClick={openBackdrop}
-        className={styles.button}
+        className={classes.button}
       >
         Create Team
       </Button>

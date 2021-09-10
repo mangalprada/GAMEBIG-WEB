@@ -1,4 +1,4 @@
-import styles from './DrawerToggle.module.scss';
+import classes from './DrawerToggle.module.scss';
 
 type Props = {
   clicked: () => void;
@@ -6,7 +6,7 @@ type Props = {
 
 export function DrawerToggle({ clicked }: Props) {
   return (
-    <div className={styles.DrawerToggle} onClick={clicked}>
+    <div className={classes.DrawerToggle} onClick={clicked}>
       <div></div>
       <div></div>
       <div></div>

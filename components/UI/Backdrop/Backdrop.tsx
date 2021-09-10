@@ -1,4 +1,4 @@
-import styles from './Backdrop.module.scss';
+import classes from './Backdrop.module.scss';
 
 type Props = {
   show: boolean;
@@ -8,7 +8,7 @@ type Props = {
 export default function Backdrop({ show, clicked }: Props) {
   return (
     <>
-      {show ? <div className={styles.Backdrop} onClick={clicked}></div> : null}
+      {show ? <div className={classes.Backdrop} onClick={clicked}></div> : null}
     </>
   );
 }

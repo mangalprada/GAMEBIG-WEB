@@ -13,7 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import SnackbarAlert from '../../Snackbar';
+import SnackbarAlert from '../../UI/Snackbar/SnackBar';
 import { db } from '../../../firebase/config';
 import { TeamType } from '../../../utilities/types';
 
@@ -71,7 +71,6 @@ const validationSchema = yup.object({
 
 type PropsType = {
   teamData?: TeamType;
-  closeBackdrop: () => void;
 };
 
 type SnackbarDataType = {
@@ -92,10 +91,7 @@ const initialSnackbarData = {
   severity: 'warning' as const,
 };
 
-export default function RegisterTournamentForm({
-  teamData,
-  closeBackdrop,
-}: PropsType) {
+export default function RegisterTournamentForm({ teamData }: PropsType) {
   const styles = useStyles();
   const [loading, setLoading] = useState(false);
   const [players, setPlayers] = useState<Array<string>>(
@@ -154,7 +150,6 @@ export default function RegisterTournamentForm({
         severity: 'success' as const,
       });
       formik.resetForm();
-      closeBackdrop();
     } catch (err) {
       console.log('err', err);
     }
@@ -299,7 +294,6 @@ export default function RegisterTournamentForm({
             variant="contained"
             disabled={formik.isSubmitting}
             className={styles.button}
-            onClick={closeBackdrop}
           >
             <Typography variant="body1" className={styles.buttonText}>
               Cancel

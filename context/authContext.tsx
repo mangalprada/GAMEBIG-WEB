@@ -197,7 +197,7 @@ type Props = {
   userData?: UserData;
   updateOrgId?: () => void;
   updateUser?: (user: User) => void;
-  updateOrgName: () => void;
+  updateOrgName?: (name: string) => void;
   children: React.ReactNode;
   authPageNumber?: number;
   updateDisplayName?: (displayName: string) => void;

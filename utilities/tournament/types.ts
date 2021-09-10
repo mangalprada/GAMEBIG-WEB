@@ -22,4 +22,5 @@ export interface TournamentData {
   createdAt: string;
   linkedOrgId: string;
   linkedOrgName: string;
+  gameCode: string;
 }

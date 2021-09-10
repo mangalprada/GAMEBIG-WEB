@@ -50,7 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function RegisterTournamentForm() {
+interface Props {
+  tId: string;
+  gameCode: string;
+}
+
+export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   const classes = useStyles();
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
@@ -93,7 +98,6 @@ export default function RegisterTournamentForm() {
     setSelectedTeam(team);
     setTeams([team, ...teams]);
   };
-  //TODO: Add game code from tournament
   return (
     <div className={classes.root}>
       <Autocomplete
@@ -130,9 +134,10 @@ export default function RegisterTournamentForm() {
       <Backdrop className={classes.backdrop} open={open}>
         {selectedTeam ? (
           <GamerDetails
+            tId={tId}
             onCancel={closeBackdrop}
             team={selectedTeam}
-            gameCode={'bgmi'}
+            gameCode={gameCode}
           />
         ) : (
           <CreateTeam onCancel={closeBackdrop} onSubmit={handleCreateTeam} />

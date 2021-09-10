@@ -21,6 +21,7 @@ export const fetchAllTournamentData = async () => {
         createdAt: data.createdAt.toDate().toISOString(),
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
+        gameCode: data.gameCode,
       };
       tournamentDatas.push(tournamentData);
     });
@@ -51,6 +52,7 @@ export const fetchTournamentsDataByOrgId = async (orgId: string) => {
         createdAt: data.createdAt.toDate().toISOString(),
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
+        gameCode: data.gameCode,
       };
       tournamentDatas.push(tournamentData);
     });

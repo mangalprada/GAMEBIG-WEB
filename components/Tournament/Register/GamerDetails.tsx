@@ -14,15 +14,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function GamerDetails({
-  team,
-  gameCode,
-  onCancel,
-}: {
+interface Props {
+  tId: string;
   team: TeamType;
   gameCode: string;
   onCancel: () => void;
-}) {
+}
+
+export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
   const classes = useStyles();
   const [gamers, setGamers] = useState<GamerData[]>([]);
 
@@ -33,10 +32,9 @@ export default function GamerDetails({
   };
 
   const handleRegister = async () => {
-    //TODO: add docId
     await getGamer();
     db.collection('tournaments')
-      .doc()
+      .doc(tId)
       .collection('teams')
       .add({
         inGameLead: team.inGameLead,

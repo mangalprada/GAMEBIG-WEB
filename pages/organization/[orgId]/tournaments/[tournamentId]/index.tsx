@@ -29,7 +29,14 @@ export default function Tournament({ orgId, tournamentData }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TournamentDetails data={tournamentData} />
-      {isOrganizer ? <ParticipantList /> : <RegisterTournamentForm />}
+      {isOrganizer ? (
+        <ParticipantList />
+      ) : (
+        <RegisterTournamentForm
+          gameCode={tournamentData.gameCode}
+          tId={tournamentData.id}
+        />
+      )}
     </Aux>
   );
 }

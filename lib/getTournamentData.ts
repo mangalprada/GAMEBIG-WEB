@@ -24,6 +24,7 @@ export const fetchTournamentDataById = async (id: string) => {
           createdAt: data.createdAt.toDate().toISOString(),
           linkedOrgId: data.linkedOrgId,
           linkedOrgName: data.linkedOrgName,
+          gameCode: data.gameCode,
         };
       }
     }

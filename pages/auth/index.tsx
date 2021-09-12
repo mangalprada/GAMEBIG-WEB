@@ -23,7 +23,7 @@ const inititalValues: UserData = {
   username: '',
   email: '',
   country: '',
-  dob: new Date('2014-08-18T21:11:54'),
+  dob: new Date('2007-08-18T21:11:54'),
   phoneNumber: '',
 };
 

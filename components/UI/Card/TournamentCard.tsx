@@ -1,4 +1,5 @@
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { useRouter } from 'next/router';
 import {
   Card,
   CardHeader,
@@ -86,9 +87,14 @@ type Props = {
 
 export default function TournamentCard({ isOrganizer, data }: Props) {
   const classes = useStyles();
+  const router = useRouter();
+
+  const goToTournament = () => {
+    router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
+  };
 
   return (
-    <Card className={classes.root} elevation={3}>
+    <Card className={classes.root} elevation={3} onClick={goToTournament}>
       <CardHeader
         classes={{ title: classes.title }}
         avatar={
@@ -182,9 +188,14 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
       </div>
       <div className={classes.buttonContainer}>
         {!isOrganizer && (
-          <Button variant="contained" color="primary">
-            Register
-          </Button>
+          <Link
+            href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/#register`}
+            passHref
+          >
+            <Button variant="contained" color="primary">
+              Register
+            </Button>
+          </Link>
         )}
         <Link
           href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/`}

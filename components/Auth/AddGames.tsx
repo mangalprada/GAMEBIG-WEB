@@ -7,7 +7,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { useAuth } from '../../context/authContext';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
@@ -53,22 +52,15 @@ function AddGames({
   const classes = useStyles();
   const { updateAuthPageNumber } = useAuth();
   const [currentGames, setCurrentGames] = useState<Array<GamerData>>([]);
-  const [showError, setShowError] = useState(false);
   const router = useRouter();
 
   const addToCurrentGames = (game: GamerData) => {
     setCurrentGames([...currentGames, game]);
   };
 
-  const handleClose = () => {
-    setShowError(false);
-  };
-
   const handleFinish = () => {
-    if (currentGames.length > 0) {
-      router.push('/');
-      updateAuthPageNumber(1);
-    } else setShowError(true);
+    router.push('/');
+    updateAuthPageNumber(1);
   };
 
   return (
@@ -103,20 +95,11 @@ function AddGames({
           onClick={handleFinish}
         >
           <Typography variant="body1" className={classes.buttonText}>
-            Finish
+            {currentGames.length === 0 ? 'Skip' : 'Finish'}
           </Typography>
         </Button>
       </div>
       <h4 className={classes.text}>2/2</h4>
-      <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
-        open={showError}
-        onClose={handleClose}
-        autoHideDuration={5000}
-        message="Please Add Atleast 1 Game!"
-        severity="warning"
-      />
     </div>
   );
 }

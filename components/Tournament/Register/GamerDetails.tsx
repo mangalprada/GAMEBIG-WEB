@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { db } from '../../../firebase/config';
 import { GamerData, TeamType } from '../../../utilities/types';
@@ -8,79 +8,96 @@ import GamerItem from './GamerItem';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      marginTop: 15,
+      margin: 15,
       width: '50%',
+    },
+    flexRow: { display: 'flex', flexDirection: 'row', marginTop: 40 },
+    text: {
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+      color: '#555',
     },
   })
 );
 
 interface Props {
   tId: string;
-  team: TeamType;
+  team?: TeamType;
   gameCode: string;
   onCancel: () => void;
 }
 
 export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
   const classes = useStyles();
-  const [gamers, setGamers] = useState<GamerData[]>([]);
+  const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
-  let getGamer = () => {};
-
-  const updateGetGamer = (newMethod: () => void) => {
-    getGamer = newMethod;
+  const updateGamer = (username: string, gamer: GamerData) => {
+    gamers[username] = gamer;
   };
 
   const handleRegister = async () => {
-    await getGamer();
-    db.collection('tournaments')
-      .doc(tId)
-      .collection('teams')
-      .add({
-        inGameLead: team.inGameLead,
-        gamers: gamers,
-        teamName: team.teamName,
-      })
-      .then(() => {
-        console.log('Team added');
-      })
-      .catch((error) => {
-        console.log('Error adding documents: ', error);
-      });
+    const gamersArray: GamerData[] = [];
+    Object.keys(gamers).map(function (key) {
+      gamersArray.push({ username: key, ...gamers[key] });
+    });
+    if (gamersArray.length > 3) {
+      saveGamerDetails(gamersArray);
+      setGamers({});
+      onCancel();
+    }
   };
 
-  const updateGamer = (gamer: GamerData) => {
-    setGamers([...gamers, gamer]);
+  const saveGamerDetails = (gamersArray: GamerData[]) => {
+    if (team && gamersArray) {
+      db.collection('tournaments')
+        .doc(tId)
+        .collection('teams')
+        .add({
+          inGameLead: team.inGameLead,
+          gamers: gamersArray,
+          teamName: team.teamName,
+        })
+        .then(() => {
+          console.log('Team added');
+        })
+        .catch((error) => {
+          console.log('Error adding documents: ', error);
+        });
+    }
   };
 
   return (
     <div>
-      {team.gamers.map((gamer) => (
-        <GamerItem
-          key={gamer}
-          username={gamer}
-          gameCode={gameCode}
-          onSubmit={updateGamer}
-          updateParentMethod={updateGetGamer}
-        />
-      ))}
-      ;
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={onCancel}
-        className={classes.button}
-      >
-        Cancel
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleRegister}
-        className={classes.button}
-      >
-        Register
-      </Button>
+      <Typography variant="h6" className={classes.text}>
+        Add Details
+      </Typography>
+      {team &&
+        team.gamers.map((gamer) => (
+          <GamerItem
+            key={gamer}
+            username={gamer}
+            gameCode={gameCode}
+            updateGamer={updateGamer}
+          />
+        ))}
+      <div className={classes.flexRow}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onCancel}
+          className={classes.button}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRegister}
+          className={classes.button}
+        >
+          Register
+        </Button>
+      </div>
     </div>
   );
 }

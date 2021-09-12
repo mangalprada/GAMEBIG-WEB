@@ -89,12 +89,12 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
   const classes = useStyles();
   const router = useRouter();
 
-  const goToTournament = () => {
+  const goToTournamentPage = () => {
     router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
   };
 
   return (
-    <Card className={classes.root} elevation={3} onClick={goToTournament}>
+    <Card className={classes.root} elevation={3} onClick={goToTournamentPage}>
       <CardHeader
         classes={{ title: classes.title }}
         avatar={

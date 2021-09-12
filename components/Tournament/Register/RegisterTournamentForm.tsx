@@ -107,6 +107,7 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
 
     const teams: TeamType[] = getTeams();
     setTeams(teams);
+    console.log('useffect registration');
   }, [user.username]);
 
   const closeBackdrop = () => {

@@ -72,7 +72,7 @@ const validationSchema = yup.object({
 type PropsType = {
   teamData?: TeamType;
   onCancel: () => void;
-  onSubmit?: (teamData: TeamType) => void;
+  handleSubmit?: (teamData: TeamType) => void;
 };
 
 type SnackbarDataType = {
@@ -96,7 +96,7 @@ const initialSnackbarData = {
 export default function CreateTeam({
   teamData,
   onCancel,
-  onSubmit,
+  handleSubmit,
 }: PropsType) {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
@@ -111,9 +111,13 @@ export default function CreateTeam({
       inGameLead: teamData?.teamName,
     },
     validationSchema: validationSchema,
-    onSubmit: ({ teamName, inGameLead }, { setSubmitting, resetForm }) => {
+    onSubmit: ({ teamName, inGameLead }, { setSubmitting }) => {
       setSubmitting(true);
-      if (teamName && inGameLead) saveTeam({ teamName, gamers, inGameLead });
+      if (teamName && inGameLead) {
+        saveTeam({ teamName, gamers, inGameLead });
+        if (handleSubmit) handleSubmit({ teamName, gamers, inGameLead });
+      }
+      formik.resetForm();
       setSubmitting(false);
     },
   });
@@ -149,8 +153,6 @@ export default function CreateTeam({
         message: `${team.teamName} added!`,
         severity: 'success' as const,
       });
-      if (onSubmit) onSubmit(team);
-      formik.resetForm();
       onCancel();
     } catch (err) {
       console.log('err', err);

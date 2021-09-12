@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Backdrop from '@material-ui/core/Backdrop';
 import { db } from '../../../firebase/config';
-import { GamerData, TeamType } from '../../../utilities/types';
+import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
 import CreateTeam from '../../Profile/createTeam';
 import GamerDetails from './GamerDetails';
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       '& .MuiTextField-root': {
         marginTop: 10,
-        marginLeft: 20,
       },
       width: '100%',
       display: 'flex',
@@ -28,17 +27,27 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       maxWidth: 800,
       marginBottom: 20,
-      marginTop: 20,
+      marginTop: 60,
     },
     text: {
       fontWeight: 'bold',
       letterSpacing: 0.5,
       color: '#555',
     },
+    buttonText: {
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+      color: '#fff',
+    },
     button: {
-      marginTop: 10,
-      marginLeft: 10,
-      marginRight: 10,
+      margin: 20,
+      maxWidth: 500,
+      width: '100%',
+    },
+    flexRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
@@ -46,6 +55,19 @@ const useStyles = makeStyles((theme: Theme) =>
       background: theme.palette.background.paper,
       display: 'flex',
       flexDirection: 'column',
+    },
+    footer: {
+      height: 200,
+      width: '100%',
+    },
+    divider: {
+      border: '1px solid #ccc',
+      backgroundColor: '#ccc',
+      width: 140,
+      marginBottom: 30,
+      marginTop: 30,
+      marginLeft: 15,
+      marginRight: 15,
     },
   })
 );
@@ -59,31 +81,33 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   const classes = useStyles();
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
+  const [backdropItem, setBackdropItem] = useState<number>(1);
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const getTeams = () => {
       const teams: Array<TeamType> = [];
-      db.collection('teams')
-        .where('gamers', 'array-contains-any', [user.username])
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const { teamName, gamers, inGameLead } = doc.data();
-            teams.push({ teamName, gamers, inGameLead, docId: doc.id });
+      if (user.username) {
+        db.collection('teams')
+          .where('gamers', 'array-contains-any', [user.username])
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              const { teamName, gamers, inGameLead } = doc.data();
+              teams.push({ teamName, gamers, inGameLead, docId: doc.id });
+            });
+          })
+          .catch((error) => {
+            console.log('Error getting documents: ', error);
           });
-        })
-        .catch((error) => {
-          console.log('Error getting documents: ', error);
-        });
+      }
       return teams;
     };
-    const unsubscribe = () => {
-      const teams: TeamType[] = getTeams();
-      setTeams(teams);
-    };
-    return () => unsubscribe();
+
+    const teams: TeamType[] = getTeams();
+    setTeams(teams);
+    console.log('useffect registration');
   }, [user.username]);
 
   const closeBackdrop = () => {
@@ -97,9 +121,14 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   const handleCreateTeam = (team: TeamType) => {
     setSelectedTeam(team);
     setTeams([team, ...teams]);
+    setBackdropItem(2);
   };
+
   return (
-    <div className={classes.root}>
+    <div id="register" className={classes.root}>
+      <Typography variant="h6" className={classes.text}>
+        Register For Tournament
+      </Typography>
       <Autocomplete
         id="combo-box-demo"
         options={teams}
@@ -107,41 +136,72 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
         onChange={(e, value) => {
           if (value) {
             setSelectedTeam(value);
-            openBackdrop();
           }
         }}
         style={{ width: '100%', marginTop: 10 }}
         renderInput={(params) => (
-          <TextField {...params} label="Select A Team" variant="outlined" />
+          <TextField
+            {...params}
+            label="Select From Existing Teams"
+            variant="outlined"
+          />
         )}
       />
-      <Typography variant="h6" className={classes.text}>
-        OR
-      </Typography>
-      {!open ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={openBackdrop}
-          className={classes.button}
-          endIcon={<AddIcon />}
-        >
-          <Typography variant="h6" className={classes.text}>
-            Create Your New Team
-          </Typography>
-        </Button>
-      ) : null}
+      <Button
+        disabled={!selectedTeam}
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          setBackdropItem(2);
+          openBackdrop();
+        }}
+        className={classes.button}
+      >
+        <Typography variant="body1" className={classes.buttonText}>
+          Register {selectedTeam?.teamName}
+        </Typography>
+      </Button>
+      <div className={classes.flexRow}>
+        <div className={classes.divider}></div>
+        <Typography variant="h6" className={classes.text}>
+          OR
+        </Typography>
+        <div className={classes.divider}></div>
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          setBackdropItem(1);
+          openBackdrop();
+        }}
+        className={classes.button}
+        endIcon={<AddIcon />}
+      >
+        <Typography variant="body1" className={classes.buttonText}>
+          Create Your New Team
+        </Typography>
+      </Button>
+      <div className={classes.footer}></div>
       <Backdrop className={classes.backdrop} open={open}>
-        {selectedTeam ? (
-          <GamerDetails
-            tId={tId}
-            onCancel={closeBackdrop}
-            team={selectedTeam}
-            gameCode={gameCode}
-          />
-        ) : (
-          <CreateTeam onCancel={closeBackdrop} onSubmit={handleCreateTeam} />
-        )}
+        {
+          {
+            1: (
+              <CreateTeam
+                onCancel={closeBackdrop}
+                handleSubmit={handleCreateTeam}
+              />
+            ),
+            2: (
+              <GamerDetails
+                tId={tId}
+                onCancel={closeBackdrop}
+                team={selectedTeam}
+                gameCode={gameCode}
+              />
+            ),
+          }[backdropItem]
+        }
       </Backdrop>
     </div>
   );

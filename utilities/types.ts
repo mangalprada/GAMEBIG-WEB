@@ -31,6 +31,7 @@ export interface GamerData {
   gameCode?: string | undefined;
   ingamename: string | undefined;
   ingameid: string | undefined;
+  username?: string | undefined;
 }
 export interface TeamType {
   teamName: string;

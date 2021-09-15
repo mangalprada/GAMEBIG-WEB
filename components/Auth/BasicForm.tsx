@@ -47,10 +47,7 @@ const phoneRegExp =
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
+  email: yup.string().email('Enter a valid email'),
   username: yup
     .string()
     .matches(usernameRegExp, 'username can contain only letters and numbers')
@@ -64,8 +61,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
-    .length(10, 'Phone number must be 10 digits long')
-    .required('Phone number is required'),
+    .length(10, 'Phone number must be 10 digits long'),
   country: yup.string().required('Country is required'),
 });
 

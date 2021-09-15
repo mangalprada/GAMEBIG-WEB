@@ -48,6 +48,7 @@ export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
   };
 
   const saveGamerDetails = (gamersArray: GamerData[]) => {
+    const usernames = gamersArray.map((gamer) => gamer.username);
     if (team && gamersArray) {
       db.collection('tournaments')
         .doc(tId)
@@ -55,6 +56,7 @@ export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
         .add({
           inGameLead: team.inGameLead,
           gamers: gamersArray,
+          usernames,
           teamName: team.teamName,
         })
         .then(() => {

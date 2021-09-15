@@ -82,6 +82,8 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [teamId, setTeamId] = useState<string>('');
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
   const [open, setOpen] = useState(false);
 
@@ -107,8 +109,23 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
 
     const teams: TeamType[] = getTeams();
     setTeams(teams);
-    console.log('useffect registration');
   }, [user.username]);
+
+  useEffect(() => {
+    db.collection('tournaments')
+      .doc(tId)
+      .collection('teams')
+      .where('usernames', 'array-contains', user.username)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data()) {
+            setIsRegistered(true);
+            setTeamId(doc.id);
+          }
+        });
+      });
+  }, []);
 
   const closeBackdrop = () => {
     setOpen(false);
@@ -124,6 +141,28 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
     setBackdropItem(2);
   };
 
+  const unregister = () => {
+    db.collection('tournaments').doc(tId).collection('teams').doc(teamId)
+      .delete;
+  };
+
+  if (isRegistered)
+    return (
+      <div className={classes.root}>
+        <Typography variant="h6" className={classes.text}>
+          You have registered for this tournament.
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={unregister}
+          className={classes.button}
+        >
+          <Typography variant="body1" className={classes.buttonText}>
+            Unregister
+          </Typography>
+        </Button>
+      </div>
+    );
   return (
     <div id="register" className={classes.root}>
       <Typography variant="h6" className={classes.text}>

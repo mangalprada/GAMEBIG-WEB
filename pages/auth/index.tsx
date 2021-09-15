@@ -21,10 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const inititalValues: UserData = {
   uid: '',
   username: '',
-  email: '',
-  country: '',
-  dob: new Date('2007-08-18T21:11:54'),
-  phoneNumber: '',
+  country: 'India',
 };
 
 export default function Home() {

@@ -47,21 +47,10 @@ const phoneRegExp =
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
 const validationSchema = yup.object({
-  email: yup.string().email('Enter a valid email'),
   username: yup
     .string()
     .matches(usernameRegExp, 'username can contain only letters and numbers')
     .required('username is required'),
-  dob: yup
-    .date()
-    .default(function () {
-      return new Date();
-    })
-    .required('Date of Birth is required'),
-  phoneNumber: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .length(10, 'Phone number must be 10 digits long'),
   country: yup.string().required('Country is required'),
 });
 
@@ -119,21 +108,6 @@ function BasicForm({ userData, setUserData }: Props) {
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
         />
-        <TextField
-          id="dob"
-          label="Birthday"
-          type="date"
-          defaultValue="2017-05-24"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.dob}
-          error={formik.touched.dob && Boolean(formik.errors.dob)}
-          helperText={formik.touched.dob && formik.errors.dob}
-        />
         <Autocomplete
           options={countries}
           getOptionLabel={(option) => option.name}
@@ -146,30 +120,6 @@ function BasicForm({ userData, setUserData }: Props) {
           renderInput={(params) => (
             <TextField {...params} label="Country" variant="outlined" />
           )}
-        />
-        <TextField
-          name="phoneNumber"
-          label="Phone Number"
-          variant="outlined"
-          placeholder="123-456-7890"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.phoneNumber}
-          error={
-            formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-          }
-          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-        />
-        <TextField
-          type="email"
-          name="email"
-          label="Email"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
         />
         <Button
           type="submit"

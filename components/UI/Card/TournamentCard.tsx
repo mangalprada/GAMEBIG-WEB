@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import {
@@ -20,6 +21,8 @@ import {
   SportsEsportsRounded,
 } from '@material-ui/icons';
 import Link from 'next/link';
+import { db } from '../../../firebase/config';
+import { useAuth } from '../../../context/authContext';
 import { TournamentData } from '../../../utilities/tournament/types';
 import {
   getDecoratedDate,
@@ -87,7 +90,24 @@ type Props = {
 
 export default function TournamentCard({ isOrganizer, data }: Props) {
   const classes = useStyles();
+  const { user } = useAuth();
   const router = useRouter();
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+
+  useEffect(() => {
+    db.collection('tournaments')
+      .doc(data.id)
+      .collection('teams')
+      .where('usernames', 'array-contains', user.username)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data()) {
+            setIsRegistered(true);
+          }
+        });
+      });
+  }, []);
 
   const goToTournamentPage = () => {
     router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
@@ -192,9 +212,13 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
             href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/#register`}
             passHref
           >
-            <Button variant="contained" color="primary">
-              Register
-            </Button>
+            {isRegistered ? (
+              <Typography variant="body1">Already Registered</Typography>
+            ) : (
+              <Button variant="contained" color="primary">
+                Register
+              </Button>
+            )}
           </Link>
         )}
         <Link

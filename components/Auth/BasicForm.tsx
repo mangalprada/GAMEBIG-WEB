@@ -41,9 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
 const validationSchema = yup.object({
@@ -51,7 +48,6 @@ const validationSchema = yup.object({
     .string()
     .matches(usernameRegExp, 'username can contain only letters and numbers')
     .required('username is required'),
-  country: yup.string().required('Country is required'),
 });
 
 type Props = {
@@ -107,19 +103,6 @@ function BasicForm({ userData, setUserData }: Props) {
           value={formik.values.username}
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
-        />
-        <Autocomplete
-          options={countries}
-          getOptionLabel={(option) => option.name}
-          onChange={(e, value) => {
-            if (value) {
-              formik.setFieldValue('country', value.name);
-            }
-          }}
-          defaultValue={{ name: formik.values.country }}
-          renderInput={(params) => (
-            <TextField {...params} label="Country" variant="outlined" />
-          )}
         />
         <Button
           type="submit"

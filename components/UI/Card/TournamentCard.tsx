@@ -95,19 +95,21 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   useEffect(() => {
-    db.collection('tournaments')
-      .doc(data.id)
-      .collection('teams')
-      .where('usernames', 'array-contains', user.username)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data()) {
-            setIsRegistered(true);
-          }
+    if (data.id && user.username) {
+      db.collection('tournaments')
+        .doc(data.id)
+        .collection('teams')
+        .where('usernames', 'array-contains', user.username)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data()) {
+              setIsRegistered(true);
+            }
+          });
         });
-      });
-  }, []);
+    }
+  }, [data.id, user.username]);
 
   const goToTournamentPage = () => {
     router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);

@@ -39,6 +39,11 @@ const useStyles = makeStyles((theme: Theme) =>
       letterSpacing: 0.5,
       color: '#fff',
     },
+    unregister: {
+      fontWeight: 'bold',
+      letterSpacing: 0.5,
+      color: '#555',
+    },
     button: {
       margin: 20,
       maxWidth: 500,
@@ -112,20 +117,22 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   }, [user.username]);
 
   useEffect(() => {
-    db.collection('tournaments')
-      .doc(tId)
-      .collection('teams')
-      .where('usernames', 'array-contains', user.username)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data()) {
-            setIsRegistered(true);
-            setTeamId(doc.id);
-          }
+    if (tId && user.username) {
+      db.collection('tournaments')
+        .doc(tId)
+        .collection('teams')
+        .where('usernames', 'array-contains', user.username)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data()) {
+              setIsRegistered(true);
+              setTeamId(doc.id);
+            }
+          });
         });
-      });
-  }, []);
+    }
+  }, [tId, user.username]);
 
   const closeBackdrop = () => {
     setOpen(false);
@@ -152,17 +159,32 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
         <Typography variant="h6" className={classes.text}>
           You have registered for this tournament.
         </Typography>
-        <Button
-          variant="contained"
-          onClick={unregister}
-          className={classes.button}
-        >
-          <Typography variant="body1" className={classes.buttonText}>
-            Unregister
-          </Typography>
-        </Button>
+        <div className={classes.flexRow}>
+          <Button
+            variant="contained"
+            onClick={unregister}
+            className={classes.button}
+          >
+            <Typography variant="body1" className={classes.unregister}>
+              Unregister
+            </Typography>
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              console.log('yoyo');
+            }}
+            className={classes.button}
+          >
+            <Typography variant="body1" className={classes.buttonText}>
+              Update
+            </Typography>
+          </Button>
+        </div>
       </div>
     );
+
   return (
     <div id="register" className={classes.root}>
       <Typography variant="h6" className={classes.text}>

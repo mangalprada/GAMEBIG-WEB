@@ -34,9 +34,10 @@ export default function Home({
   savedGames: Array<GamerData>;
 }) {
   const classes = useStyles();
-  const { signout } = useAuth();
+  const { user, signout } = useAuth();
   const [open, setOpen] = useState(false);
   const [currentGames, setCurrentGames] = useState(savedGames);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -64,14 +65,18 @@ export default function Home({
       </Head>
       <Aux>
         <ProfileHeader userData={userData} tabNumber={0} />
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<AddIcon />}
-          onClick={() => setOpen(true)}
-        >
-          Add Game
-        </Button>
+        <div>
+          {userData.username === user.username ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<AddIcon />}
+              onClick={() => setOpen(true)}
+            >
+              Add Game
+            </Button>
+          ) : null}
+        </div>
         <div>
           {currentGames.map((game, index) => {
             return (
@@ -108,9 +113,9 @@ export default function Home({
 }
 
 export async function getServerSideProps(context: {
-  params: { userId: string };
+  params: { username: string };
 }) {
-  const { userId: username } = context.params;
+  const { username } = context.params;
   let userData = await getUser(username);
   const savedGames: Array<GamerData> = [];
   await db

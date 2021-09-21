@@ -6,6 +6,7 @@ import CakeIcon from '@material-ui/icons/Cake';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { useAuth } from '../../context/authContext';
 import Twitch from '../../assets/Icons/Twitch';
 import YouTube from '../../assets/Icons/YouTube';
 import Instagram from '../../assets/Icons/Instagram';
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ProfileInfo({ userData }: { userData: UserData }) {
   const router = useRouter();
+  const { user } = useAuth();
   const classes = useStyles();
 
   const goToEditPage = () => {
@@ -95,15 +97,17 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
             />
           </div>
         ) : null}
-        <Button
-          variant="contained"
-          onClick={goToEditPage}
-          className={classes.button}
-        >
-          <Typography variant="body1" className={classes.buttonText}>
-            Edit Profile
-          </Typography>
-        </Button>
+        {userData.username === user.username ? (
+          <Button
+            variant="contained"
+            onClick={goToEditPage}
+            className={classes.button}
+          >
+            <Typography variant="body1" className={classes.buttonText}>
+              Edit Profile
+            </Typography>
+          </Button>
+        ) : null}
       </div>
       <div className={classes.infocard}>
         {userData.username ? (

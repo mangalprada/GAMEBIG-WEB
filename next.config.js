@@ -1,6 +1,12 @@
 const path = require('path');
+const withPWA = require('next-pwa');
 
-module.exports = {
+module.exports = withPWA({
+  pwa: {
+    dest: 'public',
+    // disable: process.env.NODE_ENV === 'development',
+  },
+  reactStrictMode: true,
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -21,4 +27,4 @@ module.exports = {
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
     FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
   },
-};
+});

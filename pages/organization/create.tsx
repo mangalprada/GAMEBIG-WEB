@@ -10,6 +10,7 @@ export default function create() {
         <title>Create Organization</title>
         <meta name="description" content="Create Organization" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <CreateOrganizationForm />
     </Aux>

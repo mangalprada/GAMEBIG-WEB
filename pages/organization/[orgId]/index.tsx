@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import HeaderOrg from '../../../components/Organization/HeaderOrg/HeaderOrg';
@@ -15,6 +16,10 @@ export default function OrganizationAdmin({ organizationData }: Props) {
 
   return (
     <Aux>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
       {organizationData ? (
         <>
           <HeaderOrg tabNumber={id} data={organizationData} />

@@ -27,6 +27,7 @@ export default function Tournament({ orgId, tournamentData }: Props) {
         <title>Tournament</title>
         <meta name="description" content="Details and Registeration" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <TournamentDetails data={tournamentData} />
       {isOrganizer ? (

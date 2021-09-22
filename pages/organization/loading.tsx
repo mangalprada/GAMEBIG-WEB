@@ -1,4 +1,5 @@
 import router from 'next/router';
+import Head from 'next/head';
 import { useEffect } from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 
@@ -11,6 +12,12 @@ export default function CreatingPage() {
 
   return (
     <Aux>
+      <Head>
+        <title>Loading...</title>
+        <meta name="description" content="Create Organization" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
       <div>We are creating your page</div>
     </Aux>
   );

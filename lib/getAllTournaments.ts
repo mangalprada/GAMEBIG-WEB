@@ -1,9 +1,9 @@
-import { db } from '../firebase/config';
+import { firebaseAdmin } from '../firebase/firebaseAdmin';
 import { TournamentData } from '../utilities/tournament/types';
 
 export const fetchAllTournamentData = async () => {
   let tournamentDatas = [] as TournamentData[];
-  const tournamentRef = db.collection('tournaments');
+  const tournamentRef = firebaseAdmin.firestore().collection('tournaments');
   try {
     const querySnapshot = await tournamentRef.get();
     querySnapshot.forEach((doc) => {
@@ -33,7 +33,7 @@ export const fetchAllTournamentData = async () => {
 
 export const fetchTournamentsDataByOrgId = async (orgId: string) => {
   let tournamentDatas = [] as TournamentData[];
-  const tournamentRef = db.collection('tournaments');
+  const tournamentRef = firebaseAdmin.firestore().collection('tournaments');
   const query = tournamentRef.where('linkedOrgId', '==', orgId);
   try {
     const querySnapshot = await query.get();

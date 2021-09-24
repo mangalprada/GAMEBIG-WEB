@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import nookies from 'nookies';
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -87,6 +87,7 @@ export default function Home({
               <GameItem
                 game={game}
                 key={index}
+                username={userData.username}
                 removeGame={removeGame}
                 setBackdrop={setOpen}
               />

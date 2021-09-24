@@ -135,10 +135,7 @@ function useProvideAuth() {
 
   const handleSignIn = async (user: firebase.User) => {
     const token = await user.getIdToken();
-    nookies.set(undefined, 'token', token, {
-      path: '/',
-      maxAge: 10 * 24 * 60 * 60,
-    });
+    nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
     if (uid && displayName && photoURL) {
       const userData = await getUser(displayName);
@@ -173,17 +170,27 @@ function useProvideAuth() {
     return firebase.auth().onIdTokenChanged(async (user) => {
       if (!user) {
         setUser({ uid: '', username: '', photoURL: '' });
-        nookies.set(undefined, 'token', '', { maxAge: 10 * 24 * 60 * 60 });
+        nookies.set(undefined, 'token', '', {});
         return;
       } else {
         const token = await user.getIdToken(true);
-        nookies.set(undefined, 'token', token, { maxAge: 10 * 24 * 60 * 60 });
+        nookies.set(undefined, 'token', token, {});
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           getAndSetUserData({ uid, displayName, photoURL });
         }
       }
     });
+  }, []);
+
+  // force refresh the token every 10 minutes
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      const user = firebase.auth().currentUser;
+      if (user) await user.getIdToken(true);
+    }, 10 * 60 * 1000);
+
+    return () => clearInterval(handle);
   }, []);
 
   const updateOrgId = (id: string) => {

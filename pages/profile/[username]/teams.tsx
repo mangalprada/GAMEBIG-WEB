@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import CreateTeam from '../../../components/Profile/createTeam';
-import { db } from '../../../firebase/config';
+import { db } from '../../../firebase/firebaseClient';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, TeamType } from '../../../utilities/types';
 import TeamIntro from '../../../components/Profile/TeamIntro';

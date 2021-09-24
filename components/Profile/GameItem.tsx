@@ -9,7 +9,7 @@ import {
 import Image from 'next/image';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
 

@@ -1,9 +1,10 @@
-import { db } from '../firebase/config';
+import { firebaseAdmin } from '../firebase/firebaseAdmin';
 import { UserData } from '../utilities/types';
 
 const getUser = async (username: string) => {
   const user: UserData[] = [];
-  await db
+  await firebaseAdmin
+    .firestore()
     .collection('users')
     .where('username', '==', username)
     .get()

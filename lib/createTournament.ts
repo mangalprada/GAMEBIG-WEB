@@ -1,4 +1,4 @@
-import firebase, { db } from '../firebase/config';
+import firebase, { db } from '../firebase/firebaseClient';
 import { TournamentFormData } from '../utilities/tournament/types';
 
 export const addNewTournament = async (

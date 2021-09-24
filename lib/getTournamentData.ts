@@ -1,4 +1,4 @@
-import { db } from '../firebase/config';
+import { db } from '../firebase/firebaseClient';
 import { TournamentData } from '../utilities/tournament/types';
 
 export const fetchTournamentDataById = async (id: string) => {

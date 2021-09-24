@@ -120,7 +120,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
             {userData.name}
           </Typography>
         ) : null}
-        {userData.dob ? (
+        {userData.dob && userData.username === user.username ? (
           <div className={classes.flexRow}>
             <CakeIcon />
             <Typography variant="body1" className={classes.text}>
@@ -136,7 +136,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
             </Typography>
           </div>
         ) : null}
-        {userData.phoneNumber ? (
+        {userData.phoneNumber && userData.username === user.username ? (
           <div className={classes.flexRow}>
             <SmartphoneIcon />
             <Typography variant="body1" className={classes.text}>
@@ -144,7 +144,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
             </Typography>
           </div>
         ) : null}
-        {userData.email ? (
+        {userData.email && userData.username === user.username ? (
           <div className={classes.flexRow}>
             <EmailIcon />
             <Typography variant="body1" className={classes.text}>

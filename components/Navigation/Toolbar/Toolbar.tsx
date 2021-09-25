@@ -10,7 +10,7 @@ function MainNavigation({ drawerToggleClicked }: Props) {
   return (
     <header className={classes.header}>
       <DrawerToggle clicked={drawerToggleClicked} />
-      <div className={classes.logo}>DLord</div>
+      <div className={classes.logo}>Gamebig</div>
       <nav className={classes.DesktopOnly}>
         <NavigationItems />
       </nav>

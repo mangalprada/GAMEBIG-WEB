@@ -21,7 +21,7 @@ export default function Home({ tournaments }: Props) {
       </Head>
       <Aux>
         <main className={classes.Main}>
-          <h1>Welcome to DLord</h1>
+          <h1>Welcome to Gamebig</h1>
           <div>
             {tournaments.map((tournament: TournamentData) => (
               <TournamentCard

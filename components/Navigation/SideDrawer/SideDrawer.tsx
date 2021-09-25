@@ -17,7 +17,7 @@ export default function SideDrawer(props: Props) {
     <Aux>
       <Backdrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(' ')}>
-        <div className={classes.Logo}>DLord</div>
+        <div className={classes.Logo}>GameBig</div>
         <nav>
           <NavigationItems clicked={props.closed} />
         </nav>

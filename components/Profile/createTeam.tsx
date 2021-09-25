@@ -216,9 +216,9 @@ export default function CreateTeam({
           <TextField
             type="text"
             name="username"
-            label="DLord username"
+            label="Gamebig username"
             variant="outlined"
-            placeholder="DLord username"
+            placeholder="Gamebig username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}

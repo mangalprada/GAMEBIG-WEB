@@ -93,7 +93,7 @@ const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
       <TextField
         disabled
         type="text"
-        name="DLord Username"
+        name="Gamebig Username"
         label="UserName"
         variant="outlined"
         value={username}

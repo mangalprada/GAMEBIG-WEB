@@ -84,7 +84,6 @@ const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
     if (ingamename && ingameid) {
       updateGamer(username, { ingamename, ingameid });
     }
-    console.log('GamerItem: useEffect 22222222222');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.ingameid, formik.values.ingamename, username]);
 

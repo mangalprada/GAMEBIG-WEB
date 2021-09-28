@@ -1,5 +1,5 @@
 export interface TournamentFormData {
-  game: string;
+  gameCode: string;
   mode: string;
   type: string;
   tier: string;
@@ -11,7 +11,7 @@ export interface TournamentFormData {
 
 export interface TournamentData {
   id: string;
-  game: string;
+  gameCode: string;
   mode: string;
   type: string;
   tier: string;
@@ -22,5 +22,4 @@ export interface TournamentData {
   createdAt: string;
   linkedOrgId: string;
   linkedOrgName: string;
-  gameCode: string;
 }

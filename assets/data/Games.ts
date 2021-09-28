@@ -1,14 +1,14 @@
 export const GAMES = [
   {
-    id: 'BGMI',
+    id: 'bgmi-m',
     name: 'BGMI',
   },
   {
-    id: 'CODM',
+    id: 'cod-m',
     name: 'CODM',
   },
   {
-    id: 'FREE_FIRE',
-    name: 'FREE FIRE',
+    id: 'gff-m',
+    name: 'Free Fire',
   },
 ];

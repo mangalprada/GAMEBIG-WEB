@@ -28,6 +28,7 @@ import {
   getDecoratedDate,
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
+import { games } from '../../../utilities/GameList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -151,7 +152,7 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
             display="inline"
             className={classes.content}
           >
-            {data.game} - {data.mode}
+            {games[data.gameCode].shortName} - {data.mode}
           </Typography>
         </div>
         <div className={classes.element}>

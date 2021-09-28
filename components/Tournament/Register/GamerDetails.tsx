@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { db } from '../../../firebase/config';
+import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import GamerItem from './GamerItem';
 

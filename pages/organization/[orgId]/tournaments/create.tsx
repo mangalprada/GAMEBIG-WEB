@@ -9,6 +9,7 @@ export default function CreateTournament() {
         <title>Create Tournament</title>
         <meta name="description" content="Create Organization" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <CreateTournamentForm />
     </Aux>

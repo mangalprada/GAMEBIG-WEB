@@ -1,4 +1,4 @@
-import { db } from '../firebase/config';
+import { db } from '../firebase/firebaseClient';
 import { OrgFormData } from '../utilities/organization/types';
 
 export const addOrganization = async (data: OrgFormData) => {

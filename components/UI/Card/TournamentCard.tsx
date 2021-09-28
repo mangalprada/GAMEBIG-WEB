@@ -21,7 +21,7 @@ import {
   SportsEsportsRounded,
 } from '@material-ui/icons';
 import Link from 'next/link';
-import { db } from '../../../firebase/config';
+import { db } from '../../../firebase/firebaseClient';
 import { useAuth } from '../../../context/authContext';
 import { TournamentData } from '../../../utilities/tournament/types';
 import {

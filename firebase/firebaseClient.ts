@@ -1,5 +1,4 @@
 import firebase from 'firebase/app';
-import 'firebase/analytics';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -15,7 +14,6 @@ const config = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
-  // firebase.analytics();
 } else {
   firebase.app();
 }

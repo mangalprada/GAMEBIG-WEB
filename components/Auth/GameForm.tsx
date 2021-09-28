@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/firebaseClient';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { GamerData } from '../../utilities/types';
 

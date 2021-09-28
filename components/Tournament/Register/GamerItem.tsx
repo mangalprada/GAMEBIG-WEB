@@ -3,7 +3,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { db } from '../../../firebase/config';
+import { db } from '../../../firebase/firebaseClient';
 import { GamerData } from '../../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -93,7 +93,7 @@ const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
       <TextField
         disabled
         type="text"
-        name="DLord Username"
+        name="Gamebig Username"
         label="UserName"
         variant="outlined"
         value={username}

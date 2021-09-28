@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>

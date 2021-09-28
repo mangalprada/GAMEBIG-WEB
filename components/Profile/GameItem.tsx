@@ -9,9 +9,10 @@ import {
 import Image from 'next/image';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
+import { useAuth } from '../../context/authContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,12 +70,15 @@ export default function GameItem({
   game,
   setBackdrop,
   removeGame,
+  username,
 }: {
   game: GamerData;
   setBackdrop: (open: boolean) => void;
   removeGame: (docId: string) => void;
+  username: string;
 }) {
   const classes = useStyles();
+  const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -122,24 +126,26 @@ export default function GameItem({
           <Typography variant="body1" className={classes.text}>
             In Game Id: {ingameid}
           </Typography>
-          <div className={classes.flexRow}>
-            <Button
-              variant="contained"
-              startIcon={<EditIcon />}
-              onClick={() => setBackdrop(true)}
-              className={classes.button}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<DeleteIcon />}
-              onClick={deleteGame}
-              className={classes.button}
-            >
-              Delete
-            </Button>
-          </div>
+          {user.username === username ? (
+            <div className={classes.flexRow}>
+              <Button
+                variant="contained"
+                startIcon={<EditIcon />}
+                onClick={() => setBackdrop(true)}
+                className={classes.button}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                onClick={deleteGame}
+                className={classes.button}
+              >
+                Delete
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

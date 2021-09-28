@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { useRouter } from 'next/router';
-import firebase, { db } from '../firebase/config';
+import nookies from 'nookies';
+import firebase, { db } from '../firebase/firebaseClient';
 import { User, UserData } from '../utilities/types';
-import getUser from '../lib/getUser';
 
 const authContext = createContext({
   user: { uid: '', username: '', photoURL: '' } as User,
@@ -114,7 +114,28 @@ function useProvideAuth() {
     }
   };
 
+  const getUser = async (username: string) => {
+    const user: UserData[] = [];
+    await db
+      .collection('users')
+      .where('username', '==', username)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as UserData;
+          user.push({ ...data, docId: doc.id });
+        });
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+
+    return user[0];
+  };
+
   const handleSignIn = async (user: firebase.User) => {
+    const token = await user.getIdToken();
+    nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
     if (uid && displayName && photoURL) {
       const userData = await getUser(displayName);
@@ -146,16 +167,30 @@ function useProvideAuth() {
       }
     };
 
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+    return firebase.auth().onIdTokenChanged(async (user) => {
+      if (!user) {
+        setUser({ uid: '', username: '', photoURL: '' });
+        nookies.set(undefined, 'token', '', {});
+        return;
+      } else {
+        const token = await user.getIdToken(true);
+        nookies.set(undefined, 'token', token, {});
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           getAndSetUserData({ uid, displayName, photoURL });
         }
       }
     });
+  }, []);
 
-    return () => unsubscribe();
+  // force refresh the token every 10 minutes
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      const user = firebase.auth().currentUser;
+      if (user) await user.getIdToken(true);
+    }, 10 * 60 * 1000);
+
+    return () => clearInterval(handle);
   }, []);
 
   const updateOrgId = (id: string) => {

@@ -10,7 +10,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Backdrop from '@material-ui/core/Backdrop';
-import { db } from '../../../firebase/config';
+import { db } from '../../../firebase/firebaseClient';
 import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
 import CreateTeam from '../../Profile/createTeam';

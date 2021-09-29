@@ -13,7 +13,7 @@ export const fetchTournamentDataById = async (id: string) => {
       if (data) {
         tournamentData = {
           id: tournamentDoc.id,
-          game: data.game,
+          gameCode: data.gameCode,
           mode: data.mode,
           type: data.type,
           tier: data.tier,
@@ -24,7 +24,6 @@ export const fetchTournamentDataById = async (id: string) => {
           createdAt: data.createdAt.toDate().toISOString(),
           linkedOrgId: data.linkedOrgId,
           linkedOrgName: data.linkedOrgName,
-          gameCode: data.gameCode,
         };
       }
     }

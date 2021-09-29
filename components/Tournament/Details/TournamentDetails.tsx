@@ -9,12 +9,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { ArrowBackIosRounded } from '@material-ui/icons';
-import { red } from '@material-ui/core/colors';
+import { grey, red } from '@material-ui/core/colors';
 import { TournamentData } from '../../../utilities/tournament/types';
 import {
   getDecoratedDate,
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
+import { games } from '../../../utilities/GameList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,8 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
     header: {
       marginLeft: -20,
     },
+    heading: {
+      fontWeight: 600,
+      color: grey[500],
+    },
     title: {
-      fontWeight: 'bold',
+      fontWeight: 600,
       fontSize: 20,
     },
     headerElement: {
@@ -88,18 +93,22 @@ export default function DetailsAsParticipant({ data }: Props) {
         <div className={classes.columnContainer}>
           {/** Game Name */}
           <div className={classes.rowContainer}>
-            <Typography variant="overline">Game</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Game
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
               className={classes.textData}
             >
-              {data.game}
+              {games[data.gameCode].shortName}
             </Typography>
           </div>
           {/** Game Mode */}
           <div className={classes.rowContainer}>
-            <Typography variant="overline">Mode</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Mode
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -112,7 +121,9 @@ export default function DetailsAsParticipant({ data }: Props) {
         <div className={classes.columnContainer}>
           {/** Tier / Scream */}
           <div className={classes.rowContainer}>
-            <Typography variant="overline">Tier</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Tier
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -123,7 +134,9 @@ export default function DetailsAsParticipant({ data }: Props) {
           </div>
           <div className={classes.rowContainer}>
             {/** Prize Money */}
-            <Typography variant="overline">Prize Money</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Prize Money
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -136,7 +149,9 @@ export default function DetailsAsParticipant({ data }: Props) {
         <div className={classes.columnContainer}>
           {/** Match Start Time */}
           <div className={classes.rowContainer}>
-            <Typography variant="overline">Match Date and Time</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Match Date and Time
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -148,7 +163,9 @@ export default function DetailsAsParticipant({ data }: Props) {
           </div>
           <div className={classes.rowContainer}>
             {/** Registration Open Till */}
-            <Typography variant="overline">Registration Open till</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Registration Open till
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -161,7 +178,9 @@ export default function DetailsAsParticipant({ data }: Props) {
         </div>
         <div className={classes.columnContainer}>
           <div className={classes.rowContainer}>
-            <Typography variant="overline">Maximum Slots Available</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Maximum Slots Available
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"
@@ -173,7 +192,9 @@ export default function DetailsAsParticipant({ data }: Props) {
         </div>
         <div className={classes.columnContainer}>
           <div>
-            <Typography variant="overline">Details / Rules</Typography>
+            <Typography variant="overline" className={classes.heading}>
+              Details / Rules
+            </Typography>
             <Typography
               variant="body1"
               color="textPrimary"

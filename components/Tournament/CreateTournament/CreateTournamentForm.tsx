@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const INITIAL_STATE: TournamentFormData = {
-  game: 'BGMI',
+  gameCode: 'bgmi-m',
   mode: 'Squad',
   type: 'Custom Room',
   tier: 'T3',
@@ -110,8 +110,10 @@ export default function CreateTournamentForm() {
         <SelectDropDown
           label="Game Name"
           name="game"
-          value={formik.values.game}
-          handleChange={formik.handleChange}
+          value={formik.values.gameCode}
+          handleChange={(event) =>
+            formik.setFieldValue('gameCode', event.target.value)
+          }
           menuItems={GAMES}
         />
         {/** Modes */}

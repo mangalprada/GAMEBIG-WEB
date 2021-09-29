@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   createStyles,
   makeStyles,
@@ -11,6 +12,8 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
+import { fetchParticipatedTeams } from '../../../lib/getTournamentData';
+import { useCallback } from 'react-transition-group/node_modules/@types/react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,8 +30,26 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ParticipantList() {
+interface Props {
+  tId: string;
+}
+
+export default function ParticipantList({ tId }: Props) {
   const classes = useStyles();
+  const [participants, setParticipants] = useState<Record<string, any>[] | []>(
+    []
+  );
+
+  const teamsArr = useCallback(async () => {
+    const teams = await fetchParticipatedTeams(tId);
+    console.log(teams);
+
+    setParticipants(teams);
+  }, [tId]);
+
+  useEffect(() => {
+    teamsArr();
+  }, [teamsArr]);
 
   return (
     <div className={classes.root}>

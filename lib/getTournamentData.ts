@@ -32,3 +32,29 @@ export const fetchTournamentDataById = async (id: string) => {
   }
   return tournamentData;
 };
+
+export const fetchParticipatedTeams = async (tournamentId: string) => {
+  let participants = [] as Record<string, any>[];
+  const participatedTeamsRef = db
+    .collection('tournaments')
+    .doc(tournamentId)
+    .collection('teams');
+  try {
+    const docSnapshots = await participatedTeamsRef.get();
+    docSnapshots.forEach((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        if (data)
+          participants.push({
+            players: data.usernames,
+            leader: data.inGameLead,
+            teamName: data.teamName,
+          });
+      }
+    });
+  } catch (error) {
+    console.log('Error fetching participated Teams', error);
+  }
+
+  return participants;
+};

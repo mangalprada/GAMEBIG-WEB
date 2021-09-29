@@ -31,7 +31,7 @@ export default function Tournament({ orgId, tournamentData }: Props) {
       </Head>
       <TournamentDetails data={tournamentData} />
       {isOrganizer ? (
-        <ParticipantList />
+        <ParticipantList tId={tournamentData.id} />
       ) : (
         <RegisterTournamentForm
           gameCode={tournamentData.gameCode}

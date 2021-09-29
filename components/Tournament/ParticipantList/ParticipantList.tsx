@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   createStyles,
   makeStyles,
@@ -13,7 +13,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import { fetchParticipatedTeams } from '../../../lib/getTournamentData';
-import { useCallback } from 'react-transition-group/node_modules/@types/react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,27 +50,47 @@ export default function ParticipantList({ tId }: Props) {
     teamsArr();
   }, [teamsArr]);
 
+  const tableCell = participants.map((team) => {
+    const teamMates =
+      team.players[0] +
+      ', ' +
+      team.players[1] +
+      ', ' +
+      team.players[2] +
+      ', ' +
+      team.players[3];
+    return (
+      <TableBody key={team.leader}>
+        <TableCell>{team.teamName}</TableCell>
+        <TableCell align="center">{teamMates}</TableCell>
+      </TableBody>
+    );
+  });
+
   return (
     <div className={classes.root}>
       <Typography variant="h5" color="textSecondary">
         Participant List
       </Typography>
-      <TableContainer className={classes.table} component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.head}>Team Name</TableCell>
-              <TableCell className={classes.head} align="center">
-                Player IDs
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableCell>Garuda</TableCell>
-            <TableCell align="center">{'happy, eren, armin, mikasa'}</TableCell>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {participants.length === 0 ? (
+        <Typography variant="body1" color="textPrimary">
+          No Teams registered yet
+        </Typography>
+      ) : (
+        <TableContainer className={classes.table} component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.head}>Team Name</TableCell>
+                <TableCell className={classes.head} align="center">
+                  Player IDs
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            {tableCell}
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 }

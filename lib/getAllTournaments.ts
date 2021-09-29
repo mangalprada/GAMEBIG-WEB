@@ -10,7 +10,7 @@ export const fetchAllTournamentData = async () => {
       const data = doc.data();
       const tournamentData = {
         id: doc.id,
-        game: data.game,
+        gameCode: data.gameCode,
         mode: data.mode,
         type: data.type,
         tier: data.tier,
@@ -21,7 +21,6 @@ export const fetchAllTournamentData = async () => {
         createdAt: data.createdAt.toDate().toISOString(),
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
-        gameCode: data.gameCode,
       };
       tournamentDatas.push(tournamentData);
     });
@@ -41,7 +40,7 @@ export const fetchTournamentsDataByOrgId = async (orgId: string) => {
       const data = doc.data();
       const tournamentData = {
         id: doc.id,
-        game: data.game,
+        gameCode: data.gameCode,
         mode: data.mode,
         type: data.type,
         tier: data.tier,
@@ -52,7 +51,6 @@ export const fetchTournamentsDataByOrgId = async (orgId: string) => {
         createdAt: data.createdAt.toDate().toISOString(),
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
-        gameCode: data.gameCode,
       };
       tournamentDatas.push(tournamentData);
     });

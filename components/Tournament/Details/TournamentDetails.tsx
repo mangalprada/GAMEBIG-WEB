@@ -15,6 +15,7 @@ import {
   getDecoratedDate,
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
+import { games } from '../../../utilities/GameList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +101,7 @@ export default function DetailsAsParticipant({ data }: Props) {
               color="textPrimary"
               className={classes.textData}
             >
-              {data.game}
+              {games[data.gameCode].shortName}
             </Typography>
           </div>
           {/** Game Mode */}

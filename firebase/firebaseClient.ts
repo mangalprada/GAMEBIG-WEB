@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/messaging';
 
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -14,8 +15,6 @@ const config = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
-} else {
-  firebase.app();
 }
 
 export default firebase;

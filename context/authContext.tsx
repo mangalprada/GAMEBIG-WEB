@@ -193,6 +193,45 @@ function useProvideAuth() {
     return () => clearInterval(handle);
   }, []);
 
+  // =============================== NOTIFICATION STARTS ===============================
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./firebase-messaging-sw.js')
+        .then(function (registration) {
+          console.log('Registration successful, scope is:', registration.scope);
+        })
+        .catch(function (err) {
+          console.log('Service worker registration failed, error:', err);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const messaging = firebase.messaging();
+    const getToken = async () =>
+      await messaging
+        .getToken({
+          vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
+        })
+        .then((token) => {
+          console.log('token fetched successfully');
+        })
+        .catch((err) => {
+          console.log('error', err);
+        });
+    getToken();
+    messaging.onMessage((payload) =>
+      console.log('Message received. ', payload)
+    );
+    navigator.serviceWorker.addEventListener('message', (message) =>
+      console.log(message)
+    );
+  }, []);
+
+  // =============================== NOTIFICATION ENDS ===============================
+
   const updateOrgId = (id: string) => {
     setUserData({ ...userData, linkedOrganizationId: id });
   };

@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import '../styles/globals.scss';
+import 'tailwindcss/tailwind.css';
 import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';
 

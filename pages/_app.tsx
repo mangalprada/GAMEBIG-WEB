@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import '../styles/globals.scss';
+import 'tailwindcss/tailwind.css';
 import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';
 import React from 'react';

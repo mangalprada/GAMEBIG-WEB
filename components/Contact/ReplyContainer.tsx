@@ -1,6 +1,28 @@
+import { useState, FormEvent } from 'react';
+import { useAuth } from '../../context/authContext';
+import { postMessage } from '../../lib/chatMethods';
+import { InputChat } from '../../utilities/contact/contact';
+
 export default function TypeContainer() {
+  const [message, setMessage] = useState<string>('');
+  const { user } = useAuth();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const chat: InputChat = {
+      userName: user.username,
+      userId: user.uid,
+      msg: message,
+      subHeader: '',
+    };
+    const chatId = await postMessage(chat);
+  };
+
   return (
-    <div className="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
+    <form
+      className="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300"
+      onSubmit={(e) => handleSubmit(e)}
+    >
       <input
         aria-placeholder="Type Here"
         placeholder="Type Here..."
@@ -8,6 +30,8 @@ export default function TypeContainer() {
         type="text"
         name="message"
         required
+        value={message}
+        onChange={(event) => setMessage(event.target.value)}
       />
 
       <button className="outline-none focus:outline-none" type="submit">
@@ -23,6 +47,6 @@ export default function TypeContainer() {
           />
         </svg>
       </button>
-    </div>
+    </form>
   );
 }

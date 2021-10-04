@@ -1,8 +1,14 @@
 import Head from 'next/head';
 import ChatContainer from '../../components/Contact/ChatContainer';
-import TypeContainer from '../../components/Contact/TypeContainer';
+import TypeContainer from '../../components/Contact/ReplyContainer';
+import { fetchAllChatMessages } from '../../lib/chatMethods';
+import { Chat } from '../../utilities/contact/contact';
 
-export default function Home() {
+interface Props {
+  chatDatas: Chat[];
+}
+
+export default function Home({ chatDatas }: Props) {
   return (
     <div className="flex flex-col">
       <Head>
@@ -16,10 +22,19 @@ export default function Home() {
           Please ask all your queries here
         </h1>
         <div className="px-4 border-4 rounded-md min-h-full">
-          <ChatContainer />
+          <ChatContainer chatDatas={chatDatas} />
           <TypeContainer />
         </div>
       </main>
     </div>
   );
 }
+
+export const getServerSideProps = async () => {
+  const chatDatas = await fetchAllChatMessages();
+  return {
+    props: {
+      chatDatas,
+    },
+  };
+};

@@ -23,6 +23,7 @@ export default function NavigationItems({ clicked }: Props) {
       >
         Organizations
       </NavigationItem>
+      <NavigationItem href="/notification">Notification</NavigationItem>
       {user.username ? (
         <NavigationItem href={`/profile/${user.username}`}>
           Profile

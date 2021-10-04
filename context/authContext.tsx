@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
+import localforage from 'localforage';
 import firebase, { db } from '../firebase/firebaseClient';
 import { User, UserData } from '../utilities/types';
 
@@ -108,7 +109,8 @@ function useProvideAuth() {
     try {
       await db
         .collection('users')
-        .add({ ...userData, uid: user.uid, photoURL: user.photoURL });
+        .doc(user.uid)
+        .set({ ...userData, uid: user.uid, photoURL: user.photoURL });
     } catch (err) {
       console.log('err', err);
     }
@@ -195,6 +197,10 @@ function useProvideAuth() {
 
   // =============================== NOTIFICATION STARTS ===============================
 
+  const addNotificationToLocalForage = () => {
+    const cat = localStorage.getItem('notification');
+  };
+
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -215,20 +221,28 @@ function useProvideAuth() {
         .getToken({
           vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
         })
-        .then((token) => {
-          console.log('token fetched successfully');
+        .then(async (token) => {
+          const currentToken = await localforage.getItem('fcmToken');
+          if (token !== currentToken) {
+            localforage.setItem('fcmToken', token);
+            db.collection('users')
+              .doc(userData.docId)
+              .update({ fcmToken: token })
+              .catch((err) => {
+                console.log(err, 'error adding fcmToken');
+              });
+          }
         })
         .catch((err) => {
           console.log('error', err);
         });
     getToken();
-    messaging.onMessage((payload) =>
-      console.log('Message received. ', payload)
-    );
-    navigator.serviceWorker.addEventListener('message', (message) =>
-      console.log(message)
-    );
-  }, []);
+    navigator.serviceWorker.addEventListener('message', (message) => {
+      const data = message.data['firebase-messaging-msg-data'];
+      const notification = data.notification;
+      console.log(notification);
+    });
+  }, [userData.docId]);
 
   // =============================== NOTIFICATION ENDS ===============================
 

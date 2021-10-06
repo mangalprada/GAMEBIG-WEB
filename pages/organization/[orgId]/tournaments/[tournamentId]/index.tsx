@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import TournamentDetails from '../../../../../components/Tournament/Details/TournamentDetails';
 import ParticipantList from '../../../../../components/Tournament/ParticipantList/ParticipantList';
 import RegisterTournamentForm from '../../../../../components/Tournament/Register/RegisterTournamentForm';
+import SendNotification from '../../../../../components/Tournament/Notification/SendNotification';
 import { useAuth } from '../../../../../context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchTournamentDataById } from '../../../../../lib/getTournamentData';
@@ -31,7 +32,10 @@ export default function Tournament({ orgId, tournamentData }: Props) {
       </Head>
       <TournamentDetails data={tournamentData} />
       {isOrganizer ? (
-        <ParticipantList tId={tournamentData.id} />
+        <>
+          <SendNotification />
+          <ParticipantList tId={tournamentData.id} />
+        </>
       ) : (
         <RegisterTournamentForm
           gameCode={tournamentData.gameCode}

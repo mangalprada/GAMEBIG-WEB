@@ -1,11 +1,17 @@
 import { useState } from 'react';
+import firebase from '../../../firebase/firebaseClient';
 
 export default function SendNotification() {
   const [roomId, setRoomId] = useState('');
   const [password, setPassword] = useState('');
 
   const onBtnClickHandler = () => {
-    console.log('Notification Sent');
+    const sendTournamentMessage = firebase
+      .functions()
+      .httpsCallable('sendTournamentMessage');
+    sendTournamentMessage({ roomId, password }).then((result) => {
+      console.log(result.data);
+    });
   };
 
   return (

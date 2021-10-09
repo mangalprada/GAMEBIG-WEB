@@ -7,7 +7,8 @@ interface Props {
 }
 
 export default function Message({ data, isOwner }: Props) {
-  const date = getDecoratedTime(data.createdAt);
+  const date =
+    data.createdAt && getDecoratedTime(data.createdAt.toDate().toISOString());
 
   return (
     <>

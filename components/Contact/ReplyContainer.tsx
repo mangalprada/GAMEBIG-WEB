@@ -16,6 +16,7 @@ export default function TypeContainer() {
       subHeader: '',
     };
     const chatId = await postMessage(chat);
+    setMessage('');
   };
 
   return (

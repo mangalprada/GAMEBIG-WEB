@@ -1,14 +1,15 @@
 import Head from 'next/head';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import ChatContainer from '../../components/Contact/ChatContainer';
 import TypeContainer from '../../components/Contact/ReplyContainer';
-import { fetchAllChatMessages } from '../../lib/chatMethods';
-import { Chat } from '../../utilities/contact/contact';
+import { db } from '../../firebase/firebaseClient';
 
-interface Props {
-  chatDatas: Chat[];
-}
+const chatCollectionRef = db.collection('discussions');
+const query = chatCollectionRef.orderBy('createdAt').limit(25);
 
-export default function Home({ chatDatas }: Props) {
+export default function Home() {
+  const [messages] = useCollectionData(query, { idField: 'id' });
+
   return (
     <div className="flex flex-col">
       <Head>
@@ -22,19 +23,10 @@ export default function Home({ chatDatas }: Props) {
           Please ask all your queries here
         </h1>
         <div className="px-4 border-4 rounded-md min-h-full">
-          <ChatContainer chatDatas={chatDatas} />
+          <ChatContainer chatDatas={messages} />
           <TypeContainer />
         </div>
       </main>
     </div>
   );
 }
-
-export const getServerSideProps = async () => {
-  const chatDatas = await fetchAllChatMessages();
-  return {
-    props: {
-      chatDatas,
-    },
-  };
-};

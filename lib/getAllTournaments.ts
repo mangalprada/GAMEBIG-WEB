@@ -21,6 +21,8 @@ export const fetchAllTournamentData = async () => {
         createdAt: data.createdAt.toDate().toISOString(),
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
+        roomId: data.roomId ? data.roomId : '',
+        password: data.password ? data.password : '',
       };
       tournamentDatas.push(tournamentData);
     });

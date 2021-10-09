@@ -30,10 +30,10 @@ export default function Tournament({ orgId, tournamentData }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <TournamentDetails data={tournamentData} />
+      <TournamentDetails isOrganizer={isOrganizer} data={tournamentData} />
       {isOrganizer ? (
         <>
-          <SendNotification />
+          <SendNotification tournamentData={tournamentData} />
           <ParticipantList tId={tournamentData.id} />
         </>
       ) : (

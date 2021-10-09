@@ -22,4 +22,6 @@ export interface TournamentData {
   createdAt: string;
   linkedOrgId: string;
   linkedOrgName: string;
+  roomId?: string;
+  password?: string;
 }

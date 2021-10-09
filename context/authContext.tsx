@@ -197,10 +197,6 @@ function useProvideAuth() {
 
   // =============================== NOTIFICATION STARTS ===============================
 
-  const addNotificationToLocalForage = () => {
-    const cat = localStorage.getItem('notification');
-  };
-
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -239,8 +235,15 @@ function useProvideAuth() {
     getToken();
     navigator.serviceWorker.addEventListener('message', (message) => {
       const data = message.data['firebase-messaging-msg-data'];
-      const notification = data.notification;
-      console.log(notification);
+      if (data) {
+        let notices = [];
+        let stringifiedNotices = localStorage.getItem('notices');
+        if (stringifiedNotices) {
+          notices = JSON.parse(stringifiedNotices);
+        }
+        notices.unshift(data);
+        localStorage.setItem('notices', JSON.stringify(notices));
+      }
     });
   }, [userData.docId]);
 

@@ -1,17 +1,53 @@
 import { useState } from 'react';
-import firebase from '../../../firebase/firebaseClient';
+import { db, functions } from '../../../firebase/firebaseClient';
+import { TournamentData } from '../../../utilities/tournament/types';
 
-export default function SendNotification() {
+export default function SendNotification({
+  tournamentData,
+}: {
+  tournamentData: TournamentData;
+}) {
   const [roomId, setRoomId] = useState('');
   const [password, setPassword] = useState('');
 
+  const updateTournamnet = async () => {
+    db.collection('tournaments')
+      .doc(tournamentData.id)
+      .update({ roomId, password })
+      .then(() => {
+        console.log('RoomId and Password successfully updated!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const sendNotification = async () => {
+    const { linkedOrgId, linkedOrgName, startTime } = tournamentData;
+    const sendTournamentMessage = functions.httpsCallable(
+      'sendTournamentMessage'
+    );
+    sendTournamentMessage({
+      roomId,
+      password,
+      tournamnetId: tournamentData.id,
+      linkedOrgId,
+      linkedOrgName,
+      startTime,
+    })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log('error sending notification', error);
+      });
+  };
+
   const onBtnClickHandler = () => {
-    const sendTournamentMessage = firebase
-      .functions()
-      .httpsCallable('sendTournamentMessage');
-    sendTournamentMessage({ roomId, password }).then((result) => {
-      console.log(result.data);
-    });
+    updateTournamnet();
+    sendNotification();
+    setRoomId('');
+    setPassword('');
   };
 
   return (

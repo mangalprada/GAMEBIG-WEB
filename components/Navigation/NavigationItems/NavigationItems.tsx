@@ -11,6 +11,7 @@ export default function NavigationItems({ clicked }: Props) {
     user,
     userData: { linkedOrganizationId },
   } = useAuth();
+
   return (
     <ul className={classes.NavigationItems} onClick={clicked}>
       <NavigationItem href="/">Tournaments</NavigationItem>
@@ -30,7 +31,7 @@ export default function NavigationItems({ clicked }: Props) {
           Profile
         </NavigationItem>
       ) : (
-        <NavigationItem href="/auth">Sign&nbsp;In </NavigationItem>
+        <NavigationItem href="/auth">Sign&nbsp;In</NavigationItem>
       )}
     </ul>
   );

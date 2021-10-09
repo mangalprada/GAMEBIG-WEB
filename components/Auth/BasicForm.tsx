@@ -10,9 +10,7 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
-import { countries } from '../../utilities/CountryList';
 import { UserData } from '../../utilities/types';
 
 const useStyles = makeStyles((theme: Theme) =>

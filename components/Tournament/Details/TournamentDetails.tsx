@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import router from 'next/router';
 import {
   Avatar,
@@ -10,12 +11,15 @@ import {
 } from '@material-ui/core';
 import { ArrowBackIosRounded } from '@material-ui/icons';
 import { grey, red } from '@material-ui/core/colors';
+import { useAuth } from '../../../context/authContext';
+import SnackbarAlert from '../../UI/Snackbar/SnackBar';
 import { TournamentData } from '../../../utilities/tournament/types';
 import {
   getDecoratedDate,
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
 import { games } from '../../../utilities/GameList';
+import { db } from '../../../firebase/firebaseClient';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,15 +63,49 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       backgroundColor: red[500],
     },
+    span: {
+      background: '#bbb',
+      borderRadius: 3,
+      marginLeft: 10,
+      marginRight: 10,
+      paddingLeft: 4,
+      paddingRight: 4,
+    },
   })
 );
 
 interface Props {
   data: TournamentData;
+  isOrganizer: boolean;
 }
 
-export default function DetailsAsParticipant({ data }: Props) {
+export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
   const classes = useStyles();
+  const { user } = useAuth();
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (data.id && user.username) {
+      db.collection('tournaments')
+        .doc(data.id)
+        .collection('teams')
+        .where('usernames', 'array-contains', user.username)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data()) {
+              setIsRegistered(true);
+            }
+          });
+        });
+    }
+  }, [data.id, user.username]);
+
+  const handleClose = () => {
+    setShowInfo(false);
+  };
 
   return (
     <div>
@@ -204,7 +242,58 @@ export default function DetailsAsParticipant({ data }: Props) {
             </Typography>
           </div>
         </div>
+        {isOrganizer || isRegistered ? (
+          <div className={classes.columnContainer}>
+            {data.roomId && (
+              <div>
+                <Typography variant="overline" className={classes.heading}>
+                  Room Id :
+                  <span
+                    onClick={() => {
+                      if (data.roomId) {
+                        navigator.clipboard.writeText(data.roomId);
+                        setMessage('Room Id Copied !');
+                        setShowInfo(true);
+                      }
+                    }}
+                    className={classes.span}
+                  >
+                    {data.roomId}
+                  </span>
+                </Typography>
+              </div>
+            )}
+            {data.password && (
+              <div>
+                <Typography variant="overline" className={classes.heading}>
+                  Password :
+                  <span
+                    onClick={() => {
+                      if (data.password) {
+                        navigator.clipboard.writeText(data.password);
+                        setMessage('Password Copied !');
+                        setShowInfo(true);
+                      }
+                    }}
+                    className={classes.span}
+                  >
+                    {data.password}
+                  </span>
+                </Typography>
+              </div>
+            )}
+          </div>
+        ) : null}
       </div>
+      <SnackbarAlert
+        vertical="bottom"
+        horizontal="center"
+        open={showInfo}
+        onClose={handleClose}
+        autoHideDuration={3000}
+        message={message}
+        severity="info"
+      />
     </div>
   );
 }

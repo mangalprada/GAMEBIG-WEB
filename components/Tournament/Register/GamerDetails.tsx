@@ -25,9 +25,16 @@ interface Props {
   team?: TeamType;
   gameCode: string;
   onCancel: () => void;
+  setIsRegistered: (val: boolean) => void;
 }
 
-export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
+export default function GamerDetails({
+  tId,
+  team,
+  gameCode,
+  onCancel,
+  setIsRegistered,
+}: Props) {
   const classes = useStyles();
   const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
@@ -43,6 +50,7 @@ export default function GamerDetails({ tId, team, gameCode, onCancel }: Props) {
     if (gamersArray.length > 3) {
       saveGamerDetails(gamersArray);
       setGamers({});
+      setIsRegistered(true);
       onCancel();
     }
   };

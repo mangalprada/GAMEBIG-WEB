@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
+import localforage from 'localforage';
 import firebase, { db } from '../firebase/firebaseClient';
 import { User, UserData } from '../utilities/types';
 
@@ -108,7 +109,8 @@ function useProvideAuth() {
     try {
       await db
         .collection('users')
-        .add({ ...userData, uid: user.uid, photoURL: user.photoURL });
+        .doc(user.uid)
+        .set({ ...userData, uid: user.uid, photoURL: user.photoURL });
     } catch (err) {
       console.log('err', err);
     }
@@ -192,6 +194,60 @@ function useProvideAuth() {
 
     return () => clearInterval(handle);
   }, []);
+
+  // =============================== NOTIFICATION STARTS ===============================
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./firebase-messaging-sw.js')
+        .then(function (registration) {
+          console.log('Registration successful, scope is:', registration.scope);
+        })
+        .catch(function (err) {
+          console.log('Service worker registration failed, error:', err);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const messaging = firebase.messaging();
+    const getToken = async () =>
+      await messaging
+        .getToken({
+          vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
+        })
+        .then(async (token) => {
+          const currentToken = await localforage.getItem('fcmToken');
+          if (token !== currentToken) {
+            localforage.setItem('fcmToken', token);
+            db.collection('users')
+              .doc(userData.docId)
+              .update({ fcmToken: token })
+              .catch((err) => {
+                console.log(err, 'error adding fcmToken');
+              });
+          }
+        })
+        .catch((err) => {
+          console.log('error', err);
+        });
+    getToken();
+    navigator.serviceWorker.addEventListener('message', (message) => {
+      const data = message.data['firebase-messaging-msg-data'];
+      if (data) {
+        let notices = [];
+        let stringifiedNotices = localStorage.getItem('notices');
+        if (stringifiedNotices) {
+          notices = JSON.parse(stringifiedNotices);
+        }
+        notices.unshift(data);
+        localStorage.setItem('notices', JSON.stringify(notices));
+      }
+    });
+  }, [userData.docId]);
+
+  // =============================== NOTIFICATION ENDS ===============================
 
   const updateOrgId = (id: string) => {
     setUserData({ ...userData, linkedOrganizationId: id });

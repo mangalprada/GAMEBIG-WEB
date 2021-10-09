@@ -1,6 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/messaging';
+import 'firebase/functions';
 
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -14,9 +16,8 @@ const config = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
-} else {
-  firebase.app();
 }
 
 export default firebase;
 export const db = firebase.firestore();
+export const functions = firebase.app().functions('asia-east2');

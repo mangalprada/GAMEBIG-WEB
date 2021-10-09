@@ -24,6 +24,7 @@ export interface UserData {
   redditLink?: string | undefined;
   linkedOrganizationId?: string | null;
   linkedOrganizationName?: string | null;
+  fcmToken?: string | null;
 }
 
 export interface GamerData {

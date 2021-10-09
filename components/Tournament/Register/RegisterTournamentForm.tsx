@@ -259,6 +259,7 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
                 onCancel={closeBackdrop}
                 team={selectedTeam}
                 gameCode={gameCode}
+                setIsRegistered={setIsRegistered}
               />
             ),
           }[backdropItem]

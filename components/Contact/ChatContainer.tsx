@@ -4,7 +4,7 @@ import { Chat } from '../../utilities/contact/contact';
 import Message from './Message';
 
 interface Props {
-  chatDatas: Chat[];
+  chatDatas: any | undefined;
 }
 
 export default function ChatContainer({ chatDatas }: Props) {
@@ -13,11 +13,11 @@ export default function ChatContainer({ chatDatas }: Props) {
 
   useEffect(() => {
     scrollLast.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  }, [chatDatas]);
 
   const messages =
     chatDatas &&
-    chatDatas.map((chatData) => {
+    chatDatas.map((chatData: Chat) => {
       const isOwnerOfMessage = chatData.userId === user.uid;
       return (
         <Message key={chatData.id} isOwner={isOwnerOfMessage} data={chatData} />

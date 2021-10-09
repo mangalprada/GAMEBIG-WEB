@@ -1,28 +1,5 @@
 import firebase, { db } from '../firebase/firebaseClient';
-import { Chat, InputChat } from '../utilities/contact/contact';
-
-export const fetchAllChatMessages = async () => {
-  let chatDatas = [] as Chat[];
-  const chatCollectionRef = db.collection('discussions');
-  try {
-    const querySnapshot = await chatCollectionRef.get();
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const chatData = {
-        id: doc.id,
-        createdAt: data.createdAt.toDate().toISOString(),
-        userName: data.userName,
-        userId: data.userId,
-        msg: data.msg,
-        subHeader: data.subHeader,
-      };
-      chatDatas.push(chatData);
-    });
-  } catch (error) {
-    console.log('Error while fetching chatData - ', error);
-  }
-  return chatDatas;
-};
+import { InputChat } from '../utilities/contact/contact';
 
 export const postMessage = async (chat: InputChat) => {
   let chatId = null;

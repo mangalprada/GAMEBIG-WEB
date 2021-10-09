@@ -1,6 +1,6 @@
 export interface Chat extends InputChat {
   id: string;
-  createdAt: string;
+  createdAt: any;
 }
 
 export interface InputChat {

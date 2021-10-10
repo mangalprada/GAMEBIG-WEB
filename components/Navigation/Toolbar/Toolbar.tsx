@@ -1,3 +1,4 @@
+import HeaderLogo from '../../UI/Logo/HeaderLogo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import { DrawerToggle } from '../SideDrawer/DrawerToggle/DrawerToggle';
 import classes from './Toolbar.module.scss';
@@ -8,9 +9,9 @@ type Props = {
 
 function MainNavigation({ drawerToggleClicked }: Props) {
   return (
-    <header className={classes.header}>
+    <header className="flex flex-row justify-between bg-black h-20 align-middle px-10">
       <DrawerToggle clicked={drawerToggleClicked} />
-      <div className={classes.logo}>Gamebig</div>
+      <HeaderLogo />
       <nav className={classes.DesktopOnly}>
         <NavigationItems />
       </nav>

@@ -17,6 +17,7 @@ import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/firebaseClient';
 import { countries } from '../../utilities/CountryList';
+import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -280,17 +281,11 @@ function ProfileForm({ oldValues, push }: Props) {
           error={formik.touched.redditLink && Boolean(formik.errors.redditLink)}
           helperText={formik.touched.redditLink && formik.errors.redditLink}
         />
-        <Button
+        <ResponsiveButton
+          name="Save Changes"
           type="submit"
-          variant="contained"
-          color="primary"
-          disabled={formik.isSubmitting}
-          className={classes.button}
-        >
-          <Typography variant="body1" className={classes.buttonText}>
-            Save Changes
-          </Typography>
-        </Button>
+          isDisabled={formik.isSubmitting}
+        />
       </form>
       <SnackbarAlert
         vertical="bottom"

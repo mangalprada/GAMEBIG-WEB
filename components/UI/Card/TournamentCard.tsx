@@ -29,6 +29,8 @@ import {
   getDecoratedTime,
 } from '../../../utilities/functions/dateConvert';
 import { games } from '../../../utilities/GameList';
+import FixedButton from '../Buttons/FixedButton';
+import TextButton from '../Buttons/TextButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -216,11 +218,9 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
             passHref
           >
             {isRegistered ? (
-              <Typography variant="body1">Already Registered</Typography>
+              <TextButton name="REGISTERED" type="success" />
             ) : (
-              <Button variant="contained" color="primary">
-                Register
-              </Button>
+              <FixedButton name="REGISTER" />
             )}
           </Link>
         )}
@@ -228,7 +228,7 @@ export default function TournamentCard({ isOrganizer, data }: Props) {
           href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/`}
           passHref
         >
-          <Button color="primary">Details</Button>
+          <TextButton name="DETAILS" type="normal" />
         </Link>
       </div>
     </Card>

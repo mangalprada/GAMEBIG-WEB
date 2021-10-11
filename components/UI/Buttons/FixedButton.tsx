@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ButtonProps } from './types';
 
-const ResponsiveButton: FC<ButtonProps> = ({
+const FixedButton: FC<ButtonProps> = ({
   name,
   type,
   onClickHandler,
@@ -9,22 +9,20 @@ const ResponsiveButton: FC<ButtonProps> = ({
   isDangerous,
 }: ButtonProps) => {
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex my-4 justify-center">
       <button
         className={
-          'text-white font-semibold text-xl py-2 px-4 rounded-md w-full ' +
+          'text-white font-normal tracking-wide text-lg py-2 px-4 rounded-lg ' +
           (isDisabled
             ? 'bg-gray-500 opacity-50 cursor-not-allowed'
-            : 'transition duration-500 ease-in-out ' +
-              'transform hover:-translate-y-1 hover:scale-105 ' +
+            : 'transition duration-300 ease-in-out shadow-lg hover:shadow-xl ' +
               (isDangerous
-                ? 'bg-red-500 hover:bg-red-700'
-                : 'bg-indigo-600 hover:bg-green-500'))
+                ? 'bg-red-500 hover:bg-red-600'
+                : 'bg-indigo-600 hover:bg-indigo-700'))
         }
         type={type}
         onClick={onClickHandler}
         disabled={isDisabled}
-        aria-label={name}
       >
         {name}
       </button>
@@ -32,4 +30,4 @@ const ResponsiveButton: FC<ButtonProps> = ({
   );
 };
 
-export default ResponsiveButton;
+export default FixedButton;

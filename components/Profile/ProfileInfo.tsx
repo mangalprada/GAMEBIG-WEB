@@ -14,6 +14,7 @@ import Facebook from '../../assets/Icons/Facebook';
 import Twitter from '../../assets/Icons/Twitter';
 import Reddit from '../../assets/Icons/Reddit';
 import { UserData } from '../../utilities/types';
+import FixedButton from '../UI/Buttons/FixedButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -98,15 +99,7 @@ export default function ProfileInfo({ userData }: { userData: UserData }) {
           </div>
         ) : null}
         {userData.username === user.username ? (
-          <Button
-            variant="contained"
-            onClick={goToEditPage}
-            className={classes.button}
-          >
-            <Typography variant="body1" className={classes.buttonText}>
-              Edit Profile
-            </Typography>
-          </Button>
+          <FixedButton onClickHandler={goToEditPage} name="EDIT PROFILE" />
         ) : null}
       </div>
       <div className={classes.infocard}>

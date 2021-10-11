@@ -1,48 +1,14 @@
 import { useState } from 'react';
-import Link from 'next/link';
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  TextField,
-  Theme,
-  Typography,
-} from '@material-ui/core';
-import { ArrowBackRounded } from '@material-ui/icons';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useAuth } from '../../context/authContext';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/firebaseClient';
-import { countries } from '../../utilities/CountryList';
 import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        width: '100%',
-        marginTop: 10,
-        marginBottom: 10,
-      },
-    },
-    header: {
-      marginTop: 15,
-      marginBottom: 15,
-    },
-    button: {
-      width: '100%',
-      marginTop: 10,
-      marginBottom: 10,
-    },
-    buttonText: {
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-    },
-  })
-);
+import FormInput from '../UI/Inputs/FormInput';
+import FixedButton from '../UI/Buttons/FixedButton';
+import { useRouter } from 'next/router';
 
 type Props = {
   oldValues: UserData;
@@ -61,10 +27,8 @@ const validationSchema = yup.object({
   username: yup
     .string()
     .matches(usernameRegExp, 'username can only contain letters and numbers')
-    .required('username is required'),
-  name: yup
-    .string()
-    .matches(usernameRegExp, 'username can only contain letters and numbers'),
+    .required('Username is required'),
+  name: yup.string().required('Name can not be empty'),
   dob: yup.date().required('Date of Birth is required'),
   phoneNumber: yup
     .string()
@@ -72,18 +36,20 @@ const validationSchema = yup.object({
     .length(10, 'Phone number must be 10 digits long')
     .required('Phone number is required'),
   country: yup.string().required('Country is required'),
-  youtubeLink: yup.string().url(),
-  twitchLink: yup.string().url(),
-  facebookLink: yup.string().url(),
-  instagramLink: yup.string().url(),
-  twitterLink: yup.string().url(),
-  redditLink: yup.string().url(),
+  youtubeLink: yup.string().url('Enter a valid URL'),
+  twitchLink: yup.string().url('Enter a valid URL'),
+  facebookLink: yup.string().url('Enter a valid URL'),
+  instagramLink: yup.string().url('Enter a valid URL'),
+  twitterLink: yup.string().url('Enter a valid URL'),
+  redditLink: yup.string().url('Enter a valid URL'),
 });
 
 function ProfileForm({ oldValues, push }: Props) {
   const { isUsernameTaken, updateDisplayName } = useAuth();
-  const classes = useStyles();
   const [showError, setShowError] = useState(false);
+
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: oldValues,
     validationSchema: validationSchema,
@@ -116,43 +82,64 @@ function ProfileForm({ oldValues, push }: Props) {
   };
 
   return (
-    <div className={classes.root}>
-      <Link href={`/profile/${oldValues.username}`} passHref>
-        <Button
-          color="primary"
-          startIcon={<ArrowBackRounded color="primary" />}
-        >
-          Go Back
-        </Button>
-      </Link>
-      <Typography variant="h5" className={classes.header}>
-        Update Your Profile
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          disabled
-          type="text"
-          name="username"
-          label="username"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.username}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
+    <div
+      className={
+        'w-full mx-auto mt-6 ' +
+        'relative flex flex-col min-w-0 break-words w-full mb-6 ' +
+        'shadow-lg rounded-lg border-0'
+      }
+    >
+      <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
+        <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
+          Update Profile
+        </h6>
+        <FixedButton
+          name="Cancel"
+          isDangerous={true}
+          onClickHandler={() => router.back()}
         />
-        <TextField
-          type="text"
-          name="name"
-          label="Name"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.name}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
-        />
-        <TextField
+      </div>
+      <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
+        <form onSubmit={formik.handleSubmit}>
+          <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
+            User Information
+          </h6>
+          <div className="flex flex-wrap">
+            <FormInput
+              labelName="username"
+              name="username"
+              value={formik.values.username}
+              onChangeHandler={formik.handleChange}
+              isDisabled={true}
+            />
+            <FormInput
+              labelName="Name"
+              name="name"
+              value={formik.values.name}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.name)}
+              errorMessage={formik.errors.name}
+            />
+            <FormInput
+              labelName="Email"
+              name="email"
+              value={formik.values.email}
+              placeHolder="abc@xyz.com"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.email)}
+              errorMessage={formik.errors.email}
+            />
+            <FormInput
+              labelName="Phone Number"
+              name="phoneNumber"
+              value={formik.values.phoneNumber}
+              placeHolder="10 digit e.g. - 9876543210"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.phoneNumber)}
+              errorMessage={formik.errors.phoneNumber}
+            />
+          </div>
+          {/* <TextField
           id="dob"
           label="Birthday"
           type="date"
@@ -166,8 +153,8 @@ function ProfileForm({ oldValues, push }: Props) {
           value={formik.values.dob}
           error={formik.touched.dob && Boolean(formik.errors.dob)}
           helperText={formik.touched.dob && formik.errors.dob}
-        />
-        <Autocomplete
+        /> */}
+          {/* <Autocomplete
           disabled
           options={countries}
           getOptionLabel={(option) => option.name}
@@ -180,113 +167,73 @@ function ProfileForm({ oldValues, push }: Props) {
           renderInput={(params) => (
             <TextField {...params} label="Country" variant="outlined" />
           )}
-        />
-        <TextField
-          name="phoneNumber"
-          label="Phone Number"
-          variant="outlined"
-          placeholder="9876543210"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.phoneNumber}
-          error={
-            formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-          }
-          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-        />
-        <TextField
-          type="email"
-          name="email"
-          label="Email"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          type="url"
-          name="youtubeLink"
-          label="Youtube Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.youtubeLink}
-          error={
-            formik.touched.youtubeLink && Boolean(formik.errors.youtubeLink)
-          }
-          helperText={formik.touched.youtubeLink && formik.errors.youtubeLink}
-        />
-        <TextField
-          type="url"
-          name="twitchLink"
-          label="Twitch Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.twitchLink}
-          error={formik.touched.twitchLink && Boolean(formik.errors.twitchLink)}
-          helperText={formik.touched.twitchLink && formik.errors.twitchLink}
-        />
-        <TextField
-          type="url"
-          name="facebookLink"
-          label="Facebook Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.facebookLink}
-          error={
-            formik.touched.facebookLink && Boolean(formik.errors.facebookLink)
-          }
-          helperText={formik.touched.facebookLink && formik.errors.facebookLink}
-        />
-        <TextField
-          type="url"
-          name="instagramLink"
-          label="Instagram Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.instagramLink}
-          error={
-            formik.touched.instagramLink && Boolean(formik.errors.instagramLink)
-          }
-          helperText={
-            formik.touched.instagramLink && formik.errors.instagramLink
-          }
-        />
-        <TextField
-          type="url"
-          name="twitterLink"
-          label="Twitter Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.twitterLink}
-          error={
-            formik.touched.twitterLink && Boolean(formik.errors.twitterLink)
-          }
-          helperText={formik.touched.twitterLink && formik.errors.twitterLink}
-        />
-        <TextField
-          type="url"
-          name="redditLink"
-          label="Reddit Link"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.redditLink}
-          error={formik.touched.redditLink && Boolean(formik.errors.redditLink)}
-          helperText={formik.touched.redditLink && formik.errors.redditLink}
-        />
-        <ResponsiveButton
-          name="Save Changes"
-          type="submit"
-          isDisabled={formik.isSubmitting}
-        />
-      </form>
+        /> */}
+          <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
+            Social Links
+          </h6>
+          <div className="flex flex-wrap">
+            <FormInput
+              labelName="Youtube"
+              name="youtubeLink"
+              placeHolder="link to your YouTube channel"
+              value={formik.values.youtubeLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.youtubeLink)}
+              errorMessage={formik.errors.youtubeLink}
+            />
+            <FormInput
+              labelName="Twitch"
+              name="twitchLink"
+              placeHolder="link to your twitch channel"
+              value={formik.values.twitchLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.twitchLink)}
+              errorMessage={formik.errors.twitchLink}
+            />
+            <FormInput
+              labelName="Facebook"
+              name="facebookLink"
+              placeHolder="link to your facebook profile"
+              value={formik.values.facebookLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.facebookLink)}
+              errorMessage={formik.errors.facebookLink}
+            />
+            <FormInput
+              labelName="Instagram"
+              name="instagramLink"
+              placeHolder="link to your Instagram profile"
+              value={formik.values.instagramLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.instagramLink)}
+              errorMessage={formik.errors.instagramLink}
+            />
+            <FormInput
+              labelName="Twitter"
+              name="twitterLink"
+              placeHolder="link to your Twitter page"
+              value={formik.values.twitterLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.twitterLink)}
+              errorMessage={formik.errors.twitterLink}
+            />
+            <FormInput
+              labelName="Reddit"
+              name="redditLink"
+              placeHolder="link to your reddit profile"
+              value={formik.values.redditLink}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.redditLink)}
+              errorMessage={formik.errors.redditLink}
+            />
+          </div>
+          <ResponsiveButton
+            name="Save Changes"
+            type="submit"
+            isDisabled={formik.isSubmitting}
+          />
+        </form>
+      </div>
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"

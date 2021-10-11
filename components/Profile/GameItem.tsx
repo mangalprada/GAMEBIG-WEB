@@ -13,6 +13,7 @@ import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
 import { useAuth } from '../../context/authContext';
+import FixedButton from '../UI/Buttons/FixedButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,22 +129,15 @@ export default function GameItem({
           </Typography>
           {user.username === username ? (
             <div className={classes.flexRow}>
-              <Button
-                variant="contained"
-                startIcon={<EditIcon />}
-                onClick={() => setBackdrop(true)}
-                className={classes.button}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                onClick={deleteGame}
-                className={classes.button}
-              >
-                Delete
-              </Button>
+              <FixedButton
+                name="EDIT"
+                onClickHandler={() => setBackdrop(true)}
+              />
+              <FixedButton
+                name="DELETE"
+                onClickHandler={deleteGame}
+                isDangerous
+              />
             </div>
           ) : null}
         </div>

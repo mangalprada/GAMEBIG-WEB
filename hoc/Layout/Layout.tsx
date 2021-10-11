@@ -21,7 +21,7 @@ function Layout({ children }: Props) {
   };
 
   return (
-    <div>
+    <div className="bg-black">
       <Toolbar drawerToggleClicked={sideDrawerToggleHandler} />
       <SideDrawer open={showSideDrawer} closed={sideDrawerClosedHandler} />
       <main className={classes.main}>{children}</main>

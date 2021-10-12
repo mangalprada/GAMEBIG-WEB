@@ -5,15 +5,11 @@ import SecondaryNavigationItems from '../NavigationItems/SecondaryNavigationItem
 function MainNavigation() {
   return (
     <header>
-      <nav className="shadow-lg">
-        <div className="max-w-6xl mx-auto px-4">
+      <nav className="shadow-2xl h-auto">
+        <div className="mx-6">
           <div className="flex justify-between">
-            <div className="flex space-x-10">
-              <div className="flex left-1">
-                <HeaderLogo />
-              </div>
-              <PrimaryNavigationItems />
-            </div>
+            <HeaderLogo />
+            <PrimaryNavigationItems />
             <SecondaryNavigationItems />
           </div>
         </div>

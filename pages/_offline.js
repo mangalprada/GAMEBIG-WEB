@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import classes from '../styles/Home.module.scss';
 import Lottie from 'react-lottie';
-import * as animationData from '../assets/LottieFiles/offline-t-rex.json';
 
 export default function Home() {
   const defaultOptions = {

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import HeaderOrg from '../../../../components/Organization/HeaderOrg/HeaderOrg';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import TournamentCard from '../../../../components/UI/Card/TournamentCard';
+import TournamentCard from '../../../../components/Tournament/TournamentCard/TournamentCard';
 import CreateTournamentButton from '../../../../components/Tournament/CreateTournament/CreateTournamentButton';
 import { OrgFormData } from '../../../../utilities/organization/types';
 import { ParsedUrlQuery } from 'querystring';

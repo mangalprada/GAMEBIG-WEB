@@ -19,7 +19,10 @@ export default function SecondaryNavigationItems() {
       {user.username ? (
         <NavigationItem href={`/profile/${user.username}`}>
           <ProfileIcon
-            isActive={router.pathname === '/profile/[username]'}
+            isActive={
+              router.pathname === '/profile/[username]' ||
+              router.pathname === '/profile/[username]/teams'
+            }
             size={40}
           />
         </NavigationItem>

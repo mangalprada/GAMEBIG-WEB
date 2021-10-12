@@ -35,7 +35,11 @@ function BottomNavigationBar() {
             >
               <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
                 <OrganizationIcon
-                  isActive={router.pathname === '/'}
+                  isActive={
+                    router.pathname === '/organization/[orgId]/tournaments' ||
+                    router.pathname === '/organization/[orgId]' ||
+                    router.pathname === '/organization'
+                  }
                   size={36}
                 />
               </a>
@@ -44,7 +48,10 @@ function BottomNavigationBar() {
           <div className="pt-2 pb-1">
             <Link href="/contact" passHref>
               <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-                <ForumIcon isActive={router.pathname === '/'} size={36} />
+                <ForumIcon
+                  isActive={router.pathname === '/contact'}
+                  size={36}
+                />
               </a>
             </Link>
           </div>

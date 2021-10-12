@@ -26,6 +26,7 @@ export default function PrimaryNavigationItems() {
         <OrganizationIcon
           isActive={
             router.pathname === '/organization/[orgId]/tournaments' ||
+            router.pathname === '/organization/[orgId]' ||
             router.pathname === '/organization'
           }
           size={40}

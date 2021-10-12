@@ -9,15 +9,12 @@ import '../styles/globals.scss';
 import '../public/npprogress.css';
 import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';
-import ProgressBar from '../components/UI/Progress/ProgressBar';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
     const handleStart = (url: string) => {
-      console.log(`Loading: ${url}`);
-      console.log(`Loading: ${router.pathname}`);
       NProgress.start();
     };
     const handleStop = () => {
@@ -37,7 +34,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        {/* <ProgressBar /> */}
         <style jsx>{`
           a {
             margin: 0 10px 0 0;

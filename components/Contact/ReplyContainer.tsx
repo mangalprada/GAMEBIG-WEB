@@ -38,7 +38,6 @@ export default function TypeContainer() {
       <button className="outline-none focus:outline-none" type="submit">
         <svg
           className="text-gray-400 h-7 w-7 origin-center transform rotate-90"
-          xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

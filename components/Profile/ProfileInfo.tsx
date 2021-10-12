@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CakeIcon from '@material-ui/icons/Cake';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useAuth } from '../../context/authContext';
-import Twitch from '../../assets/Icons/Twitch';
-import YouTube from '../../assets/Icons/YouTube';
-import Instagram from '../../assets/Icons/Instagram';
-import Facebook from '../../assets/Icons/Facebook';
-import Twitter from '../../assets/Icons/Twitter';
-import Reddit from '../../assets/Icons/Reddit';
+import Twitch from '../UI/Icons/SocialIcons/Twitch';
+import YouTube from '../UI/Icons/SocialIcons/YouTube';
+import Instagram from '../UI/Icons/SocialIcons/Instagram';
+import Facebook from '../UI/Icons/SocialIcons/Facebook';
+import Twitter from '../UI/Icons/SocialIcons/Twitter';
+import Reddit from '../UI/Icons/SocialIcons/Reddit';
 import { UserData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
 

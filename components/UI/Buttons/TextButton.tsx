@@ -11,12 +11,12 @@ const TextButton = ({ name, type }: Props) => {
       <span
         className={
           'text-lg font-semibold cursor-pointer ' +
-          'my-auto shadow-sm px-4 py-2 rounded-lg ' +
+          'my-auto shadow-sm px-4 py-2 rounded-lg bg-transparent ' +
           (type === 'normal'
-            ? 'text-indigo-500 bg-gray-100 hover:bg-gray-200'
+            ? 'text-indigo-500 hover:bg-gray-700'
             : type === 'success'
-            ? 'text-green-400 bg-green-50 hover:bg-green-100'
-            : 'text-red-400 bg-red-50 hover:bg-red-100')
+            ? 'text-green-400 hover:bg-green-800'
+            : 'text-red-400 hover:bg-red-900')
         }
       >
         {name}

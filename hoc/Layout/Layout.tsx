@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import classes from './Layout.module.scss';
 
 type Props = {
   children: React.ReactNode;
@@ -24,7 +23,10 @@ function Layout({ children }: Props) {
     <div className="bg-black">
       <Toolbar drawerToggleClicked={sideDrawerToggleHandler} />
       <SideDrawer open={showSideDrawer} closed={sideDrawerClosedHandler} />
-      <main className={classes.main}>{children}</main>
+      <main className="sm:w-11/12 lg:w-4/5 justify-center mx-auto">
+        {children}
+      </main>
+      <footer className="bg-black h-8"></footer>
     </div>
   );
 }

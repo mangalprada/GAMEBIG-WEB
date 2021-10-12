@@ -16,10 +16,10 @@ var month = [
 export const getDecoratedDate = (dateAsString: string): string => {
   const newDate = new Date(dateAsString);
   let decoratedDate =
+    newDate.getDate() +
+    ' ' +
     month[newDate.getMonth()] +
     ' ' +
-    newDate.getDate() +
-    ', ' +
     newDate.getFullYear();
   return decoratedDate;
 };

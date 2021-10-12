@@ -1,19 +1,22 @@
 import HeaderLogo from '../../UI/Logo/HeaderLogo';
-import NavigationItems from '../NavigationItems/NavigationItems';
-import { DrawerToggle } from '../SideDrawer/DrawerToggle/DrawerToggle';
-import classes from './Toolbar.module.scss';
+import PrimaryNavigationItems from '../NavigationItems/PrimaryNavigationItems';
+import SecondaryNavigationItems from '../NavigationItems/SecondaryNavigationItems';
 
-type Props = {
-  drawerToggleClicked: () => void;
-};
-
-function MainNavigation({ drawerToggleClicked }: Props) {
+function MainNavigation() {
   return (
-    <header className="flex flex-row justify-between bg-black h-20 align-middle px-10">
-      <DrawerToggle clicked={drawerToggleClicked} />
-      <HeaderLogo />
-      <nav className={classes.DesktopOnly}>
-        <NavigationItems />
+    <header>
+      <nav className="shadow-lg">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex justify-between">
+            <div className="flex space-x-10">
+              <div className="flex left-1">
+                <HeaderLogo />
+              </div>
+              <PrimaryNavigationItems />
+            </div>
+            <SecondaryNavigationItems />
+          </div>
+        </div>
       </nav>
     </header>
   );

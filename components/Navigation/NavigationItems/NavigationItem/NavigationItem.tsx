@@ -1,14 +1,13 @@
 import Link from 'next/link';
-import classes from './NavigationItem.module.scss';
 
 type Props = {
-  children: string;
+  children: JSX.Element | string;
   href: string;
 };
 
 export default function NavigationItem({ children, href }: Props) {
   return (
-    <li className={classes.NavigationItem}>
+    <li className="py-4 px-2 text-gray-500 font-semibold hover:text-indigo-600 transition duration-300">
       <Link href={href}>{children}</Link>
     </li>
   );

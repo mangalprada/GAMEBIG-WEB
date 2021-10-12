@@ -91,7 +91,7 @@ function ProfileForm({ oldValues, push }: Props) {
     >
       <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
         <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
-          Update Profile
+          Edit Profile
         </h6>
         <FixedButton
           name="Cancel"

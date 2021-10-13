@@ -22,7 +22,8 @@ export default function SecondaryNavigationItems() {
             <ProfileIcon
               isActive={
                 router.pathname === '/profile/[username]' ||
-                router.pathname === '/profile/[username]/teams'
+                router.pathname === '/profile/[username]/teams' ||
+                router.pathname === '/profile/[username]/edit'
               }
               size={36}
             />

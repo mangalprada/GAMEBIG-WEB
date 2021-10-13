@@ -1,26 +1,29 @@
-import { makeStyles, Tab, Theme } from '@material-ui/core';
 import Link from 'next/link';
-import React from 'react';
+import { FC } from 'react';
 
 interface Props {
   href: string;
   label: string;
+  isActive: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tabStyle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-  },
-}));
-
-export default function TabNavItem({ href, label }: Props) {
-  const classes = useStyles();
-
+const TabNavItem: FC<Props> = ({ href, label, isActive }: Props) => {
   return (
     <Link href={href} passHref>
-      <Tab label={label} className={classes.tabStyle} textColor="secondary" />
+      <li
+        className={
+          'py-4 px-10 block rounded-t-lg ' +
+          'cursor-pointer hover:bg-gray-900 ' +
+          'font-semibold text-lg font-sans tracking-wider ' +
+          (isActive
+            ? 'border-b-4 border-indigo-600 text-gray-300'
+            : 'text-gray-500')
+        }
+      >
+        {label}
+      </li>
     </Link>
   );
-}
+};
+
+export default TabNavItem;

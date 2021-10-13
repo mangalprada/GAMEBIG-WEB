@@ -1,34 +1,21 @@
-import { Button, createStyles, makeStyles, Theme } from '@material-ui/core';
-import { EmojiEventsRounded } from '@material-ui/icons';
-import Link from 'next/link';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      marginBottom: 10,
-      flexDirection: 'row-reverse',
-    },
-  })
-);
+import { useRouter } from 'next/router';
+import FixedButton from '../../UI/Buttons/FixedButton';
 
 interface Props {
   orgId: string;
 }
 
 export default function CreateTournament({ orgId }: Props) {
-  const classes = useStyles();
+  const router = useRouter();
+
   return (
-    <div className={classes.root}>
-      <Link href={`/organization/${orgId}/tournaments/create`} passHref>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<EmojiEventsRounded fontSize="medium" />}
-        >
-          Start a Tournament / Custom
-        </Button>
-      </Link>
+    <div className={'flex xl:w-2/3 md:w-5/6 mx-auto justify-end px-4 md:px-0'}>
+      <FixedButton
+        name="Host a Custom Match"
+        onClickHandler={() =>
+          router.push(`/organization/${orgId}/tournaments/create`)
+        }
+      />
     </div>
   );
 }

@@ -10,24 +10,26 @@ export default function SecondaryNavigationItems() {
 
   return (
     <ul className="flex items-center space-x-2">
-      <NavigationItem href="/notification">
-        <NotificationIcon
-          isActive={router.pathname === '/notification'}
-          size={40}
-        />
-      </NavigationItem>
       {user.username ? (
-        <NavigationItem href={`/profile/${user.username}`}>
-          <ProfileIcon
-            isActive={
-              router.pathname === '/profile/[username]' ||
-              router.pathname === '/profile/[username]/teams'
-            }
-            size={40}
-          />
-        </NavigationItem>
+        <>
+          <NavigationItem href="/notification">
+            <NotificationIcon
+              isActive={router.pathname === '/notification'}
+              size={40}
+            />
+          </NavigationItem>
+          <NavigationItem href={`/profile/${user.username}`}>
+            <ProfileIcon
+              isActive={
+                router.pathname === '/profile/[username]' ||
+                router.pathname === '/profile/[username]/teams'
+              }
+              size={40}
+            />
+          </NavigationItem>
+        </>
       ) : (
-        <NavigationItem href="/auth">Sign&nbsp;In/Sign&nbsp;Up</NavigationItem>
+        <NavigationItem href="/auth">Sign&nbsp;In/ Sign&nbsp;Up</NavigationItem>
       )}
     </ul>
   );

@@ -122,23 +122,32 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
         </span>
       </div>
       <div className="flex flex-row justify-between md:mx-20 mx-8">
-        <Link
-          href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/`}
-          passHref
-        >
-          <TextButton name="DETAILS" type="normal" />
-        </Link>
+        <TextButton
+          name="DETAILS"
+          type="normal"
+          onClickHandler={() =>
+            router.push(
+              `/organization/${data.linkedOrgId}/tournaments/${data.id}/`
+            )
+          }
+        />
+
         {!isOrganizer && (
-          <Link
-            href={`/organization/${data.linkedOrgId}/tournaments/${data.id}/#register`}
-            passHref
-          >
+          <>
             {isRegistered ? (
-              <TextButton name="REGISTERED" type="success" />
+              <TextButton
+                name="REGISTERED"
+                type="success"
+                onClickHandler={() =>
+                  router.push(
+                    `/organization/${data.linkedOrgId}/tournaments/${data.id}/#register`
+                  )
+                }
+              />
             ) : (
               <FixedButton name="REGISTER" />
             )}
-          </Link>
+          </>
         )}
       </div>
     </div>

@@ -34,11 +34,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <style jsx>{`
-          a {
-            margin: 0 10px 0 0;
-          }
-        `}</style>
         <Layout>
           <Component {...pageProps} />
         </Layout>

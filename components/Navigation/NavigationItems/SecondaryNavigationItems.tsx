@@ -15,7 +15,7 @@ export default function SecondaryNavigationItems() {
           <NavigationItem href="/notification">
             <NotificationIcon
               isActive={router.pathname === '/notification'}
-              size={40}
+              size={36}
             />
           </NavigationItem>
           <NavigationItem href={`/profile/${user.username}`}>
@@ -24,7 +24,7 @@ export default function SecondaryNavigationItems() {
                 router.pathname === '/profile/[username]' ||
                 router.pathname === '/profile/[username]/teams'
               }
-              size={40}
+              size={36}
             />
           </NavigationItem>
         </>

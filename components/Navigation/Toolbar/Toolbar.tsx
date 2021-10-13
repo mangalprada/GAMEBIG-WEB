@@ -5,8 +5,8 @@ import SecondaryNavigationItems from '../NavigationItems/SecondaryNavigationItem
 function MainNavigation() {
   return (
     <header>
-      <nav className="shadow-2xl h-auto">
-        <div className="mx-6">
+      <nav className="h-auto bg-gradient-to-b from-transparent via-transparent to-gray-900">
+        <div className="md:mx-6 mx-4">
           <div className="flex justify-between">
             <HeaderLogo />
             <PrimaryNavigationItems />

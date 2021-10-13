@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import 'tailwindcss/tailwind.css';
-import '../styles/globals.scss';
+import '../styles/globals.css';
 import '../public/npprogress.css';
 import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';

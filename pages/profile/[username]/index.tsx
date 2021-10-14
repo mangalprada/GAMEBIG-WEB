@@ -68,7 +68,7 @@ export default function Home({
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <Aux>
-        <ProfileHeader userData={userData} tabNumber={0} />
+        <ProfileHeader userData={userData} />
         <div>
           {userData.username === user.username ? (
             <Button

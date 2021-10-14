@@ -1,24 +1,31 @@
+import { FC } from 'react';
 import PersonalInfo from './ProfileInfo';
 import TabNavigator from '../Navigation/TabNavigation/TabNavigator';
 import { UserData } from '../../utilities/types';
 
-function ProfileHeader({
-  userData,
-  tabNumber,
-}: {
+type Props = {
   userData: UserData;
-  tabNumber: number;
-}) {
+};
+
+const ProfileHeader: FC<Props> = ({ userData }: Props) => {
   const tabs = [
-    { label: 'Games', href: `/profile/${userData.username}/` },
-    { label: 'Teams', href: `/profile/${userData.username}/teams` },
+    {
+      label: 'Games',
+      href: `/profile/${userData.username}`,
+      pathName: '/profile/[username]',
+    },
+    {
+      label: 'Teams',
+      href: `/profile/${userData.username}/teams`,
+      pathName: '/profile/[username]/teams',
+    },
   ];
   return (
     <div>
       <PersonalInfo userData={userData} />
-      <TabNavigator tabNumber={tabNumber} tabs={tabs} />
+      <TabNavigator tabs={tabs} />
     </div>
   );
-}
+};
 
 export default ProfileHeader;

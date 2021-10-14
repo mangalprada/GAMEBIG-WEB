@@ -12,15 +12,25 @@ export default function PrimaryNavigationItems() {
   const router = useRouter();
 
   return (
-    <ul className="hidden md:flex items-center space-x-12 mr-20">
-      <NavigationItem href="/" toolTip="Events">
-        <TrophyIcon isActive={router.pathname === '/'} size={40} />
+    <ul className="hidden md:flex items-end space-x-12 mr-20">
+      <NavigationItem
+        href="/"
+        isActive={router.pathname === '/'}
+        toolTip="Events"
+      >
+        <TrophyIcon isActive={router.pathname === '/'} size={36} />
       </NavigationItem>
       <NavigationItem
         href={
           linkedOrganizationId
             ? `/organization/${linkedOrganizationId}/tournaments`
             : `/organization`
+        }
+        isActive={
+          router.pathname === '/organization/[orgId]/tournaments' ||
+          router.pathname === '/organization/[orgId]' ||
+          router.pathname === '/organization' ||
+          router.pathname === '/organization/create'
         }
         toolTip="Organization"
       >
@@ -31,11 +41,15 @@ export default function PrimaryNavigationItems() {
             router.pathname === '/organization' ||
             router.pathname === '/organization/create'
           }
-          size={40}
+          size={36}
         />
       </NavigationItem>
-      <NavigationItem href="/contact" toolTip="Feedback">
-        <ForumIcon isActive={router.pathname === '/contact'} size={40} />
+      <NavigationItem
+        href="/contact"
+        isActive={router.pathname === '/contact'}
+        toolTip="Feedback"
+      >
+        <ForumIcon isActive={router.pathname === '/contact'} size={36} />
       </NavigationItem>
     </ul>
   );

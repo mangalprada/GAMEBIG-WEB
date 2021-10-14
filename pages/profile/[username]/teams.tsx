@@ -66,7 +66,7 @@ export default function Home({
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
-        <ProfileHeader userData={userData} tabNumber={1} />
+        <ProfileHeader userData={userData} />
         {currentTeams.length !== 0 ? (
           currentTeams.map((team, index) => {
             return (

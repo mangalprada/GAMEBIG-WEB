@@ -1,13 +1,14 @@
-import React from 'react';
+import { FC } from 'react';
 
 type Props = {
   name: string;
   type: 'normal' | 'success' | 'fail';
+  onClickHandler: () => void;
 };
 
-const TextButton = ({ name, type }: Props) => {
+const TextButton: FC<Props> = ({ name, type, onClickHandler }: Props) => {
   return (
-    <div className="flex my-4 justify-center">
+    <div className="flex my-4 justify-center" onClick={onClickHandler}>
       <span
         className={
           'text-lg font-semibold cursor-pointer ' +

@@ -1,59 +1,31 @@
-import {
-  Avatar,
-  createStyles,
-  Theme,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import { LocationOnRounded } from '@material-ui/icons';
+import { FC } from 'react';
 import Head from 'next/head';
 import TabNavigator from '../../Navigation/TabNavigation/TabNavigator';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { useAuth } from '../../../context/authContext';
 import { OrgFormData } from '../../../utilities/organization/types';
+import LocationIcon from '../../UI/Icons/TournamentIcons/LocationIcon';
 
-interface Props {
-  tabNumber: number;
+type Props = {
   data: OrgFormData;
-}
+};
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    infoContainer: {
-      display: 'flex',
-      marginBlock: 20,
-    },
-    infoTextContainer: {
-      marginInline: 30,
-      paddingBlock: 10,
-    },
-    element: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: 5,
-      marginTop: 5,
-    },
-    avatar: {
-      backgroundColor: red[500],
-      height: theme.spacing(10),
-      width: theme.spacing(10),
-    },
-  })
-);
-
-export default function HeaderOrg({ tabNumber, data }: Props) {
-  const classes = useStyles();
-
+const HeaderOrg: FC<Props> = ({ data }: Props) => {
   const {
     userData: { linkedOrganizationId },
   } = useAuth();
-  const tabs = [
+
+  const TABS = [
     {
       label: 'Events',
       href: `/organization/${linkedOrganizationId}/tournaments`,
+      pathName: '/organization/[orgId]/tournaments',
     },
-    { label: 'About', href: `/organization/${linkedOrganizationId}` },
+    {
+      label: 'About',
+      href: `/organization/${linkedOrganizationId}`,
+      pathName: '/organization/[orgId]',
+    },
   ];
 
   return (
@@ -64,28 +36,27 @@ export default function HeaderOrg({ tabNumber, data }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className={classes.infoContainer}>
-        <Avatar alt="SE" className={classes.avatar}>
-          {data.name[0]}
-        </Avatar>
-        <div className={classes.infoTextContainer}>
-          <Typography variant="h5" color="textPrimary">
+      <div className="flex flex-row xl:w-2/3 md:w-5/6 mx-auto px-4 md:px-0 my-8">
+        <div className="flex w-16 h-16 bg-indigo-600 rounded-full items-center my-auto">
+          <span className="self-center text-5xl font-bold tracking-wide text-gray-900 font-sans m-auto">
+            {data.name[0]}
+          </span>
+        </div>
+        <div className="ml-5">
+          <span className="text-gray-300 text-2xl font-semibold font-sans ml-2">
             {data.name}
-          </Typography>
-          <div className={classes.element}>
-            <LocationOnRounded fontSize="small" />
-            <Typography
-              variant="body1"
-              color="textSecondary"
-              component="body"
-              display="inline"
-            >
+          </span>
+          <div className="flex flex-row mt-4">
+            <LocationIcon styles={'fill-current text-indigo-400'} />
+            <span className="text-gray-400 text-lg ml-2 font-sans">
               {data.location}
-            </Typography>
+            </span>
           </div>
         </div>
       </div>
-      <TabNavigator tabNumber={tabNumber} tabs={tabs} />
+      <TabNavigator tabs={TABS} />
     </Aux>
   );
-}
+};
+
+export default HeaderOrg;

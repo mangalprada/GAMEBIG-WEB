@@ -10,16 +10,16 @@ const phoneRegExp = new RegExp(
 export const validationSchema = yup.object({
   name: yup.string().required('Name is Required'),
   about: yup.string(),
-  location: yup.string().required('Country name is Required'),
+  location: yup.string().notRequired(),
   email: yup
     .string()
     .email('Enter a valid email')
     .required('Email is required'),
   phone: yup
     .string()
-    .length(10, 'Phone number must be 10 digits long')
+    .length(10, 'Mobile number must be 10 digits long')
     .required('Mobile number is required')
-    .matches(phoneRegExp, 'Contact number is not valid'),
+    .matches(phoneRegExp, 'Mobile number is not valid'),
   website: yup.string().url('Enter a valid URL').notRequired(),
   youtube: yup.string().url('Enter a valid URL').notRequired(),
   twitch: yup.string().url('Enter a valid URL').notRequired(),
@@ -27,4 +27,5 @@ export const validationSchema = yup.object({
   instagram: yup.string().url('Enter a valid URL').notRequired(),
   twitter: yup.string().url('Enter a valid URL').notRequired(),
   reddit: yup.string().url('Enter a valid URL').notRequired(),
+  discord: yup.string().url('Enter a valid URL').notRequired(),
 });

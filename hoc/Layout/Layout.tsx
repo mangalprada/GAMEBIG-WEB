@@ -9,7 +9,7 @@ function Layout({ children }: Props) {
   return (
     <div className="bg-black">
       <Toolbar />
-      <main className="sm:w-11/12 lg:w-4/5 bg-repeat justify-center mx-auto">
+      <main className="sm:w-11/12 lg:w-4/5 justify-center mx-auto">
         {children}
       </main>
       <BottomNavigationBar />

@@ -26,7 +26,7 @@ export default function Tournaments({ organizationData, tournaments }: Props) {
       </Head>
       {organizationData ? (
         <>
-          <HeaderOrg data={organizationData} tabNumber={0} />
+          <HeaderOrg data={organizationData} />
           {organizationData.id && (
             <CreateTournamentButton orgId={organizationData.id} />
           )}

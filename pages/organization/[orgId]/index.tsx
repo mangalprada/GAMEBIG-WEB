@@ -22,7 +22,7 @@ export default function OrganizationAdmin({ organizationData }: Props) {
       </Head>
       {organizationData ? (
         <>
-          <HeaderOrg tabNumber={id} data={organizationData} />
+          <HeaderOrg data={organizationData} />
           <OrganizationProfile data={organizationData} />
         </>
       ) : (

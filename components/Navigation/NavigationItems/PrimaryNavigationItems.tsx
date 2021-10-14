@@ -14,7 +14,7 @@ export default function PrimaryNavigationItems() {
   return (
     <ul className="hidden md:flex items-center space-x-12 mr-20">
       <NavigationItem href="/">
-        <TrophyIcon isActive={router.pathname === '/'} size={48} />
+        <TrophyIcon isActive={router.pathname === '/'} size={44} />
       </NavigationItem>
       <NavigationItem
         href={

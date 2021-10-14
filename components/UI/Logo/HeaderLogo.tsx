@@ -6,7 +6,7 @@ const HeaderLogo: FC = () => {
   return (
     <Link href="/" passHref>
       <a href="/">
-        <div className="md:mt-5 mt-3">
+        <div className="mt-2 md:my-2">
           <span
             className="md:text-4xl md:font-bold text-2xl font-semibold bg-clip-text text-transparent tracking-wide 
       bg-gradient-to-tr from-green-500 via-indigo-600 to-red-500 font-sans"

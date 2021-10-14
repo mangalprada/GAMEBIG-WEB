@@ -12,13 +12,13 @@ export default function SecondaryNavigationItems() {
     <ul className="flex items-center space-x-2">
       {user.username ? (
         <>
-          <NavigationItem href="/notification">
+          <NavigationItem href="/notification" toolTip="Notification">
             <NotificationIcon
               isActive={router.pathname === '/notification'}
               size={36}
             />
           </NavigationItem>
-          <NavigationItem href={`/profile/${user.username}`}>
+          <NavigationItem href={`/profile/${user.username}`} toolTip="Profile">
             <ProfileIcon
               isActive={
                 router.pathname === '/profile/[username]' ||

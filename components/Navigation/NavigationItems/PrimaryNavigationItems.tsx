@@ -13,7 +13,7 @@ export default function PrimaryNavigationItems() {
 
   return (
     <ul className="hidden md:flex items-center space-x-12 mr-20">
-      <NavigationItem href="/">
+      <NavigationItem href="/" toolTip="Events">
         <TrophyIcon isActive={router.pathname === '/'} size={40} />
       </NavigationItem>
       <NavigationItem
@@ -22,6 +22,7 @@ export default function PrimaryNavigationItems() {
             ? `/organization/${linkedOrganizationId}/tournaments`
             : `/organization`
         }
+        toolTip="Organization"
       >
         <OrganizationIcon
           isActive={
@@ -33,7 +34,7 @@ export default function PrimaryNavigationItems() {
           size={40}
         />
       </NavigationItem>
-      <NavigationItem href="/contact">
+      <NavigationItem href="/contact" toolTip="Feedback">
         <ForumIcon isActive={router.pathname === '/contact'} size={40} />
       </NavigationItem>
     </ul>

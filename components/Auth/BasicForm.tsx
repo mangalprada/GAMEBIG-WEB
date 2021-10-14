@@ -1,43 +1,11 @@
 import { useState } from 'react';
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  TextField,
-  Theme,
-  Typography,
-} from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { useAuth } from '../../context/authContext';
 import { UserData } from '../../utilities/types';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        width: '100%',
-        marginTop: 10,
-        marginBottom: 10,
-      },
-      width: '100%',
-      maxWidth: '800px',
-      background: theme.palette.background.paper,
-    },
-    form: { display: 'flex', flexDirection: 'column' },
-    button: {
-      width: '100%',
-      marginTop: 10,
-      marginBottom: 10,
-    },
-    buttonText: {
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-    },
-    text: { marginLeft: '48%' },
-  })
-);
+import FormInput from '../UI/Inputs/FormInput';
+import FixedButton from '../UI/Buttons/FixedButton';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -54,7 +22,6 @@ type Props = {
 };
 
 function BasicForm({ userData, setUserData }: Props) {
-  const classes = useStyles();
   const {
     user,
     updateAuthPageNumber,
@@ -89,32 +56,23 @@ function BasicForm({ userData, setUserData }: Props) {
   };
 
   return (
-    <div className={classes.root}>
-      <form className={classes.form} onSubmit={formik.handleSubmit}>
-        <TextField
-          type="text"
+    <div
+      className={
+        'flex flex-col mx-auto px-auto w-11/12  md:w-3/5 mt-60 md:mt-20 pt-20 font-san font-semibold ' +
+        'rounded-lg bg-gradient-to-tl from-gray-900 to-black'
+      }
+    >
+      <form className="w-full flex justify-center">
+        <FormInput
+          labelName="username"
           name="username"
-          label="username"
-          variant="outlined"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
           value={formik.values.username}
-          error={formik.touched.username && Boolean(formik.errors.username)}
-          helperText={formik.touched.username && formik.errors.username}
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.username)}
+          errorMessage={formik.errors.username}
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={formik.isSubmitting}
-          className={classes.button}
-        >
-          <Typography variant="body1" className={classes.buttonText}>
-            Save and Continue
-          </Typography>
-        </Button>
       </form>
-      <h3 className={classes.text}>1/2</h3>
+      <FixedButton onClickHandler={formik.handleSubmit} name="Continue" />
       <SnackbarAlert
         vertical="bottom"
         horizontal="center"

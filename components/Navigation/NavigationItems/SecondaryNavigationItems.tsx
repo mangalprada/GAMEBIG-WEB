@@ -14,7 +14,7 @@ export default function SecondaryNavigationItems() {
 
   return (
     <ul className="flex items-end space-x-2">
-      {!user.username ? (
+      {user.username ? (
         <>
           <NavigationItem
             href="/notification"

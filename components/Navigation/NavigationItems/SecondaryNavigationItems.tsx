@@ -8,9 +8,13 @@ export default function SecondaryNavigationItems() {
   const { user } = useAuth();
   const router = useRouter();
 
+  const handleButtonClick = async () => {
+    await router.push('/auth');
+  };
+
   return (
     <ul className="flex items-end space-x-2">
-      {user.username ? (
+      {!user.username ? (
         <>
           <NavigationItem
             href="/notification"
@@ -42,7 +46,12 @@ export default function SecondaryNavigationItems() {
           </NavigationItem>
         </>
       ) : (
-        <NavigationItem href="/auth">Sign&nbsp;In/ Sign&nbsp;Up</NavigationItem>
+        <div
+          className="bg-indigo-600 hover:bg-indigo-800 font-semibold text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer"
+          onClick={handleButtonClick}
+        >
+          Sign&nbsp;In/ Sign&nbsp;Up
+        </div>
       )}
     </ul>
   );

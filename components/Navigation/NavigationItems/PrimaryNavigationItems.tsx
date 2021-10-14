@@ -27,7 +27,8 @@ export default function PrimaryNavigationItems() {
           isActive={
             router.pathname === '/organization/[orgId]/tournaments' ||
             router.pathname === '/organization/[orgId]' ||
-            router.pathname === '/organization'
+            router.pathname === '/organization' ||
+            router.pathname === '/organization/create'
           }
           size={40}
         />

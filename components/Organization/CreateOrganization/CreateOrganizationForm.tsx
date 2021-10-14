@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Link from 'next/link';
 import router from 'next/router';
 import {
   Backdrop,
@@ -11,7 +10,6 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
-import { ArrowBackRounded } from '@material-ui/icons';
 import { useFormik } from 'formik';
 import { OrgFormData } from '../../../utilities/organization/types';
 import { validationSchema } from '../../../utilities/organization/validator';
@@ -20,6 +18,10 @@ import {
   addOrganizationIdtoAdminUser,
 } from '../../../lib/addOrganization';
 import { useAuth } from '../../../context/authContext';
+import FixedButton from '../../UI/Buttons/FixedButton';
+import FormInput from '../../UI/Inputs/FormInput';
+import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
+import TextArea from '../../UI/Inputs/TextArea';
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -95,161 +97,167 @@ function CreateOrganizationForm() {
   });
 
   return (
-    <form
-      className={classes.root}
-      onSubmit={formik.handleSubmit}
-      noValidate
-      autoComplete="false"
+    <div
+      className={
+        'w-full mx-auto mt-6 ' +
+        'relative flex flex-col min-w-0 break-words w-full mb-6 ' +
+        'shadow-lg rounded-lg border-0'
+      }
     >
-      <Link href="/organization" passHref>
-        <Button
-          color="primary"
-          startIcon={<ArrowBackRounded color="primary" />}
-        >
-          Go Back
-        </Button>
-      </Link>
-      <Typography variant="h5" className={classes.header}>
-        Create Organization
-      </Typography>
-      <TextField
-        id="name"
-        label="Organization Name*"
-        variant="outlined"
-        value={formik.values.name}
-        onChange={formik.handleChange}
-        error={formik.touched.name && Boolean(formik.errors.name)}
-        helperText={formik.touched.name && formik.errors.name}
-      />
-      <TextField
-        id="about"
-        label="About"
-        multiline
-        rows={4}
-        placeholder="A brief description about your organization/community"
-        variant="outlined"
-        value={formik.values.about}
-        onChange={formik.handleChange}
-      />
-      <TextField
-        id="location"
-        label="Location*"
-        variant="outlined"
-        value={formik.values.location}
-        onChange={formik.handleChange}
-        error={formik.touched.location && Boolean(formik.errors.location)}
-        helperText={formik.touched.location && formik.errors.location}
-      />
-      <TextField
-        id="email"
-        label="Official email*"
-        variant="outlined"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-      />
-      <TextField
-        id="phone"
-        label="Mobile no*"
-        variant="outlined"
-        value={formik.values.phone}
-        onChange={formik.handleChange}
-        error={formik.touched.phone && Boolean(formik.errors.phone)}
-        helperText={formik.touched.phone && formik.errors.phone}
-      />
-      <Typography variant="h6" className={classes.header} color="textPrimary">
-        Social Links
-      </Typography>
-      <TextField
-        id="website"
-        label="Website Link"
-        variant="outlined"
-        value={formik.values.website}
-        onChange={formik.handleChange}
-        error={formik.touched.website && Boolean(formik.errors.website)}
-        helperText={formik.touched.website && formik.errors.website}
-      />
-      <TextField
-        id="youtube"
-        label="YouTube Channel Link"
-        variant="outlined"
-        value={formik.values.youtube}
-        onChange={formik.handleChange}
-        error={formik.touched.youtube && Boolean(formik.errors.youtube)}
-        helperText={formik.touched.youtube && formik.errors.youtube}
-      />
-      <TextField
-        id="facebook"
-        label="Facebook Page Link"
-        variant="outlined"
-        value={formik.values.facebook}
-        onChange={formik.handleChange}
-        error={formik.touched.facebook && Boolean(formik.errors.facebook)}
-        helperText={formik.touched.facebook && formik.errors.facebook}
-      />
-      <TextField
-        id="instagram"
-        label="Instagram Page Link"
-        variant="outlined"
-        value={formik.values.instagram}
-        onChange={formik.handleChange}
-        error={formik.touched.instagram && Boolean(formik.errors.instagram)}
-        helperText={formik.touched.instagram && formik.errors.instagram}
-      />
-      <TextField
-        id="twitter"
-        label="Twitter Page Link"
-        variant="outlined"
-        value={formik.values.twitter}
-        onChange={formik.handleChange}
-        error={formik.touched.twitter && Boolean(formik.errors.twitter)}
-        helperText={formik.touched.twitter && formik.errors.twitter}
-      />
-      <TextField
-        id="discord"
-        label="Discord Channel Link"
-        variant="outlined"
-        value={formik.values.discord}
-        onChange={formik.handleChange}
-        error={formik.touched.discord && Boolean(formik.errors.discord)}
-        helperText={formik.touched.discord && formik.errors.discord}
-      />
-      <TextField
-        id="twitch"
-        label="Twitch Channel Link"
-        variant="outlined"
-        value={formik.values.twitch}
-        onChange={formik.handleChange}
-        error={formik.touched.twitch && Boolean(formik.errors.twitch)}
-        helperText={formik.touched.twitch && formik.errors.twitch}
-      />
-      <TextField
-        id="reddit"
-        label="Reddit Page Link"
-        variant="outlined"
-        value={formik.values.reddit}
-        onChange={formik.handleChange}
-        error={formik.touched.reddit && Boolean(formik.errors.reddit)}
-        helperText={formik.touched.reddit && formik.errors.reddit}
-      />
-      <div className={classes.buttonContainer}>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth={true}
-          type="submit"
-          onClick={() => scrollToTop()}
-        >
-          <Typography variant="body1" className={classes.buttonText}>
-            Create
-          </Typography>
-        </Button>
+      <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
+        <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
+          Create Organization
+        </h6>
+        <FixedButton
+          name="Cancel"
+          isDangerous={true}
+          onClickHandler={() => router.back()}
+        />
       </div>
-      <Backdrop className={classes.backdrop} open={isBackDropOpen}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </form>
+      <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
+        <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
+          <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
+            Basic Information
+          </h6>
+          <div className="flex flex-wrap">
+            <FormInput
+              labelName="Organization Name*"
+              name="name"
+              value={formik.values.name}
+              placeHolder="Awsome Esports"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.name)}
+              errorMessage={formik.errors.name}
+            />
+            <FormInput
+              labelName="Official Email*"
+              name="email"
+              value={formik.values.email}
+              placeHolder="awsome@xyz.com"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.email)}
+              errorMessage={formik.errors.email}
+            />
+            <FormInput
+              labelName="Phone Number*"
+              name="phone"
+              value={formik.values.phone}
+              placeHolder="10 digit e.g. - 9876543210"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.phone)}
+              errorMessage={formik.errors.phone}
+            />
+            <FormInput
+              labelName="Location"
+              name="location"
+              value={formik.values.location}
+              placeHolder="India"
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.location)}
+              errorMessage={formik.errors.location}
+            />
+          </div>
+          <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
+            About
+          </h6>
+          <TextArea
+            name="about"
+            labelName="About us"
+            placeHolder="We organize awsome matches and tournaments."
+            value={formik.values.about}
+            onChangeHandler={formik.handleChange}
+          />
+          <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
+            Social Links
+          </h6>
+          <div className="flex flex-wrap">
+            <FormInput
+              labelName="Website"
+              name="website"
+              placeHolder="link to your official website"
+              value={formik.values.website}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.website)}
+              errorMessage={formik.errors.website}
+            />
+            <FormInput
+              labelName="Youtube"
+              name="youtube"
+              placeHolder="link to your YouTube channel"
+              value={formik.values.youtube}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.youtube)}
+              errorMessage={formik.errors.youtube}
+            />
+            <FormInput
+              labelName="Discord"
+              name="discord"
+              placeHolder="link to your Discord channel"
+              value={formik.values.discord}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.discord)}
+              errorMessage={formik.errors.discord}
+            />
+            <FormInput
+              labelName="Twitch"
+              name="twitch"
+              placeHolder="link to your twitch channel"
+              value={formik.values.twitch}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.twitch)}
+              errorMessage={formik.errors.twitch}
+            />
+            <FormInput
+              labelName="Facebook"
+              name="facebook"
+              placeHolder="link to your facebook profile"
+              value={formik.values.facebook}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.facebook)}
+              errorMessage={formik.errors.facebook}
+            />
+            <FormInput
+              labelName="Instagram"
+              name="instagram"
+              placeHolder="link to your Instagram profile"
+              value={formik.values.instagram}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.instagram)}
+              errorMessage={formik.errors.instagram}
+            />
+            <FormInput
+              labelName="Twitter"
+              name="twitter"
+              placeHolder="link to your Twitter page"
+              value={formik.values.twitter}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.twitter)}
+              errorMessage={formik.errors.twitter}
+            />
+            <FormInput
+              labelName="Reddit"
+              name="reddit"
+              placeHolder="link to your reddit profile"
+              value={formik.values.reddit}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.reddit)}
+              errorMessage={formik.errors.reddit}
+            />
+          </div>
+          <div className={classes.buttonContainer}>
+            <ResponsiveButton
+              name="Create"
+              type="submit"
+              isDisabled={formik.isSubmitting}
+              onClickHandler={() => scrollToTop()}
+            />
+          </div>
+          <Backdrop className={classes.backdrop} open={isBackDropOpen}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </form>
+      </div>
+    </div>
   );
 }
 

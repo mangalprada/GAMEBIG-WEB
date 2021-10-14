@@ -20,17 +20,15 @@ export default function Home({ tournaments }: Props) {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <Aux>
-        <main className={classes.Main}>
-          <div>
-            {tournaments.map((tournament: TournamentData) => (
-              <TournamentCard
-                key={tournament.id}
-                data={tournament}
-                isOrganizer={false}
-              />
-            ))}
-          </div>
-        </main>
+        <div className="mt-10">
+          {tournaments.map((tournament: TournamentData) => (
+            <TournamentCard
+              key={tournament.id}
+              data={tournament}
+              isOrganizer={false}
+            />
+          ))}
+        </div>
       </Aux>
     </div>
   );

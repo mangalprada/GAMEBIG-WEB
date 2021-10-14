@@ -36,7 +36,7 @@ export default function NavigationItem({
               <a href={href}>{children}</a>
             </Link>
             {toolTip && (
-              <div className="opacity-0 w-24 font-sans bg-gray-300 text-grey-900 text-center text-xs rounded-md py-2 absolute z-10 group-hover:opacity-100 top-14 -left-7 px-1.5 pointer-events-none">
+              <div className="opacity-0 w-24 font-sans bg-gray-300 text-grey-900 text-center text-xs rounded-md py-2 absolute z-10 group-hover:opacity-100 top-12 -left-7 px-1.5 pointer-events-none">
                 {toolTip}
               </div>
             )}

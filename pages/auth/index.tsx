@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useAuth } from '../../context/authContext';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
+import AuthComponent from '../../components/Auth/AuthComponent';
 import AddGames from '../../components/Auth/AddGames';
-import AuthButtons from '../../components/Auth/AuthButtons';
 import BasicForm from '../../components/Auth/BasicForm';
 import { UserData } from '../../utilities/types';
 
@@ -24,10 +24,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className="flex flex-col justify-end items-center sm:justify-center fixed w-screen h-screen inset-0 bg-black z-20">
+      <div
+        className={
+          'flex flex-col justify-end items-center sm:justify-center ' +
+          'fixed w-screen h-screen inset-0 bg-black z-20'
+        }
+      >
         {
           {
-            1: <AuthButtons />,
+            1: <AuthComponent />,
             2: <BasicForm userData={userData} setUserData={setUserData} />,
             3: <AddGames isUpdating={false} username={userData.username} />,
           }[authPageNumber]

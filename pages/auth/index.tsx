@@ -1,22 +1,11 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import { useAuth } from '../../context/authContext';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import AddGames from '../../components/Auth/AddGames';
 import AuthButtons from '../../components/Auth/AuthButtons';
 import BasicForm from '../../components/Auth/BasicForm';
 import { UserData } from '../../utilities/types';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  })
-);
 
 const inititalValues: UserData = {
   uid: '',
@@ -25,7 +14,6 @@ const inititalValues: UserData = {
 };
 
 export default function Home() {
-  const classes = useStyles();
   const { authPageNumber } = useAuth();
   const [userData, setUserData] = useState(inititalValues);
   return (
@@ -36,7 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className={classes.container}>
+      <div className="flex flex-col justify-end items-center sm:justify-center fixed w-screen h-screen inset-0 bg-black z-20">
         {
           {
             1: <AuthButtons />,

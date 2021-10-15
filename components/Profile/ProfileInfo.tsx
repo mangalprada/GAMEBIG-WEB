@@ -7,12 +7,12 @@ import SmartphoneIcon from '@material-ui/icons/Smartphone';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useAuth } from '../../context/authContext';
-import Twitch from '../UI/Icons/SocialIcons/Twitch';
-import YouTube from '../UI/Icons/SocialIcons/YouTube';
-import Instagram from '../UI/Icons/SocialIcons/Instagram';
-import Facebook from '../UI/Icons/SocialIcons/Facebook';
-import Twitter from '../UI/Icons/SocialIcons/Twitter';
-import Reddit from '../UI/Icons/SocialIcons/Reddit';
+import Twitch from '../UI/Icons/SocialIcons/TwitchIcon';
+import YouTube from '../UI/Icons/SocialIcons/YouTubeIcon';
+import Instagram from '../UI/Icons/SocialIcons/InstagramIcon';
+import Facebook from '../UI/Icons/SocialIcons/FacebookIcon';
+import Twitter from '../UI/Icons/SocialIcons/TwitterIcon';
+import Reddit from '../UI/Icons/SocialIcons/RedditIcon';
 import { UserData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
 

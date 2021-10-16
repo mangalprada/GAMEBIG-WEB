@@ -1,18 +1,6 @@
 import { useState } from 'react';
 import router from 'next/router';
 import { useFormik } from 'formik';
-import {
-  Button,
-  Typography,
-  createStyles,
-  makeStyles,
-  Theme,
-  TextField,
-  FormLabel,
-  Backdrop,
-  CircularProgress,
-} from '@material-ui/core';
-import { ArrowBackIosRounded } from '@material-ui/icons';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { GAMES } from '../../../assets/data/Games';
 import { MODES, SCREAMS, TYPES } from '../../../assets/data/Utils';
@@ -25,32 +13,10 @@ import { validationSchema } from '../../../utilities/tournament/validator';
 import { addNewTournament } from '../../../lib/createTournament';
 import { useAuth } from '../../../context/authContext';
 import DatePicker from '../../UI/Picker/DatePicker';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginTop: 10,
-      marginLeft: 20,
-    },
-    textBoxContainer: {
-      marginBlock: 15,
-      marginLeft: 8,
-    },
-    textBox: {
-      minWidth: '90%',
-      marginTop: 10,
-    },
-    buttonContainer: {
-      display: 'flex',
-      justifyContent: 'center',
-      marginRight: 20,
-    },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
-  })
-);
+import FixedButton from '../../UI/Buttons/FixedButton';
+import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
+import FormInput from '../../UI/Inputs/FormInput';
+import TextArea from '../../UI/Inputs/TextArea';
 
 const INITIAL_STATE: TournamentFormData = {
   gameCode: 'bgmi-m',
@@ -63,11 +29,12 @@ const INITIAL_STATE: TournamentFormData = {
   prize: '',
 };
 
+// Todo: add a loading spinner with back drop
+
 export default function CreateTournamentForm() {
   const {
     userData: { linkedOrganizationId, linkedOrganizationName },
   } = useAuth();
-  const classes = useStyles();
   const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
 
   const formik = useFormik({
@@ -95,116 +62,97 @@ export default function CreateTournamentForm() {
 
   return (
     <Aux>
-      <Button
-        color="primary"
-        startIcon={<ArrowBackIosRounded color="primary" />}
-        onClick={() => router.back()}
+      <div
+        className={
+          'w-full mx-auto mt-6 ' +
+          'relative flex flex-col min-w-0 break-words w-full mb-6 ' +
+          'shadow-lg rounded-lg border-0'
+        }
       >
-        Go Back
-      </Button>
-      <form onSubmit={formik.handleSubmit} className={classes.root}>
-        <Typography variant="h5" color="textSecondary">
-          Create a Tournament / Custom
-        </Typography>
-        {/** Games */}
-        <SelectDropDown
-          label="Game Name"
-          name="game"
-          value={formik.values.gameCode}
-          handleChange={(event) =>
-            formik.setFieldValue('gameCode', event.target.value)
-          }
-          menuItems={GAMES}
-        />
-        {/** Modes */}
-        <SelectRadioButton
-          label="Game Mode"
-          name="mode"
-          value={formik.values.mode}
-          handleChange={formik.handleChange}
-          items={MODES}
-        />
-        {/** Type */}
-        <SelectRadioButton
-          label="Match Type"
-          name="type"
-          value={formik.values.type}
-          handleChange={formik.handleChange}
-          items={TYPES}
-        />
-        {/** Screams */}
-        <SelectRadioButton
-          label="Scream"
-          name="tier"
-          value={formik.values.tier}
-          handleChange={formik.handleChange}
-          items={SCREAMS}
-        />
-        {/** Timing*/}
-        <DatePicker
-          name="startDate"
-          value={formik.values.startTime}
-          label="Match Date"
-          handleDateChange={(date) => formik.setFieldValue('startTime', date)}
-        />
-        <TimePicker
-          name="startTime"
-          value={formik.values.startTime}
-          label="Match Start Time"
-          handleTimeChange={(date) => formik.setFieldValue('startTime', date)}
-        />
-        {/** Slots */}
-        <SliderSelect
-          name="noOfSlots"
-          value={formik.values.noOfSlots}
-          onSlide={(event, value) => formik.setFieldValue('noOfSlots', value)}
-        />
-        {/** Rules */}
-        <div className={classes.textBoxContainer}>
-          <FormLabel component="legend">Rules and Description</FormLabel>
-          <TextField
-            id="description"
-            multiline
-            rows={4}
-            placeholder="Describe your Rules and Point distribution here"
-            variant="outlined"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.description && Boolean(formik.errors.description)
-            }
-            helperText={formik.touched.description && formik.errors.description}
-            className={classes.textBox}
+        <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
+          <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
+            Create Custom Room
+          </h6>
+          <FixedButton
+            name="Cancel"
+            isDangerous={true}
+            onClickHandler={() => router.back()}
           />
         </div>
-        {/** Prize*/}
-        <div className={classes.textBoxContainer}>
-          <FormLabel component="legend">
-            Prize / Reward <em>&#40;optional&#41;</em>
-          </FormLabel>
-          <TextField
-            id="prize"
-            variant="outlined"
-            placeholder="Prize money"
-            className={classes.textBox}
-            value={formik.values.prize}
-            onChange={formik.handleChange}
-          />
+        <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
+          <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <SelectDropDown
+                label="Game Name"
+                name="game"
+                value={formik.values.gameCode}
+                handleChange={(event) =>
+                  formik.setFieldValue('gameCode', event.target.value)
+                }
+                menuItems={GAMES}
+              />
+              <div></div>
+              <SelectRadioButton
+                label="Game Mode"
+                name="mode"
+                value={formik.values.mode}
+                handleChange={formik.handleChange}
+                items={MODES}
+              />
+              <SelectRadioButton
+                label="Tier"
+                name="tier"
+                value={formik.values.tier}
+                handleChange={formik.handleChange}
+                items={SCREAMS}
+              />
+              <DatePicker
+                name="startDate"
+                value={formik.values.startTime}
+                label="Match Date"
+                handleDateChange={(date) =>
+                  formik.setFieldValue('startTime', date)
+                }
+              />
+              <TimePicker
+                name="startTime"
+                value={formik.values.startTime}
+                label="Match Start Time"
+                handleTimeChange={(date) =>
+                  formik.setFieldValue('startTime', date)
+                }
+              />
+              <SliderSelect
+                name="noOfSlots"
+                value={formik.values.noOfSlots}
+                onSlide={(event, value) =>
+                  formik.setFieldValue('noOfSlots', value)
+                }
+              />
+              <FormInput
+                labelName="Prize / Reward (Optional)"
+                name="prize"
+                placeHolder="Prize money"
+                value={formik.values.prize}
+                onChangeHandler={formik.handleChange}
+                error={Boolean(formik.errors.prize)}
+                errorMessage={formik.errors.prize}
+              />
+            </div>
+            <TextArea
+              name="about"
+              labelName="Rules for Matches"
+              placeHolder="Describe your Rules and Point distribution here"
+              value={formik.values.description}
+              onChangeHandler={formik.handleChange}
+            />
+            <ResponsiveButton
+              name="Save"
+              onClickHandler={formik.handleSubmit}
+            />
+          </form>
         </div>
-        <div className={classes.buttonContainer}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            fullWidth={true}
-          >
-            Start Registration
-          </Button>
-        </div>
-        <Backdrop className={classes.backdrop} open={isBackDropOpen}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </form>
+      </div>
     </Aux>
   );
 }

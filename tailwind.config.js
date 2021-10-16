@@ -9,5 +9,5 @@ module.exports = {
       opacity: ['active'],
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };

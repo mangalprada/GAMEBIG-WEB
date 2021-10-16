@@ -16,6 +16,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/pickers": "^3.3.10",
+    "daisyui": "^1.14.5",
     "date-fns": "^2.23.0",
     "firebase": "^8.9.1",
     "firebase-admin": "^9.12.0",

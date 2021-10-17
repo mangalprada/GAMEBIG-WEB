@@ -84,11 +84,9 @@ export default function CreateTournamentForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <SelectDropDown
                 label="Game Name"
-                name="game"
-                value={formik.values.gameCode}
-                handleChange={(event) =>
-                  formik.setFieldValue('gameCode', event.target.value)
-                }
+                handleChange={(item) => {
+                  formik.setFieldValue('gameCode', item.id);
+                }}
                 menuItems={GAMES}
               />
               <div></div>
@@ -132,7 +130,7 @@ export default function CreateTournamentForm() {
               <FormInput
                 labelName="Prize / Reward (Optional)"
                 name="prize"
-                placeHolder="Prize money"
+                placeHolder="100 rupees"
                 value={formik.values.prize}
                 onChangeHandler={formik.handleChange}
                 error={Boolean(formik.errors.prize)}

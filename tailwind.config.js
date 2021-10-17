@@ -7,7 +7,7 @@ module.exports = {
   variants: {
     extend: {
       opacity: ['active'],
+      backgroundColor: ['active'],
     },
   },
-  plugins: [require('daisyui')],
 };

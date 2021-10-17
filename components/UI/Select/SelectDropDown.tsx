@@ -1,67 +1,91 @@
-import { ChangeEvent } from 'react';
-import {
-  createStyles,
-  FormControl,
-  FormLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  Theme,
-} from '@material-ui/core';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginBlock: 15,
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 160,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  })
-);
-
+import { useState, useRef, useEffect } from 'react';
+import DownArrow from '../Icons/TournamentIcons/DownArrow';
+import RightArrow from '../Icons/TournamentIcons/RightArrow';
 interface Props {
-  name: string;
   label: string;
-  value: string;
   menuItems: { id: string; name: string }[];
-  handleChange: (event: ChangeEvent<{ value: unknown }>) => void;
+  handleChange: (item: { id: string; name: string }) => void;
 }
 
 export default function SelectDropDown({
-  name,
   label,
-  value,
   handleChange,
   menuItems,
 }: Props) {
-  const classes = useStyles();
+  const [isListVisible, setIsListVisible] = useState(false);
+  const [selectedItem, setSelected] = useState('Select');
+  const wrapperRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setIsListVisible(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [wrapperRef]);
+
+  const toggleIsListVisible = () => {
+    setIsListVisible(!isListVisible);
+  };
 
   const listItems = menuItems.map((item: { id: string; name: string }) => (
-    <MenuItem key={item.id} value={item.id}>
+    <li
+      onMouseDown={() => {
+        setSelected(item.name);
+        setIsListVisible(false);
+        handleChange(item);
+      }}
+      className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md"
+      key={item.id}
+    >
       {item.name}
-    </MenuItem>
+    </li>
   ));
   return (
-    <div className={classes.root}>
-      <FormControl className={classes.formControl}>
-        <FormLabel component="legend">{label}</FormLabel>
-        <Select
-          labelId="dropdown"
-          id="games"
-          name={name}
-          value={value}
-          onChange={handleChange}
-          displayEmpty
-          className={classes.selectEmpty}
+    <div className="font-sans font-semibold text-md text-gray-300">
+      <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
+        {label}
+      </label>
+      <div
+        ref={wrapperRef}
+        className="w-1/2 md:w-1/3"
+        onMouseDown={toggleIsListVisible}
+      >
+        <button
+          className={
+            'flex justify-around bg-gray-700 p-3.5 px-8 rounded-md tracking-wide ' +
+            'uppercase text-sm font-bold font-sans focus:outline-none ' +
+            (isListVisible ? 'ring ring-indigo-500' : '')
+          }
         >
-          {listItems}
-        </Select>
-      </FormControl>
+          {selectedItem}
+          {isListVisible ? (
+            <RightArrow />
+          ) : (
+            <DownArrow
+              onMouseDown={(event: Event) => {
+                event.stopPropagation();
+                setIsListVisible(true);
+              }}
+            />
+          )}
+        </button>
+        {isListVisible ? (
+          <ul
+            className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md
+          font-sans font-semibold text-md text-gray-300 bg-gray-700 "
+          >
+            {listItems}
+          </ul>
+        ) : null}
+      </div>
     </div>
   );
 }

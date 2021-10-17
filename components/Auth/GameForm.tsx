@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Image from 'next/image';
@@ -6,7 +6,7 @@ import { db } from '../../firebase/firebaseClient';
 import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { GamerData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
-import FormInput from '../UI/Inputs/FormInput';
+import NormalInput from '../UI/Inputs/NormalInput';
 
 const validationSchema = yup.object({
   ingamename: yup.string().required('In Game Name is required'),
@@ -18,13 +18,7 @@ const emptyValues = {
   ingameid: '',
 };
 
-function GameForm({
-  isUpdating,
-  username,
-  game,
-  oldValues,
-  addToCurrentGames,
-}: {
+type Props = {
   isUpdating: boolean;
   username: string;
   game: {
@@ -34,7 +28,15 @@ function GameForm({
   };
   oldValues?: GamerData;
   addToCurrentGames: (games: GamerData) => void;
-}) {
+};
+
+const GameForm: FC<Props> = ({
+  isUpdating,
+  username,
+  game,
+  oldValues,
+  addToCurrentGames,
+}: Props) => {
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -100,35 +102,50 @@ function GameForm({
   });
 
   return (
-    <div className="flex flex-col justify-center items-center text-gray-300 font-sans font-semibold">
-      <span className="">{game.name}</span>
-      <div className="flex justify-center items-center w-full">
-        <div className="h-40 w-40 relative rounded-lg">
-          <Image
-            src={game.imageSource}
-            alt="Picture of the author"
-            layout="fill"
-            objectFit="contain"
-          />
+    <div
+      className={
+        'flex flex-col items-center w-11/12 mx-auto ' +
+        'text-gray-300 font-sans font-semibold my-5 '
+      }
+    >
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 w-full">
+        <div className="flex flex-col justify-evenly">
+          <div className="md:h-44 md:w-44 h-24 w-24 relative rounded-lg mx-auto">
+            <Image
+              src={game.imageSource}
+              alt="Picture of Game"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <div
+            className={
+              'mx-auto text-lg px-4 text-center font-semibold text-gray-300 tracking-wide'
+            }
+          >
+            {game.name}
+          </div>
         </div>
-        <form className="flex flex-col justify-center items-center w-full">
-          <FormInput
-            labelName="In Game Name"
-            name="ingamename"
-            value={formik.values.ingamename}
-            onChangeHandler={formik.handleChange}
-            error={Boolean(formik.errors.ingamename)}
-            errorMessage={formik.errors.ingamename}
-          />
-          <FormInput
-            labelName="In Game Id"
-            name="ingameid"
-            value={formik.values.ingameid}
-            onChangeHandler={formik.handleChange}
-            error={Boolean(formik.errors.ingameid)}
-            errorMessage={formik.errors.ingameid}
-          />
-          <FixedButton name="Save" onClickHandler={formik.handleSubmit} />
+        <form className="col-span-2 md:pt-10">
+          <div className="flex flex-col justify-around">
+            <NormalInput
+              name="ingamename"
+              placeHolder="In Game Name"
+              value={formik.values.ingamename}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.ingamename)}
+              errorMessage={formik.errors.ingamename}
+            />
+            <NormalInput
+              name="ingameid"
+              placeHolder="In Game ID"
+              value={formik.values.ingameid}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.ingameid)}
+              errorMessage={formik.errors.ingameid}
+            />
+          </div>
+          <FixedButton name="Add Info" onClickHandler={formik.handleSubmit} />
         </form>
       </div>
       <SnackbarAlert
@@ -142,6 +159,6 @@ function GameForm({
       />
     </div>
   );
-}
+};
 
 export default GameForm;

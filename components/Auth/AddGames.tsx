@@ -27,33 +27,38 @@ function AddGames({
   };
 
   return (
-    <div className="bg-transparent z-10">
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        {Object.keys(games).map(function (key, index) {
-          return (
-            <GameForm
-              isUpdating={isUpdating}
-              username={username}
-              game={games[key]}
-              addToCurrentGames={addToCurrentGames}
-              key={index}
-            />
-          );
-        })}
+    <>
+      <div
+        className={
+          'h-3/4 overflow-y-scroll bg-gradient-to-br md:w-4/6 ' +
+          'from-gray-900 via-transparent to-gray-900 rounded-md mx-5'
+        }
+      >
+        <div className="flex flex-col flex-wrap ">
+          {Object.keys(games).map(function (key, index) {
+            return (
+              <GameForm
+                isUpdating={isUpdating}
+                username={username}
+                game={games[key]}
+                addToCurrentGames={addToCurrentGames}
+                key={index}
+              />
+            );
+          })}
+        </div>
       </div>
-      <div className="flex justify-evenly">
+      <div className="flex justify-evenly w-full xl:px-52">
         <FixedButton
-          name="Previous"
-          type="submit"
+          name="Back"
           onClickHandler={() => updateAuthPageNumber(2)}
         />
         <FixedButton
           name={currentGames.length === 0 ? 'Skip' : 'Finish'}
-          type="submit"
           onClickHandler={handleFinish}
         />
       </div>
-    </div>
+    </>
   );
 }
 

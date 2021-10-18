@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
 type Props = {
-  styles: string;
+  size: number;
+  className: string;
 };
 
-const LocationIcon: FC<Props> = ({ styles }: Props) => {
+const LocationIcon: FC<Props> = ({ className, size }: Props) => {
   return (
-    <svg className={styles} height="24px" viewBox="0 0 24 24" width="24px">
+    <svg className={className} height={size} viewBox="0 0 24 24" width={size}>
       <path d="M0 0h24v24H0V0z" fill="none" />
       <path
         d={

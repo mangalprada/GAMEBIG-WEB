@@ -28,5 +28,29 @@ a {
   cursor: pointer;
   border-radius: 8px;
   background-color: #4338ca;
-  outline: 2px solid #4338ca;
+}
+input[type='range'] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 75%;
+  background: transparent;
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #4f46e5;
+}
+input[type='range']::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #d1d5db;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
 }

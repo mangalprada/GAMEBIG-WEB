@@ -22,7 +22,7 @@ const TextArea: FC<Props> = ({
 }: Props) => {
   return (
     <div className="flex flex-wrap">
-      <div className="w-full lg:w-12/12 px-4">
+      <div className="w-full lg:w-12/12 ">
         <div className="relative w-full mb-3">
           <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
             {labelName}

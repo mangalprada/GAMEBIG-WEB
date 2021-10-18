@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import localforage from 'localforage';
 import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 import Aux from '../../hoc/Auxiliary/Auxiliary';

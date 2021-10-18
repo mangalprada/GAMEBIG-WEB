@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 import '../public/npprogress.css';
@@ -33,11 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router]);
   return (
     <AuthProvider>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </MuiPickersUtilsProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </AuthProvider>
   );
 }

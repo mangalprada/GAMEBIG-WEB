@@ -1,15 +1,5 @@
 import { useState } from 'react';
 import router from 'next/router';
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  createStyles,
-  makeStyles,
-  TextField,
-  Theme,
-  Typography,
-} from '@material-ui/core';
 import { useFormik } from 'formik';
 import { OrgFormData } from '../../../utilities/organization/types';
 import { validationSchema } from '../../../utilities/organization/validator';
@@ -29,36 +19,9 @@ const scrollToTop = () => {
     behavior: 'smooth',
   });
 };
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        width: '100%',
-        marginTop: 10,
-        marginBottom: 10,
-      },
-    },
-    header: {
-      marginTop: 15,
-      marginBottom: 15,
-    },
-    buttonContainer: {
-      marginTop: 50,
-    },
-    buttonText: {
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-    },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
-  })
-);
+// TODO: Add loading icon in backdrop
 
 function CreateOrganizationForm() {
-  const classes = useStyles();
   const { userData, updateOrgId, updateOrgName } = useAuth();
 
   const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
@@ -244,7 +207,7 @@ function CreateOrganizationForm() {
               errorMessage={formik.errors.reddit}
             />
           </div>
-          <div className={classes.buttonContainer}>
+          <div>
             <ResponsiveButton
               name="Create"
               type="submit"
@@ -252,9 +215,6 @@ function CreateOrganizationForm() {
               onClickHandler={() => scrollToTop()}
             />
           </div>
-          <Backdrop className={classes.backdrop} open={isBackDropOpen}>
-            <CircularProgress color="inherit" />
-          </Backdrop>
         </form>
       </div>
     </div>

@@ -72,7 +72,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           </span>
         </div>
         <div className="flex self-center">
-          <LocationIcon styles={'fill-current text-indigo-500'} />
+          <LocationIcon className={'fill-current text-indigo-500'} size={24} />
           <span className="text-gray-300 text-base font-semibold font-sans ml-1">
             India
           </span>

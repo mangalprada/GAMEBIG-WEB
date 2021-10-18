@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import PersonalInfo from './ProfileInfo';
+import UserInfo from './UserInfo';
 import TabNavigator from '../Navigation/TabNavigation/TabNavigator';
 import { UserData } from '../../utilities/types';
 
@@ -22,7 +22,7 @@ const ProfileHeader: FC<Props> = ({ userData }: Props) => {
   ];
   return (
     <div>
-      <PersonalInfo userData={userData} />
+      <UserInfo userData={userData} />
       <TabNavigator tabs={tabs} />
     </div>
   );

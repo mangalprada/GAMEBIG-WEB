@@ -6,13 +6,11 @@ import { GAMES } from '../../../assets/data/Games';
 import { MODES, SCREAMS } from '../../../assets/data/Utils';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
-import TimePicker from '../../UI/Picker/TimePicker';
 import SliderSelect from '../../UI/Slider/SliderSelect';
 import { TournamentFormData } from '../../../utilities/tournament/types';
 import { validationSchema } from '../../../utilities/tournament/validator';
 import { addNewTournament } from '../../../lib/createTournament';
 import { useAuth } from '../../../context/authContext';
-import DatePicker from '../../UI/Picker/DatePicker';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
 import FormInput from '../../UI/Inputs/FormInput';
@@ -81,7 +79,7 @@ export default function CreateTournamentForm() {
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <SelectDropDown
                 label="Game Name"
                 handleChange={(item) => {
@@ -108,27 +106,14 @@ export default function CreateTournamentForm() {
                 }}
                 items={SCREAMS}
               />
-              <DatePicker
-                name="startDate"
-                value={formik.values.startTime}
-                label="Match Date"
-                handleDateChange={(date) =>
-                  formik.setFieldValue('startTime', date)
-                }
-              />
-              <TimePicker
-                name="startTime"
-                value={formik.values.startTime}
-                label="Match Start Time"
-                handleTimeChange={(date) =>
-                  formik.setFieldValue('startTime', date)
-                }
-              />
               <SliderSelect
+                label="No of Slots"
                 name="noOfSlots"
                 value={formik.values.noOfSlots}
-                onSlide={(event, value) =>
-                  formik.setFieldValue('noOfSlots', value)
+                min={2}
+                max={25}
+                onSlide={(e) =>
+                  formik.setFieldValue('noOfSlots', e.target.value)
                 }
               />
               <FormInput

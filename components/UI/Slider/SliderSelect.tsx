@@ -1,62 +1,39 @@
-import {
-  createStyles,
-  FormLabel,
-  makeStyles,
-  Slider,
-  Theme,
-} from '@material-ui/core';
-import React from 'react';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginBlock: 20,
-      marginLeft: 10,
-      maxWidth: 300,
-      paddingRight: 40,
-    },
-    sliderContainer: {
-      marginTop: 45,
-      marginLeft: 5,
-    },
-  })
-);
-
+import { ChangeEvent } from 'react';
 interface Props {
   name: string;
+  label: string;
   value: number;
-  onSlide: (event: any, newValue: number | number[]) => void;
+  min: number;
+  max: number;
+  onSlide: (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
-const VALUES_LABEL = [
-  {
-    value: 2,
-    label: '2',
-  },
-  {
-    value: 25,
-    label: '25',
-  },
-];
-
-export default function SliderSelect({ name, value, onSlide }: Props) {
-  const classes = useStyles();
-
+export default function SliderSelect({
+  min,
+  max,
+  label,
+  value,
+  onSlide,
+}: Props) {
   return (
-    <div className={classes.root}>
-      <FormLabel component="legend">Max Slots Available</FormLabel>
-      <Slider
-        name={name}
-        defaultValue={10}
-        aria-labelledby="continuous-slider"
-        valueLabelDisplay="on"
-        max={25}
-        min={2}
-        value={value}
-        onChange={onSlide}
-        marks={VALUES_LABEL}
-        className={classes.sliderContainer}
-      />
+    <div>
+      <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
+        {label}
+      </label>
+      <div className="flex items-center">
+        <input
+          id="x"
+          type="range"
+          className="range"
+          value={value}
+          min={min}
+          max={max}
+          onChange={onSlide}
+        />
+        <span className="text-gray-300 text-lg font-bold font-sans tracking-wide m-5">
+          {value}
+        </span>
+      </div>
     </div>
   );
 }

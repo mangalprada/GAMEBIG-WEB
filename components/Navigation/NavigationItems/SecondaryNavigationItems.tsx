@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
-import NotificationIcon from '../../UI/Icons/NavIcons/Notification';
-import ProfileIcon from '../../UI/Icons/NavIcons/Profile';
+import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
+import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
 
 export default function SecondaryNavigationItems() {
   const { user } = useAuth();

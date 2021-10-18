@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import NavigationItem from './NavigationItem/NavigationItem';
-import OrganizationIcon from '../../UI/Icons/NavIcons/Organization';
-import TrophyIcon from '../../UI/Icons/NavIcons/Trophy';
-import ForumIcon from '../../UI/Icons/NavIcons/Forum';
+import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
+import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
+import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
 import { useAuth } from '../../../context/authContext';
 
 export default function PrimaryNavigationItems() {

@@ -21,13 +21,16 @@ export default function TypeContainer() {
 
   return (
     <form
-      className="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300"
+      className="w-full pb-3 flex items-center justify-between pt-4"
       onSubmit={(e) => handleSubmit(e)}
     >
       <input
         aria-placeholder="Type Here"
         placeholder="Type Here..."
-        className="py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700"
+        className={
+          'py-2 mx-3 pl-5 block w-full rounded-full bg-gray-700 ' +
+          'outline-none font-semibold font-sans focus:text-gray-200 tracking-wide'
+        }
         type="text"
         name="message"
         required
@@ -37,7 +40,7 @@ export default function TypeContainer() {
 
       <button className="outline-none focus:outline-none" type="submit">
         <svg
-          className="text-gray-400 h-7 w-7 origin-center transform rotate-90"
+          className="fill-current text-indigo-600 h-7 w-7 origin-center transform rotate-90"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

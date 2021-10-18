@@ -11,28 +11,25 @@ export default function Message({ data, isOwner }: Props) {
     data.createdAt && getDecoratedTime(data.createdAt.toDate().toISOString());
 
   return (
-    <>
-      {isOwner ? (
-        <div className="w-full flex justify-end">
-          <div className="rounded px-4 py-2 my-2 text-gray-700 relative bg-green-200">
-            <span className="block text-gray-500">{data.userName}</span>
-            <span className="block font-medium text-black">{data.msg}</span>
-            <span className="block text-xs text-gray-500 text-left">
-              {date}
-            </span>
-          </div>
-        </div>
-      ) : (
-        <div className="w-full flex justify-start">
-          <div className="rounded px-4 py-2 my-2 text-gray-700 relative bg-gray-200">
-            <span className="block text-gray-500">{data.userName}</span>
-            <span className="block font-medium text-black">{data.msg}</span>
-            <span className="block text-xs text-gray-500 text-left">
-              {date}
-            </span>
-          </div>
-        </div>
-      )}
-    </>
+    <div
+      className={'w-full flex ' + (isOwner ? 'justify-end' : 'justify-start')}
+    >
+      <div
+        className={
+          'rounded px-4 py-2 my-2 text-gray-700 relative font-sans ' +
+          (isOwner ? 'bg-indigo-400' : 'bg-gray-300')
+        }
+      >
+        <span className="block text-sm font-medium text-gray-600">
+          {data.userName}
+        </span>
+        <span className="block font-semibold text-lg text-gray-900">
+          {data.msg}
+        </span>
+        <span className="block text-xs font-medium text-gray-600 text-left">
+          {date}
+        </span>
+      </div>
+    </div>
   );
 }

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import OrganizationIcon from '../../UI/Icons/NavIcons/Organization';
-import ForumIcon from '../../UI/Icons/NavIcons/Forum';
-import TrophyIcon from '../../UI/Icons/NavIcons/Trophy';
+import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
+import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
 
 function BottomNavigationBar() {

@@ -47,7 +47,10 @@ const HeaderOrg: FC<Props> = ({ data }: Props) => {
             {data.name}
           </span>
           <div className="flex flex-row mt-4">
-            <LocationIcon styles={'fill-current text-indigo-400'} />
+            <LocationIcon
+              size={25}
+              className={'fill-current text-indigo-400'}
+            />
             <span className="text-gray-400 text-lg ml-2 font-sans">
               {data.location}
             </span>

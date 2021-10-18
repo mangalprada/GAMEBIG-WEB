@@ -91,9 +91,9 @@ export default function Home({
 }
 
 export async function getServerSideProps(context: {
-  params: { userId: string };
+  params: { username: string };
 }) {
-  const { userId: username } = context.params;
+  const { username } = context.params;
   const userData = await getUser(username);
 
   const teams: Array<TeamType> = [];

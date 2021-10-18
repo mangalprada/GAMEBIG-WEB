@@ -3,7 +3,7 @@ import router from 'next/router';
 import { useFormik } from 'formik';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { GAMES } from '../../../assets/data/Games';
-import { MODES, SCREAMS, TYPES } from '../../../assets/data/Utils';
+import { MODES, SCREAMS } from '../../../assets/data/Utils';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
 import TimePicker from '../../UI/Picker/TimePicker';
@@ -94,14 +94,18 @@ export default function CreateTournamentForm() {
                 label="Game Mode"
                 name="mode"
                 value={formik.values.mode}
-                handleChange={formik.handleChange}
+                handleChange={(item) => {
+                  formik.setFieldValue('mode', item.name);
+                }}
                 items={MODES}
               />
               <SelectRadioButton
                 label="Tier"
                 name="tier"
                 value={formik.values.tier}
-                handleChange={formik.handleChange}
+                handleChange={(item) => {
+                  formik.setFieldValue('tier', item.name);
+                }}
                 items={SCREAMS}
               />
               <DatePicker

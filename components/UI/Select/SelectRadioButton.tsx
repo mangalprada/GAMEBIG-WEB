@@ -1,30 +1,10 @@
-import { ChangeEvent } from 'react';
-import {
-  createStyles,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  makeStyles,
-  Radio,
-  RadioGroup,
-  Theme,
-} from '@material-ui/core';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginBlock: 15,
-      marginLeft: 10,
-    },
-  })
-);
-
+import CheckCircle from '../Icons/TournamentIcons/CheckCircle';
 interface Props {
   name: string;
   label: string;
   value: string;
   items: { id: string; name: string }[];
-  handleChange: (event: ChangeEvent<{ value: unknown }>) => void;
+  handleChange: (item: { id: string; name: string }) => void;
 }
 
 export default function SelectRadioButton({
@@ -34,30 +14,27 @@ export default function SelectRadioButton({
   handleChange,
   items,
 }: Props) {
-  const classes = useStyles();
-
   const listItems = items.map((item) => (
-    <FormControlLabel
+    <li
       key={item.id}
-      value={item.name}
-      control={<Radio />}
-      label={item.name}
-    />
+      className={
+        'flex justify-between w-1/2 p-3.5 my-2 ml-0 rounded-md ' +
+        'text-base text-gray-300 font-sans font-semibold ' +
+        (item.name === value ? 'bg-green-500' : 'bg-gray-700')
+      }
+      onMouseDown={() => handleChange(item)}
+    >
+      {item.name}
+      {item.name === value ? <CheckCircle /> : null}
+    </li>
   ));
 
   return (
-    <div className={classes.root}>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">{label}</FormLabel>
-        <RadioGroup
-          aria-label="mode"
-          name={name}
-          value={value}
-          onChange={handleChange}
-        >
-          {listItems}
-        </RadioGroup>
-      </FormControl>
+    <div>
+      <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
+        {label}
+      </label>
+      <ul>{listItems}</ul>
     </div>
   );
 }

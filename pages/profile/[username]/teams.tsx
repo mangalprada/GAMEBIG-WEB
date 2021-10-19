@@ -1,14 +1,5 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  Theme,
-  TextField,
-  Typography,
-} from '@material-ui/core';
-import Backdrop from '@material-ui/core/Backdrop';
 import CreateTeam from '../../../components/Profile/createTeam';
 import { db } from '../../../firebase/firebaseClient';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -17,18 +8,7 @@ import TeamIntro from '../../../components/Profile/TeamIntro';
 import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      width: '100%',
-      background: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  })
-);
+import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 
 export default function Home({
   userData,
@@ -37,17 +17,16 @@ export default function Home({
   userData: UserData;
   teams: Array<TeamType>;
 }) {
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [backdropOpen, setBackdropOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
     undefined
   );
   const closeBackdrop = () => {
-    setOpen(false);
+    setBackdropOpen(false);
   };
   const openBackdrop = () => {
-    setOpen(true);
+    setBackdropOpen(true);
   };
 
   const removeTeam = (docId: string) => {
@@ -65,9 +44,10 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
+
+      <ProfileHeader userData={userData} />
       <div>
-        <ProfileHeader userData={userData} />
-        {currentTeams.length !== 0 ? (
+        {currentTeams.length == 0 ? (
           currentTeams.map((team, index) => {
             return (
               <TeamItem
@@ -82,10 +62,10 @@ export default function Home({
         ) : (
           <TeamIntro openBackdrop={openBackdrop} />
         )}
-        <Backdrop className={classes.backdrop} open={open}>
-          <CreateTeam teamData={selectedTeam} onCancel={closeBackdrop} />
-        </Backdrop>
       </div>
+      <Backdrop isOpen={backdropOpen}>
+        <CreateTeam teamData={selectedTeam} onCancel={closeBackdrop} />
+      </Backdrop>
     </Aux>
   );
 }

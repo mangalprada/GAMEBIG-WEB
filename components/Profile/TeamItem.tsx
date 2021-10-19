@@ -1,52 +1,7 @@
 import { useState } from 'react';
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        marginTop: 10,
-        marginLeft: 20,
-      },
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      maxWidth: 500,
-      marginBottom: 20,
-      marginTop: 20,
-    },
-    header: {
-      marginLeft: 20,
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-      color: '#555',
-    },
-    flexColumn: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '70%',
-    },
-    flexRow: {
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    button: {
-      marginTop: 10,
-      marginLeft: 10,
-      marginRight: 10,
-    },
-  })
-);
+import FixedButton from '../UI/Buttons/FixedButton';
 
 export default function TeamItem({
   team,
@@ -59,7 +14,6 @@ export default function TeamItem({
   openBackdrop: (open: boolean) => void;
   setSelectedTeam: (team: TeamType) => void;
 }) {
-  const classes = useStyles();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: '',
@@ -86,37 +40,41 @@ export default function TeamItem({
   };
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h6" className={classes.header}>
-        {team.teamName}
-      </Typography>
-      <Typography variant="body1" className={classes.header}>
-        {team.inGameLead}
-      </Typography>
-      <div className={classes.flexColumn}>
+    <div
+      className="flex flex-col w-11/12 md:w-2/3 mx-auto my-2 py-4 px-8 md:px-24 justify-center text-lg text-gray-300 font-sans font-semibold
+    rounded-lg bg-gradient-to-b from-transparent to-gray-900"
+    >
+      <h6 className="text-3xl text-indigo-600">{team.teamName}</h6>
+      <div>
         {team.gamers.map((gamer, index) => (
-          <Typography key={gamer} variant="body1" className={classes.header}>
-            {index + 1}. {gamer}
-          </Typography>
+          <div
+            key={index}
+            className="flex justify-between py-2 border-b-2 border-gray-800 "
+          >
+            <h6>
+              {index + 1}. {gamer}
+            </h6>
+            {gamer === team.inGameLead ? (
+              <div className="bg-green-400 rounded-md p-1">
+                <span className="mx-1 text-sm text-black">In Game Lead</span>
+              </div>
+            ) : null}
+          </div>
         ))}
       </div>
-      <div className={classes.flexRow}>
-        <Button
-          variant="contained"
-          startIcon={<EditIcon />}
+      <div className="flex justify-end my-1">
+        <span
+          className="text-gray-400 p-2 hover:bg-gray-800 rounded-md transition duration-300"
           onClick={handleEdit}
-          className={classes.button}
         >
           Edit
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<DeleteIcon />}
+        </span>
+        <span
+          className="text-gray-400 p-2 hover:bg-gray-800 rounded-md transition duration-300"
           onClick={deleteTeam}
-          className={classes.button}
         >
           Delete
-        </Button>
+        </span>
       </div>
     </div>
   );

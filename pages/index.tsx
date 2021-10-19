@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
-import classes from '../styles/Home.module.scss';
 import TournamentCard from '../components/Tournament/TournamentCard/TournamentCard';
 import { GetStaticProps } from 'next';
 import { fetchAllTournamentData } from '../lib/getAllTournaments';

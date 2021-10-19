@@ -4,8 +4,6 @@ import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Backdrop from '@material-ui/core/Backdrop';
 import { useAuth } from '../../../context/authContext';
 import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -16,6 +14,7 @@ import { games as allSupportedGames } from '../../../utilities/GameList';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
 import getGamerData from '../../../lib/getGamerData';
+import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,7 +73,6 @@ export default function Home({
             <Button
               variant="contained"
               color="secondary"
-              startIcon={<AddIcon />}
               onClick={() => setOpen(true)}
             >
               Add Game
@@ -95,19 +93,21 @@ export default function Home({
           })}
         </div>
         <Button onClick={signout}>Sign Out</Button>
-        <Backdrop className={classes.backdrop} open={open}>
-          {Object.keys(allSupportedGames).map(function (key, index) {
-            return (
-              <GameForm
-                isUpdating={true}
-                username={userData.username}
-                game={allSupportedGames[key]}
-                key={key}
-                oldValues={getOldValues(key)}
-                addToCurrentGames={addToCurrentGames}
-              />
-            );
-          })}
+        <Backdrop isOpen={open}>
+          <div>
+            {Object.keys(allSupportedGames).map(function (key, index) {
+              return (
+                <GameForm
+                  isUpdating={true}
+                  username={userData.username}
+                  game={allSupportedGames[key]}
+                  key={key}
+                  oldValues={getOldValues(key)}
+                  addToCurrentGames={addToCurrentGames}
+                />
+              );
+            })}
+          </div>
           <Button variant="contained" color="secondary" onClick={handleClose}>
             Close
           </Button>

@@ -1,34 +1,25 @@
-import { Button, Typography } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    button: {
-      marginTop: 15,
-      width: '50%',
-    },
-  })
-);
+import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 
 export default function TeamIntro({
   openBackdrop,
 }: {
   openBackdrop: () => void;
 }) {
-  const classes = useStyles();
   return (
-    <div>
-      <Typography variant="h5" color="textPrimary">
-        Create a Team And Participate in Tournaments
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={openBackdrop}
-        className={classes.button}
-      >
-        Create Team
-      </Button>
+    <div
+      className={
+        'mx-auto mt-10 p-10 w-11/12 md:w-1/2 h-5/6 rounded-lg bg-gradient-to-t font-sans font-semibold ' +
+        'from-gray-900 to-black text-center text-gray-300'
+      }
+    >
+      <span className="text-xl md:text-4xl py-6">
+        Create a Team And Participate in Tournaments, NOW!
+      </span>
+      <ResponsiveButton
+        name="Create"
+        type="submit"
+        onClickHandler={openBackdrop}
+      />
     </div>
   );
 }

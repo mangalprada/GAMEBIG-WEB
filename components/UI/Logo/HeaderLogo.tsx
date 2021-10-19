@@ -9,7 +9,7 @@ const HeaderLogo: FC = () => {
         <div className="mt-2 md:my-2">
           <span
             className="md:text-4xl md:font-bold text-2xl font-semibold bg-clip-text text-transparent tracking-wide 
-      bg-gradient-to-tr from-green-500 via-indigo-600 to-red-500 font-sans"
+      bg-gradient-to-tr from-green-500 via-indigo-600 to-red-500 font-sans outline-none focus:outline-none"
           >
             GAMEBIG
           </span>

@@ -41,7 +41,7 @@ export default function TeamItem({
 
   return (
     <div
-      className="flex flex-col w-11/12 md:w-2/3 mx-auto my-2 py-4 px-8 md:px-24 justify-center text-lg text-gray-300 font-sans font-semibold
+      className="flex flex-col my-2 py-4 px-8 md:px-24 justify-center text-lg text-gray-300 font-sans font-semibold
     rounded-lg bg-gradient-to-b from-transparent to-gray-900"
     >
       <h6 className="text-3xl text-indigo-600">{team.teamName}</h6>
@@ -49,7 +49,7 @@ export default function TeamItem({
         {team.gamers.map((gamer, index) => (
           <div
             key={index}
-            className="flex justify-between py-2 border-b-2 border-gray-800 "
+            className="flex justify-between py-2.5 border-b-2 border-gray-800 "
           >
             <h6>
               {index + 1}. {gamer}

@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import { useAuth } from '../../../context/authContext';
 import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -15,18 +13,7 @@ import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
 import getGamerData from '../../../lib/getGamerData';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      width: '100%',
-      background: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  })
-);
+import FixedButton from '../../../components/UI/Buttons/FixedButton';
 
 export default function Home({
   userData,
@@ -35,7 +22,6 @@ export default function Home({
   userData: UserData;
   savedGames: Array<GamerData>;
 }) {
-  const classes = useStyles();
   const { user, signout } = useAuth();
   const [open, setOpen] = useState(false);
   const [currentGames, setCurrentGames] = useState(savedGames);
@@ -68,32 +54,36 @@ export default function Home({
       </Head>
       <Aux>
         <ProfileHeader userData={userData} />
-        <div>
-          {userData.username === user.username ? (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setOpen(true)}
-            >
-              Add Game
-            </Button>
-          ) : null}
-        </div>
-        <div>
-          {currentGames.map((game, index) => {
-            return (
-              <GameItem
-                game={game}
-                key={index}
-                username={userData.username}
-                removeGame={removeGame}
-                setBackdrop={setOpen}
+        <div className="w-11/12 md:w-2/3 mx-auto">
+          <div>
+            {userData.username === user.username ? (
+              <FixedButton
+                name="Update Games"
+                onClickHandler={() => setOpen(true)}
               />
-            );
-          })}
+            ) : null}
+          </div>
+          <div>
+            {currentGames.map((game, index) => {
+              return (
+                <GameItem
+                  game={game}
+                  key={index}
+                  username={userData.username}
+                  removeGame={removeGame}
+                  setBackdrop={setOpen}
+                />
+              );
+            })}
+          </div>
+          <span
+            className="p-3 text-md text-gray-300 bg-gray-900 rounded-lg font-sans font-semibold"
+            onClick={signout}
+          >
+            Sign Out
+          </span>
         </div>
-        <Button onClick={signout}>Sign Out</Button>
-        <Backdrop isOpen={open}>
+        <Backdrop isOpen={open} closeBackdrop={handleClose}>
           <div>
             {Object.keys(allSupportedGames).map(function (key, index) {
               return (
@@ -108,9 +98,6 @@ export default function Home({
               );
             })}
           </div>
-          <Button variant="contained" color="secondary" onClick={handleClose}>
-            Close
-          </Button>
         </Backdrop>
       </Aux>
     </div>

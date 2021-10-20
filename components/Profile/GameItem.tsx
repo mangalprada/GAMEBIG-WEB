@@ -1,69 +1,10 @@
 import { useState } from 'react';
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
 import Image from 'next/image';
 import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
 import { useAuth } from '../../context/authContext';
 import FixedButton from '../UI/Buttons/FixedButton';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        marginTop: 10,
-        marginLeft: 20,
-      },
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      maxWidth: 500,
-      marginBottom: 20,
-      marginTop: 20,
-    },
-    header: {
-      marginBottom: 10,
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-      color: '#555',
-    },
-    text: {
-      marginLeft: 20,
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-      color: '#555',
-    },
-    flexColumn: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '70%',
-    },
-    flexRow: {
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    imageCard: {
-      position: 'relative',
-      width: '100px',
-      height: '100px',
-    },
-    image: {
-      borderRadius: '6%',
-      border: '5px solid #555',
-    },
-    button: {
-      marginTop: 10,
-      marginLeft: 10,
-      marginRight: 10,
-    },
-  })
-);
 
 export default function GameItem({
   game,
@@ -76,7 +17,6 @@ export default function GameItem({
   removeGame: (docId: string) => void;
   username: string;
 }) {
-  const classes = useStyles();
   const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
@@ -100,33 +40,44 @@ export default function GameItem({
     }
   };
   return (
-    <div className={classes.root}>
-      {gameCode ? (
-        <Typography variant="h6" className={classes.header}>
-          {games[gameCode].name}
-        </Typography>
-      ) : null}
-      <div className={classes.flexRow}>
-        {gameCode ? (
-          <div className={classes.imageCard}>
+    <div className="grid md:grid-cols-2 grid-cols-1 w-full font-sans text-gray-300 bg-gray-900 rounded-lg my-2 py-4 px-4 gap-8">
+      <div className="flex flex-col justify-evenly gap-8">
+        {gameCode && (
+          <div className="md:h-32 md:w-32 h-24 w-24 relative rounded-lg mx-auto">
             <Image
-              className={classes.image}
               src={games[gameCode].imageSource}
-              alt="Picture of the game"
+              alt="Picture of Game"
               layout="fill"
               objectFit="contain"
             />
           </div>
-        ) : null}
-        <div className={classes.flexColumn}>
-          <Typography variant="body1" className={classes.text}>
-            In Game Name: {ingamename}
-          </Typography>
-          <Typography variant="body1" className={classes.text}>
-            In Game Id: {ingameid}
-          </Typography>
+        )}
+        <div
+          className={
+            'mx-auto text-lg px-4 text-center font-semibold text-gray-300 tracking-wide'
+          }
+        >
+          {gameCode ? <span>{games[gameCode].name}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-col justify-evenly w-full gap-8">
+        <div className="flex justify-start gap-10">
+          <div>
+            <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
+              In Game Name
+            </label>
+            <span className="font-sans font-bold text-lg">{ingamename}</span>
+          </div>
+          <div>
+            <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
+              In Game ID
+            </label>
+            <span className="font-sans font-bold text-lg">{ingameid}</span>
+          </div>
+        </div>
+        <div>
           {user.username === username ? (
-            <div className={classes.flexRow}>
+            <div className="flex justify-center gap-8 md:justify-end md:pr-4 ">
               <FixedButton
                 name="EDIT"
                 onClickHandler={() => setBackdrop(true)}

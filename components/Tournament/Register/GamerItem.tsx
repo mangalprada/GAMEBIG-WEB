@@ -1,26 +1,9 @@
 import { useEffect } from 'react';
-import { TextField } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData } from '../../../utilities/types';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiTextField-root': {
-        marginLeft: 10,
-        marginRight: 10,
-      },
-      display: 'flex',
-      flexDirection: 'row',
-      marginTop: 15,
-      width: '100%',
-      maxWidth: '1000px',
-    },
-  })
-);
+import FormInput from '../../UI/Inputs/FormInput';
 
 const validationSchema = yup.object({
   ingamename: yup.string().required('In Game Name is required'),
@@ -39,8 +22,6 @@ interface Props {
 }
 
 const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
-  const classes = useStyles();
-
   const formik = useFormik({
     initialValues: emptyValues,
     validationSchema: validationSchema,
@@ -88,36 +69,29 @@ const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
   }, [formik.values.ingameid, formik.values.ingamename, username]);
 
   return (
-    <div className={classes.root}>
-      <TextField
-        disabled
-        type="text"
-        name="Gamebig Username"
-        label="UserName"
-        variant="outlined"
+    <div className="">
+      <FormInput
+        labelName="GameBig username"
+        name="username"
+        isDisabled={true}
         value={username}
+        onChangeHandler={formik.handleChange}
       />
-      <TextField
-        type="text"
+      <FormInput
+        labelName="In Game Name"
         name="ingamename"
-        label="In Game Name"
-        variant="outlined"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
         value={formik.values.ingamename}
-        error={formik.touched.ingamename && Boolean(formik.errors.ingamename)}
-        helperText={formik.touched.ingamename && formik.errors.ingamename}
+        onChangeHandler={formik.handleChange}
+        error={Boolean(formik.errors.ingamename)}
+        errorMessage={formik.errors.ingamename}
       />
-      <TextField
-        type="text"
+      <FormInput
+        labelName="In Game Id"
         name="ingameid"
-        label="In Game Id"
-        variant="outlined"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
         value={formik.values.ingameid}
-        error={formik.touched.ingameid && Boolean(formik.errors.ingameid)}
-        helperText={formik.touched.ingameid && formik.errors.ingameid}
+        onChangeHandler={formik.handleChange}
+        error={Boolean(formik.errors.ingameid)}
+        errorMessage={formik.errors.ingameid}
       />
     </div>
   );

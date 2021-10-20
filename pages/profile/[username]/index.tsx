@@ -35,7 +35,7 @@ export default function Home({
     });
     setCurrentGames(temp);
   };
-
+  // todo: update n adding
   const addToCurrentGames = (game: GamerData) => {
     setCurrentGames([...currentGames, game]);
   };
@@ -55,7 +55,7 @@ export default function Home({
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="w-11/12 md:w-2/3 mx-auto">
-          <div>
+          <div className="flex justify-end mt-2 mr-1 md:mr-8">
             {userData.username === user.username ? (
               <FixedButton
                 name="Update Games"
@@ -76,19 +76,20 @@ export default function Home({
               );
             })}
           </div>
-          <span
-            className="p-3 text-md text-gray-300 bg-gray-900 rounded-lg font-sans font-semibold"
-            onClick={signout}
-          >
-            Sign Out
-          </span>
+          <div className="flex justify-end mt-2 mr-1 md:mr-8">
+            <span
+              className="p-3 text-md text-gray-300 bg-gray-900 rounded-lg font-sans font-semibold"
+              onClick={signout}
+            >
+              Sign Out
+            </span>
+          </div>
         </div>
         <Backdrop isOpen={open} closeBackdrop={handleClose}>
           <div>
             {Object.keys(allSupportedGames).map(function (key, index) {
               return (
                 <GameForm
-                  isUpdating={true}
                   username={userData.username}
                   game={allSupportedGames[key]}
                   key={key}

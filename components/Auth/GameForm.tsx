@@ -19,7 +19,6 @@ const emptyValues = {
 };
 
 type Props = {
-  isUpdating: boolean;
   username: string;
   game: {
     gameCode: string;
@@ -31,7 +30,6 @@ type Props = {
 };
 
 const GameForm: FC<Props> = ({
-  isUpdating,
   username,
   game,
   oldValues,
@@ -87,16 +85,15 @@ const GameForm: FC<Props> = ({
       ...oldValues,
     },
     validationSchema: validationSchema,
-    onSubmit: (values, { setSubmitting, resetForm }) => {
+    onSubmit: (values, { setSubmitting }) => {
       const { ingameid, ingamename } = values;
       setSubmitting(true);
-      if (isUpdating) {
+      if (oldValues) {
         updateGame({ ingameid, ingamename });
       } else {
         saveGame({ ingameid, ingamename });
       }
       addToCurrentGames(values);
-      resetForm();
       setSubmitting(false);
     },
   });
@@ -145,7 +142,9 @@ const GameForm: FC<Props> = ({
               errorMessage={formik.errors.ingameid}
             />
           </div>
-          <FixedButton name="Add Info" onClickHandler={formik.handleSubmit} />
+          <div className="flex justify-end mt-2 mr-1 md:mr-8">
+            <FixedButton name="Add Info" onClickHandler={formik.handleSubmit} />
+          </div>
         </form>
       </div>
       <SnackbarAlert

@@ -8,7 +8,9 @@ import TeamIntro from '../../../components/Profile/TeamIntro';
 import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
+import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
+import { useAuth } from '../../../context/authContext';
 
 export default function Home({
   userData,
@@ -17,6 +19,7 @@ export default function Home({
   userData: UserData;
   teams: Array<TeamType>;
 }) {
+  const { user } = useAuth();
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
@@ -46,8 +49,13 @@ export default function Home({
       </Head>
 
       <ProfileHeader userData={userData} />
-      <div>
-        {currentTeams.length == 0 ? (
+      <div className="w-11/12 md:w-2/3 mx-auto mt-2">
+        <div className="flex justify-end mr-1 md:mr-10">
+          {userData.username === user.username ? (
+            <FixedButton name="Create Team" onClickHandler={openBackdrop} />
+          ) : null}
+        </div>
+        {currentTeams.length !== 0 ? (
           currentTeams.map((team, index) => {
             return (
               <TeamItem

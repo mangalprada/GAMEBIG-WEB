@@ -27,7 +27,7 @@ export default function Home() {
       <div
         className={
           'flex flex-col justify-end items-center sm:justify-center ' +
-          'fixed w-screen h-screen inset-0 bg-black z-20'
+          'fixed w-screen h-screen inset-0 bg-black z-50'
         }
       >
         {

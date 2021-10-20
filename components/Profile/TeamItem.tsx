@@ -42,7 +42,7 @@ export default function TeamItem({
   return (
     <div
       className="flex flex-col my-2 py-4 px-8 md:px-24 justify-center text-lg text-gray-300 font-sans font-semibold
-    rounded-lg bg-gradient-to-b from-transparent to-gray-900"
+    rounded-lg"
     >
       <h6 className="text-3xl text-indigo-600">{team.teamName}</h6>
       <div>
@@ -55,8 +55,8 @@ export default function TeamItem({
               {index + 1}. {gamer}
             </h6>
             {gamer === team.inGameLead ? (
-              <div className="bg-green-400 rounded-md p-1">
-                <span className="mx-1 text-sm text-black">In Game Lead</span>
+              <div className="bg-red-400 rounded-md py-1 px-4 mx-5">
+                <span className="text-lg text-black">IGL</span>
               </div>
             ) : null}
           </div>

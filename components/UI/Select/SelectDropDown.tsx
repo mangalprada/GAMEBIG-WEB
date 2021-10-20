@@ -2,9 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 import DownArrow from '../Icons/TournamentIcons/DownArrow';
 import RightArrow from '../Icons/TournamentIcons/RightArrow';
 interface Props {
+  name?: string;
   label: string;
-  menuItems: { id: string; name: string }[];
-  handleChange: (item: { id: string; name: string }) => void;
+  menuItems: any[];
+  handleChange: (item: any) => void;
 }
 
 export default function SelectDropDown({
@@ -35,17 +36,18 @@ export default function SelectDropDown({
     setIsListVisible(!isListVisible);
   };
 
-  const listItems = menuItems.map((item: { id: string; name: string }) => (
+  const listItems = menuItems.map((item: any) => (
     <li
       onMouseDown={() => {
-        setSelected(item.name);
+        setSelected(item.name || item);
+
         setIsListVisible(false);
         handleChange(item);
       }}
       className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md"
       key={item.id}
     >
-      {item.name}
+      {item.name || item}
     </li>
   ));
   return (
@@ -61,7 +63,7 @@ export default function SelectDropDown({
         <button
           className={
             'flex justify-around bg-gray-700 p-3.5 px-8 rounded-md tracking-wide ' +
-            'uppercase text-sm font-bold font-sans focus:outline-none ' +
+            'text-sm font-bold font-sans focus:outline-none ' +
             (isListVisible ? 'ring ring-indigo-500' : '')
           }
         >

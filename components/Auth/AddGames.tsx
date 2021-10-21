@@ -38,7 +38,6 @@ function AddGames({
           {Object.keys(games).map(function (key, index) {
             return (
               <GameForm
-                isUpdating={isUpdating}
                 username={username}
                 game={games[key]}
                 addToCurrentGames={addToCurrentGames}

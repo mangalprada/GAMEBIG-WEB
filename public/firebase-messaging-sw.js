@@ -26,7 +26,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
     .then(() => {
       console.log('Sent message to tabs.', payload);
       return registration.showNotification(
-        'RoomId and Password is now available! Check Tournament Page!'
+        'RoomId and Password is now available for GameBig Tournament'
       );
     });
   return promiseChain;

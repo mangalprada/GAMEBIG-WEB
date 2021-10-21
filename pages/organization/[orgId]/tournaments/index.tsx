@@ -20,7 +20,10 @@ export default function Tournaments({ organizationData, tournaments }: Props) {
     <Aux>
       <Head>
         <title>Create Tournament</title>
-        <meta name="description" content="Create Organization" />
+        <meta
+          name="description"
+          content="List of all pcoming tournaments on GameBig"
+        />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

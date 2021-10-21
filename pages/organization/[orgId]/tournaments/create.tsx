@@ -7,7 +7,10 @@ export default function CreateTournament() {
     <Aux>
       <Head>
         <title>Create Tournament</title>
-        <meta name="description" content="Create Organization" />
+        <meta
+          name="description"
+          content="Create a custom room matches for BGMI, Call of Duty and Gerena Freefire"
+        />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

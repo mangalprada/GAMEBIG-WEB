@@ -147,8 +147,8 @@ function useProvideAuth() {
         setUser({ uid, username: displayName, photoURL });
         setUserData(userData);
       } else {
+        setUser({ uid, username: uid, photoURL });
         setAuthPageNumber(2);
-        setUser({ uid, username: displayName.split(' ')[0], photoURL });
       }
     }
   };

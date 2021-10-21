@@ -11,6 +11,7 @@ import { games } from '../../../utilities/GameList';
 import { db } from '../../../firebase/firebaseClient';
 import TextButton from '../../UI/Buttons/TextButton';
 import TournamentCardAvatar from '../../UI/Avatar/TournamentCardAvatar';
+import FixedButton from '../../UI/Buttons/FixedButton';
 
 interface Props {
   data: TournamentData;
@@ -21,7 +22,10 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
   const { user } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({
+    label: '',
+    message: '',
+  });
 
   useEffect(() => {
     if (data.id && user.username) {
@@ -134,7 +138,10 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
                   onClick={() => {
                     if (data.roomId) {
                       navigator.clipboard.writeText(data.roomId);
-                      setMessage('Room Id Copied !');
+                      setMessage({
+                        label: 'Copied!',
+                        message: 'Room ID copied to clipboard',
+                      });
                       setShowInfo(true);
                     }
                   }}
@@ -152,7 +159,10 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
                   onClick={() => {
                     if (data.password) {
                       navigator.clipboard.writeText(data.password);
-                      setMessage('Password Copied !');
+                      setMessage({
+                        label: 'Copied!',
+                        message: 'Password copied to clipboard',
+                      });
                       setShowInfo(true);
                     }
                   }}
@@ -165,13 +175,11 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
         </div>
       ) : null}
       <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
         open={showInfo}
         onClose={handleClose}
         autoHideDuration={3000}
         message={message}
-        severity="info"
+        type="warning"
       />
     </div>
   );

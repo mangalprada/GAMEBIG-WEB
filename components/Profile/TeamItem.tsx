@@ -62,7 +62,7 @@ export default function TeamItem({
   const classes = useStyles();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
-    message: '',
+    message: { label: '', message: '' },
     severity: 'success' as const,
   });
 
@@ -72,7 +72,7 @@ export default function TeamItem({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${team.teamName} Deleted!`,
+        message: { label: 'Deleted', message: `${team.teamName} deleted!` },
       });
       if (team.docId) removeTeam(team.docId);
     } catch (err) {

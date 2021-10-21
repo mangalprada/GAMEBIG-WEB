@@ -31,7 +31,7 @@ export default function Home() {
   const classes = useStyles();
   const [notices, setNotices] = useState([]);
   const [showInfo, setShowInfo] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({ label: '', message: '' });
 
   useEffect(() => {
     let notices = [];
@@ -66,7 +66,10 @@ export default function Home() {
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(roomId);
-                    setMessage('Room Id Copied !');
+                    setMessage({
+                      label: 'Copied!',
+                      message: 'Room Id copied to clipboard',
+                    });
                     setShowInfo(true);
                   }}
                   className={classes.span}
@@ -77,7 +80,10 @@ export default function Home() {
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(password);
-                    setMessage('Password Copied !');
+                    setMessage({
+                      label: 'Copied',
+                      message: 'Password copied to clipboard',
+                    });
                     setShowInfo(true);
                   }}
                   className={classes.span}
@@ -89,13 +95,11 @@ export default function Home() {
           );
         })}
         <SnackbarAlert
-          vertical="bottom"
-          horizontal="center"
           open={showInfo}
           onClose={handleClose}
           autoHideDuration={3000}
           message={message}
-          severity="info"
+          type="info"
         />
       </div>
     </Aux>

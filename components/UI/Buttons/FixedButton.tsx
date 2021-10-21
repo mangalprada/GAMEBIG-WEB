@@ -16,6 +16,7 @@ const FixedButton: FC<ButtonProps> = ({
           (isDisabled
             ? 'bg-gray-500 opacity-50 cursor-not-allowed'
             : 'transition duration-300 ease-in-out shadow-lg hover:shadow-xl ' +
+              'active:opacity-40 ' +
               (isDangerous
                 ? 'bg-red-500 hover:bg-red-600'
                 : 'bg-indigo-600 hover:bg-indigo-700'))

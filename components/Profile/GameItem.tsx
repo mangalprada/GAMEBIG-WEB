@@ -20,7 +20,7 @@ export default function GameItem({
   const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
-    message: '',
+    message: { label: '', message: '' },
     severity: 'success' as const,
   });
   const { gameCode, ingameid, ingamename, docId } = game;
@@ -32,7 +32,10 @@ export default function GameItem({
         setSnackbarData({
           ...snackbarData,
           open: true,
-          message: `${games[gameCode].name} Deleted!`,
+          message: {
+            label: 'Deleted',
+            message: `${games[gameCode].name} deleted!`,
+          },
         });
       if (docId) removeGame(docId);
     } catch (err) {

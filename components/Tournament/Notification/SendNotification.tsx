@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { db, functions } from '../../../firebase/firebaseClient';
 import { TournamentData } from '../../../utilities/tournament/types';
+import FixedButton from '../../UI/Buttons/FixedButton';
+import NormalInput from '../../UI/Inputs/NormalInput';
 
 export default function SendNotification({
   tournamentData,
@@ -51,44 +53,30 @@ export default function SendNotification({
   };
 
   return (
-    <div className="max-w-md ml-3 my-10">
-      <h5 className="text-xl font-medium tracking-wide text-gray-400">
+    <div className="max-w-md my-10">
+      <h5 className="text-xl font-medium tracking-wide text-gray-400 ml-3">
         Send Room ID and Password
       </h5>
-      <div className="flex justify-between flex-wrap mt-3">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-base font-medium mb-2">
-            Room ID
-          </label>
-          <input
-            className="shadow appearance-none border rounded py-2 px-3 
-            text-gray-700 leading-tight focus:outline-none focus:shadow-outline font-semibold"
-            id="roomId"
-            type="text"
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-base font-medium mb-2">
-            Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded py-2 px-3 
-            text-gray-700 leading-tight focus:outline-none focus:shadow-outline font-semibold"
-            id="roomPass"
-            type="text"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button
-          className="bg-blue-500 hover:bg-blue-400 text-white 
-            font-bold py-2 px-10 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-          onClick={onBtnClickHandler}
-        >
-          Send
-        </button>
+      <div className="grid sm:grid-cols-2 grid-cols-1 mt-5">
+        <NormalInput
+          name="RoomId"
+          value={roomId}
+          placeHolder="Room ID"
+          onChangeHandler={(e: { target: { value: SetStateAction<string> } }) =>
+            setRoomId(e.target.value)
+          }
+        />
+        <NormalInput
+          name="password"
+          value={password}
+          placeHolder="Password"
+          onChangeHandler={(e: { target: { value: SetStateAction<string> } }) =>
+            setPassword(e.target.value)
+          }
+        />
+      </div>
+      <div className="flex justify-start ml-4 relative -mt-8">
+        <FixedButton name="Send" onClickHandler={onBtnClickHandler} />
       </div>
     </div>
   );

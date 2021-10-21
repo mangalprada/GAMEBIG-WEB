@@ -74,13 +74,11 @@ function BasicForm({ userData, setUserData }: Props) {
       </form>
       <FixedButton onClickHandler={formik.handleSubmit} name="Continue" />
       <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
         open={showError}
         onClose={handleClose}
         autoHideDuration={5000}
-        message="username is taken!"
-        severity="warning"
+        message={{ label: 'Taken!', message: 'username is taken' }}
+        type="warning"
       />
     </div>
   );

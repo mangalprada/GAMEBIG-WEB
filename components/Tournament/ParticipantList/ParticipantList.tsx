@@ -1,47 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
-import {
-  createStyles,
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Theme,
-  Typography,
-} from '@material-ui/core';
 import { fetchParticipatedTeams } from '../../../lib/getTournamentData';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginBlock: 50,
-    },
-    table: {
-      marginTop: 10,
-    },
-    head: {
-      fontWeight: 750,
-      fontSize: 17,
-    },
-  })
-);
 
 interface Props {
   tId: string;
 }
 
 export default function ParticipantList({ tId }: Props) {
-  const classes = useStyles();
   const [participants, setParticipants] = useState<Record<string, any>[] | []>(
     []
   );
 
   const teamsArr = useCallback(async () => {
     const teams = await fetchParticipatedTeams(tId);
-    console.log(teams);
 
     setParticipants(teams);
   }, [tId]);
@@ -60,36 +30,37 @@ export default function ParticipantList({ tId }: Props) {
       ', ' +
       team.players[3];
     return (
-      <TableBody key={team.leader}>
-        <TableCell>{team.teamName}</TableCell>
-        <TableCell align="center">{teamMates}</TableCell>
-      </TableBody>
+      <tr key={team.leader}>
+        <td className="px-5 py-2 font-semibold">{team.teamName}</td>
+        <td className="px-5 py-2 font-semibold">{teamMates}</td>
+      </tr>
     );
   });
 
   return (
-    <div className={classes.root}>
-      <Typography variant="h5" color="textSecondary">
+    <div className="mx-4">
+      <h5 className="text-gray-400 text-xl font-semibold mb-5">
         Participant List
-      </Typography>
+      </h5>
       {participants.length === 0 ? (
-        <Typography variant="body1" color="textPrimary">
+        <span className="text-lg font-semibold text-indigo-600">
           No Teams registered yet
-        </Typography>
+        </span>
       ) : (
-        <TableContainer className={classes.table} component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.head}>Team Name</TableCell>
-                <TableCell className={classes.head} align="center">
-                  Player IDs
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            {tableCell}
-          </Table>
-        </TableContainer>
+        <table
+          className={
+            'table-fixed w-auto text-center text-gray-300 ' +
+            'bg-gray-900 rounded-lg font-sans tracking-wide'
+          }
+        >
+          <thead>
+            <tr>
+              <th className="w-1/3 px-5 pt-3 text-indigo-600">Team Name</th>
+              <th className="w-2/3 px-5 pt-3 text-indigo-600">Player IDs</th>
+            </tr>
+          </thead>
+          <tbody>{tableCell}</tbody>
+        </table>
       )}
     </div>
   );

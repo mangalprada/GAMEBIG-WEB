@@ -8,7 +8,10 @@ export default function create() {
     <Aux>
       <Head>
         <title>Create Organization</title>
-        <meta name="description" content="Create Organization" />
+        <meta
+          name="description"
+          content="Create an Organization and Start host custom room matches for BGMI, Call of Duty and Gerena Freefire"
+        />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

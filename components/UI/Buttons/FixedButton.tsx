@@ -9,7 +9,7 @@ const FixedButton: FC<ButtonProps> = ({
   isDangerous,
 }: ButtonProps) => {
   return (
-    <div>
+    <div className="my-4">
       <button
         className={
           'text-white font-normal tracking-wide text-lg py-2 px-4 rounded-lg ' +

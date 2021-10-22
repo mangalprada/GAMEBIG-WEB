@@ -43,6 +43,7 @@ function useProvideAuth() {
     await firebase.auth().signOut();
     router.push('/');
     setUser({} as User);
+    setUserData({} as UserData);
     setAuthPageNumber(1);
   };
 

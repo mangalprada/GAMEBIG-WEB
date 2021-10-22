@@ -1,5 +1,4 @@
 import { FC, useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { db } from '../../../firebase/firebaseClient';
 import { TournamentData } from '../../../utilities/tournament/types';

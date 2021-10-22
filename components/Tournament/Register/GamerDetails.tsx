@@ -1,25 +1,7 @@
 import { useState } from 'react';
-import { Button, Typography } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import GamerItem from './GamerItem';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    button: {
-      margin: 15,
-      width: '50%',
-    },
-    flexRow: { display: 'flex', flexDirection: 'row', marginTop: 40 },
-    text: {
-      fontWeight: 'bold',
-      letterSpacing: 0.5,
-      color: '#555',
-    },
-  })
-);
-
 interface Props {
   tId: string;
   team?: TeamType;
@@ -35,7 +17,6 @@ export default function GamerDetails({
   onCancel,
   setIsRegistered,
 }: Props) {
-  const classes = useStyles();
   const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
   const updateGamer = (username: string, gamer: GamerData) => {
@@ -78,9 +59,7 @@ export default function GamerDetails({
 
   return (
     <div>
-      <Typography variant="h6" className={classes.text}>
-        Add Details
-      </Typography>
+      <h2>Add Details</h2>
       {team &&
         team.gamers.map((gamer) => (
           <GamerItem
@@ -90,23 +69,13 @@ export default function GamerDetails({
             updateGamer={updateGamer}
           />
         ))}
-      <div className={classes.flexRow}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onCancel}
-          className={classes.button}
-        >
+      <div className="">
+        <span onClick={onCancel} className="">
           Cancel
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleRegister}
-          className={classes.button}
-        >
+        </span>
+        <span onClick={handleRegister} className="">
           Register
-        </Button>
+        </span>
       </div>
     </div>
   );

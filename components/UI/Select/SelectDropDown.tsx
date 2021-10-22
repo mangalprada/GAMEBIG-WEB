@@ -6,12 +6,14 @@ interface Props {
   label: string;
   menuItems: any[];
   handleChange: (item: any) => void;
+  propToShow?: string;
 }
 
 export default function SelectDropDown({
   label,
   handleChange,
   menuItems,
+  propToShow,
 }: Props) {
   const [isListVisible, setIsListVisible] = useState(false);
   const [selectedItem, setSelected] = useState('Select');
@@ -47,7 +49,7 @@ export default function SelectDropDown({
       className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md"
       key={item.id}
     >
-      {item.name || item}
+      {(propToShow && item[propToShow]) || item}
     </li>
   ));
   return (

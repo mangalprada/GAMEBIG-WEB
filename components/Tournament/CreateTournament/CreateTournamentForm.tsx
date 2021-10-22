@@ -87,6 +87,7 @@ export default function CreateTournamentForm() {
                   formik.setFieldValue('gameCode', item.id);
                 }}
                 menuItems={GAMES}
+                propToShow="name"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">

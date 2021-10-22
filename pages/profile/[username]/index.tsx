@@ -55,7 +55,7 @@ export default function Home({
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="w-11/12 md:w-2/3 mx-auto">
-          <div className="flex justify-end mt-2 mr-1 md:mr-8">
+          <div className="flex justify-end mt-2">
             {userData.username === user.username ? (
               <FixedButton
                 name="Update Games"
@@ -76,9 +76,13 @@ export default function Home({
               );
             })}
           </div>
-          <div className="flex justify-end mt-2 mr-1 md:mr-8">
+          {/** Signout Button */}
+          <div className="flex justify-end mt-20">
             <span
-              className="p-3 text-md text-gray-300 bg-gray-900 rounded-lg font-sans font-semibold"
+              className={
+                'py-3 px-8 text-md text-gray-400 bg-gray-900 rounded-lg ' +
+                'font-sans font-semibold cursor-pointer active:bg-gray-800'
+              }
               onClick={signout}
             >
               Sign Out

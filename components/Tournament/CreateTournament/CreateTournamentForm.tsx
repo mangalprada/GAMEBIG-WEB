@@ -80,7 +80,7 @@ export default function CreateTournamentForm() {
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
-            <div className="mb-6 md:mb-12 w-full md:w-1/2 pr-2.5">
+            <div className="mb-6 md:mb-12 w-full md:w-1/2">
               <SelectDropDown
                 label="Game Name"
                 handleChange={(item) => {

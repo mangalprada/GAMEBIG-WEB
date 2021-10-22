@@ -24,7 +24,10 @@ type PropsType = {
 type SnackbarDataType = {
   open: boolean;
   severity: 'success' | 'info' | 'warning' | 'error';
-  message: string;
+  message: {
+    label: string;
+    message: string;
+  };
 };
 
 const emptyValues = {
@@ -35,7 +38,7 @@ const emptyValues = {
 
 const initialSnackbarData = {
   open: false,
-  message: '',
+  message: { label: '', message: '' },
   severity: 'warning' as const,
 };
 
@@ -76,7 +79,10 @@ export default function CreateTeam({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `You need 4 gamers to create a Team!`,
+        message: {
+          label: 'Oops!',
+          message: `You need 4 gamers to create a Team`,
+        },
         severity: 'warning' as const,
       });
       return;
@@ -85,7 +91,10 @@ export default function CreateTeam({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `You need a In Game Lead to create a Team!`,
+        message: {
+          label: 'Oh Oh!',
+          message: `You need a In Game Lead to create a Team!`,
+        },
         severity: 'warning' as const,
       });
       return;
@@ -95,7 +104,7 @@ export default function CreateTeam({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${team.teamName} added!`,
+        message: { label: 'Yay!', message: `${team.teamName} added!` },
         severity: 'success' as const,
       });
       onCancel();
@@ -225,13 +234,11 @@ export default function CreateTeam({
         />
       </div>
       <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
         open={snackbarData.open}
         onClose={handleClose}
         autoHideDuration={5000}
         message={snackbarData.message}
-        severity={snackbarData.severity}
+        type={snackbarData.severity}
       />
     </div>
   );

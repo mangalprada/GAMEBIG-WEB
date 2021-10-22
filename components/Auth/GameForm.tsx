@@ -37,7 +37,7 @@ const GameForm: FC<Props> = ({
 }: Props) => {
   const [snackbarData, setSnackbarData] = useState({
     open: false,
-    message: '',
+    message: { label: '', message: '' },
     severity: 'success' as const,
   });
 
@@ -56,7 +56,7 @@ const GameForm: FC<Props> = ({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${game.name} added!`,
+        message: { label: 'Saved', message: `${game.name} added!` },
       });
     } catch (err) {
       console.log('err', err);
@@ -72,7 +72,7 @@ const GameForm: FC<Props> = ({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${game.name} updated!`,
+        message: { label: 'Updated', message: `${game.name} updated!` },
       });
     } catch (err) {
       console.log('err', err);
@@ -148,13 +148,11 @@ const GameForm: FC<Props> = ({
         </form>
       </div>
       <SnackbarAlert
-        vertical="bottom"
-        horizontal="right"
         open={snackbarData.open}
         onClose={handleSnackbarClose}
         autoHideDuration={5000}
         message={snackbarData.message}
-        severity={snackbarData.severity}
+        type={snackbarData.severity}
       />
     </div>
   );

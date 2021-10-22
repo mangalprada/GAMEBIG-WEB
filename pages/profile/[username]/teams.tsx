@@ -53,26 +53,28 @@ export default function Home({
 
       <ProfileHeader userData={userData} />
       <div className="w-11/12 md:w-2/3 mx-auto mt-2">
-        <div className="flex justify-end mr-1 md:mr-10">
+        <div className="flex justify-end">
           {userData.username === user.username ? (
             <FixedButton name="Create Team" onClickHandler={openBackdrop} />
           ) : null}
         </div>
-        {currentTeams.length !== 0 ? (
-          currentTeams.map((team, index) => {
-            return (
-              <TeamItem
-                team={team}
-                key={index}
-                openBackdrop={openBackdrop}
-                setSelectedTeam={setSelectedTeam}
-                removeTeam={removeTeam}
-              />
-            );
-          })
-        ) : (
-          <TeamIntro openBackdrop={openBackdrop} />
-        )}
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+          {currentTeams.length !== 0 ? (
+            currentTeams.map((team, index) => {
+              return (
+                <TeamItem
+                  team={team}
+                  key={index}
+                  openBackdrop={openBackdrop}
+                  setSelectedTeam={setSelectedTeam}
+                  removeTeam={removeTeam}
+                />
+              );
+            })
+          ) : (
+            <TeamIntro openBackdrop={openBackdrop} />
+          )}
+        </div>
       </div>
       <Backdrop isOpen={backdropOpen}>
         <CreateTeam teamData={selectedTeam} onCancel={closeBackdrop} />

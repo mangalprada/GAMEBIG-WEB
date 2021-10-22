@@ -16,6 +16,8 @@ a {
   box-sizing: border-box;
 }
 
+/* */
+/* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   cursor: pointer;
@@ -29,6 +31,9 @@ a {
   border-radius: 8px;
   background-color: #4338ca;
 }
+
+/* */
+/* Input range styles */
 input[type='range'] {
   -webkit-appearance: none;
   margin: 18px 0;

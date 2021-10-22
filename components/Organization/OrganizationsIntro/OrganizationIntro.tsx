@@ -1,8 +1,21 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
+import { useAuth } from '../../../context/authContext';
 
 export default function NoOrganization() {
+  const router = useRouter();
+  const { user } = useAuth();
+
+  const onCreateOrgButtonClickHandler = () => {
+    console.log('User', user.uid);
+
+    if (user.uid === undefined || user.uid === '') {
+      router.push('/auth');
+    } else {
+      router.push('/organization/create');
+    }
+  };
+
   return (
     <div
       className={
@@ -31,11 +44,10 @@ export default function NoOrganization() {
         </ul>
       </div>
       <div className="bottom-8">
-        <Link href="/organization/create" passHref>
-          <a href="/organization/create">
-            <ResponsiveButton name="Create Now!" />
-          </a>
-        </Link>
+        <ResponsiveButton
+          name="Create Now!"
+          onClickHandler={onCreateOrgButtonClickHandler}
+        />
       </div>
     </div>
   );

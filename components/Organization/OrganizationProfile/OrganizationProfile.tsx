@@ -1,121 +1,95 @@
-import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
-import React from 'react';
 import { OrgFormData } from '../../../utilities/organization/types';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      marginTop: 20,
-    },
-    contactContainer: {
-      maxWidth: 600,
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      marginBlock: 10,
-    },
-    contacts: {
-      marginBlock: 10,
-    },
-    socialLinkContainer: {
-      maxWidth: 620,
-    },
-    socialLinkRow: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      marginTop: 5,
-    },
-    social: {
-      marginTop: 5,
-      width: 250,
-    },
-  })
-);
+import TwitchIcon from '../..//UI/Icons/SocialIcons/TwitchIcon';
+import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
+import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
+import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
+import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
+import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
 
 interface Props {
   data: OrgFormData;
 }
 
 export default function OrganizationProfile({ data }: Props) {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <div>
-        <Typography variant="subtitle2">About us</Typography>
-        <Typography variant="body1" color="textPrimary">
-          {data.about}
-        </Typography>
+    <div
+      className={
+        'xl:w-2/3 md:w-5/6 mx-auto font-sans px-5 pt-10 ' +
+        'bg-gradient-to-b from-transparent to-gray-900 ' +
+        'rounded-br-3xl'
+      }
+    >
+      <section className="flex flex-col">
+        <span className="font-semibold text-gray-500">About us</span>
+        <span className="text-gray-100 tracking-wide pt-1">{data.about}</span>
+      </section>
+      <div className="grid md:grid-cols-2 grid-cols-1 mt-8 space-y-5">
+        <section className="flex flex-col">
+          <span className="font-semibold text-gray-500">Official Email</span>
+          <span className="text-gray-100 tracking-wide pt-1">{data.email}</span>
+        </section>
+        <section className="flex flex-col">
+          <span className="font-semibold text-gray-500">Contact Number</span>
+          <span className="text-gray-100 tracking-wide pt-1">{data.phone}</span>
+        </section>
+        <section className="flex flex-col">
+          <span className="font-semibold text-gray-500">Official Website</span>
+          <span className="text-gray-100 tracking-wide pt-1">
+            {data.website ? data.website : 'Not Available'}
+          </span>
+        </section>
       </div>
-      <div className={classes.contactContainer}>
-        <div className={classes.contacts}>
-          <Typography variant="subtitle2">
-            Admin&apos;s email address
-          </Typography>
-          <Typography variant="body1" color="textPrimary">
-            {data.email}
-          </Typography>
-        </div>
-        <div className={classes.contacts}>
-          <Typography variant="subtitle2">
-            Admin&apos;s contact number
-          </Typography>
-          <Typography variant="body1" color="textPrimary">
-            +91 {data.phone}
-          </Typography>
-        </div>
-        <div className={classes.contacts}>
-          <Typography variant="subtitle2">Official Website</Typography>
-          <Typography variant="body1" color="textPrimary">
-            {data.website ? data.website : '-'}
-          </Typography>
-        </div>
-      </div>
-      <div className={classes.socialLinkContainer}>
-        <Typography variant="h6">Social Links</Typography>
-        <div className={classes.socialLinkRow}>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Facebook</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.facebook ? data.facebook : '-'}
-            </Typography>
+
+      {/** Social Links */}
+      <div className="flex flex-row space-x-6 mt-5 ml-1 h-20">
+        {data.youtube ? (
+          <div className="my-auto">
+            <YouTubeIcon
+              size={20}
+              onClick={() => window.open(data.youtube, '_blank')}
+            />
           </div>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Twitter</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.twitter ? data.twitter : '-'}
-            </Typography>
+        ) : null}
+        {data.discord ? (
+          <div className="my-auto">
+            <DiscordIcon
+              size={25}
+              onClick={() => window.open(data.discord, '_blank')}
+            />
           </div>
-        </div>
-        <div className={classes.socialLinkRow}>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Discord</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.discord ? data.discord : '-'}
-            </Typography>
+        ) : null}
+        {data.instagram ? (
+          <div className="my-auto">
+            <InstagramIcon
+              size={28}
+              onClick={() => window.open(data.instagram, '_blank')}
+            />
           </div>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Youtube</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.youtube ? data.youtube : '-'}
-            </Typography>
+        ) : null}
+        {data.facebook ? (
+          <div className="my-auto">
+            <FacebookIcon
+              size={35}
+              onClick={() => window.open(data.facebook, '_blank')}
+            />
           </div>
-        </div>
-        <div className={classes.socialLinkRow}>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Twitch</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.twitch ? data.twitch : '-'}
-            </Typography>
+        ) : null}
+        {data.twitch ? (
+          <div className="my-auto">
+            <TwitchIcon
+              size={23}
+              onClick={() => window.open(data.twitch, '_blank')}
+            />
           </div>
-          <div className={classes.social}>
-            <Typography variant="subtitle2">Reddit</Typography>
-            <Typography variant="body1" color="textPrimary">
-              {data.reddit ? data.reddit : '-'}
-            </Typography>
+        ) : null}
+        {data.reddit ? (
+          <div className="my-auto">
+            <RedditIcon
+              size={35}
+              onClick={() => window.open(data.reddit, '_blank')}
+            />
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

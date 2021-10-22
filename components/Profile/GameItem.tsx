@@ -20,7 +20,7 @@ export default function GameItem({
   const { user } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
-    message: '',
+    message: { label: '', message: '' },
     severity: 'success' as const,
   });
   const { gameCode, ingameid, ingamename, docId } = game;
@@ -32,7 +32,10 @@ export default function GameItem({
         setSnackbarData({
           ...snackbarData,
           open: true,
-          message: `${games[gameCode].name} Deleted!`,
+          message: {
+            label: 'Deleted',
+            message: `${games[gameCode].name} deleted!`,
+          },
         });
       if (docId) removeGame(docId);
     } catch (err) {
@@ -40,8 +43,13 @@ export default function GameItem({
     }
   };
   return (
-    <div className="grid md:grid-cols-2 grid-cols-1 w-full font-sans text-gray-300 bg-gray-900 rounded-lg my-2 py-4 px-4 gap-8">
-      <div className="flex flex-col justify-evenly gap-8">
+    <div
+      className={
+        'grid md:grid-cols-2 grid-cols-1 w-full font-sans text-gray-300 ' +
+        'bg-gray-900 rounded-lg my-2 py-10 px-4 gap-8'
+      }
+    >
+      <div className="flex flex-col justify-evenly space-y-4">
         {gameCode && (
           <div className="md:h-32 md:w-32 h-24 w-24 relative rounded-lg mx-auto">
             <Image
@@ -60,8 +68,8 @@ export default function GameItem({
           {gameCode ? <span>{games[gameCode].name}</span> : null}
         </div>
       </div>
-      <div className="flex flex-col justify-evenly w-full gap-8">
-        <div className="flex justify-start gap-10">
+      <div className="flex flex-col justify-evenly w-full">
+        <div className="flex justify-evenly">
           <div>
             <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
               In Game Name
@@ -75,21 +83,16 @@ export default function GameItem({
             <span className="font-sans font-bold text-lg">{ingameid}</span>
           </div>
         </div>
-        <div>
-          {user.username === username ? (
-            <div className="flex justify-center gap-8 md:justify-end md:pr-4 ">
-              <FixedButton
-                name="EDIT"
-                onClickHandler={() => setBackdrop(true)}
-              />
-              <FixedButton
-                name="DELETE"
-                onClickHandler={deleteGame}
-                isDangerous
-              />
-            </div>
-          ) : null}
-        </div>
+        {user.username === username ? (
+          <div className="flex justify-evenly mt-5">
+            <FixedButton name="EDIT" onClickHandler={() => setBackdrop(true)} />
+            <FixedButton
+              name="DELETE"
+              onClickHandler={deleteGame}
+              isDangerous
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );

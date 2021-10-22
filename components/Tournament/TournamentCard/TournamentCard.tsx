@@ -50,8 +50,12 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
     }
   }, [data.id, user.username]);
 
-  const goToTournamentPage = () => {
-    router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
+  const onForwardAction = () => {
+    if (user.uid === '' || user.uid === undefined) {
+      router.push('/auth');
+    } else {
+      router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
+    }
   };
 
   return (
@@ -61,7 +65,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
         'bg-gray-900 transform hover:scale-105 hover:-translate-y-1 ' +
         'transition duration-500 ease-in-out cursor-pointer'
       }
-      onClick={goToTournamentPage}
+      onClick={onForwardAction}
     >
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
@@ -144,7 +148,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
                 }
               />
             ) : (
-              <FixedButton name="REGISTER" />
+              <FixedButton name="REGISTER" onClickHandler={onForwardAction} />
             )}
           </>
         )}

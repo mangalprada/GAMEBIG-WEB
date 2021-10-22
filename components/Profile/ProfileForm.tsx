@@ -232,13 +232,11 @@ function ProfileForm({ oldValues, push }: Props) {
         </form>
       </div>
       <SnackbarAlert
-        vertical="bottom"
-        horizontal="center"
         open={showError}
         onClose={handleClose}
         autoHideDuration={5000}
-        message="username is taken!"
-        severity="warning"
+        message={{ label: 'Oops!', message: 'username is taken!' }}
+        type="warning"
       />
     </div>
   );

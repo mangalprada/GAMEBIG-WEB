@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
-import FixedButton from '../UI/Buttons/FixedButton';
+import TextButton from '../UI/Buttons/TextButton';
 
 export default function TeamItem({
   team,
@@ -16,7 +16,7 @@ export default function TeamItem({
 }) {
   const [snackbarData, setSnackbarData] = useState({
     open: false,
-    message: '',
+    message: { label: '', message: '' },
     severity: 'success' as const,
   });
 
@@ -26,7 +26,7 @@ export default function TeamItem({
       setSnackbarData({
         ...snackbarData,
         open: true,
-        message: `${team.teamName} Deleted!`,
+        message: { label: 'Deleted', message: `${team.teamName} deleted!` },
       });
       if (team.docId) removeTeam(team.docId);
     } catch (err) {
@@ -41,40 +41,29 @@ export default function TeamItem({
 
   return (
     <div
-      className="flex flex-col my-2 py-4 px-8 md:px-24 justify-center text-lg text-gray-300 font-sans font-semibold
-    rounded-lg"
+      className={
+        'flex flex-col my-2 py-4 px-8 justify-center text-lg ' +
+        'text-gray-300 font-sans font-semibold rounded-lg bg-gray-900 '
+      }
     >
       <h6 className="text-3xl text-indigo-600">{team.teamName}</h6>
       <div>
         {team.gamers.map((gamer, index) => (
-          <div
-            key={index}
-            className="flex justify-between py-2.5 border-b-2 border-gray-800 "
-          >
+          <div key={index} className="flex justify-between flex-wrap py-2.5">
             <h6>
               {index + 1}. {gamer}
             </h6>
             {gamer === team.inGameLead ? (
-              <div className="bg-red-400 rounded-md py-1 px-4 mx-5">
+              <div className="bg-red-500 rounded-md py-1 px-3 ">
                 <span className="text-lg text-black">IGL</span>
               </div>
             ) : null}
           </div>
         ))}
       </div>
-      <div className="flex justify-end my-1">
-        <span
-          className="text-gray-400 p-2 hover:bg-gray-800 rounded-md transition duration-300"
-          onClick={handleEdit}
-        >
-          Edit
-        </span>
-        <span
-          className="text-gray-400 p-2 hover:bg-gray-800 rounded-md transition duration-300"
-          onClick={deleteTeam}
-        >
-          Delete
-        </span>
+      <div className="flex justify-end">
+        <TextButton type="normal" name="Edit" onClickHandler={handleEdit} />
+        <TextButton type="fail" name="Delete" onClickHandler={deleteTeam} />
       </div>
     </div>
   );

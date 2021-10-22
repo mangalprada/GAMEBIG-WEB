@@ -12,7 +12,7 @@ const TabNavItem: FC<Props> = ({ href, label, isActive }: Props) => {
     <Link href={href} passHref>
       <li
         className={
-          'py-4 px-10 block rounded-t-lg ' +
+          'py-4 md:px-10 px-3 block rounded-t-lg ' +
           'cursor-pointer hover:bg-gray-900 ' +
           'font-semibold text-lg font-sans tracking-wider ' +
           (isActive

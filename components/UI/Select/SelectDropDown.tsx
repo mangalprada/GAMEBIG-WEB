@@ -55,14 +55,10 @@ export default function SelectDropDown({
       <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
         {label}
       </label>
-      <div
-        ref={wrapperRef}
-        className="w-1/2 md:w-1/3"
-        onMouseDown={toggleIsListVisible}
-      >
+      <div ref={wrapperRef} onMouseDown={toggleIsListVisible}>
         <button
           className={
-            'flex justify-around bg-gray-700 p-3.5 px-8 rounded-md tracking-wide ' +
+            'flex justify-between bg-gray-700 w-full md:w-1/2  p-3.5 px-8 rounded-md tracking-wide ' +
             'text-sm font-bold font-sans focus:outline-none ' +
             (isListVisible ? 'ring ring-indigo-500' : '')
           }
@@ -81,7 +77,7 @@ export default function SelectDropDown({
         </button>
         {isListVisible ? (
           <ul
-            className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md
+            className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md h-auto max-h-52 overflow-y-auto
           font-sans font-semibold text-md text-gray-300 bg-gray-700 "
           >
             {listItems}

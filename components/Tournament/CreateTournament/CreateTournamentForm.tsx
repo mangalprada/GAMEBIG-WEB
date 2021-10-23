@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import router from 'next/router';
 import { useFormik } from 'formik';
-import DatePicker from '../../UI/Picker/DatePicker';
-import TimePicker from '../../UI/Picker/TimePicker';
+import TimeDatePicker from '../../UI/Picker/TimeDatePicker';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { GAMES } from '../../../assets/data/Games';
 import { MODES, SCREAMS } from '../../../assets/data/Utils';
@@ -23,9 +22,8 @@ const INITIAL_STATE: TournamentFormData = {
   mode: 'Squad',
   type: 'Custom Room',
   tier: 'T3',
-  noOfSlots: 10,
-  date: new Date(),
-  startTime: '',
+  noOfSlots: 25,
+  startTime: new Date(),
   description: '',
   prize: '',
 };
@@ -79,7 +77,7 @@ export default function CreateTournamentForm() {
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
-            <div className="mb-6 md:mb-12 w-full md:w-1/2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <SelectDropDown
                 label="Game Name"
                 handleChange={(item) => {
@@ -88,16 +86,12 @@ export default function CreateTournamentForm() {
                 menuItems={GAMES}
                 propToShow="name"
               />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-              <DatePicker
-                handleChange={(date: Date) => {
-                  formik.setFieldValue('date', date);
-                }}
-              />
-              <TimePicker
-                handleChange={(val: string) => {
-                  formik.setFieldValue('startTime', val);
+              <TimeDatePicker
+                name="startTime"
+                error={false}
+                label="Date and Time"
+                changeHandler={(date: Date) => {
+                  formik.setFieldValue('startTime', date);
                 }}
               />
               <SelectRadioButton

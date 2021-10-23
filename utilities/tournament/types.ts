@@ -4,8 +4,7 @@ export interface TournamentFormData {
   type: string;
   tier: string;
   noOfSlots: number;
-  startTime: string;
-  date: Date;
+  startTime: Date;
   description: string;
   prize: string;
 }

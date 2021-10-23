@@ -57,7 +57,7 @@ export default function SelectDropDown({
         {label}
       </label>
       <div ref={wrapperRef} onMouseDown={toggleIsListVisible}>
-        <button
+        <div
           className={
             'flex justify-between bg-gray-700 w-full md:w-1/2  p-3.5 px-8 rounded-md tracking-wide ' +
             'text-sm font-bold font-sans focus:outline-none ' +
@@ -75,7 +75,7 @@ export default function SelectDropDown({
               }}
             />
           )}
-        </button>
+        </div>
         {isListVisible ? (
           <ul
             className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md h-auto max-h-52 overflow-y-auto

@@ -40,7 +40,6 @@ export default function CreateTournamentForm() {
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
     onSubmit: async (value: TournamentFormData, { resetForm }) => {
-      console.log(value, 'id:', linkedOrganizationId, linkedOrganizationName);
       setIsBackDropOpen(true);
       if (linkedOrganizationId && linkedOrganizationName) {
         const tournId = await addNewTournament(

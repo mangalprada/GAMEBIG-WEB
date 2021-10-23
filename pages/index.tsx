@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import TournamentCard from '../components/Tournament/TournamentCard/TournamentCard';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { fetchAllTournamentData } from '../lib/getAllTournaments';
 import { TournamentData } from '../utilities/tournament/types';
 
@@ -36,7 +36,7 @@ export default function Home({ tournaments }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const tournaments = await fetchAllTournamentData();
   return {
     props: {

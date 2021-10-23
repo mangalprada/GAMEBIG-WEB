@@ -45,7 +45,7 @@ export default function SelectDropDown({
         setIsListVisible(false);
         handleChange(item);
       }}
-      className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md"
+      className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md cursor-pointer "
       key={item.id}
     >
       {(propToShow && item[propToShow]) || item}

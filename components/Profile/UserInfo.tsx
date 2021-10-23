@@ -62,7 +62,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
             <MoreIcon size={36} />
           </div>
           {showMore ? (
-            <div className="flex flex-col absolute z-10 bg-gray-700 rounded-md w-32 px-4 pb-4 gap-1">
+            <div className="flex flex-col absolute z-10 text-gray-300 font-semibold bg-gray-700 rounded-md w-32 px-4 pb-4 gap-1">
               <div
                 onClick={toggleShowMore}
                 className="flex justify-end p-1 mt-1 mr-1"

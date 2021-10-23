@@ -147,7 +147,6 @@ export default function CreateTournamentForm() {
               onChangeHandler={formik.handleChange}
             />
             <ResponsiveButton
-              type="button"
               name="Save"
               onClickHandler={formik.handleSubmit}
             />
@@ -157,3 +156,5 @@ export default function CreateTournamentForm() {
     </Aux>
   );
 }
+
+// todo: show error for textarea for description

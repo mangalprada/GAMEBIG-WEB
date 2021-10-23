@@ -60,9 +60,7 @@ const TimePicker = ({
   return (
     <SelectDropDown
       label="Select Time"
-      handleChange={(val) => {
-        console.log('gameCode', val);
-      }}
+      handleChange={handleChange}
       menuItems={timeList}
     />
   );

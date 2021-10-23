@@ -18,10 +18,11 @@ const emptyValues = {
 interface Props {
   username: string;
   gameCode: string;
+  serialNo: number;
   updateGamer: (username: string, gameData: GamerData) => void;
 }
 
-const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
+const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
   const formik = useFormik({
     initialValues: emptyValues,
     validationSchema: validationSchema,
@@ -69,7 +70,8 @@ const GamerItem = ({ username, gameCode, updateGamer }: Props) => {
   }, [formik.values.ingameid, formik.values.ingamename, username]);
 
   return (
-    <div className="">
+    <div className="font-sans text-gray-300">
+      <span className="text-xl text-indigo-600 py-4">Player {serialNo}</span>
       <FormInput
         labelName="GameBig username"
         name="username"

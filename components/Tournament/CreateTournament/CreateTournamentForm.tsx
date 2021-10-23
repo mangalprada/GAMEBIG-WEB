@@ -147,6 +147,7 @@ export default function CreateTournamentForm() {
               onChangeHandler={formik.handleChange}
             />
             <ResponsiveButton
+              type="button"
               name="Save"
               onClickHandler={formik.handleSubmit}
             />

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { UserData } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
 import { useRouter } from 'next/router';
@@ -13,6 +13,8 @@ import FacebookIcon from '../UI/Icons/SocialIcons/FacebookIcon';
 import TwitterIcon from '../UI/Icons/SocialIcons/TwitterIcon';
 import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
+import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
+import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
 
 type Props = {
   userData: UserData;
@@ -20,7 +22,8 @@ type Props = {
 
 const UserInfo: FC<Props> = ({ userData }: Props) => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
+  const [showMore, setShowMore] = useState(false);
 
   const goToEditPage = () => {
     if (userData) {
@@ -30,6 +33,14 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
         query: { data: stringifiedUsedData },
       });
     }
+  };
+
+  const goToSetting = () => {
+    router.push(`/profile/${user.username}/settings`);
+  };
+
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
   };
 
   return (
@@ -42,10 +53,28 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
       {/**Cover Background */}
       <div
         className={
-          'w-full bg-cover bg-no-repeat bg-center h-48 ' +
+          'flex justify-end w-full bg-cover bg-no-repeat bg-center h-48 ' +
           'bg-gradient-to-tr from-green-600 via-indigo-600 to-red-600 rounded-b-lg'
         }
-      ></div>
+      >
+        <div className="fixed mt-4 mr-4">
+          <div className="p-3 cursor-pointer" onClick={toggleShowMore}>
+            <MoreIcon size={36} />
+          </div>
+          {showMore ? (
+            <div className="flex flex-col absolute z-10 bg-gray-700 rounded-md w-32 px-4 pb-4 gap-1">
+              <div
+                onClick={toggleShowMore}
+                className="flex justify-end p-1 mt-1 mr-1"
+              >
+                <CloseIcon size={16} />
+              </div>
+              <span onClick={goToSetting}>Settings</span>
+              <span onClick={signout}>Sign Out</span>
+            </div>
+          ) : null}
+        </div>
+      </div>
 
       {/** Profile photo and Edit button */}
       <div className="p-4">

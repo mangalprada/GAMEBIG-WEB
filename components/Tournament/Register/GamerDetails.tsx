@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
+import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerItem from './GamerItem';
 interface Props {
   tId: string;
@@ -58,25 +59,24 @@ export default function GamerDetails({
   };
 
   return (
-    <div>
-      <h2>Add Details</h2>
+    <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold">
+      <div className="flex justify-start gap-8 items-center">
+        <span>Add Details</span>
+        <span onClick={onCancel} className="hover:bg-gray-800 p-3 rounded-md">
+          Cancel
+        </span>
+        <FixedButton onClickHandler={handleRegister} name="Register" />
+      </div>
       {team &&
-        team.gamers.map((gamer) => (
+        team.gamers.map((gamer, index) => (
           <GamerItem
-            key={gamer}
+            key={index}
+            serialNo={index + 1}
             username={gamer}
             gameCode={gameCode}
             updateGamer={updateGamer}
           />
         ))}
-      <div className="">
-        <span onClick={onCancel} className="">
-          Cancel
-        </span>
-        <span onClick={handleRegister} className="">
-          Register
-        </span>
-      </div>
     </div>
   );
 }

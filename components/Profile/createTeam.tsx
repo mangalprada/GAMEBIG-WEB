@@ -228,6 +228,7 @@ export default function CreateTeam({
           onClickHandler={onCancel}
         />
         <FixedButton
+          type="submit"
           name="Save"
           isDisabled={formik.isSubmitting}
           onClickHandler={formik.handleSubmit}

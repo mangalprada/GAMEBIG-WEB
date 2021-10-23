@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { useAuth } from '../../../context/authContext';
 import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, GamerData } from '../../../utilities/types';
@@ -17,8 +16,6 @@ interface Props {
 }
 
 export default function Home({ tournaments, userData }: Props) {
-  const { user, signout } = useAuth();
-
   return (
     <div>
       <Head>
@@ -37,14 +34,6 @@ export default function Home({ tournaments, userData }: Props) {
               isOrganizer={false}
             />
           ))}
-        </div>
-        <div className="flex justify-center mt-2 mr-1 md:mr-8">
-          <span
-            className="p-3 text-md text-gray-300 bg-gray-900 rounded-lg font-sans font-semibold"
-            onClick={signout}
-          >
-            Sign Out
-          </span>
         </div>
       </Aux>
     </div>

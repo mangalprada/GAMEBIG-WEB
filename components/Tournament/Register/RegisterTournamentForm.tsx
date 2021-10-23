@@ -84,44 +84,52 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
 
   if (isRegistered)
     return (
-      <div className="">
-        <h4>You have registered for this tournament.</h4>
-        <div className="">
-          <span onClick={unregister} className="">
-            <h3>Unregister</h3>
-          </span>
-        </div>
+      <div className="py-10 flex flex-col gap-4 font-sans text-indigo-600 font-semibold text-xl">
+        <span>You have registered for this tournament.</span>
+        <span
+          onClick={unregister}
+          className="text-gray-500 hover:bg-gray-800 rounded-md p-3 w-32"
+        >
+          Unregister
+        </span>
       </div>
     );
-  console.log(teams);
 
   return (
-    <div id="register" className="font-sans font-semibold text-gray-300">
-      <h3>Register For Tournament</h3>
-      <SelectDropDown
-        handleChange={(val) => setSelectedTeam(val)}
-        label="Select From Existing Teams"
-        menuItems={teams}
-        propToShow="teamName"
-      />
+    <div
+      id="register"
+      className="flex flex-col font-sans font-semibold text-gray-300 px-4"
+    >
+      <label className="text-xl text-gray-300 py-5">
+        Register For Tournament
+      </label>
+      <div className="mt-4 md:w-1/2 ">
+        <SelectDropDown
+          handleChange={(val) => setSelectedTeam(val)}
+          label="Select From Existing Teams"
+          menuItems={teams}
+          propToShow="teamName"
+        />
+        <FixedButton
+          isDisabled={!selectedTeam}
+          onClickHandler={() => {
+            setBackdropItem(2);
+            openBackdrop();
+          }}
+          name={`Register ${selectedTeam?.teamName}`}
+        />
+      </div>
+      <div className="px-4">
+        <span className="text-xl">OR</span>
+      </div>
+
       <FixedButton
-        isDisabled={!selectedTeam}
         onClickHandler={() => {
-          setBackdropItem(2);
-          openBackdrop();
-        }}
-        name={`Register ${selectedTeam?.teamName}`}
-      />
-      <span>OR</span>
-      <span
-        onClick={() => {
           setBackdropItem(1);
           openBackdrop();
         }}
-        className=""
-      >
-        <h4>Create Your New Team</h4>
-      </span>
+        name="Create Your New Team"
+      />
       <Backdrop isOpen={open}>
         <div>
           {

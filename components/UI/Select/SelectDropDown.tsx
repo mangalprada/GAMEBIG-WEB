@@ -41,8 +41,7 @@ export default function SelectDropDown({
   const listItems = menuItems.map((item: any) => (
     <li
       onMouseDown={() => {
-        setSelected(item.name || item);
-
+        setSelected((propToShow && item[propToShow]) || item);
         setIsListVisible(false);
         handleChange(item);
       }}

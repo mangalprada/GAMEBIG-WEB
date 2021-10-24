@@ -24,10 +24,12 @@ messaging.setBackgroundMessageHandler(function (payload) {
       }
     })
     .then(() => {
-      console.log('Sent message to tabs.', payload);
       return registration.showNotification(
         'RoomId and Password is now available for GameBig Tournament'
       );
+    })
+    .catch((err) => {
+      console.log('Error', err);
     });
   return promiseChain;
 });

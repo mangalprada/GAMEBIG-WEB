@@ -198,55 +198,59 @@ function useProvideAuth() {
 
   // =============================== NOTIFICATION STARTS ===============================
 
-  // useEffect(() => {
-  //   if ('serviceWorker' in navigator) {
-  //     navigator.serviceWorker
-  //       .register('./firebase-messaging-sw.js')
-  //       .then(function (registration) {
-  //         console.log('Registration successful, scope is:', registration.scope);
-  //       })
-  //       .catch(function (err) {
-  //         console.log('Service worker registration failed, error:', err);
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./firebase-messaging-sw.js')
+        .then(function (registration) {
+          console.log('Registration successful, scope is:', registration.scope);
+        })
+        .catch(function (err) {
+          console.log('Service worker registration failed, error:', err);
+        });
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   const messaging = firebase.messaging();
-  //   const getToken = async () =>
-  //     await messaging
-  //       .getToken({
-  //         vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
-  //       })
-  //       .then(async (token) => {
-  //         const currentToken = await localforage.getItem('fcmToken');
-  //         if (token !== currentToken) {
-  //           localforage.setItem('fcmToken', token);
-  //           db.collection('users')
-  //             .doc(userData.docId)
-  //             .update({ fcmToken: token })
-  //             .catch((err) => {
-  //               console.log(err, 'error adding fcmToken');
-  //             });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log('error', err);
-  //       });
-  //   getToken();
-  //   navigator.serviceWorker.addEventListener('message', (message) => {
-  //     const data = message.data['firebase-messaging-msg-data'];
-  //     if (data) {
-  //       let notices = [];
-  //       let stringifiedNotices = localStorage.getItem('notices');
-  //       if (stringifiedNotices) {
-  //         notices = JSON.parse(stringifiedNotices);
-  //       }
-  //       notices.unshift(data);
-  //       localStorage.setItem('notices', JSON.stringify(notices));
-  //     }
-  //   });
-  // }, [userData.docId]);
+  useEffect(() => {
+    try {
+      const messaging = firebase.messaging();
+      const getToken = async () =>
+        await messaging
+          .getToken({
+            vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
+          })
+          .then(async (token) => {
+            const currentToken = await localforage.getItem('fcmToken');
+            if (token !== currentToken) {
+              localforage.setItem('fcmToken', token);
+              db.collection('users')
+                .doc(userData.docId)
+                .update({ fcmToken: token })
+                .catch((err) => {
+                  console.log(err, 'error adding fcmToken');
+                });
+            }
+          })
+          .catch((err) => {
+            console.log('error', err);
+          });
+      getToken();
+      navigator.serviceWorker.addEventListener('message', (message) => {
+        const data = message.data['firebase-messaging-msg-data'];
+        if (data) {
+          let notices = [];
+          let stringifiedNotices = localStorage.getItem('notices');
+          if (stringifiedNotices) {
+            notices = JSON.parse(stringifiedNotices);
+          }
+          notices.unshift(data);
+          localStorage.setItem('notices', JSON.stringify(notices));
+        }
+      });
+    } catch (err) {
+      console.log('error', err);
+    }
+  }, [userData.docId]);
 
   // =============================== NOTIFICATION ENDS ===============================
 

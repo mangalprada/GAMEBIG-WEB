@@ -14,8 +14,8 @@ import FixedButton from '../../UI/Buttons/FixedButton';
 import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
 import FormInput from '../../UI/Inputs/FormInput';
 import TextArea from '../../UI/Inputs/TextArea';
-import { EventFormData } from '../../../utilities/event/types';
 import { validationSchema } from '../../../utilities/event/validator';
+import { EventFormData } from '../../../utilities/event/types';
 
 const INITIAL_STATE: EventFormData = {
   gameCode: 'bgmi-m',

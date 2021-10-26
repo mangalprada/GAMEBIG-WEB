@@ -8,7 +8,6 @@ import { MODES, SCREAMS } from '../../../assets/data/Utils';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
 import SliderSelect from '../../UI/Slider/SliderSelect';
-import { EventFormData } from '../../../utilities/event/types';
 import { validationSchema } from '../../../utilities/event/validator';
 import { addNewEvent } from '../../../lib/createEvent';
 import { useAuth } from '../../../context/authContext';
@@ -16,6 +15,7 @@ import FixedButton from '../../UI/Buttons/FixedButton';
 import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
 import FormInput from '../../UI/Inputs/FormInput';
 import TextArea from '../../UI/Inputs/TextArea';
+import { EventFormData } from '../../../utilities/event/types';
 
 const INITIAL_STATE: EventFormData = {
   gameCode: 'bgmi-m',

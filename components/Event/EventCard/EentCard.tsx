@@ -1,19 +1,19 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { db } from '../../../firebase/firebaseClient';
-import { TournamentData } from '../../../utilities/tournament/types';
-import TournamentCardAvatar from '../../UI/Avatar/TournamentCardAvatar';
-import LocationIcon from '../../UI/Icons/TournamentIcons/LocationIcon';
-import TrophyIcon from '../../UI/Icons/TournamentIcons/TrophyIcon';
-import EsportsIcon from '../../UI/Icons/TournamentIcons/EsportsIcon';
-import MoneyIcon from '../../UI/Icons/TournamentIcons/MoneyIcon';
-import AccessTimeIcon from '../../UI/Icons/TournamentIcons/AccessTimeIcon';
+import { EventData } from '../../../utilities/Event/types';
+import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
+import LocationIcon from '../../UI/Icons/EventIcons/LocationIcon';
+import TrophyIcon from '../../UI/Icons/EventIcons/TrophyIcon';
+import EsportsIcon from '../../UI/Icons/EventIcons/EsportsIcon';
+import MoneyIcon from '../../UI/Icons/EventIcons/MoneyIcon';
+import AccessTimeIcon from '../../UI/Icons/EventIcons/AccessTimeIcon';
 import TextButton from '../../UI/Buttons/TextButton';
 import FixedButton from '../../UI/Buttons/FixedButton';
-import EventIcon from '../../UI/Icons/TournamentIcons/EventIcon';
-import HourglassIcon from '../../UI/Icons/TournamentIcons/HourglassIcon';
-import RoomEntryIcon from '../../UI/Icons/TournamentIcons/RoomEntryIcon';
-import TournamentCardRowItem from './TournamentCardRowItem';
+import EventIcon from '../../UI/Icons/EventIcons/EventIcon';
+import HourglassIcon from '../../UI/Icons/EventIcons/HourglassIcon';
+import RoomEntryIcon from '../../UI/Icons/EventIcons/RoomEntryIcon';
+import EventCardRowItem from './EventCardRowItem';
 import { useAuth } from '../../../context/authContext';
 import { games } from '../../../utilities/GameList';
 import {
@@ -22,11 +22,11 @@ import {
 } from '../../../utilities/functions/dateConvert';
 
 type Props = {
-  data: TournamentData;
+  data: EventData;
   isOrganizer: boolean;
 };
 
-const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
+const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
   const router = useRouter();
 
   const { user } = useAuth();
@@ -35,7 +35,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
 
   useEffect(() => {
     if (data.id && user.username) {
-      db.collection('tournaments')
+      db.collection('events')
         .doc(data.id)
         .collection('teams')
         .where('usernames', 'array-contains', user.username)
@@ -54,7 +54,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
     if (user.uid === '' || user.uid === undefined) {
       router.push('/auth');
     } else {
-      router.push(`/organization/${data.linkedOrgId}/tournaments/${data.id}/`);
+      router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`);
     }
   };
 
@@ -69,7 +69,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
     >
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
-          <TournamentCardAvatar content={data.linkedOrgName[0]} />
+          <EventCardAvatar content={data.linkedOrgName[0]} />
           <span className="text-gray-300 text-xl font-semibold font-sans tracking-wide self-center mx-3">
             {data.linkedOrgName}
           </span>
@@ -83,37 +83,35 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
       </div>
       <div className="mx-6 md:mx-16">
         <div className="flex flex-wrap justify-between">
-          <TournamentCardRowItem
+          <EventCardRowItem
             content={`${games[data.gameCode].shortName} - ${data.mode}`}
           >
             <EsportsIcon styles={'fill-current text-purple-700'} />
-          </TournamentCardRowItem>
-          <TournamentCardRowItem content={`Daily Custom - ${data.tier}`}>
+          </EventCardRowItem>
+          <EventCardRowItem content={`Daily Custom - ${data.tier}`}>
             <TrophyIcon styles={'fill-current text-yellow-500'} />
-          </TournamentCardRowItem>
+          </EventCardRowItem>
         </div>
         <div className="flex flex-wrap justify-between">
-          <TournamentCardRowItem
-            content={`${getDecoratedDate(data.startTime)}`}
-          >
+          <EventCardRowItem content={`${getDecoratedDate(data.startTime)}`}>
             <EventIcon styles={'fill-current text-indigo-400'} />
-          </TournamentCardRowItem>
-          <TournamentCardRowItem
+          </EventCardRowItem>
+          <EventCardRowItem
             content={`${getDecoratedTime(data.startTime)} - 
             ${getDecoratedTime(data.startTime, 30)}`}
           >
             <AccessTimeIcon styles={'fill-current text-blue-500'} />
-          </TournamentCardRowItem>
+          </EventCardRowItem>
         </div>
         <div className="flex flex-wrap justify-between">
-          <TournamentCardRowItem
+          <EventCardRowItem
             content={`${data.prize ? data.prize + ' ₹' : 'No Prize'}`}
           >
             <MoneyIcon styles={'fill-current text-green-600'} />
-          </TournamentCardRowItem>
-          <TournamentCardRowItem content={`${data.noOfSlots} slots available`}>
+          </EventCardRowItem>
+          <EventCardRowItem content={`${data.noOfSlots} slots available`}>
             <RoomEntryIcon styles={'fill-current text-gray-600'} />
-          </TournamentCardRowItem>
+          </EventCardRowItem>
         </div>
       </div>
       <div className="flex flex-wrap justify-center mt-3 mx-3">
@@ -129,9 +127,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           name="DETAILS"
           type="normal"
           onClickHandler={() =>
-            router.push(
-              `/organization/${data.linkedOrgId}/tournaments/${data.id}/`
-            )
+            router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`)
           }
         />
 
@@ -143,7 +139,7 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
                 type="success"
                 onClickHandler={() =>
                   router.push(
-                    `/organization/${data.linkedOrgId}/tournaments/${data.id}/#register`
+                    `/organization/${data.linkedOrgId}/events/${data.id}/#register`
                   )
                 }
               />
@@ -157,4 +153,4 @@ const TournamentCard: FC<Props> = ({ data, isOrganizer }: Props) => {
   );
 };
 
-export default TournamentCard;
+export default EventCard;

@@ -1,20 +1,20 @@
 import { SetStateAction, useState } from 'react';
 import { db, functions } from '../../../firebase/firebaseClient';
-import { TournamentData } from '../../../utilities/tournament/types';
+import { EventData } from '../../../utilities/Event/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import NormalInput from '../../UI/Inputs/NormalInput';
 
 export default function SendNotification({
-  tournamentData,
+  eventData,
 }: {
-  tournamentData: TournamentData;
+  eventData: EventData;
 }) {
   const [roomId, setRoomId] = useState('');
   const [password, setPassword] = useState('');
 
   const updateTournamnet = async () => {
-    db.collection('tournaments')
-      .doc(tournamentData.id)
+    db.collection('events')
+      .doc(eventData.id)
       .update({ roomId, password })
       .then(() => {
         console.log('RoomId and Password successfully updated!');
@@ -25,14 +25,12 @@ export default function SendNotification({
   };
 
   const sendNotification = async () => {
-    const { linkedOrgId, linkedOrgName, startTime } = tournamentData;
-    const sendTournamentMessage = functions.httpsCallable(
-      'sendTournamentMessage'
-    );
-    sendTournamentMessage({
+    const { linkedOrgId, linkedOrgName, startTime } = eventData;
+    const sendEventMessage = functions.httpsCallable('sendEventMessage');
+    sendEventMessage({
       roomId,
       password,
-      tournamnetId: tournamentData.id,
+      tournamnetId: eventData.id,
       linkedOrgId,
       linkedOrgName,
       startTime,

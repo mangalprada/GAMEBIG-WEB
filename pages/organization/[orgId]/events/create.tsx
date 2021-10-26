@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import CreateTournamentForm from '../../../../components/Tournament/CreateTournament/CreateTournamentForm';
+import CreateEventForm from '../../../../components/Event/CreateEvent/CreateEventForm';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 
-export default function CreateTournament() {
+export default function CreateEvent() {
   return (
     <Aux>
       <Head>
-        <title>Create Tournament</title>
+        <title>Create Event</title>
         <meta
           name="description"
           content="Create a custom room matches for BGMI, Call of Duty and Gerena Freefire"
@@ -14,7 +14,7 @@ export default function CreateTournament() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <CreateTournamentForm />
+      <CreateEventForm />
     </Aux>
   );
 }

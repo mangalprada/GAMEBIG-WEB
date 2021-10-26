@@ -1,14 +1,14 @@
 import { firebaseAdmin } from '../firebase/firebaseAdmin';
-import { TournamentData } from '../utilities/tournament/types';
+import { EventData } from '../utilities/Event/types';
 
-export const fetchAllTournamentData = async () => {
-  let tournamentDatas = [] as TournamentData[];
-  const tournamentRef = firebaseAdmin.firestore().collection('tournaments');
+export const fetchAllEventData = async () => {
+  let eventDatas = [] as EventData[];
+  const eventRef = firebaseAdmin.firestore().collection('events');
   try {
-    const querySnapshot = await tournamentRef.get();
+    const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      const tournamentData = {
+      const eventData = {
         id: doc.id,
         gameCode: data.gameCode,
         mode: data.mode,
@@ -24,23 +24,23 @@ export const fetchAllTournamentData = async () => {
         roomId: data.roomId ? data.roomId : '',
         password: data.password ? data.password : '',
       };
-      tournamentDatas.push(tournamentData);
+      eventDatas.push(eventData);
     });
   } catch (err) {
-    console.log('Error fetching tournament Ids', err);
+    console.log('Error fetching Event Ids', err);
   }
-  return tournamentDatas;
+  return eventDatas;
 };
 
-export const fetchTournamentsDataByOrgId = async (orgId: string) => {
-  let tournamentDatas = [] as TournamentData[];
-  const tournamentRef = firebaseAdmin.firestore().collection('tournaments');
-  const query = tournamentRef.where('linkedOrgId', '==', orgId);
+export const fetchEventsDataByOrgId = async (orgId: string) => {
+  let eventDatas = [] as EventData[];
+  const eventRef = firebaseAdmin.firestore().collection('events');
+  const query = eventRef.where('linkedOrgId', '==', orgId);
   try {
     const querySnapshot = await query.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      const tournamentData = {
+      const eventData = {
         id: doc.id,
         gameCode: data.gameCode,
         mode: data.mode,
@@ -54,27 +54,23 @@ export const fetchTournamentsDataByOrgId = async (orgId: string) => {
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
       };
-      tournamentDatas.push(tournamentData);
+      eventDatas.push(eventData);
     });
   } catch (err) {
-    console.log('Error fetching tournament Ids', err);
+    console.log('Error fetching Event Ids', err);
   }
-  return tournamentDatas;
+  return eventDatas;
 };
 
-export const fetchTournamentsDataByUsername = async (username: string) => {
-  let tournamentDatas = [] as TournamentData[];
-  const tournamentRef = firebaseAdmin.firestore().collection('tournaments');
-  const query = tournamentRef.where(
-    'gamerUsernames',
-    'array-contains',
-    username
-  );
+export const fetchEventsDataByUsername = async (username: string) => {
+  let eventDatas = [] as EventData[];
+  const eventRef = firebaseAdmin.firestore().collection('events');
+  const query = eventRef.where('gamerUsernames', 'array-contains', username);
   try {
     const querySnapshot = await query.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      const tournamentData = {
+      const eventData = {
         id: doc.id,
         gameCode: data.gameCode,
         mode: data.mode,
@@ -88,10 +84,10 @@ export const fetchTournamentsDataByUsername = async (username: string) => {
         linkedOrgId: data.linkedOrgId,
         linkedOrgName: data.linkedOrgName,
       };
-      tournamentDatas.push(tournamentData);
+      eventDatas.push(eventData);
     });
   } catch (err) {
-    console.log('Error fetching tournament Ids', err);
+    console.log('Error fetching Event Ids', err);
   }
-  return tournamentDatas;
+  return eventDatas;
 };

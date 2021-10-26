@@ -23,11 +23,11 @@ export default function PrimaryNavigationItems() {
       <NavigationItem
         href={
           linkedOrganizationId
-            ? `/organization/${linkedOrganizationId}/tournaments`
+            ? `/organization/${linkedOrganizationId}/events`
             : `/organization`
         }
         isActive={
-          router.pathname === '/organization/[orgId]/tournaments' ||
+          router.pathname === '/organization/[orgId]/events' ||
           router.pathname === '/organization/[orgId]' ||
           router.pathname === '/organization' ||
           router.pathname === '/organization/create'
@@ -36,7 +36,7 @@ export default function PrimaryNavigationItems() {
       >
         <OrganizationIcon
           isActive={
-            router.pathname === '/organization/[orgId]/tournaments' ||
+            router.pathname === '/organization/[orgId]/events' ||
             router.pathname === '/organization/[orgId]' ||
             router.pathname === '/organization' ||
             router.pathname === '/organization/create'

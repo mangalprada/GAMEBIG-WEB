@@ -5,7 +5,7 @@ type Props = {
   children: ReactNode;
 };
 
-const TournamentCardRowItem: FC<Props> = ({ content, children }: Props) => {
+const EventCardRowItem: FC<Props> = ({ content, children }: Props) => {
   return (
     <div className="flex flex-row sm:px-5 sm:py-3 p-3 sm:w-5/12 w-full">
       {children}
@@ -16,4 +16,4 @@ const TournamentCardRowItem: FC<Props> = ({ content, children }: Props) => {
   );
 };
 
-export default TournamentCardRowItem;
+export default EventCardRowItem;

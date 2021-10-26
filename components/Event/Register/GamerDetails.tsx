@@ -40,7 +40,7 @@ export default function GamerDetails({
   const saveGamerDetails = (gamersArray: GamerData[]) => {
     const usernames = gamersArray.map((gamer) => gamer.username);
     if (team && gamersArray) {
-      db.collection('tournaments')
+      db.collection('events')
         .doc(tId)
         .collection('teams')
         .add({

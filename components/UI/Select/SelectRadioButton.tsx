@@ -1,4 +1,4 @@
-import CheckCircle from '../Icons/TournamentIcons/CheckCircle';
+import CheckCircle from '../Icons/EventIcons/CheckCircle';
 interface Props {
   name: string;
   label: string;

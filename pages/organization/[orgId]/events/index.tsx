@@ -1,28 +1,28 @@
 import Head from 'next/head';
 import HeaderOrg from '../../../../components/Organization/HeaderOrg/HeaderOrg';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import TournamentCard from '../../../../components/Tournament/TournamentCard/TournamentCard';
-import CreateTournamentButton from '../../../../components/Tournament/CreateTournament/CreateTournamentButton';
+import EventCard from '../../../../components/Event/EventCard/EentCard';
+import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEventButton';
 import { OrgFormData } from '../../../../utilities/organization/types';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { fetchOrganizationData } from '../../../../lib/fetchOrganizationData';
-import { fetchTournamentsDataByOrgId } from '../../../../lib/getAllTournaments';
-import { TournamentData } from '../../../../utilities/tournament/types';
+import { fetchEventsDataByOrgId } from '../../../../lib/getAllEvents';
+import { EventData } from '../../../../utilities/Event/types';
 
 interface Props {
   organizationData: OrgFormData | undefined;
-  tournaments: TournamentData[];
+  events: EventData[];
 }
 
-export default function Tournaments({ organizationData, tournaments }: Props) {
+export default function events({ organizationData, events }: Props) {
   return (
     <Aux>
       <Head>
-        <title>Create Tournament</title>
+        <title>Create an Event</title>
         <meta
           name="description"
-          content="List of all pcoming tournaments on GameBig"
+          content="List of all upcoming events on GameBig"
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
@@ -31,12 +31,12 @@ export default function Tournaments({ organizationData, tournaments }: Props) {
         <>
           <HeaderOrg data={organizationData} />
           {organizationData.id && (
-            <CreateTournamentButton orgId={organizationData.id} />
+            <CreateEventButton orgId={organizationData.id} />
           )}
-          {tournaments.map((tournament: TournamentData) => (
-            <TournamentCard
-              key={tournament.id}
-              data={tournament}
+          {events.map((eventItem: EventData) => (
+            <EventCard
+              key={eventItem.id}
+              data={eventItem}
               isOrganizer={false}
             />
           ))}
@@ -56,12 +56,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { orgId } = context.params as IParams;
   let organizationData = undefined;
   organizationData = await fetchOrganizationData(orgId);
-  let tournaments = await fetchTournamentsDataByOrgId(orgId);
-  tournaments = tournaments === undefined ? [] : tournaments;
+  let events = await fetchEventsDataByOrgId(orgId);
+  events = events === undefined ? [] : events;
   return {
     props: {
       organizationData,
-      tournaments,
+      events,
     },
   };
 };

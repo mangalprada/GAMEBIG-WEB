@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import DownArrow from '../Icons/TournamentIcons/DownArrow';
-import RightArrow from '../Icons/TournamentIcons/RightArrow';
+import DownArrow from '../Icons/EventIcons/DownArrow';
+import RightArrow from '../Icons/EventIcons/RightArrow';
 interface Props {
   name?: string;
   label: string;

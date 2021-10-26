@@ -1,18 +1,18 @@
 import { db } from '../firebase/firebaseClient';
-import { TournamentData } from '../utilities/tournament/types';
+import { EventData } from '../utilities/Event/types';
 
-export const fetchTournamentDataById = async (id: string) => {
-  let tournamentData = {} as TournamentData;
+export const fetchEventDataById = async (id: string) => {
+  let eventData = {} as EventData;
 
-  const tournamentRef = db.collection('tournaments').doc(id);
+  const eventRef = db.collection('events').doc(id);
   try {
-    const tournamentDoc = await tournamentRef.get();
-    if (tournamentDoc.exists) {
-      const data = tournamentDoc.data();
+    const eventDoc = await eventRef.get();
+    if (eventDoc.exists) {
+      const data = eventDoc.data();
 
       if (data) {
-        tournamentData = {
-          id: tournamentDoc.id,
+        eventData = {
+          id: eventDoc.id,
           gameCode: data.gameCode,
           mode: data.mode,
           type: data.type,
@@ -30,16 +30,16 @@ export const fetchTournamentDataById = async (id: string) => {
       }
     }
   } catch (error) {
-    console.log('Error fetching tournament data by tournament Id', error);
+    console.log('Error fetching eventItem data by eventItem Id', error);
   }
-  return tournamentData;
+  return eventData;
 };
 
-export const fetchParticipatedTeams = async (tournamentId: string) => {
+export const fetchParticipatedTeams = async (eventId: string) => {
   let participants = [] as Record<string, any>[];
   const participatedTeamsRef = db
-    .collection('tournaments')
-    .doc(tournamentId)
+    .collection('events')
+    .doc(eventId)
     .collection('teams');
   try {
     const docSnapshots = await participatedTeamsRef.get();

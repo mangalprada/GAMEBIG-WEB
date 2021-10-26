@@ -28,7 +28,7 @@ function BottomNavigationBar() {
             <Link
               href={
                 linkedOrganizationId
-                  ? `/organization/${linkedOrganizationId}/tournaments`
+                  ? `/organization/${linkedOrganizationId}/events`
                   : `/organization`
               }
               passHref
@@ -36,7 +36,7 @@ function BottomNavigationBar() {
               <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
                 <OrganizationIcon
                   isActive={
-                    router.pathname === '/organization/[orgId]/tournaments' ||
+                    router.pathname === '/organization/[orgId]/events' ||
                     router.pathname === '/organization/[orgId]' ||
                     router.pathname === '/organization' ||
                     router.pathname === '/organization/create'

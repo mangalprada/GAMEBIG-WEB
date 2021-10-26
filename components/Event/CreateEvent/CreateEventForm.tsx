@@ -8,16 +8,16 @@ import { MODES, SCREAMS } from '../../../assets/data/Utils';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import SelectRadioButton from '../../UI/Select/SelectRadioButton';
 import SliderSelect from '../../UI/Slider/SliderSelect';
-import { TournamentFormData } from '../../../utilities/tournament/types';
-import { validationSchema } from '../../../utilities/tournament/validator';
-import { addNewTournament } from '../../../lib/createTournament';
+import { EventFormData } from '../../../utilities/Event/types';
+import { validationSchema } from '../../../utilities/Event/validator';
+import { addNewEvent } from '../../../lib/createEvent';
 import { useAuth } from '../../../context/authContext';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
 import FormInput from '../../UI/Inputs/FormInput';
 import TextArea from '../../UI/Inputs/TextArea';
 
-const INITIAL_STATE: TournamentFormData = {
+const INITIAL_STATE: EventFormData = {
   gameCode: 'bgmi-m',
   mode: 'Squad',
   type: 'Custom Room',
@@ -28,7 +28,7 @@ const INITIAL_STATE: TournamentFormData = {
   prize: '',
 };
 
-export default function CreateTournamentForm() {
+export default function CreateEventForm() {
   const {
     userData: { linkedOrganizationId, linkedOrganizationName },
   } = useAuth();
@@ -37,16 +37,16 @@ export default function CreateTournamentForm() {
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
-    onSubmit: async (value: TournamentFormData, { resetForm }) => {
+    onSubmit: async (value: EventFormData, { resetForm }) => {
       setIsBackDropOpen(true);
       if (linkedOrganizationId && linkedOrganizationName) {
-        const tournId = await addNewTournament(
+        const tournId = await addNewEvent(
           linkedOrganizationId,
           linkedOrganizationName,
           value
         );
         if (tournId) {
-          router.push(`/organization/${linkedOrganizationId}/tournaments`);
+          router.push(`/organization/${linkedOrganizationId}/events`);
         } else {
           router.push('/404');
         }

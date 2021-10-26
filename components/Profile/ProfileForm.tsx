@@ -100,7 +100,7 @@ function ProfileForm({ oldValues, push }: Props) {
           <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
             User Information
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
             <FormInput
               labelName="username"
               name="username"
@@ -168,7 +168,7 @@ function ProfileForm({ oldValues, push }: Props) {
           <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
             Social Links
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
             <FormInput
               labelName="Youtube"
               name="youtubeLink"

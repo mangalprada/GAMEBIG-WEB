@@ -4,7 +4,7 @@ import ChatContainer from '../../components/Contact/ChatContainer';
 import TypeContainer from '../../components/Contact/ReplyContainer';
 import { db } from '../../firebase/firebaseClient';
 
-const chatCollectionRef = db.collection('discussions');
+const chatCollectionRef = db.collection('feedback');
 const query = chatCollectionRef.orderBy('createdAt').limit(25);
 
 export default function Home() {

@@ -27,7 +27,7 @@ const FormInput: FC<Props> = ({
   errorMessage,
 }: Props) => {
   return (
-    <div className="w-full lg:w-6/12">
+    <div className="w-full">
       <div className="relative w-full mb-3">
         {/**Input Label */}
         <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">

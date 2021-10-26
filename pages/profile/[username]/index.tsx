@@ -8,7 +8,7 @@ import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
 import { EventData } from '../../../utilities/event/types';
 import { fetchEventsDataByUsername } from '../../../lib/getAllEvents';
-import EventCard from '../../../components/Event/EventCard/EentCard';
+import EventCard from '../../../components/Event/EventCard/EventCard';
 
 interface Props {
   events: EventData[];

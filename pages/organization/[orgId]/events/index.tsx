@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import HeaderOrg from '../../../../components/Organization/HeaderOrg/HeaderOrg';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import EventCard from '../../../../components/Event/EventCard/EentCard';
+import EventCard from '../../../../components/Event/EventCard/EventCard';
 import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEventButton';
 import { OrgFormData } from '../../../../utilities/organization/types';
 import { ParsedUrlQuery } from 'querystring';

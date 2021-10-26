@@ -126,7 +126,7 @@ function CreateOrganizationForm() {
           <TextArea
             name="about"
             labelName="About us"
-            placeHolder="We organize awsome matches and tournaments."
+            placeHolder="We organize awsome matches and events."
             value={formik.values.about}
             onChangeHandler={formik.handleChange}
           />

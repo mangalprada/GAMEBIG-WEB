@@ -26,7 +26,7 @@ try {
       })
       .then(() => {
         return registration.showNotification(
-          'RoomId and Password is now available for GameBig Tournament'
+          'RoomId and Password is now available for GameBig Event'
         );
       })
       .catch((err) => {

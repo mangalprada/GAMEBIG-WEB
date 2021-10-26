@@ -18,16 +18,16 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/'}
         toolTip="Events"
       >
-        <TrophyIcon isActive={router.pathname === '/'} size={36} />
+        <TrophyIcon isActive={router.pathname === '/'} size={40} />
       </NavigationItem>
       <NavigationItem
         href={
           linkedOrganizationId
-            ? `/organization/${linkedOrganizationId}/tournaments`
+            ? `/organization/${linkedOrganizationId}/events`
             : `/organization`
         }
         isActive={
-          router.pathname === '/organization/[orgId]/tournaments' ||
+          router.pathname === '/organization/[orgId]/events' ||
           router.pathname === '/organization/[orgId]' ||
           router.pathname === '/organization' ||
           router.pathname === '/organization/create'
@@ -36,7 +36,7 @@ export default function PrimaryNavigationItems() {
       >
         <OrganizationIcon
           isActive={
-            router.pathname === '/organization/[orgId]/tournaments' ||
+            router.pathname === '/organization/[orgId]/events' ||
             router.pathname === '/organization/[orgId]' ||
             router.pathname === '/organization' ||
             router.pathname === '/organization/create'

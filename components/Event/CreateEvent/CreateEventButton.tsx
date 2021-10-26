@@ -5,7 +5,7 @@ interface Props {
   orgId: string;
 }
 
-export default function CreateTournament({ orgId }: Props) {
+export default function CreateEvent({ orgId }: Props) {
   const router = useRouter();
 
   return (
@@ -13,7 +13,7 @@ export default function CreateTournament({ orgId }: Props) {
       <FixedButton
         name="Host a Custom Match"
         onClickHandler={() =>
-          router.push(`/organization/${orgId}/tournaments/create`)
+          router.push(`/organization/${orgId}/events/create`)
         }
       />
     </div>

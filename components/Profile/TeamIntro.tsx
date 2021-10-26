@@ -13,7 +13,7 @@ export default function TeamIntro({
       }
     >
       <span className="text-xl md:text-4xl py-6">
-        Create a Team And Participate in Tournaments, NOW!
+        Create a team and participate in events, NOW!
       </span>
       <ResponsiveButton
         name="Create"

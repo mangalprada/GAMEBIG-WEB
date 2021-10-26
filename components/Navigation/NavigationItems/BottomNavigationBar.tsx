@@ -17,45 +17,36 @@ function BottomNavigationBar() {
         className="block bg-black fixed inset-x-0 bottom-0 z-10 shadow"
       >
         <div className="flex w-full justify-evenly">
-          <div className="pt-1 pb-1 ">
-            <Link href="/" passHref>
-              <a className="justify-center inline-block text-center text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-                <TrophyIcon isActive={router.pathname === '/'} size={38} />
-              </a>
-            </Link>
-          </div>
-          <div className="pt-2 pb-1">
-            <Link
-              href={
-                linkedOrganizationId
-                  ? `/organization/${linkedOrganizationId}/tournaments`
-                  : `/organization`
-              }
-              passHref
-            >
-              <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-                <OrganizationIcon
-                  isActive={
-                    router.pathname === '/organization/[orgId]/tournaments' ||
-                    router.pathname === '/organization/[orgId]' ||
-                    router.pathname === '/organization' ||
-                    router.pathname === '/organization/create'
-                  }
-                  size={36}
-                />
-              </a>
-            </Link>
-          </div>
-          <div className="pt-2 pb-1">
-            <Link href="/contact" passHref>
-              <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-                <ForumIcon
-                  isActive={router.pathname === '/contact'}
-                  size={36}
-                />
-              </a>
-            </Link>
-          </div>
+          <Link href="/" passHref>
+            <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
+              <TrophyIcon isActive={router.pathname === '/'} size={38} />
+            </a>
+          </Link>
+          <Link
+            href={
+              linkedOrganizationId
+                ? `/organization/${linkedOrganizationId}/events`
+                : `/organization`
+            }
+            passHref
+          >
+            <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
+              <OrganizationIcon
+                isActive={
+                  router.pathname === '/organization/[orgId]/events' ||
+                  router.pathname === '/organization/[orgId]' ||
+                  router.pathname === '/organization' ||
+                  router.pathname === '/organization/create'
+                }
+                size={36}
+              />
+            </a>
+          </Link>
+          <Link href="/contact" passHref>
+            <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
+              <ForumIcon isActive={router.pathname === '/contact'} size={36} />
+            </a>
+          </Link>
         </div>
       </section>
     </div>

@@ -4,7 +4,7 @@ import TextButton from '../UI/Buttons/TextButton';
 import { useRouter } from 'next/router';
 import ProfileAvatar from '../UI/Avatar/ProfileAvatar';
 import CakeIcon from '../UI/Icons/ProfileIcons/CakeIcon';
-import LocationIcon from '../UI/Icons/TournamentIcons/LocationIcon';
+import LocationIcon from '../UI/Icons/EventIcons/LocationIcon';
 import EmailIcon from '../UI/Icons/ProfileIcons/EmailIcon';
 import TwitchIcon from '../UI/Icons/SocialIcons/TwitchIcon';
 import YouTubeIcon from '../UI/Icons/SocialIcons/YouTubeIcon';

@@ -12,7 +12,7 @@ interface Props {
   gameCode: string;
 }
 
-export default function RegisterTournamentForm({ tId, gameCode }: Props) {
+export default function RegisterEventForm({ tId, gameCode }: Props) {
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
@@ -47,7 +47,7 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
 
   useEffect(() => {
     if (tId && user.username) {
-      db.collection('tournaments')
+      db.collection('events')
         .doc(tId)
         .collection('teams')
         .where('usernames', 'array-contains', user.username)
@@ -78,14 +78,13 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
   };
 
   const unregister = () => {
-    db.collection('tournaments').doc(tId).collection('teams').doc(teamId)
-      .delete;
+    db.collection('events').doc(tId).collection('teams').doc(teamId).delete;
   };
 
   if (isRegistered)
     return (
       <div className="py-10 flex flex-col gap-4 font-sans text-indigo-600 font-semibold text-xl">
-        <span>You have registered for this tournament.</span>
+        <span>You have registered for this event.</span>
         <span
           onClick={unregister}
           className="text-gray-500 hover:bg-gray-800 rounded-md p-3 w-32"
@@ -100,9 +99,7 @@ export default function RegisterTournamentForm({ tId, gameCode }: Props) {
       id="register"
       className="flex flex-col font-sans font-semibold text-gray-300 px-4"
     >
-      <label className="text-xl text-gray-300 py-5">
-        Register For Tournament
-      </label>
+      <label className="text-xl text-gray-300 py-5">Register For Event</label>
       <div className="mt-4 md:w-1/2 ">
         <SelectDropDown
           handleChange={(val) => setSelectedTeam(val)}

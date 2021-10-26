@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useAuth } from '../../../context/authContext';
 import SnackbarAlert from '../../UI/Snackbar/SnackBar';
-import { TournamentData } from '../../../utilities/tournament/types';
+import { EventData } from '../../../utilities/eventItem/types';
 import {
   getDecoratedDate,
   getDecoratedTime,
@@ -10,11 +10,11 @@ import {
 import { games } from '../../../utilities/GameList';
 import { db } from '../../../firebase/firebaseClient';
 import TextButton from '../../UI/Buttons/TextButton';
-import TournamentCardAvatar from '../../UI/Avatar/TournamentCardAvatar';
+import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
 import FixedButton from '../../UI/Buttons/FixedButton';
 
 interface Props {
-  data: TournamentData;
+  data: EventData;
   isOrganizer: boolean;
 }
 
@@ -29,7 +29,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
 
   useEffect(() => {
     if (data.id && user.username) {
-      db.collection('tournaments')
+      db.collection('events')
         .doc(data.id)
         .collection('teams')
         .where('usernames', 'array-contains', user.username)
@@ -60,7 +60,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
       </div>
 
       <div className="flex flex-row space-x-5 mx-3">
-        <TournamentCardAvatar content={data?.linkedOrgName[0]} />
+        <EventCardAvatar content={data?.linkedOrgName[0]} />
         <h1 className="text-indigo-600 text-xl font-semibold flex my-auto">
           {data?.linkedOrgName}
         </h1>
@@ -110,7 +110,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
             Registration open till
           </h2>
           <span className="text-gray-200 font-semibold tracking-wide">
-            {getDecoratedDate(data.startTime)}{' '}
+            {getDecoratedDate(data.startTime)}
             {getDecoratedTime(data.startTime)}
           </span>
         </section>

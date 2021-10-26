@@ -1,4 +1,4 @@
-export interface TournamentFormData {
+export interface EventFormData {
   gameCode: string;
   mode: string;
   type: string;
@@ -9,7 +9,7 @@ export interface TournamentFormData {
   prize: string;
 }
 
-export interface TournamentData {
+export interface EventData {
   id: string;
   gameCode: string;
   mode: string;

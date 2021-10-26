@@ -6,16 +6,16 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, GamerData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../lib/getUser';
-import { TournamentData } from '../../../utilities/tournament/types';
-import { fetchTournamentsDataByUsername } from '../../../lib/getAllTournaments';
-import TournamentCard from '../../../components/Tournament/TournamentCard/TournamentCard';
+import { EventData } from '../../../utilities/eventItem/types';
+import { fetchEventsDataByUsername } from '../../../lib/getAllEvents';
+import EventCard from '../../../components/Event/EventCard/EventCard';
 
 interface Props {
-  tournaments: TournamentData[];
+  events: EventData[];
   userData: UserData;
 }
 
-export default function Home({ tournaments, userData }: Props) {
+export default function Home({ events, userData }: Props) {
   return (
     <div>
       <Head>
@@ -27,10 +27,10 @@ export default function Home({ tournaments, userData }: Props) {
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="mt-10">
-          {tournaments.map((tournament: TournamentData) => (
-            <TournamentCard
-              key={tournament.id}
-              data={tournament}
+          {events.map((eventItem: EventData) => (
+            <EventCard
+              key={eventItem.id}
+              data={eventItem}
               isOrganizer={false}
             />
           ))}
@@ -41,7 +41,7 @@ export default function Home({ tournaments, userData }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let tournaments: TournamentData[] = [];
+  let events: EventData[] = [];
   let userData: UserData = {} as UserData;
   try {
     const cookies = nookies.get(context);
@@ -52,11 +52,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         const { username } = context.query;
         if (typeof username == 'string') {
           userData = await getUser(username);
-          tournaments = await fetchTournamentsDataByUsername(username);
+          events = await fetchEventsDataByUsername(username);
         }
       });
     return {
-      props: { userData, tournaments },
+      props: { userData, events },
     };
   } catch (err) {
     context.res.writeHead(302, { Location: '/auth' });

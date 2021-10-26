@@ -1,5 +1,5 @@
 import { firebaseAdmin } from '../firebase/firebaseAdmin';
-import { EventData } from '../utilities/event/types';
+import { EventData } from '../utilities/eventItem/types';
 
 export const fetchAllEventData = async () => {
   let eventDatas = [] as EventData[];

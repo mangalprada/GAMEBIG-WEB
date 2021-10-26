@@ -18,7 +18,7 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/'}
         toolTip="Events"
       >
-        <TrophyIcon isActive={router.pathname === '/'} size={36} />
+        <TrophyIcon isActive={router.pathname === '/'} size={40} />
       </NavigationItem>
       <NavigationItem
         href={

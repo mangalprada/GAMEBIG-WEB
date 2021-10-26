@@ -1,5 +1,5 @@
 import firebase, { db } from '../firebase/firebaseClient';
-import { EventFormData } from '../utilities/event/types';
+import { EventFormData } from '../utilities/eventItem/types';
 
 export const addNewEvent = async (
   orgId: string,

@@ -8,7 +8,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
 import { fetchOrganizationData } from '../../../../lib/fetchOrganizationData';
 import { fetchEventsDataByOrgId } from '../../../../lib/getAllEvents';
-import { EventData } from '../../../../utilities/event/types';
+import { EventData } from '../../../../utilities/eventItem/types';
 
 interface Props {
   organizationData: OrgFormData | undefined;

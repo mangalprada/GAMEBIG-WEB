@@ -1,5 +1,5 @@
 import { db } from '../firebase/firebaseClient';
-import { EventData } from '../utilities/event/types';
+import { EventData } from '../utilities/eventItem/types';
 
 export const fetchEventDataById = async (id: string) => {
   let eventData = {} as EventData;

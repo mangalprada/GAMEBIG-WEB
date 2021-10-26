@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useAuth } from '../../../context/authContext';
 import SnackbarAlert from '../../UI/Snackbar/SnackBar';
-import { EventData } from '../../../utilities/Event/types';
+import { EventData } from '../../../utilities/event/types';
 import {
   getDecoratedDate,
   getDecoratedTime,

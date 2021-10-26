@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { db } from '../../../firebase/firebaseClient';
-import { EventData } from '../../../utilities/Event/types';
+import { EventData } from '../../../utilities/event/types';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
 import LocationIcon from '../../UI/Icons/EventIcons/LocationIcon';
 import TrophyIcon from '../../UI/Icons/EventIcons/TrophyIcon';

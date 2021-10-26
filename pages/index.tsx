@@ -3,7 +3,7 @@ import Aux from '../hoc/Auxiliary/Auxiliary';
 import EventCard from '../components/Event/EventCard/EentCard';
 import { GetServerSideProps } from 'next';
 import { fetchAllEventData } from '../lib/getAllEvents';
-import { EventData } from '../utilities/Event/types';
+import { EventData } from '../utilities/event/types';
 
 interface Props {
   events: EventData[];

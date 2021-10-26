@@ -1,6 +1,6 @@
 import { SetStateAction, useState } from 'react';
 import { db, functions } from '../../../firebase/firebaseClient';
-import { EventData } from '../../../utilities/Event/types';
+import { EventData } from '../../../utilities/event/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import NormalInput from '../../UI/Inputs/NormalInput';
 

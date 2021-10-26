@@ -24,24 +24,21 @@ export default function NavigationItem({
     >
       <div
         className={
-          'pt-1.5 px-6 flex flex-col justify-center ' +
+          'relative sm:max-w-xl sm:mx-auto group cursor-pointer inline-block ' +
+          'py-2 px-6 flex flex-col justify-center text-center ' +
           (isActive
             ? ''
             : 'hover:bg-gray-900 rounded-t-lg transition duration-300')
         }
       >
-        <div className="relative sm:max-w-xl sm:mx-auto">
-          <div className="group cursor-pointer relative inline-block text-center">
-            <Link href={href} passHref>
-              <a href={href}>{children}</a>
-            </Link>
-            {toolTip && (
-              <div className="opacity-0 w-24 font-sans text-gray-900 bg-gray-300 text-grey-900 text-center text-xs rounded-md py-2 absolute z-10 group-hover:opacity-100 top-12 -left-7 px-1.5 pointer-events-none">
-                {toolTip}
-              </div>
-            )}
-          </div>
-        </div>
+        <Link href={href} passHref>
+          <a href={href}>{children}</a>
+        </Link>
+        {toolTip && (
+          <span className="opacity-0 w-24 font-sans text-gray-900 bg-gray-300 text-grey-900 text-center text-xs rounded-md py-2 absolute z-10 group-hover:opacity-100 top-14 -left-1.5 px-1.5 pointer-events-none">
+            {toolTip}
+          </span>
+        )}
       </div>
     </li>
   );

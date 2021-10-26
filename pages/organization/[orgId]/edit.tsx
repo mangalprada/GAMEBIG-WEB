@@ -6,7 +6,7 @@ import OrganizationProfile from '../../../components/Organization/OrganizationPr
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { fetchOrganizationData } from '../../../lib/fetchOrganizationData';
 import { OrgFormData } from '../../../utilities/organization/types';
-import CreateOrganizationForm from '../../../components/Organization/CreateOrganization/CreateOrganizationForm';
+import OrganizationForm from '../../../components/Organization/CreateOrganization/OrganizationForm';
 
 interface Props {
   organizationData: OrgFormData | undefined;
@@ -17,7 +17,7 @@ export default function OrganizationAdmin({ organizationData }: Props) {
 
   return (
     <Aux>
-      <CreateOrganizationForm organizationData={organizationData} />
+      <OrganizationForm organizationData={organizationData} />
     </Aux>
   );
 }

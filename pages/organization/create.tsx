@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
-import CreateOrganizationForm from '../../components/Organization/CreateOrganization/CreateOrganizationForm';
+import OrganizationForm from '../../components/Organization/CreateOrganization/OrganizationForm';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 export default function create() {
@@ -15,7 +15,7 @@ export default function create() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <CreateOrganizationForm />
+      <OrganizationForm />
     </Aux>
   );
 }

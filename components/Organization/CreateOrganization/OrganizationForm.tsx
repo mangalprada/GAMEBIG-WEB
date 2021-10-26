@@ -6,6 +6,7 @@ import { validationSchema } from '../../../utilities/organization/validator';
 import {
   addOrganization,
   addOrganizationIdtoAdminUser,
+  updateOrganization,
 } from '../../../lib/addOrganization';
 import { useAuth } from '../../../context/authContext';
 import FixedButton from '../../UI/Buttons/FixedButton';
@@ -19,42 +20,56 @@ const scrollToTop = () => {
     behavior: 'smooth',
   });
 };
-// TODO: Add loading icon in backdrop
 
-function CreateOrganizationForm() {
+const initialValues: OrgFormData = {
+  name: '',
+  about: '',
+  location: '',
+  email: '',
+  phone: '',
+  website: '',
+  youtube: '',
+  discord: '',
+  twitch: '',
+  facebook: '',
+  instagram: '',
+  twitter: '',
+  reddit: '',
+};
+
+type Props = {
+  organizationData?: OrgFormData;
+};
+
+function CreateOrganizationForm({ organizationData }: Props) {
   const { userData, updateOrgId, updateOrgName } = useAuth();
 
-  const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
-
-  const initialValues: OrgFormData = {
-    name: '',
-    about: '',
-    location: '',
-    email: '',
-    phone: '',
-    website: '',
-    youtube: '',
-    discord: '',
-    twitch: '',
-    facebook: '',
-    instagram: '',
-    twitter: '',
-    reddit: '',
-  };
-
   const formik = useFormik({
-    initialValues: initialValues,
+    initialValues: organizationData || initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value, { resetForm }) => {
-      setIsBackDropOpen(true);
-      const orgId = await addOrganization(value);
-      if (orgId) {
-        updateOrgId(orgId);
-        if (userData.docId) updateOrgName(value.name);
-        await addOrganizationIdtoAdminUser(userData.docId, value.name, orgId);
+      if (organizationData && organizationData.id) {
+        updateOrganization(value, organizationData.id);
+        if (userData.linkedOrganizationName !== value.name) {
+          updateOrgName(value.name);
+          await addOrganizationIdtoAdminUser(
+            userData.docId,
+            value.name,
+            organizationData.id
+          );
+        }
+        router.push(`/organization/${organizationData.id}`);
+      } else {
+        const orgId = await addOrganization(value);
+        if (orgId) {
+          updateOrgId(orgId);
+          if (userData.docId) updateOrgName(value.name);
+          await addOrganizationIdtoAdminUser(userData.docId, value.name, orgId);
+          router.push(`/organization/${orgId}`);
+        }
+
         router.push(`/organization/${orgId}`);
       }
-      setIsBackDropOpen(false);
       resetForm();
     },
   });
@@ -62,14 +77,14 @@ function CreateOrganizationForm() {
   return (
     <div
       className={
-        'w-full mx-auto mt-6 ' +
+        'w-full mx-auto mt-6 px-4 md:px-10' +
         'relative flex flex-col min-w-0 break-words w-full mb-6 ' +
         'shadow-lg rounded-lg border-0'
       }
     >
       <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
         <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
-          Create Organization
+          {organizationData ? 'Update Organization' : 'Create Organization'}
         </h6>
         <FixedButton
           name="Cancel"
@@ -82,7 +97,7 @@ function CreateOrganizationForm() {
           <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
             Basic Information
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInput
               labelName="Organization Name*"
               name="name"
@@ -133,7 +148,7 @@ function CreateOrganizationForm() {
           <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
             Social Links
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInput
               labelName="Website"
               name="website"
@@ -209,7 +224,7 @@ function CreateOrganizationForm() {
           </div>
           <div>
             <ResponsiveButton
-              name="Create"
+              name={organizationData ? 'Update' : 'Create'}
               type="submit"
               isDisabled={formik.isSubmitting}
               onClickHandler={() => scrollToTop()}

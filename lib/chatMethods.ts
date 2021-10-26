@@ -4,7 +4,7 @@ import { InputChat } from '../utilities/contact/contact';
 export const postMessage = async (chat: InputChat) => {
   let chatId = null;
   try {
-    const docRef = await db.collection('discussions').add({
+    const docRef = await db.collection('feedbacks').add({
       ...chat,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });

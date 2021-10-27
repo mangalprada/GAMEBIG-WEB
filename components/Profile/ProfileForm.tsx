@@ -20,10 +20,7 @@ const phoneRegExp =
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
+  email: yup.string().email('Enter a valid email'),
   username: yup
     .string()
     .matches(usernameRegExp, 'username can only contain letters and numbers')
@@ -33,8 +30,7 @@ const validationSchema = yup.object({
   phoneNumber: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
-    .length(10, 'Phone number must be 10 digits long')
-    .required('Phone number is required'),
+    .length(10, 'Phone number must be 10 digits long'),
   country: yup.string().required('Country is required'),
   youtubeLink: yup.string().url('Enter a valid URL'),
   twitchLink: yup.string().url('Enter a valid URL'),
@@ -104,13 +100,14 @@ function ProfileForm({ oldValues, push }: Props) {
           <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
             User Information
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
             <FormInput
               labelName="username"
               name="username"
               value={formik.values.username}
               onChangeHandler={formik.handleChange}
-              isDisabled={true}
+              error={Boolean(formik.errors.username)}
+              errorMessage={formik.errors.username}
             />
             <FormInput
               labelName="Name"
@@ -171,7 +168,7 @@ function ProfileForm({ oldValues, push }: Props) {
           <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
             Social Links
           </h6>
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
             <FormInput
               labelName="Youtube"
               name="youtubeLink"

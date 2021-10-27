@@ -13,6 +13,10 @@ export const addOrganization = async (data: OrgFormData) => {
   return orgId;
 };
 
+export const updateOrganization = async (data: OrgFormData, orgId: string) => {
+  await db.collection('organizations').doc(orgId).update(data);
+};
+
 export const addOrganizationIdtoAdminUser = async (
   docId: string | undefined,
   orgName: string,

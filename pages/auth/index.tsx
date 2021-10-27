@@ -22,7 +22,7 @@ export default function Home() {
         <title>Authentication</title>
         <meta
           name="description"
-          content="Join GameBig today by signing up. Participate in exciting custom room matches and tournaments."
+          content="Join GameBig today by signing up. Participate in exciting gaming events."
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />

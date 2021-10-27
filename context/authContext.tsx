@@ -212,40 +212,44 @@ function useProvideAuth() {
   }, []);
 
   useEffect(() => {
-    const messaging = firebase.messaging();
-    const getToken = async () =>
-      await messaging
-        .getToken({
-          vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
-        })
-        .then(async (token) => {
-          const currentToken = await localforage.getItem('fcmToken');
-          if (token !== currentToken) {
-            localforage.setItem('fcmToken', token);
-            db.collection('users')
-              .doc(userData.docId)
-              .update({ fcmToken: token })
-              .catch((err) => {
-                console.log(err, 'error adding fcmToken');
-              });
+    try {
+      const messaging = firebase.messaging();
+      const getToken = async () =>
+        await messaging
+          .getToken({
+            vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
+          })
+          .then(async (token) => {
+            const currentToken = await localforage.getItem('fcmToken');
+            if (token !== currentToken) {
+              localforage.setItem('fcmToken', token);
+              db.collection('users')
+                .doc(userData.docId)
+                .update({ fcmToken: token })
+                .catch((err) => {
+                  console.log(err, 'error adding fcmToken');
+                });
+            }
+          })
+          .catch((err) => {
+            console.log('error', err);
+          });
+      getToken();
+      navigator.serviceWorker.addEventListener('message', (message) => {
+        const data = message.data['firebase-messaging-msg-data'];
+        if (data) {
+          let notices = [];
+          let stringifiedNotices = localStorage.getItem('notices');
+          if (stringifiedNotices) {
+            notices = JSON.parse(stringifiedNotices);
           }
-        })
-        .catch((err) => {
-          console.log('error', err);
-        });
-    getToken();
-    navigator.serviceWorker.addEventListener('message', (message) => {
-      const data = message.data['firebase-messaging-msg-data'];
-      if (data) {
-        let notices = [];
-        let stringifiedNotices = localStorage.getItem('notices');
-        if (stringifiedNotices) {
-          notices = JSON.parse(stringifiedNotices);
+          notices.unshift(data);
+          localStorage.setItem('notices', JSON.stringify(notices));
         }
-        notices.unshift(data);
-        localStorage.setItem('notices', JSON.stringify(notices));
-      }
-    });
+      });
+    } catch (err) {
+      console.log('error', err);
+    }
   }, [userData.docId]);
 
   // =============================== NOTIFICATION ENDS ===============================

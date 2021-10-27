@@ -1,4 +1,4 @@
-import CheckCircle from '../Icons/TournamentIcons/CheckCircle';
+import CheckCircle from '../Icons/EventIcons/CheckCircle';
 interface Props {
   name: string;
   label: string;
@@ -18,7 +18,7 @@ export default function SelectRadioButton({
     <li
       key={item.id}
       className={
-        'flex justify-between w-full md:w-1/2 p-3.5 my-2 ml-0 rounded-md ' +
+        'flex justify-between w-full md:w-1/2 p-3.5 my-2 ml-0 rounded-md cursor-pointer ' +
         'text-base text-gray-300 font-sans font-semibold ' +
         (item.name === value ? 'bg-green-500' : 'bg-gray-700')
       }

@@ -1,17 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
-import DownArrow from '../Icons/TournamentIcons/DownArrow';
-import RightArrow from '../Icons/TournamentIcons/RightArrow';
+import DownArrow from '../Icons/EventIcons/DownArrow';
+import RightArrow from '../Icons/EventIcons/RightArrow';
 interface Props {
   name?: string;
   label: string;
   menuItems: any[];
   handleChange: (item: any) => void;
+  propToShow?: string;
 }
 
 export default function SelectDropDown({
   label,
   handleChange,
   menuItems,
+  propToShow,
 }: Props) {
   const [isListVisible, setIsListVisible] = useState(false);
   const [selectedItem, setSelected] = useState('Select');
@@ -39,15 +41,14 @@ export default function SelectDropDown({
   const listItems = menuItems.map((item: any) => (
     <li
       onMouseDown={() => {
-        setSelected(item.name || item);
-
+        setSelected((propToShow && item[propToShow]) || item);
         setIsListVisible(false);
         handleChange(item);
       }}
-      className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md"
+      className="m-2 px-8 py-2 hover:bg-gray-900 rounded-md cursor-pointer "
       key={item.id}
     >
-      {item.name || item}
+      {(propToShow && item[propToShow]) || item}
     </li>
   ));
   return (
@@ -55,14 +56,10 @@ export default function SelectDropDown({
       <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
         {label}
       </label>
-      <div
-        ref={wrapperRef}
-        className="w-1/2 md:w-1/3"
-        onMouseDown={toggleIsListVisible}
-      >
-        <button
+      <div ref={wrapperRef} onMouseDown={toggleIsListVisible}>
+        <div
           className={
-            'flex justify-around bg-gray-700 p-3.5 px-8 rounded-md tracking-wide ' +
+            'flex justify-between bg-gray-700 w-full md:w-1/2  p-3.5 px-8 rounded-md tracking-wide ' +
             'text-sm font-bold font-sans focus:outline-none ' +
             (isListVisible ? 'ring ring-indigo-500' : '')
           }
@@ -78,10 +75,10 @@ export default function SelectDropDown({
               }}
             />
           )}
-        </button>
+        </div>
         {isListVisible ? (
           <ul
-            className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md
+            className="absolute mt-2 z-40 w-2/3 md:w-1/4 py-1 rounded-md h-auto max-h-52 overflow-y-auto
           font-sans font-semibold text-md text-gray-300 bg-gray-700 "
           >
             {listItems}

@@ -1,33 +1,10 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import SnackbarAlert from '../../components/UI/Snackbar/SnackBar';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    notice: {
-      margin: 10,
-    },
-    span: {
-      background: '#bbb',
-      borderRadius: 3,
-      marginLeft: 10,
-      marginRight: 10,
-      paddingLeft: 4,
-      paddingRight: 4,
-    },
-  })
-);
-
 export default function Home() {
-  const classes = useStyles();
   const [notices, setNotices] = useState([]);
   const [showInfo, setShowInfo] = useState(false);
   const [message, setMessage] = useState({ label: '', message: '' });
@@ -53,12 +30,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className={classes.container}>
+      <div className="">
         {notices.map(function (notice, index) {
           const { roomId, password, linkedOrgName, startTime } = notice;
           const readableStartTime = getDecoratedTime(startTime);
           return (
-            <div key={index} className={classes.notice}>
+            <div key={index} className="">
               <h2>
                 Details of match by {linkedOrgName} at {readableStartTime} are :
                 RoomId:{' '}
@@ -71,7 +48,7 @@ export default function Home() {
                     });
                     setShowInfo(true);
                   }}
-                  className={classes.span}
+                  className=""
                 >
                   {roomId}
                 </span>
@@ -85,7 +62,7 @@ export default function Home() {
                     });
                     setShowInfo(true);
                   }}
-                  className={classes.span}
+                  className=""
                 >
                   {password}
                 </span>

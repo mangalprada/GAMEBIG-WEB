@@ -17,7 +17,9 @@
     "noImplicitReturns": true,
     "paths": {
       "@/components/*": ["components/*"],
-      "@/lib/*": ["libs/*"]
+      "@/lib/*": ["libs/*"],
+      "@/context/*": ["context/*"],
+      "@utilities/*": ["utilities/*"]
     },
     "pretty": true,
     "resolveJsonModule": true,

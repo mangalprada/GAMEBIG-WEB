@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import NavigationItem from './NavigationItem/NavigationItem';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
-import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import { useAuth } from '../../../context/authContext';
 
@@ -53,11 +53,11 @@ export default function PrimaryNavigationItems() {
         <FriendsIcon isActive={router.pathname === '/friends'} size={36} />
       </NavigationItem>
       <NavigationItem
-        href="/contact"
-        isActive={router.pathname === '/contact'}
-        toolTip="Feedback"
+        href="/messages"
+        isActive={router.pathname === '/messages'}
+        toolTip="Messages"
       >
-        <ForumIcon isActive={router.pathname === '/contact'} size={36} />
+        <MessageIcon isActive={router.pathname === '/messages'} size={36} />
       </NavigationItem>
     </ul>
   );

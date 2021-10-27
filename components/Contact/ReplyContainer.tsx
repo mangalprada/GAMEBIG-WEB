@@ -28,7 +28,7 @@ export default function TypeContainer() {
         aria-placeholder="Type Here"
         placeholder="Type Here..."
         className={
-          'py-2 mx-3 pl-5 block w-full rounded-full bg-gray-700 ' +
+          'py-3 mx-3 pl-5 block w-full rounded-full bg-gray-700 ' +
           'outline-none font-semibold font-sans focus:text-gray-200 tracking-wide'
         }
         type="text"
@@ -40,7 +40,9 @@ export default function TypeContainer() {
 
       <button className="outline-none focus:outline-none" type="submit">
         <svg
-          className="fill-current text-indigo-600 h-7 w-7 origin-center transform rotate-90"
+          className="fill-current text-indigo-600 transform rotate-90"
+          height={46}
+          width={48}
           viewBox="0 0 20 20"
           fill="currentColor"
         >

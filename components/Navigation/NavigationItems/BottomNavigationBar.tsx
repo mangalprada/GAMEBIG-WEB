@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
-import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
@@ -53,7 +53,10 @@ function BottomNavigationBar() {
           </Link>
           <Link href="/contact" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <ForumIcon isActive={router.pathname === '/contact'} size={36} />
+              <MessageIcon
+                isActive={router.pathname === '/messages'}
+                size={36}
+              />
             </a>
           </Link>
         </div>

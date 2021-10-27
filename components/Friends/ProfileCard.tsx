@@ -4,16 +4,17 @@ import { games } from '../../utilities/GameList';
 
 const GameBadge = () => {
   return (
-    <div className="w-12 h-6">
-      <div className="h-10 w-10 relative rounded-full">
+    <div className="flex m-1 py-1 px-2 bg-gray-800 rounded-md gap-2">
+      <div className="relative h-4 w-4 ">
         <Image
           src={games['bgmi-m'].imageSource}
           alt="Picture of a friend"
           layout="fill"
           objectFit="contain"
+          className="rounded-full"
         />
       </div>
-      <span>{games['bgmi-m'].shortName}</span>
+      <span className="text-xs">{games['bgmi-m'].shortName}</span>
     </div>
   );
 };
@@ -24,29 +25,35 @@ const ProfileCard = () => {
     <div className="mt-8">
       {userData.photoURL ? (
         <div
-          className="flex flex-col bg-gray-900 font-sans font-semibold text-gray-300 h-1/3 w-1/4
-        items-center gap-2 rounded-lg bg-gradient-to-t from-gray-900 via-transparent to-indigo-600 "
+          className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
+        gap-2 rounded-lg bg-gray-900 transform hover:-translate-y-4 transition duration-500 ease-in-out cursor-pointer"
         >
-          <div className="h-48 w-full relative rounded-lg">
+          <div className="h-52 w-52 relative">
             <Image
               src={userData.photoURL}
               alt="Picture of a friend"
               layout="fill"
               objectFit="contain"
+              className="rounded-lg"
             />
           </div>
           <span className="text-indigo-600 text-xl">@malay1</span>
-          <span>Founder GameBig, Coder and Casual Gamer</span>
-          <div className="flex">
+          <span className="text-gray-300 font-sans">
+            Founder GameBig, Coder and Casual Gamer
+          </span>
+          <div className="flex flex-wrap justify-center">
             <GameBadge />
             <GameBadge />
             <GameBadge />
             <GameBadge />
+          </div>
+          <div className="flex w-full justify-center bg-indigo-600 font-sans text-xl py-1 px-4 rounded-md">
+            <span>Add Friend</span>
           </div>
         </div>
       ) : (
         <h2>friends</h2>
-      )}{' '}
+      )}
     </div>
   );
 };

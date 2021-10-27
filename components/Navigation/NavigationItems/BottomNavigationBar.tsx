@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
 
@@ -38,6 +39,14 @@ function BottomNavigationBar() {
                   router.pathname === '/organization' ||
                   router.pathname === '/organization/create'
                 }
+                size={36}
+              />
+            </a>
+          </Link>
+          <Link href="/friends" passHref>
+            <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
+              <FriendsIcon
+                isActive={router.pathname === '/friends'}
                 size={36}
               />
             </a>

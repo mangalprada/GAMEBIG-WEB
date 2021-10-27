@@ -3,6 +3,7 @@ import NavigationItem from './NavigationItem/NavigationItem';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import { useAuth } from '../../../context/authContext';
 
 export default function PrimaryNavigationItems() {
@@ -43,6 +44,13 @@ export default function PrimaryNavigationItems() {
           }
           size={36}
         />
+      </NavigationItem>
+      <NavigationItem
+        href="/friends"
+        isActive={router.pathname === '/friends'}
+        toolTip="Friends"
+      >
+        <FriendsIcon isActive={router.pathname === '/friends'} size={36} />
       </NavigationItem>
       <NavigationItem
         href="/contact"

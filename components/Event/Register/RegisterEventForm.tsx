@@ -7,18 +7,27 @@ import GamerDetails from './GamerDetails';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
+import SnackbarAlert from '../../UI/Snackbar/SnackBar';
 interface Props {
-  tId: string;
+  eventId: string;
   gameCode: string;
+  teamSize: number;
+  setIsRegistered: (val: boolean) => void;
 }
 
-export default function RegisterEventForm({ tId, gameCode }: Props) {
+export default function RegisterEventForm({
+  eventId,
+  gameCode,
+  teamSize,
+  setIsRegistered,
+}: Props) {
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
-  const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [teamId, setTeamId] = useState<string>('');
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
+  const [disableRegister, setDisableRegister] = useState<boolean>(true);
+  const [showSnakbar, setShowSnakbar] = useState<boolean>(false);
+  const [snakbarMessage, setSnakbarMessage] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -45,24 +54,6 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
     setTeams(teams);
   }, [user.username]);
 
-  useEffect(() => {
-    if (tId && user.username) {
-      db.collection('events')
-        .doc(tId)
-        .collection('teams')
-        .where('usernames', 'array-contains', user.username)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            if (doc.data()) {
-              setIsRegistered(true);
-              setTeamId(doc.id);
-            }
-          });
-        });
-    }
-  }, [tId, user.username]);
-
   const closeBackdrop = () => {
     setOpen(false);
   };
@@ -71,28 +62,15 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
     setOpen(true);
   };
 
+  const hideSnackbar = () => {
+    setShowSnakbar(false);
+  };
+
   const handleCreateTeam = (team: TeamType) => {
     setSelectedTeam(team);
     setTeams([team, ...teams]);
     setBackdropItem(2);
   };
-
-  const unregister = () => {
-    db.collection('events').doc(tId).collection('teams').doc(teamId).delete;
-  };
-
-  if (isRegistered)
-    return (
-      <div className="py-10 flex flex-col gap-4 font-sans text-indigo-600 font-semibold text-xl">
-        <span>You have registered for this event.</span>
-        <span
-          onClick={unregister}
-          className="text-gray-500 hover:bg-gray-800 rounded-md p-3 w-32"
-        >
-          Unregister
-        </span>
-      </div>
-    );
 
   return (
     <div
@@ -102,24 +80,34 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
       <label className="text-xl text-gray-300 py-5">Register For Event</label>
       <div className="mt-4 md:w-1/2 ">
         <SelectDropDown
-          handleChange={(val) => setSelectedTeam(val)}
+          handleChange={(val) => {
+            if (val.gamers.length === teamSize) {
+              setDisableRegister(false);
+              setSelectedTeam(val);
+            } else {
+              setDisableRegister(true);
+              setSnakbarMessage(
+                `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}.`
+              );
+              setShowSnakbar(true);
+            }
+          }}
           label="Select From Existing Teams"
           menuItems={teams}
           propToShow="teamName"
         />
         <FixedButton
-          isDisabled={!selectedTeam}
+          isDisabled={disableRegister}
           onClickHandler={() => {
             setBackdropItem(2);
             openBackdrop();
           }}
-          name={`Register ${selectedTeam?.teamName}`}
+          name="Register"
         />
       </div>
       <div className="px-4">
         <span className="text-xl">OR</span>
       </div>
-
       <FixedButton
         onClickHandler={() => {
           setBackdropItem(1);
@@ -135,11 +123,13 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
                 <CreateTeam
                   onCancel={closeBackdrop}
                   handleSubmit={handleCreateTeam}
+                  teamSize={teamSize}
                 />
               ),
               2: (
                 <GamerDetails
-                  tId={tId}
+                  teamSize={teamSize}
+                  eventId={eventId}
                   onCancel={closeBackdrop}
                   team={selectedTeam}
                   gameCode={gameCode}
@@ -150,6 +140,16 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
           }
         </div>
       </Backdrop>
+      <SnackbarAlert
+        autoHideDuration={5000}
+        message={{
+          label: 'Oops!',
+          message: snakbarMessage,
+        }}
+        onClose={hideSnackbar}
+        open={showSnakbar}
+        type="warning"
+      />
     </div>
   );
 }

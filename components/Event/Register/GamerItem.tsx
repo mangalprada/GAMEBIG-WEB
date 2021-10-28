@@ -18,7 +18,7 @@ const emptyValues = {
 interface Props {
   username: string;
   gameCode: string;
-  serialNo: number;
+  serialNo?: number;
   updateGamer: (username: string, gameData: GamerData) => void;
 }
 
@@ -71,7 +71,9 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
 
   return (
     <div className="font-sans text-gray-300">
-      <span className="text-xl text-indigo-600 py-4">Player {serialNo}</span>
+      {serialNo ? (
+        <span className="text-xl text-indigo-600 py-4">Player {serialNo}</span>
+      ) : null}
       <FormInput
         labelName="GameBig username"
         name="username"

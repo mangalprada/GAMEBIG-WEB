@@ -2,6 +2,9 @@ import Head from 'next/head';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import ChatContainer from '../../components/Contact/ChatContainer';
 import TypeContainer from '../../components/Contact/ReplyContainer';
+import Facebook from '../../components/UI/Icons/SocialIcons/FacebookIcon';
+import Instagram from '../../components/UI/Icons/SocialIcons/InstagramIcon';
+import Twitter from '../../components/UI/Icons/SocialIcons/TwitterIcon';
 import { db } from '../../firebase/firebaseClient';
 
 const chatCollectionRef = db.collection('feedback');
@@ -11,7 +14,7 @@ export default function Home() {
   const [messages] = useCollectionData(query, { idField: 'id' });
 
   return (
-    <div className="flex flex-col fixed sm:static w-full sm:px-10 px-0">
+    <div className="flex flex-col sm:static w-full sm:px-10 px-0">
       <Head>
         <title>Contact Us</title>
         <meta
@@ -21,15 +24,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <main>
+      <div>
+        <div className="px-4 mt-6 flex justify-start items-center gap-4 text-2xl font-sans font-semibold text-gray-300">
+          Contact Us On:
+          <a href="https://www.facebook.com/GameBig-101011608993281/">
+            <Facebook size={40} />
+          </a>
+          <a href="https://www.instagram.com/gamebighq/">
+            <Instagram size={38} />
+          </a>
+          <a href="https://twitter.com/GameBigHQ">
+            <Twitter size={32} />
+          </a>
+        </div>
         <h1 className="text-xl px-4 pt-4 font-semibold font-sans text-indigo-500 tracking-wide">
-          Please ask all your queries here
+          Or give us your feedback here
         </h1>
-        <div className="px-4 pt-4 rounded-md min-h-full">
+        <div className="px-4 rounded-md min-h-full">
           <ChatContainer chatDatas={messages} />
           <TypeContainer />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

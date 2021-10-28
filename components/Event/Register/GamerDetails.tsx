@@ -4,7 +4,8 @@ import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerItem from './GamerItem';
 interface Props {
-  tId: string;
+  eventId: string;
+  teamSize: number;
   team?: TeamType;
   gameCode: string;
   onCancel: () => void;
@@ -12,7 +13,8 @@ interface Props {
 }
 
 export default function GamerDetails({
-  tId,
+  eventId,
+  teamSize,
   team,
   gameCode,
   onCancel,
@@ -29,7 +31,7 @@ export default function GamerDetails({
     Object.keys(gamers).map(function (key) {
       gamersArray.push({ username: key, ...gamers[key] });
     });
-    if (gamersArray.length > 3) {
+    if (gamersArray.length === teamSize) {
       saveGamerDetails(gamersArray);
       setGamers({});
       setIsRegistered(true);
@@ -41,7 +43,7 @@ export default function GamerDetails({
     const usernames = gamersArray.map((gamer) => gamer.username);
     if (team && gamersArray) {
       db.collection('events')
-        .doc(tId)
+        .doc(eventId)
         .collection('teams')
         .add({
           inGameLead: team.inGameLead,

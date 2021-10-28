@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 type Props = {
   size: number;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const Twitter: FC<Props> = ({ size, onClick }: Props) => {

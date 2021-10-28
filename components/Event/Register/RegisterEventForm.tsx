@@ -9,14 +9,14 @@ import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import SnackbarAlert from '../../UI/Snackbar/SnackBar';
 interface Props {
-  tId: string;
+  eventId: string;
   gameCode: string;
   teamSize: number;
   setIsRegistered: (val: boolean) => void;
 }
 
 export default function RegisterEventForm({
-  tId,
+  eventId,
   gameCode,
   teamSize,
   setIsRegistered,
@@ -25,7 +25,7 @@ export default function RegisterEventForm({
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
-  const [enableRegister, setEnableRegister] = useState<boolean>(false);
+  const [disableRegister, setDisableRegister] = useState<boolean>(true);
   const [showSnakbar, setShowSnakbar] = useState<boolean>(false);
   const [snakbarMessage, setSnakbarMessage] = useState<string>('');
   const [open, setOpen] = useState(false);
@@ -81,19 +81,23 @@ export default function RegisterEventForm({
       <div className="mt-4 md:w-1/2 ">
         <SelectDropDown
           handleChange={(val) => {
-            setSelectedTeam(val);
-            if (val.gamers.lenth === teamSize) setEnableRegister(true);
-            else
+            if (val.gamers.length === teamSize) {
+              setDisableRegister(false);
+              setSelectedTeam(val);
+            } else {
+              setDisableRegister(true);
               setSnakbarMessage(
-                `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}`
+                `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}.`
               );
+              setShowSnakbar(true);
+            }
           }}
           label="Select From Existing Teams"
           menuItems={teams}
           propToShow="teamName"
         />
         <FixedButton
-          isDisabled={enableRegister}
+          isDisabled={disableRegister}
           onClickHandler={() => {
             setBackdropItem(2);
             openBackdrop();
@@ -104,7 +108,6 @@ export default function RegisterEventForm({
       <div className="px-4">
         <span className="text-xl">OR</span>
       </div>
-
       <FixedButton
         onClickHandler={() => {
           setBackdropItem(1);
@@ -125,7 +128,8 @@ export default function RegisterEventForm({
               ),
               2: (
                 <GamerDetails
-                  tId={tId}
+                  teamSize={teamSize}
+                  eventId={eventId}
                   onCancel={closeBackdrop}
                   team={selectedTeam}
                   gameCode={gameCode}
@@ -144,7 +148,7 @@ export default function RegisterEventForm({
         }}
         onClose={hideSnackbar}
         open={showSnakbar}
-        type="info"
+        type="warning"
       />
     </div>
   );

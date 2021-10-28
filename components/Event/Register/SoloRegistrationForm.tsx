@@ -7,7 +7,7 @@ import GamerItem from './GamerItem';
 interface Props {
   tId: string;
   gameCode: string;
-  setIsRegistered?: (val: boolean) => void;
+  setIsRegistered: (val: boolean) => void;
 }
 
 export default function GamerDetails({
@@ -22,53 +22,43 @@ export default function GamerDetails({
     gamers[username] = gamer;
   };
 
-  // const handleRegister = async () => {
-  //   const gamersArray: GamerData[] = [];
-  //   Object.keys(gamers).map(function (key) {
-  //     gamersArray.push({ username: key, ...gamers[key] });
-  //   });
-  //   if (gamersArray.length > 3) {
-  //     saveGamerDetails(gamersArray);
-  //     setGamers({});
-  //    setIsRegistered && setIsRegistered(true);
-  //     onCancel();
-  //   }
-  // };
+  const handleRegister = async () => {
+    const gamersArray: GamerData[] = [];
+    Object.keys(gamers).map(function (key) {
+      gamersArray.push({ username: key, ...gamers[key] });
+    });
+    saveGamerDetails(gamersArray);
+    setGamers({});
+    setIsRegistered(true);
+  };
 
-  // const saveGamerDetails = (gamersArray: GamerData[]) => {
-  //   const usernames = gamersArray.map((gamer) => gamer.username);
-  //   if (team && gamersArray) {
-  //     db.collection('events')
-  //       .doc(tId)
-  //       .collection('teams')
-  //       .add({
-  //         inGameLead: team.inGameLead,
-  //         gamers: gamersArray,
-  //         usernames,
-  //         teamName: team.teamName,
-  //       })
-  //       .then(() => {
-  //         console.log('Team added');
-  //       })
-  //       .catch((error) => {
-  //         console.log('Error adding documents: ', error);
-  //       });
-  //   }
-  // };
+  const saveGamerDetails = (gamersArray: GamerData[]) => {
+    const usernames = gamersArray.map((gamer) => gamer.username);
+    db.collection('events')
+      .doc(tId)
+      .collection('teams')
+      .add({
+        gamers: gamersArray,
+        usernames,
+        teamName: usernames[0],
+      })
+      .then(() => {
+        setIsRegistered(true);
+        console.log('Team added');
+      })
+      .catch((error) => {
+        console.log('Error adding documents: ', error);
+      });
+  };
 
   return (
-    <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold">
+    <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold mt-10">
       <GamerItem
         username={userData.username}
         gameCode={gameCode}
         updateGamer={updateGamer}
       />
-      <FixedButton
-        onClickHandler={() => {
-          console.log('clicked');
-        }}
-        name="Register"
-      />
+      <FixedButton onClickHandler={handleRegister} name="Register" />
     </div>
   );
 }

@@ -50,19 +50,6 @@ export default function Event({ orgId, eventData }: Props) {
       .delete;
   };
 
-  if (isRegistered)
-    return (
-      <div className="py-10 flex flex-col gap-4 font-sans text-indigo-600 font-semibold text-xl">
-        <span>You have registered for this event.</span>
-        <span
-          onClick={unregister}
-          className="text-gray-500 hover:bg-gray-800 rounded-md p-3 w-32"
-        >
-          Unregister
-        </span>
-      </div>
-    );
-
   return (
     <Aux>
       <Head>
@@ -80,18 +67,42 @@ export default function Event({ orgId, eventData }: Props) {
       ) : (
         (null as any)
       )}
-      {eventData.mode !== 'Solo' ? (
-        <RegisterEventForm
-          teamSize={eventData.mode === 'Squad' ? 4 : 2}
-          gameCode={eventData.gameCode}
-          tId={eventData.id}
-          setIsRegistered={setIsRegistered}
-        />
+      {!isRegistered ? (
+        {
+          Squad: (
+            <RegisterEventForm
+              teamSize={4}
+              gameCode={eventData.gameCode}
+              eventId={eventData.id}
+              setIsRegistered={setIsRegistered}
+            />
+          ),
+          Duo: (
+            <RegisterEventForm
+              teamSize={2}
+              gameCode={eventData.gameCode}
+              eventId={eventData.id}
+              setIsRegistered={setIsRegistered}
+            />
+          ),
+          Solo: (
+            <SoloRegistrationForm
+              gameCode={eventData.gameCode}
+              tId={eventData.id}
+              setIsRegistered={setIsRegistered}
+            />
+          ),
+        }[eventData.mode]
       ) : (
-        <SoloRegistrationForm
-          gameCode={eventData.gameCode}
-          tId={eventData.id}
-        />
+        <div className="p-10 flex flex-col gap-4 font-sans text-gray-500 font-semibold text-xl">
+          <span>You have already registered for this event</span>
+          <span
+            onClick={unregister}
+            className="text-gray-400 bg-gray-800 hover:bg-gray-700 rounded-md p-3 w-32"
+          >
+            Unregister
+          </span>
+        </div>
       )}
     </Aux>
   );

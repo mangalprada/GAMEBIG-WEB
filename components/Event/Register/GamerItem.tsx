@@ -18,7 +18,7 @@ const emptyValues = {
 interface Props {
   username: string;
   gameCode: string;
-  serialNo: number;
+  serialNo?: number;
   updateGamer: (username: string, gameData: GamerData) => void;
 }
 

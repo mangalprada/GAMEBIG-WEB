@@ -4,7 +4,7 @@ import { games } from '../../utilities/GameList';
 
 const GameBadge = () => {
   return (
-    <div className="flex m-1 py-1 px-2 bg-gray-800 rounded-md gap-2">
+    <div className="flex m-1 py-1 px-1.5 border-2 border-green-500 bg-gray-800 rounded-md gap-2">
       <div className="relative h-5 w-5 ">
         <Image
           src={games['bgmi-m'].imageSource}

@@ -17,6 +17,7 @@ const validationSchema = yup.object({
 
 type PropsType = {
   teamData?: TeamType;
+  teamSize?: number;
   onCancel: () => void;
   handleSubmit?: (teamData: TeamType) => void;
 };
@@ -44,6 +45,7 @@ const initialSnackbarData = {
 
 export default function CreateTeam({
   teamData,
+  teamSize,
   onCancel,
   handleSubmit,
 }: PropsType) {
@@ -75,13 +77,13 @@ export default function CreateTeam({
   };
 
   const saveTeam = async (team: TeamType) => {
-    if (gamers.length !== 4) {
+    if (teamSize && gamers.length !== teamSize) {
       setSnackbarData({
         ...snackbarData,
         open: true,
         message: {
           label: 'Oops!',
-          message: `You need 4 gamers to create a Team`,
+          message: `You need to have ${teamSize} gamers to create a Team`,
         },
         severity: 'warning' as const,
       });

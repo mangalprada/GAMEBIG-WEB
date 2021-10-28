@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
-import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import ForumIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
 

@@ -28,7 +28,7 @@ export default function TypeContainer() {
         aria-placeholder="Type Here"
         placeholder="Type Here..."
         className={
-          'py-3 mx-3 pl-5 block w-full rounded-full bg-gray-700 ' +
+          'py-3 mx-3 pl-5 block w-full rounded-lg bg-gray-700 ' +
           'outline-none font-semibold font-sans focus:text-gray-200 tracking-wide'
         }
         type="text"

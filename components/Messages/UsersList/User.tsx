@@ -1,7 +1,13 @@
 import Image from 'next/image';
-import { games } from '../../../utilities/GameList';
 
-const User = () => {
+type Props = {
+  image: string;
+  username: string;
+  name: string;
+  lastMessage: string;
+};
+
+const User = ({ image, name, username, lastMessage }: Props) => {
   return (
     <div
       className="flex items-center justify-items-stretch text-gray-300 font-sans font-semibold 
@@ -9,7 +15,7 @@ const User = () => {
     >
       <div className="relative h-12 w-12 ">
         <Image
-          src={games['bgmi-m'].imageSource}
+          src={image}
           alt="Picture of a friend"
           layout="fill"
           objectFit="contain"
@@ -18,15 +24,15 @@ const User = () => {
       </div>
       <div className="flex flex-col w-full pr-2">
         <div className="flex justify-between">
-          <span className="text-lg">Mark Zuckerberg</span>
-          <span className="text-sm text-gray-500">11:00 PM</span>
+          <span className="text-lg">{name}</span>
+          <span className="text-xm">{username}</span>
         </div>
-        <h1 className="text-base text-gray-500">
-          Hey Mark! Loan me a billion dollars!
-        </h1>
+        <h1 className="text-base text-gray-500">{lastMessage}</h1>
       </div>
     </div>
   );
 };
 
 export default User;
+
+//todo: show time of last message and name of the username

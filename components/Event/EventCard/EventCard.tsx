@@ -126,7 +126,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
         <TextButton
           name="DETAILS"
           type="normal"
-          onClickHandler={() =>
+          onClick={() =>
             router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`)
           }
         />
@@ -137,14 +137,14 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
               <TextButton
                 name="REGISTERED"
                 type="success"
-                onClickHandler={() =>
+                onClick={() =>
                   router.push(
                     `/organization/${data.linkedOrgId}/events/${data.id}/#register`
                   )
                 }
               />
             ) : (
-              <FixedButton name="REGISTER" onClickHandler={onForwardAction} />
+              <FixedButton name="REGISTER" onClick={onForwardAction} />
             )}
           </>
         )}

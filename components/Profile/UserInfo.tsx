@@ -84,7 +84,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
           </div>
           {userData.username === user.username ? (
             <TextButton
-              onClickHandler={goToEditPage}
+              onClick={goToEditPage}
               type="normal"
               name="EDIT PROFILE"
             />

@@ -73,7 +73,7 @@ function BasicForm({ userData, setUserData }: Props) {
         />
       </form>
       <div className="flex justify-center">
-        <FixedButton onClickHandler={formik.handleSubmit} name="Continue" />
+        <FixedButton onClick={formik.handleSubmit} name="Continue" />
       </div>
       <SnackbarAlert
         open={showError}

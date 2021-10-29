@@ -74,7 +74,7 @@ export default function SendNotification({
         />
       </div>
       <div className="flex justify-start ml-4 relative -mt-8">
-        <FixedButton name="Send" onClickHandler={onBtnClickHandler} />
+        <FixedButton name="Send" onClick={onBtnClickHandler} />
       </div>
     </div>
   );

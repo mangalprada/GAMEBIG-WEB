@@ -98,7 +98,7 @@ export default function RegisterEventForm({
         />
         <FixedButton
           isDisabled={disableRegister}
-          onClickHandler={() => {
+          onClick={() => {
             setBackdropItem(2);
             openBackdrop();
           }}
@@ -109,7 +109,7 @@ export default function RegisterEventForm({
         <span className="text-xl">OR</span>
       </div>
       <FixedButton
-        onClickHandler={() => {
+        onClick={() => {
           setBackdropItem(1);
           openBackdrop();
         }}

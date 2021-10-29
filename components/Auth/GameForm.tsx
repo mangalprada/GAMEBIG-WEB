@@ -143,7 +143,7 @@ const GameForm: FC<Props> = ({
             />
           </div>
           <div className="flex justify-end mt-2 mr-1 md:mr-8">
-            <FixedButton name="Add Info" onClickHandler={formik.handleSubmit} />
+            <FixedButton name="Add Info" onClick={formik.handleSubmit} />
           </div>
         </form>
       </div>

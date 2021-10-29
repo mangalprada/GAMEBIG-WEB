@@ -40,7 +40,7 @@ const ProfileCard = () => {
             />
           </div>
           <span className="text-indigo-600 text-xl">@malay1</span>
-          <span className="text-gray-300 font-sans">
+          <span className="text-gray-300 text-center font-sans">
             Founder GameBig, Coder and Casual Gamer
           </span>
           <div className="flex flex-wrap justify-center">

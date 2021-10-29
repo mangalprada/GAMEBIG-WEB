@@ -55,7 +55,7 @@ export default function Home({
       <div className="w-11/12 md:w-2/3 mx-auto mt-2">
         <div className="flex justify-end">
           {userData.username === user.username ? (
-            <FixedButton name="Create Team" onClickHandler={openBackdrop} />
+            <FixedButton name="Create Team" onClick={openBackdrop} />
           ) : null}
         </div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">

@@ -58,7 +58,7 @@ export default function GamerDetails({
         gameCode={gameCode}
         updateGamer={updateGamer}
       />
-      <FixedButton onClickHandler={handleRegister} name="Register" />
+      <FixedButton onClick={handleRegister} name="Register" />
     </div>
   );
 }

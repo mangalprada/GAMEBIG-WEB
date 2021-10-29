@@ -180,7 +180,7 @@ export default function CreateTeam({
               <FixedButton
                 name="Add"
                 isDisabled={formik.isSubmitting}
-                onClickHandler={addgamer}
+                onClick={addgamer}
               />
             ) : (
               <LoadingLottie height={40} width={80} />
@@ -227,13 +227,13 @@ export default function CreateTeam({
         <FixedButton
           name="Cancel"
           isDisabled={formik.isSubmitting}
-          onClickHandler={onCancel}
+          onClick={onCancel}
         />
         <FixedButton
           type="submit"
           name="Save"
           isDisabled={formik.isSubmitting}
-          onClickHandler={formik.handleSubmit}
+          onClick={formik.handleSubmit}
         />
       </div>
       <SnackbarAlert

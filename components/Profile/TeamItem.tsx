@@ -62,8 +62,8 @@ export default function TeamItem({
         ))}
       </div>
       <div className="flex justify-end">
-        <TextButton type="normal" name="Edit" onClickHandler={handleEdit} />
-        <TextButton type="fail" name="Delete" onClickHandler={deleteTeam} />
+        <TextButton type="normal" name="Edit" onClick={handleEdit} />
+        <TextButton type="fail" name="Delete" onClick={deleteTeam} />
       </div>
     </div>
   );

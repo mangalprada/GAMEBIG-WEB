@@ -6,7 +6,7 @@ export default function NoOrganization() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const onCreateOrgButtonClickHandler = () => {
+  const createOrgButtonClickHandler = () => {
     console.log('User', user.uid);
 
     if (user.uid === undefined || user.uid === '') {
@@ -46,7 +46,7 @@ export default function NoOrganization() {
       <div className="bottom-8">
         <ResponsiveButton
           name="Create Now!"
-          onClickHandler={onCreateOrgButtonClickHandler}
+          onClick={createOrgButtonClickHandler}
         />
       </div>
     </div>

@@ -67,7 +67,7 @@ export default function GamerDetails({
         <span onClick={onCancel} className="hover:bg-gray-800 p-3 rounded-md">
           Cancel
         </span>
-        <FixedButton onClickHandler={handleRegister} name="Register" />
+        <FixedButton onClick={handleRegister} name="Register" />
       </div>
       {team &&
         team.gamers.map((gamer, index) => (

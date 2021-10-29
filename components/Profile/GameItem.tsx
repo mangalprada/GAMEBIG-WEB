@@ -85,12 +85,8 @@ export default function GameItem({
         </div>
         {user.username === username ? (
           <div className="flex justify-evenly mt-5">
-            <FixedButton name="EDIT" onClickHandler={() => setBackdrop(true)} />
-            <FixedButton
-              name="DELETE"
-              onClickHandler={deleteGame}
-              isDangerous
-            />
+            <FixedButton name="EDIT" onClick={() => setBackdrop(true)} />
+            <FixedButton name="DELETE" onClick={deleteGame} isDangerous />
           </div>
         ) : null}
       </div>

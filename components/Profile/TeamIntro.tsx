@@ -15,11 +15,7 @@ export default function TeamIntro({
       <span className="text-xl md:text-4xl py-6">
         Create a team and participate in events, NOW!
       </span>
-      <ResponsiveButton
-        name="Create"
-        type="submit"
-        onClickHandler={openBackdrop}
-      />
+      <ResponsiveButton name="Create" type="submit" onClick={openBackdrop} />
     </div>
   );
 }

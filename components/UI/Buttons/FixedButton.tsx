@@ -4,7 +4,7 @@ import { ButtonProps } from './types';
 const FixedButton: FC<ButtonProps> = ({
   name,
   type,
-  onClickHandler,
+  onClick,
   isDisabled,
   isDangerous,
 }: ButtonProps) => {
@@ -22,7 +22,7 @@ const FixedButton: FC<ButtonProps> = ({
                 : 'bg-indigo-600 hover:bg-indigo-700'))
         }
         type={type}
-        onClick={onClickHandler}
+        onClick={onClick}
         disabled={isDisabled}
       >
         {name}

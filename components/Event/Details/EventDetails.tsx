@@ -52,11 +52,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
     <div className="font-sans">
       {/**Back Button */}
       <div className="flex justify-start">
-        <TextButton
-          name="Go Back"
-          type="fail"
-          onClickHandler={() => router.back()}
-        />
+        <TextButton name="Go Back" type="fail" onClick={() => router.back()} />
       </div>
 
       <div className="flex flex-row space-x-5 mx-3">

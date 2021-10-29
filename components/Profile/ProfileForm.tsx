@@ -92,7 +92,7 @@ function ProfileForm({ oldValues, push }: Props) {
         <FixedButton
           name="Cancel"
           isDangerous={true}
-          onClickHandler={() => router.back()}
+          onClick={() => router.back()}
         />
       </div>
       <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">

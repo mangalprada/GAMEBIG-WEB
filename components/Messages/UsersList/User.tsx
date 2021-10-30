@@ -4,7 +4,7 @@ type Props = {
   image: string;
   username: string;
   name: string;
-  lastMessage: string;
+  lastMessage?: string;
 };
 
 const User = ({ image, name, username, lastMessage }: Props) => {
@@ -27,7 +27,9 @@ const User = ({ image, name, username, lastMessage }: Props) => {
           <span className="text-lg">{name}</span>
           <span className="text-xm">{username}</span>
         </div>
-        <h1 className="text-base text-gray-500">{lastMessage}</h1>
+        {lastMessage && (
+          <h1 className="text-base text-gray-500">{lastMessage}</h1>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import ProfileCard from '../../components/Friends/ProfileCard';
 import { firebaseAdmin } from '../../firebase/firebaseAdmin';
 import Aux from '../../hoc/Auxiliary/Auxiliary';

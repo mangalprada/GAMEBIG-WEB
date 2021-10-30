@@ -1,5 +1,4 @@
 import { FC, ChangeEvent } from 'react';
-import SearchIcon from '../Icons/Others/SearchIcon';
 
 type Props = {
   name: string;
@@ -7,9 +6,6 @@ type Props = {
   placeHolder?: string;
   onChangeHandler: {
     (e: ChangeEvent<any>): void;
-    <T_1 = string | ChangeEvent<any>>(field: T_1): T_1 extends ChangeEvent<any>
-      ? void
-      : (e: string | ChangeEvent<any>) => void;
   };
   isDisabled?: boolean;
   error?: boolean;
@@ -60,7 +56,6 @@ const SearchInput: FC<Props> = ({
           <div className="mt-2 h-4"></div>
         )}
       </div>
-      <SearchIcon onClick={() => console.log('searching')} size={56} />
     </div>
   );
 };

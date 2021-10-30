@@ -128,7 +128,7 @@ function useProvideAuth() {
     nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
     if (uid && displayName && photoURL) {
-      const userData = await getUser(displayName);
+      const userData = await getUser(uid);
       setUser({ uid, name: displayName, photoURL });
       if (userData) {
         router.push('/');

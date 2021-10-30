@@ -11,13 +11,13 @@ export default function MessageInput({
   messageRoomId?: string;
 }) {
   const [message, setMessage] = useState<string>('');
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const chat: InputChat = {
-      userName: user.username,
-      userId: user.uid,
+      userName: userData.username,
+      userId: userData.uid,
       msg: message,
       subHeader: '',
     };

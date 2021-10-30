@@ -41,7 +41,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken, updateDisplayName } = useAuth();
+  const { isUsernameTaken } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const router = useRouter();
@@ -67,7 +67,6 @@ function ProfileForm({ oldValues, push }: Props) {
   };
 
   const saveUserData = async (username: string, userData: UserData) => {
-    updateDisplayName(userData.username);
     try {
       await db.collection('users').doc(oldValues.docId).update(userData);
     } catch (err) {

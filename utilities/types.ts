@@ -1,7 +1,7 @@
 export interface User {
   uid: string;
   email?: string | undefined;
-  username: string;
+  name: string;
   photoURL?: string | undefined;
   linkedOrgId?: string | null | undefined;
 }
@@ -13,7 +13,7 @@ export interface UserData {
   username: string;
   name?: string | undefined;
   dob?: Date | undefined;
-  country: string;
+  country?: string;
   phoneNumber?: string | undefined;
   email?: string | undefined;
   youtubeLink?: string | undefined;

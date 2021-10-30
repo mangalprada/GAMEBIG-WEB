@@ -3,15 +3,19 @@ import algoliaClient from '../../../lib/algolia';
 import debounce from '../../../lib/debounce';
 import { UserData } from '../../../utilities/types';
 import SearchInput from '../../UI/Inputs/SearchInput';
-import User from './User';
+import MessageRoom from './MessageRoom';
 
-const UsersList = () => {
+const MessageRoomList = ({
+  setReceiver,
+}: {
+  setReceiver: (user: any) => void;
+}) => {
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [users, setUsers] = useState<any>([]);
 
   const getUser = (query: string) => {
-    const index = algoliaClient.initIndex('users');
+    const index = algoliaClient.initIndex('messageRooms');
     index
       .search(query, {
         attributesToRetrieve: ['name', 'username', 'photoURL'],
@@ -44,10 +48,13 @@ const UsersList = () => {
         {users.map((user: any, index: number) => {
           return (
             <div key={index}>
-              <User
-                name={user.name}
-                username={user.username}
-                image={user.photoURL}
+              <MessageRoom
+                receiverName={user.name}
+                receiverUsername={user.username}
+                receiverPhotoURL={user.photoURL}
+                onClick={() => {
+                  setReceiver(user);
+                }}
               />
             </div>
           );
@@ -57,4 +64,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default MessageRoomList;

@@ -1,21 +1,32 @@
 import Image from 'next/image';
+import { UserData } from '../../../utilities/types';
 
 type Props = {
-  image: string;
-  username: string;
-  name: string;
+  receiverPhotoURL: string;
+  receiverName: string;
+  receiverUsername: string;
   lastMessage?: string;
+  onClick: (user: any) => void;
 };
 
-const User = ({ image, name, username, lastMessage }: Props) => {
+const MessageRoom = ({
+  receiverPhotoURL,
+  receiverName,
+  receiverUsername,
+  lastMessage,
+  onClick,
+}: Props) => {
   return (
     <div
+      onClick={() =>
+        onClick({ receiverUsername, receiverName, receiverPhotoURL })
+      }
       className="flex items-center justify-items-stretch text-gray-300 font-sans font-semibold 
     bg-gray-900 w-full gap-3 px-3 py-3.5  m-1 rounded-md"
     >
       <div className="relative h-12 w-12 ">
         <Image
-          src={image}
+          src={receiverPhotoURL}
           alt="Picture of a friend"
           layout="fill"
           objectFit="contain"
@@ -24,8 +35,8 @@ const User = ({ image, name, username, lastMessage }: Props) => {
       </div>
       <div className="flex flex-col w-full pr-2">
         <div className="flex justify-between">
-          <span className="text-lg">{name}</span>
-          <span className="text-xm">{username}</span>
+          <span className="text-lg">{receiverName}</span>
+          <span className="text-xm">{receiverUsername}</span>
         </div>
         {lastMessage && (
           <h1 className="text-base text-gray-500">{lastMessage}</h1>
@@ -35,6 +46,6 @@ const User = ({ image, name, username, lastMessage }: Props) => {
   );
 };
 
-export default User;
+export default MessageRoom;
 
 //todo: show time of last message and name of the username

@@ -3,7 +3,13 @@ import { useAuth } from '../../context/authContext';
 import { postMessage } from '../../lib/chatMethods';
 import { InputChat } from '../../utilities/contact/contact';
 
-export default function TypeContainer() {
+export default function MessageInput({
+  receiverUsername,
+  messageRoomId,
+}: {
+  receiverUsername: string;
+  messageRoomId?: string;
+}) {
   const [message, setMessage] = useState<string>('');
   const { user } = useAuth();
 

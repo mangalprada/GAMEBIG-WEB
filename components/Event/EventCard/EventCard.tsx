@@ -29,16 +29,16 @@ type Props = {
 const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
   const router = useRouter();
 
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   useEffect(() => {
-    if (data.id && user.username) {
+    if (data.id && userData.username) {
       db.collection('events')
         .doc(data.id)
         .collection('teams')
-        .where('usernames', 'array-contains', user.username)
+        .where('usernames', 'array-contains', userData.username)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -48,10 +48,10 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           });
         });
     }
-  }, [data.id, user.username]);
+  }, [data.id, userData.username]);
 
   const onForwardAction = () => {
-    if (user.uid === '' || user.uid === undefined) {
+    if (userData.uid === '' || userData.uid === undefined) {
       router.push('/auth');
     } else {
       router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`);

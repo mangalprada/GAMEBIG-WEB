@@ -19,7 +19,7 @@ export default function Home({
   userData: UserData;
   teams: Array<TeamType>;
 }) {
-  const { user } = useAuth();
+  const { userData: user } = useAuth();
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(

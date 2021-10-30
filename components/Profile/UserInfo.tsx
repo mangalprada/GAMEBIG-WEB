@@ -22,7 +22,7 @@ type Props = {
 
 const UserInfo: FC<Props> = ({ userData }: Props) => {
   const router = useRouter();
-  const { user, signout } = useAuth();
+  const { userData: user, signout } = useAuth();
   const [showMore, setShowMore] = useState(false);
 
   const goToEditPage = () => {

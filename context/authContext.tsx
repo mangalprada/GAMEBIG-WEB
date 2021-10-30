@@ -7,7 +7,6 @@ import { User, UserData } from '../utilities/types';
 import { createSign } from 'crypto';
 
 const authContext = createContext({
-  user: { uid: '', name: '', photoURL: '' } as User,
   userData: {} as UserData,
   updateOrgId: (id: string) => {},
   updateOrgName: (name: string) => {},
@@ -252,7 +251,6 @@ function useProvideAuth() {
   };
 
   return {
-    user,
     userData,
     updateOrgId,
     updateOrgName,
@@ -267,7 +265,6 @@ function useProvideAuth() {
 }
 
 type Props = {
-  user?: User;
   isSignedIn?: boolean;
   userData?: UserData;
   updateOrgId?: () => void;

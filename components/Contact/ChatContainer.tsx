@@ -13,12 +13,12 @@ interface Props {
 
 export default function ChatContainer({ receivingUser }: Props) {
   const scrollLast = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
   // useEffect(() => {
   //   db.collection('messages')
   //     .where('usernames', 'array-contains', [
-  //       user.username,
+  //       userData.username,
   //       receivingUser.username,
   //     ])
   //     .get();
@@ -31,7 +31,7 @@ export default function ChatContainer({ receivingUser }: Props) {
   // const messages =
   //   chatData &&
   //   chatData.map((chatData: Chat) => {
-  //     const isOwnerOfMessage = chatData.userId === user.uid;
+  //     const isOwnerOfMessage = chatData.userId === userData.uid;
   //     return (
   //       <Message key={chatData.id} isOwner={isOwnerOfMessage} data={chatData} />
   //     );

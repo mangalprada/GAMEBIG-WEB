@@ -9,7 +9,7 @@ interface Props {
 
 export default function ChatContainer({ chatDatas }: Props) {
   const scrollLast = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
   useEffect(() => {
     scrollLast.current?.scrollIntoView({ behavior: 'smooth' });
@@ -18,7 +18,7 @@ export default function ChatContainer({ chatDatas }: Props) {
   const messages =
     chatDatas &&
     chatDatas.map((chatData: Chat) => {
-      const isOwnerOfMessage = chatData.userId === user.uid;
+      const isOwnerOfMessage = chatData.userId === userData.uid;
       return (
         <Message key={chatData.id} isOwner={isOwnerOfMessage} data={chatData} />
       );

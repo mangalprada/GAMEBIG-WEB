@@ -4,12 +4,12 @@ import { useAuth } from '../../../context/authContext';
 
 export default function NoOrganization() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
   const createOrgButtonClickHandler = () => {
-    console.log('User', user.uid);
+    console.log('User', userData.uid);
 
-    if (user.uid === undefined || user.uid === '') {
+    if (userData.uid === undefined || userData.uid === '') {
       router.push('/auth');
     } else {
       router.push('/organization/create');

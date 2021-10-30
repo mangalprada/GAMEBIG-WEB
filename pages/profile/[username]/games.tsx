@@ -22,7 +22,7 @@ export default function Home({
   userData: UserData;
   savedGames: Array<GamerData>;
 }) {
-  const { user, signout } = useAuth();
+  const { userData: user, signout } = useAuth();
   const [open, setOpen] = useState(false);
   const [currentGames, setCurrentGames] = useState(savedGames);
 

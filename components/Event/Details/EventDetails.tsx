@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState(false);
   const [message, setMessage] = useState({
@@ -28,11 +28,11 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
   });
 
   useEffect(() => {
-    if (data.id && user.username) {
+    if (data.id && userData.username) {
       db.collection('events')
         .doc(data.id)
         .collection('teams')
-        .where('usernames', 'array-contains', user.username)
+        .where('usernames', 'array-contains', userData.username)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -42,7 +42,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
           });
         });
     }
-  }, [data.id, user.username]);
+  }, [data.id, userData.username]);
 
   const handleClose = () => {
     setShowInfo(false);

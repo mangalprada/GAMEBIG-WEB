@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext } from 'next';
-import nookies from 'nookies';
 import ProfileCard from '../../components/Friends/ProfileCard';
 import TabNavigator from '../../components/Navigation/TabNavigation/TabNavigator';
 import { useAuth } from '../../context/authContext';
@@ -38,6 +37,7 @@ const Friends = ({
             receivedFriendRequests.map((friendRequest) => (
               <div key={friendRequest.sender.uid}>
                 <ProfileCard
+                  name={friendRequest.sender.name}
                   about={friendRequest.sender.about}
                   games={[]}
                   username={friendRequest.sender.username}
@@ -54,6 +54,7 @@ const Friends = ({
           {friendsSuggestions.map((suggestion) => (
             <div key={suggestion.uid}>
               <ProfileCard
+                name={suggestion.name}
                 about={suggestion.about}
                 games={[]}
                 username={suggestion.username}

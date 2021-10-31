@@ -1,4 +1,6 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
+import { useAuth } from '../../../context/authContext';
+import { db } from '../../../firebase/firebaseClient';
 import algoliaClient from '../../../lib/algolia';
 import debounce from '../../../lib/debounce';
 import { UserData } from '../../../utilities/types';
@@ -10,18 +12,32 @@ const MessageRoomList = ({
 }: {
   setReceiver: (user: any) => void;
 }) => {
+  const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [users, setUsers] = useState<any>([]);
+  const [messageRooms, setMessageRooms] = useState<any>([]);
 
-  const getUser = (query: string) => {
+  useEffect(() => {
+    db.collection('messageRooms')
+      .where('usernames', 'array-contains', userData.username)
+      .get()
+      .then((snapshot) => {
+        const rooms = snapshot.docs.map((doc) => ({
+          ...(doc.data() as UserData),
+          docId: doc.id,
+        }));
+        setMessageRooms(rooms);
+      });
+  }, [userData.username]);
+
+  const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');
     index
       .search(query, {
         attributesToRetrieve: ['name', 'username', 'photoURL'],
       })
       .then(({ hits }) => {
-        setUsers(hits);
+        setMessageRooms(hits);
       });
   };
 
@@ -32,11 +48,14 @@ const MessageRoomList = ({
         onChangeHandler={(e: ChangeEvent) => {
           const target = e.target as HTMLInputElement;
           setQuery(target.value);
-          const debouncedGetSearch = debounce(() => getUser(target.value), 500);
+          const debouncedGetSearch = debounce(
+            () => searchUser(target.value),
+            500
+          );
           if (target.value.trim() !== '') {
             debouncedGetSearch();
           } else {
-            setUsers([]);
+            setMessageRooms([]);
           }
         }}
         placeHolder="Search someone and send a message..."
@@ -45,7 +64,7 @@ const MessageRoomList = ({
         errorMessage={errorMsg}
       />
       <div className="h-full overflow-auto pr-3">
-        {users.map((user: any, index: number) => {
+        {messageRooms.map((user: any, index: number) => {
           return (
             <div key={index}>
               <MessageRoom

@@ -1,13 +1,14 @@
 import { useState, FormEvent } from 'react';
 import { useAuth } from '../../context/authContext';
+import { db } from '../../firebase/firebaseClient';
 import { postMessage } from '../../lib/chatMethods';
 import { InputChat } from '../../utilities/contact/contact';
 
 export default function MessageInput({
-  receiverUsername,
+  receivingUser,
   messageRoomId,
 }: {
-  receiverUsername: string;
+  receivingUser: any;
   messageRoomId?: string;
 }) {
   const [message, setMessage] = useState<string>('');
@@ -23,6 +24,78 @@ export default function MessageInput({
     };
     const chatId = await postMessage(chat);
     setMessage('');
+  };
+
+  const createMessageRoom = async () => {
+    let roomId = '';
+    await db
+      .collection('messageRooms')
+      .add({
+        usernames: [userData.username, receivingUser.username],
+        userDetails: {
+          [userData.username]: {
+            uid: userData.uid,
+            username: userData.username,
+            photoURL: userData.photoURL,
+            name: userData.name,
+          },
+          [receivingUser.username]: {
+            uid: receivingUser.uid,
+            username: receivingUser.username,
+            photoURL: receivingUser.photoURL,
+            name: receivingUser.name,
+          },
+        },
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastMessage: '',
+        noOfUnseenMessages: 0,
+      })
+      .then(function (docRef) {
+        roomId = docRef.id;
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+      });
+    return roomId;
+  };
+
+  const updateMessageRoom = async ({
+    roomId,
+    message,
+  }: {
+    roomId: string;
+    message: string;
+  }) => {
+    await db
+      .collection('messageRooms')
+      .doc(roomId)
+      .set({
+        updatedAt: new Date(),
+        lastMessage: message,
+        noOfUnseenMessages: 0, // increment
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+      });
+  };
+
+  const sendMessage = async () => {
+    if (message === '') return;
+
+    let roomId;
+    if (!messageRoomId) {
+      roomId = await createMessageRoom();
+    } else {
+      roomId = messageRoomId;
+    }
+    db.collection('messageRooms').doc(roomId).collection('messages').add({
+      message: 'test',
+      createdAt: new Date(),
+    });
+    if (messageRoomId) {
+      updateMessageRoom({ roomId, message });
+    }
   };
 
   return (
@@ -44,7 +117,11 @@ export default function MessageInput({
         onChange={(event) => setMessage(event.target.value)}
       />
 
-      <button className="outline-none focus:outline-none" type="submit">
+      <button
+        onClick={sendMessage}
+        className="outline-none focus:outline-none"
+        type="submit"
+      >
         <svg
           className="fill-current text-indigo-600 transform rotate-90"
           height={46}

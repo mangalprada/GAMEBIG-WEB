@@ -1,5 +1,6 @@
 export interface FriendRequest {
   receiver: {
+    name: string;
     photoURL: string;
     username: string;
     about: string;
@@ -7,6 +8,7 @@ export interface FriendRequest {
     uid: string;
   };
   sender: {
+    name: string;
     photoURL: string;
     username: string;
     about: string;

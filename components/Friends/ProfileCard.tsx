@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
@@ -24,6 +25,7 @@ const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
 
 type Props = {
   photoURL?: string;
+  name?: string;
   username: string;
   about?: string;
   games: string[];
@@ -58,23 +60,26 @@ const ProfileCard = ({
   about,
   games,
   uid,
+  name,
   to,
   id,
 }: Props) => {
   const { userData } = useAuth();
+  const router = useRouter();
 
   const sendFriendRequest = () => {
     db.collection('friendRequests')
       .add({
         from: userData.uid,
         sender: {
+          name: userData.name,
           photoURL: userData.photoURL,
           username: userData.username,
           about: userData.about,
           games: userData.games,
           uid: userData.uid,
         },
-        receiver: { photoURL, username, about, games, uid },
+        receiver: { name, photoURL, username, about, games, uid },
         to: uid,
       })
       .then(() => {
@@ -88,7 +93,9 @@ const ProfileCard = ({
   const acceptFriendRequest = () => {
     db.collection('friends')
       .add({
-        friend: { photoURL, username, about, games, uid },
+        friendUsername: username,
+        friendUID: uid,
+        friend: { photoURL, username, name, about, games, uid },
         username: userData.username,
         uid: userData.uid,
       })
@@ -115,6 +122,9 @@ const ProfileCard = ({
 
   return (
     <div
+      onClick={() => {
+        router.push(`/profile/${username}`);
+      }}
       className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
         gap-2 rounded-lg bg-gray-900 transform hover:-translate-y-4 transition duration-500 ease-in-out cursor-pointer"
     >
@@ -129,14 +139,15 @@ const ProfileCard = ({
           />
         </div>
       ) : null}
-      <span className="text-indigo-600 text-xl">{username}</span>
+      <span className="text-indigo-600 text-xl">{name}</span>
+      <span className="text-gray-300 text-xl">{username}</span>
       <span className="text-gray-300 text-center font-sans">{about}</span>
       <div className="flex flex-wrap justify-center">
         {games.map((game: string, index: number) => (
           <GameBadge key={index} gamecode={game} />
         ))}
       </div>
-      {true ? (
+      {to ? (
         <div className="flex flex-col w-full gap-2">
           <Button
             onClick={acceptFriendRequest}
@@ -153,7 +164,7 @@ const ProfileCard = ({
         <Button
           onClick={sendFriendRequest}
           text="Add Friend"
-          classname="bg-Indigo-600"
+          classname="bg-indigo-600"
         />
       )}
     </div>

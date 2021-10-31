@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { games } from '../../utilities/GameList';
 import { useAuth } from '../../context/authContext';
 import { Chat } from '../../utilities/contact/contact';
@@ -8,42 +9,67 @@ import MessageInput from './MessageInput';
 import { db } from '../../firebase/firebaseClient';
 
 interface Props {
+  messageRoomId?: string;
   receivingUser: any;
 }
 
-export default function ChatContainer({ receivingUser }: Props) {
-  const scrollLast = useRef<HTMLDivElement>(null);
+export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
   const { userData } = useAuth();
+  const scrollLast = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [messages, setMessages] = useState<any>([]);
 
-  // useEffect(() => {
-  //   db.collection('messages')
-  //     .where('usernames', 'array-contains', [
-  //       userData.username,
-  //       receivingUser.username,
-  //     ])
-  //     .get();
-  // });
+  useEffect(() => {
+    if (messageRoomId) {
+      db.collection('messageRooms')
+        .doc(messageRoomId)
+        .collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot((snapshot) => {
+          const messages: any = [];
+          snapshot.forEach((doc) => {
+            messages.push({
+              ...doc.data(),
+              id: doc.id,
+            });
+          });
+          setMessages(messages);
+        });
+    }
+  }, [messageRoomId]);
 
-  // useEffect(() => {
-  //   scrollLast.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [chatData]);
+  useEffect(() => {
+    scrollLast.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  // const messages =
-  //   chatData &&
-  //   chatData.map((chatData: Chat) => {
-  //     const isOwnerOfMessage = chatData.userId === userData.uid;
-  //     return (
-  //       <Message key={chatData.id} isOwner={isOwnerOfMessage} data={chatData} />
-  //     );
-  //   });
+  const messagesListView =
+    messages &&
+    messages.map((messages: any) => {
+      const isOwnerOfMessage = messages.userId === userData.uid;
+      return (
+        <Message key={messages.id} isOwner={isOwnerOfMessage} data={messages} />
+      );
+    });
 
-  if (!receivingUser) return null;
+  const openProfile = () => {
+    router.push(`/profile/${receivingUser.username}`);
+  };
+
+  if (!receivingUser)
+    return (
+      <div className="text-right font-sans font-bold text-3xl text-indigo-600">
+        Chat with your fellow gaming Warriors!
+      </div>
+    );
 
   return (
     <div className="h-screen w-3/5 hidden md:flex flex-col">
       <div className="flex gap-6 items-center justify-start px-4 bg-gray-900 rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800">
         {receivingUser.photoURL ? (
-          <div className="relative h-12 w-12 ">
+          <div
+            onClick={openProfile}
+            className="relative h-12 w-12 cursor-pointer"
+          >
             <Image
               src={receivingUser.photoURL}
               alt="Picture of a friend"
@@ -53,8 +79,18 @@ export default function ChatContainer({ receivingUser }: Props) {
             />
           </div>
         ) : null}
-        <span className="text-2xl text-gray-300">{receivingUser.name}</span>
-        <span className="text-xl text-gray-300">{receivingUser.username}</span>
+        <span
+          onClick={openProfile}
+          className="text-2xl text-gray-300 cursor-pointer"
+        >
+          {receivingUser.name}
+        </span>
+        <span
+          onClick={openProfile}
+          className="text-xl text-gray-300 cursor-pointer"
+        >
+          {receivingUser.username}
+        </span>
       </div>
       <div
         className={
@@ -63,9 +99,12 @@ export default function ChatContainer({ receivingUser }: Props) {
         }
       >
         {/* {messages} */}
-        <div ref={scrollLast}></div>
+        <div ref={scrollLast}>{messagesListView}</div>
       </div>
-      <MessageInput receiverUsername={receivingUser.username as string} />
+      <MessageInput
+        messageRoomId={messageRoomId}
+        receivingUser={receivingUser}
+      />
     </div>
   );
 }

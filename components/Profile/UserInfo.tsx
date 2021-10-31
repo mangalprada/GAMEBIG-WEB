@@ -15,6 +15,7 @@ import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
+import FriendshipButtons from '../Friends/FriendshipButtons';
 
 type Props = {
   userData: UserData;
@@ -88,9 +89,14 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
               type="normal"
               name="EDIT PROFILE"
             />
-          ) : null}
+          ) : (
+            <FriendshipButtons
+              profilePagePhotoURL={userData.photoURL}
+              profilePageName={userData.name}
+              profilePageUsername={userData.username}
+            />
+          )}
         </div>
-
         <div className="space-y-2 justify-center w-full mt-3 ml-3">
           {/**User basic details */}
           <div>

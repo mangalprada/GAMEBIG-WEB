@@ -11,7 +11,6 @@ import { games } from '../../../utilities/GameList';
 import { db } from '../../../firebase/firebaseClient';
 import TextButton from '../../UI/Buttons/TextButton';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
-import FixedButton from '../../UI/Buttons/FixedButton';
 
 interface Props {
   data: EventData;

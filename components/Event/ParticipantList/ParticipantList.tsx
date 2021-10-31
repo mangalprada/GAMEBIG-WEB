@@ -21,14 +21,16 @@ export default function ParticipantList({ tId }: Props) {
   }, [teamsArr]);
 
   const tableCell = participants.map((team) => {
-    const teamMates =
-      team.players[0] +
-      ', ' +
-      team.players[1] +
-      ', ' +
-      team.players[2] +
-      ', ' +
-      team.players[3];
+    let teamMates = '';
+    team.players.map((player: string) => {
+      if (teamMates === '') {
+        teamMates = teamMates + player;
+      } else {
+        teamMates = teamMates + ',  ' + player;
+      }
+    });
+    console.log(team, teamMates);
+
     return (
       <tr key={team.leader}>
         <td className="px-5 py-2 font-semibold">{team.teamName}</td>

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import NavigationItem from './NavigationItem/NavigationItem';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
-import ForumIcon from '../../UI/Icons/NavIcons/ForumIcon';
+import ForumIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import { useAuth } from '../../../context/authContext';
 
 export default function PrimaryNavigationItems() {

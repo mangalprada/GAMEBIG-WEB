@@ -35,11 +35,13 @@ function useProvideAuth() {
   const [user, setUser] = useState<User>({} as User);
   const [userData, setUserData] = useState<UserData>({} as UserData);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
-  const receivedFriendRequests: FriendRequest[] = [];
+  const [receivedFriendRequests, setReceivedFriendRequests] = useState(
+    [] as FriendRequest[]
+  );
 
   const signout = async () => {
+    await router.push('/');
     await firebase.auth().signOut();
-    router.push('/');
     setUser({} as User);
     setUserData({} as UserData);
     setAuthPageNumber(1);
@@ -47,7 +49,6 @@ function useProvideAuth() {
 
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
     firebase.auth().useDeviceLanguage();
-    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -143,18 +144,20 @@ function useProvideAuth() {
   };
 
   useEffect(() => {
-    const checkFriendRequests = (uid: string) =>
+    const checkFriendRequests = (username: string) =>
       db
         .collection('friendRequests')
-        .where('to', '==', uid)
+        .where('to', '==', username)
         .get()
         .then((querySnapshot) =>
-          querySnapshot.forEach((doc) =>
-            receivedFriendRequests.push({
+          querySnapshot.forEach((doc) => {
+            const requests = [];
+            requests.push({
               id: doc.id,
               ...(doc.data() as FriendRequest),
-            })
-          )
+            });
+            setReceivedFriendRequests(requests);
+          })
         )
         .catch((err) => console.log(err));
     const getAndSetUserData = async (currentUser: {
@@ -167,6 +170,7 @@ function useProvideAuth() {
       setUser({ uid, name: displayName, photoURL });
       if (userData) {
         setUserData(userData);
+        checkFriendRequests(userData.username);
       }
     };
 
@@ -181,7 +185,6 @@ function useProvideAuth() {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           getAndSetUserData({ uid, displayName, photoURL });
-          checkFriendRequests(uid);
         }
       }
     });

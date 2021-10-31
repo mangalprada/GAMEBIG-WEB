@@ -9,6 +9,7 @@ interface Props {
 export default function Message({ data, isOwner }: Props) {
   const date =
     data.createdAt && getDecoratedTime(data.createdAt.toDate().toISOString());
+  console.log(data, '.createdAt.toDate().toISOString()');
 
   return (
     <div

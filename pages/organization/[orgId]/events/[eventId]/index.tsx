@@ -10,8 +10,10 @@ import { useAuth } from '../../../../../context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchEventDataById } from '../../../../../lib/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
+import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
 import SoloRegistrationForm from '../../../../../components/Event/Register/SoloRegistrationForm';
 import { db } from '../../../../../firebase/firebaseClient';
+import router from 'next/router';
 
 interface Props {
   orgId: string;
@@ -24,6 +26,8 @@ export default function Event({ orgId, eventData }: Props) {
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
+
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
 
   let isOrganizer = linkedOrganizationId === orgId ? true : false;
 
@@ -45,9 +49,13 @@ export default function Event({ orgId, eventData }: Props) {
     }
   }, [eventData.id, username]);
 
-  const unregister = () => {
-    db.collection('events').doc(eventData.id).collection('teams').doc(teamId)
-      .delete;
+  const unregisterHandler = () => {
+    db.collection('events')
+      .doc(eventData.id)
+      .collection('teams')
+      .doc(teamId)
+      .delete();
+    router.push('/');
   };
 
   return (
@@ -72,6 +80,8 @@ export default function Event({ orgId, eventData }: Props) {
           Squad: (
             <RegisterEventForm
               teamSize={4}
+              setTeamId={setTeamId}
+              setIsAlertOpen={() => setIsAlertOpen(true)}
               gameCode={eventData.gameCode}
               eventId={eventData.id}
               setIsRegistered={setIsRegistered}
@@ -80,6 +90,8 @@ export default function Event({ orgId, eventData }: Props) {
           Duo: (
             <RegisterEventForm
               teamSize={2}
+              setTeamId={setTeamId}
+              setIsAlertOpen={() => setIsAlertOpen(true)}
               gameCode={eventData.gameCode}
               eventId={eventData.id}
               setIsRegistered={setIsRegistered}
@@ -94,16 +106,31 @@ export default function Event({ orgId, eventData }: Props) {
           ),
         }[eventData.mode]
       ) : (
-        <div className="p-10 flex flex-col gap-4 font-sans text-gray-500 font-semibold text-xl">
-          <span>You have already registered for this event</span>
+        <div
+          className={
+            'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
+            'font-semibold text-xl text-center sm:text-left'
+          }
+        >
+          <span>You have registered for this event!</span>
           <span
-            onClick={unregister}
-            className="text-gray-400 bg-gray-800 hover:bg-gray-700 rounded-md p-3 w-32"
+            onClick={unregisterHandler}
+            className={
+              'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
+              'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
+            }
           >
-            Unregister
+            UNREGISTER
           </span>
         </div>
       )}
+      <SnackbarAlert
+        open={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        autoHideDuration={3000}
+        type="success"
+        message={{ label: 'Registered', message: 'Registration Successful' }}
+      />
     </Aux>
   );
 }

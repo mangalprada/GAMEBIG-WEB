@@ -2,24 +2,24 @@ import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { db } from '../../../firebase/firebaseClient';
 import { EventData } from '../../../utilities/eventItem/types';
-import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
-import LocationIcon from '../../UI/Icons/EventIcons/LocationIcon';
-import TrophyIcon from '../../UI/Icons/EventIcons/TrophyIcon';
-import EsportsIcon from '../../UI/Icons/EventIcons/EsportsIcon';
-import MoneyIcon from '../../UI/Icons/EventIcons/MoneyIcon';
-import AccessTimeIcon from '../../UI/Icons/EventIcons/AccessTimeIcon';
-import TextButton from '../../UI/Buttons/TextButton';
-import FixedButton from '../../UI/Buttons/FixedButton';
-import EventIcon from '../../UI/Icons/EventIcons/EventIcon';
-import HourglassIcon from '../../UI/Icons/EventIcons/HourglassIcon';
-import RoomEntryIcon from '../../UI/Icons/EventIcons/RoomEntryIcon';
+import HourglassIcon from '@/components/UI/Icons/EventIcons/HourglassIcon';
+import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
+import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
+import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
+import TrophyIcon from '@/components/UI/Icons/EventIcons/TrophyIcon';
+import EventIcon from '@/components/UI/Icons/EventIcons/EventIcon';
+import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
+import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
+import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
+import TextButton from '@/components/UI/Buttons/TextButton';
+import FixedButton from '@/components/UI/Buttons/FixedButton';
 import EventCardRowItem from './EventCardRowItem';
-import { useAuth } from '../../../context/authContext';
-import { games } from '../../../utilities/GameList';
+import { useAuth } from '@/context/authContext';
+import { games } from '@utilities/GameList';
 import {
   getDecoratedDate,
   getDecoratedTime,
-} from '../../../utilities/functions/dateConvert';
+} from '@utilities/functions/dateConvert';
 
 type Props = {
   data: EventData;
@@ -119,7 +119,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
         <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
           {`Registration open till 
           ${getDecoratedDate(data.startTime)}, 
-          ${getDecoratedTime(data.startTime)}`}
+          ${getDecoratedTime(data.startTime, -30)}`}
         </span>
       </div>
       <div className="flex flex-row justify-between md:mx-20 mx-8">

@@ -42,10 +42,16 @@ export const getDecoratedTime = (
   let minutes: string | number = newDate.getMinutes();
   if (endTime) {
     minutes += endTime;
-    hours = minutes >= 60 ? hours + 1 : hours;
-    minutes = minutes >= 60 ? minutes - 60 : minutes;
+    if (minutes > 0) {
+      hours = minutes >= 60 ? hours + 1 : hours;
+      minutes = minutes >= 60 ? minutes - 60 : minutes;
+    } else {
+      hours = minutes < 0 ? hours - 1 : hours;
+      hours = hours < 0 ? hours + 24 : hours;
+      minutes = minutes < 0 ? minutes + 60 : minutes;
+    }
   }
-  let ampm = hours >= 12 ? 'PM' : 'PM';
+  let ampm = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12;
   hours = hours ? hours : 12;
   minutes = minutes < 10 ? '0' + minutes : minutes;

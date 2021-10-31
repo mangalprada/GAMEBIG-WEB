@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { db } from '../../../firebase/firebaseClient';
 import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
@@ -7,12 +7,14 @@ import GamerDetails from './GamerDetails';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
-import SnackbarAlert from '../../UI/Snackbar/SnackBar';
+import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
 interface Props {
   eventId: string;
   gameCode: string;
+  setIsAlertOpen: () => void;
   teamSize: number;
   setIsRegistered: (val: boolean) => void;
+  setTeamId: Dispatch<SetStateAction<string>>;
 }
 
 export default function RegisterEventForm({
@@ -20,6 +22,8 @@ export default function RegisterEventForm({
   gameCode,
   teamSize,
   setIsRegistered,
+  setIsAlertOpen,
+  setTeamId,
 }: Props) {
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
@@ -128,6 +132,8 @@ export default function RegisterEventForm({
               ),
               2: (
                 <GamerDetails
+                  setIsAlertOpen={setIsAlertOpen}
+                  setTeamId={setTeamId}
                   teamSize={teamSize}
                   eventId={eventId}
                   onCancel={closeBackdrop}

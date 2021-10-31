@@ -15,6 +15,7 @@ import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
+import FriendshipButtons from '../Friends/FriendshipButtons';
 
 type Props = {
   userData: UserData;
@@ -22,7 +23,7 @@ type Props = {
 
 const UserInfo: FC<Props> = ({ userData }: Props) => {
   const router = useRouter();
-  const { user, signout } = useAuth();
+  const { userData: user, signout } = useAuth();
   const [showMore, setShowMore] = useState(false);
 
   const goToEditPage = () => {
@@ -101,13 +102,18 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
           </div>
           {userData.username === user.username ? (
             <TextButton
-              onClickHandler={goToEditPage}
+              onClick={goToEditPage}
               type="normal"
               name="EDIT PROFILE"
             />
-          ) : null}
+          ) : (
+            <FriendshipButtons
+              profilePagePhotoURL={userData.photoURL}
+              profilePageName={userData.name}
+              profilePageUsername={userData.username}
+            />
+          )}
         </div>
-
         <div className="space-y-2 justify-center w-full mt-3 ml-3">
           {/**User basic details */}
           <div>

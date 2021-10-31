@@ -72,7 +72,7 @@ export default function CreateEventForm() {
           <FixedButton
             name="Cancel"
             isDangerous={true}
-            onClickHandler={() => router.back()}
+            onClick={() => router.back()}
           />
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
@@ -139,10 +139,7 @@ export default function CreateEventForm() {
               value={formik.values.description}
               onChangeHandler={formik.handleChange}
             />
-            <ResponsiveButton
-              name="Save"
-              onClickHandler={formik.handleSubmit}
-            />
+            <ResponsiveButton name="Save" onClick={formik.handleSubmit} />
           </form>
         </div>
       </div>

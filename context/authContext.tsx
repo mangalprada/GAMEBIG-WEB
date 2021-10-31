@@ -4,18 +4,15 @@ import nookies from 'nookies';
 import localforage from 'localforage';
 import firebase, { db } from '../firebase/firebaseClient';
 import { User, UserData } from '../utilities/types';
+import { FriendRequest } from '../utilities/friends/friends';
 
 const authContext = createContext({
-  user: { uid: '', username: '', photoURL: '' } as User,
   userData: {} as UserData,
-  updateUser: (user: User) => {},
   updateOrgId: (id: string) => {},
   updateOrgName: (name: string) => {},
   authPageNumber: 1,
-  updateDisplayName: (displayName: string): Promise<void> => {
-    return Promise.resolve();
-  },
-  createUser: (userData: UserData): Promise<void> => {
+  receivedFriendRequests: [] as FriendRequest[],
+  saveUser: (userData: UserData): Promise<void> => {
     return Promise.resolve();
   },
   updateAuthPageNumber: (pageNumber: number) => {},
@@ -38,6 +35,7 @@ function useProvideAuth() {
   const [user, setUser] = useState<User>({} as User);
   const [userData, setUserData] = useState<UserData>({} as UserData);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
+  const receivedFriendRequests: FriendRequest[] = [];
 
   const signout = async () => {
     await firebase.auth().signOut();
@@ -78,7 +76,7 @@ function useProvideAuth() {
     await db
       .collection('users')
       .where('username', '==', username)
-      .where('username', '!=', user.username)
+      .where('username', '!=', user.uid)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
@@ -91,37 +89,27 @@ function useProvideAuth() {
         return false;
       });
 
-  const updateDisplayName = async (displayName: string) => {
-    const user = firebase.auth().currentUser;
-    if (user)
-      user
-        .updateProfile({
-          displayName,
-        })
-        .then(() => {
-          console.log('User display name updated successfully');
-        })
-        .catch((error) => {
-          console.log('User display name update failed');
-        });
-  };
-
-  const createUser = async (userData: UserData | UserData) => {
+  const saveUser = async (userData: UserData) => {
     try {
       await db
         .collection('users')
         .doc(user.uid)
-        .set({ ...userData, uid: user.uid, photoURL: user.photoURL });
+        .set({
+          ...userData,
+          name: user.name,
+          uid: user.uid,
+          photoURL: user.photoURL,
+        });
     } catch (err) {
       console.log('err', err);
     }
   };
 
-  const getUser = async (username: string) => {
+  const getUser = async (uid: string) => {
     const user: UserData[] = [];
     await db
       .collection('users')
-      .where('username', '==', username)
+      .where('uid', '==', uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -141,38 +129,50 @@ function useProvideAuth() {
     nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
     if (uid && displayName && photoURL) {
-      const userData = await getUser(displayName);
+      const userData = await getUser(uid);
+      setUser({ uid, name: displayName, photoURL });
       if (userData) {
         router.push('/');
         setAuthPageNumber(1);
-        setUser({ uid, username: displayName, photoURL });
         setUserData(userData);
       } else {
-        setUser({ uid, username: uid, photoURL });
+        saveUser({ username: uid, uid } as UserData);
         setAuthPageNumber(2);
       }
     }
   };
 
   useEffect(() => {
+    const checkFriendRequests = (uid: string) =>
+      db
+        .collection('friendRequests')
+        .where('to', '==', uid)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach((doc) =>
+            receivedFriendRequests.push({
+              id: doc.id,
+              ...(doc.data() as FriendRequest),
+            })
+          )
+        )
+        .catch((err) => console.log(err));
     const getAndSetUserData = async (currentUser: {
       uid: string;
       displayName: string;
       photoURL: string;
     }) => {
       const { uid, displayName, photoURL } = currentUser;
-      const userData = await getUser(displayName);
+      const userData = await getUser(uid);
+      setUser({ uid, name: displayName, photoURL });
       if (userData) {
-        setUser({ uid, username: displayName, photoURL });
         setUserData(userData);
-      } else {
-        setUser({ uid, username: displayName.split(' ')[0], photoURL });
       }
     };
 
     return firebase.auth().onIdTokenChanged(async (user) => {
       if (!user) {
-        setUser({ uid: '', username: '', photoURL: '' });
+        setUser({ uid: '', name: '', photoURL: '' });
         nookies.set(undefined, 'token', '', {});
         return;
       } else {
@@ -181,6 +181,7 @@ function useProvideAuth() {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           getAndSetUserData({ uid, displayName, photoURL });
+          checkFriendRequests(uid);
         }
       }
     });
@@ -266,43 +267,35 @@ function useProvideAuth() {
     setAuthPageNumber(pageNo);
   };
 
-  const updateUser = (user: User) => {
-    setUser(user);
-  };
-
   return {
-    user,
     userData,
     updateOrgId,
-    updateUser,
     updateOrgName,
     authPageNumber,
-    updateDisplayName,
-    createUser,
+    saveUser,
     isUsernameTaken,
     updateAuthPageNumber,
     signout,
     signInByFacebook,
     signInByGoogle,
+    receivedFriendRequests,
   };
 }
 
 type Props = {
-  user?: User;
   isSignedIn?: boolean;
   userData?: UserData;
   updateOrgId?: () => void;
-  updateUser?: (user: User) => void;
   updateOrgName?: (name: string) => void;
   children: React.ReactNode;
   authPageNumber?: number;
-  updateDisplayName?: (displayName: string) => void;
-  createUser?: (userData: UserData) => void;
+  saveUser?: (userData: UserData) => void;
   isUsernameTaken?: (username: string) => boolean;
   updateAuthPageNumber?: (param: number) => void;
   signout?: () => void;
   signInByFacebook?: () => void;
   signInByGoogle?: () => void;
+  receivedFriendRequests?: FriendRequest[];
 };
 
 export const AuthProvider = ({ children }: Props) => {

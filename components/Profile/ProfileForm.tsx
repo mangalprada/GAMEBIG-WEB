@@ -41,7 +41,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken, updateDisplayName } = useAuth();
+  const { isUsernameTaken } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const router = useRouter();
@@ -67,7 +67,6 @@ function ProfileForm({ oldValues, push }: Props) {
   };
 
   const saveUserData = async (username: string, userData: UserData) => {
-    updateDisplayName(userData.username);
     try {
       await db.collection('users').doc(oldValues.docId).update(userData);
     } catch (err) {
@@ -92,7 +91,7 @@ function ProfileForm({ oldValues, push }: Props) {
         <FixedButton
           name="Cancel"
           isDangerous={true}
-          onClickHandler={() => router.back()}
+          onClick={() => router.back()}
         />
       </div>
       <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">

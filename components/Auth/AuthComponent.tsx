@@ -72,7 +72,7 @@ const AuthComponent: FC = () => {
         <TextButton
           name="Cancel"
           type="normal"
-          onClickHandler={() => router.push('/')}
+          onClick={() => router.push('/')}
         />
       </div>
     </div>

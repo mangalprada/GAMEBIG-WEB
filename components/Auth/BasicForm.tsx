@@ -22,14 +22,7 @@ type Props = {
 };
 
 function BasicForm({ userData, setUserData }: Props) {
-  const {
-    user,
-    updateAuthPageNumber,
-    updateDisplayName,
-    createUser,
-    updateUser,
-    isUsernameTaken,
-  } = useAuth();
+  const { updateAuthPageNumber, saveUser, isUsernameTaken } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const formik = useFormik({
@@ -41,10 +34,8 @@ function BasicForm({ userData, setUserData }: Props) {
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {
-        updateUser({ ...user, username: values.username });
-        createUser(values);
         setUserData(values);
-        updateDisplayName(values.username);
+        saveUser(values);
         updateAuthPageNumber(3);
       }
       setSubmitting(false);
@@ -73,7 +64,7 @@ function BasicForm({ userData, setUserData }: Props) {
         />
       </form>
       <div className="flex justify-center">
-        <FixedButton onClickHandler={formik.handleSubmit} name="Continue" />
+        <FixedButton onClick={formik.handleSubmit} name="Continue" />
       </div>
       <SnackbarAlert
         open={showError}

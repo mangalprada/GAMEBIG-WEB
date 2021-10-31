@@ -5,7 +5,7 @@ import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
 import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
 
 export default function SecondaryNavigationItems() {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const router = useRouter();
 
   const handleButtonClick = async () => {
@@ -14,7 +14,7 @@ export default function SecondaryNavigationItems() {
 
   return (
     <ul className="flex items-end space-x-2">
-      {user.username ? (
+      {userData.username ? (
         <>
           <NavigationItem
             href="/notification"
@@ -27,7 +27,7 @@ export default function SecondaryNavigationItems() {
             />
           </NavigationItem>
           <NavigationItem
-            href={`/profile/${user.username}`}
+            href={`/profile/${userData.username}`}
             isActive={
               router.pathname === '/profile/[username]' ||
               router.pathname === '/profile/[username]/teams' ||

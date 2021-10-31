@@ -78,7 +78,7 @@ export default function GamerDetails({
         >
           Cancel
         </span>
-        <FixedButton onClickHandler={handleRegister} name="Register" />
+        <FixedButton onClick={handleRegister} name="Register" />
       </section>
       {team &&
         team.gamers.map((gamer, index) => (

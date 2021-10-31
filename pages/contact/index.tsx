@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import ChatContainer from '../../components/Contact/ChatContainer';
-import TypeContainer from '../../components/Contact/ReplyContainer';
+import TypeContainer from '../../components/Contact/MessageInput';
 import Facebook from '../../components/UI/Icons/SocialIcons/FacebookIcon';
 import Instagram from '../../components/UI/Icons/SocialIcons/InstagramIcon';
 import Twitter from '../../components/UI/Icons/SocialIcons/TwitterIcon';
@@ -40,10 +40,10 @@ export default function Home() {
         <h1 className="text-xl px-4 pt-4 font-semibold font-sans text-indigo-500 tracking-wide">
           Or give us your feedback here
         </h1>
-        <div className="px-4 rounded-md min-h-full">
+        {/* <div className="px-4 rounded-md min-h-full">
           <ChatContainer chatDatas={messages} />
           <TypeContainer />
-        </div>
+        </div> */}
       </div>
     </div>
   );

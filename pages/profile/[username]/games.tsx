@@ -22,7 +22,7 @@ export default function Home({
   userData: UserData;
   savedGames: Array<GamerData>;
 }) {
-  const { user, signout } = useAuth();
+  const { userData: user, signout } = useAuth();
   const [open, setOpen] = useState(false);
   const [currentGames, setCurrentGames] = useState(savedGames);
 
@@ -57,10 +57,7 @@ export default function Home({
         <div className="w-11/12 md:w-2/3 mx-auto">
           <div className="flex justify-end mt-2 mr-1 md:mr-8">
             {userData.username === user.username ? (
-              <FixedButton
-                name="Update Games"
-                onClickHandler={() => setOpen(true)}
-              />
+              <FixedButton name="Update Games" onClick={() => setOpen(true)} />
             ) : null}
           </div>
           <div>

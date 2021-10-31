@@ -4,12 +4,12 @@ import { useAuth } from '../../../context/authContext';
 
 export default function NoOrganization() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { userData } = useAuth();
 
-  const onCreateOrgButtonClickHandler = () => {
-    console.log('User', user.uid);
+  const createOrgButtonClickHandler = () => {
+    console.log('User', userData.uid);
 
-    if (user.uid === undefined || user.uid === '') {
+    if (userData.uid === undefined || userData.uid === '') {
       router.push('/auth');
     } else {
       router.push('/organization/create');
@@ -46,7 +46,7 @@ export default function NoOrganization() {
       <div className="bottom-8">
         <ResponsiveButton
           name="Create Now!"
-          onClickHandler={onCreateOrgButtonClickHandler}
+          onClick={createOrgButtonClickHandler}
         />
       </div>
     </div>

@@ -48,13 +48,10 @@ function AddGames({
         </div>
       </div>
       <div className="flex justify-evenly w-full xl:px-52">
-        <FixedButton
-          name="Back"
-          onClickHandler={() => updateAuthPageNumber(2)}
-        />
+        <FixedButton name="Back" onClick={() => updateAuthPageNumber(2)} />
         <FixedButton
           name={currentGames.length === 0 ? 'Skip' : 'Finish'}
-          onClickHandler={handleFinish}
+          onClick={handleFinish}
         />
       </div>
     </>

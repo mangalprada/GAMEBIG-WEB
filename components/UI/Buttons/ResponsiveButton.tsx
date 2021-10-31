@@ -4,7 +4,7 @@ import { ButtonProps } from './types';
 const ResponsiveButton: FC<ButtonProps> = ({
   name,
   type,
-  onClickHandler,
+  onClick,
   isDisabled,
   isDangerous,
 }: ButtonProps) => {
@@ -22,7 +22,7 @@ const ResponsiveButton: FC<ButtonProps> = ({
                 : 'bg-indigo-600 hover:bg-green-500'))
         }
         type={type}
-        onClick={onClickHandler}
+        onClick={onClick}
         disabled={isDisabled}
         aria-label={name}
       >

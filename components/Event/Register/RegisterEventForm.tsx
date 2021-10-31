@@ -25,7 +25,7 @@ export default function RegisterEventForm({
   setIsAlertOpen,
   setTeamId,
 }: Props) {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
@@ -37,9 +37,9 @@ export default function RegisterEventForm({
   useEffect(() => {
     const getTeams = () => {
       const teams: Array<TeamType> = [];
-      if (user.username) {
+      if (userData.username) {
         db.collection('teams')
-          .where('gamers', 'array-contains-any', [user.username])
+          .where('gamers', 'array-contains-any', [userData.username])
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -56,7 +56,7 @@ export default function RegisterEventForm({
 
     const teams: TeamType[] = getTeams();
     setTeams(teams);
-  }, [user.username]);
+  }, [userData.username]);
 
   const closeBackdrop = () => {
     setOpen(false);
@@ -102,7 +102,7 @@ export default function RegisterEventForm({
         />
         <FixedButton
           isDisabled={disableRegister}
-          onClickHandler={() => {
+          onClick={() => {
             setBackdropItem(2);
             openBackdrop();
           }}
@@ -113,7 +113,7 @@ export default function RegisterEventForm({
         <span className="text-xl">OR</span>
       </div>
       <FixedButton
-        onClickHandler={() => {
+        onClick={() => {
           setBackdropItem(1);
           openBackdrop();
         }}

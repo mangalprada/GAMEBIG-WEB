@@ -11,7 +11,6 @@ import { games } from '../../../utilities/GameList';
 import { db } from '../../../firebase/firebaseClient';
 import TextButton from '../../UI/Buttons/TextButton';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
-import FixedButton from '../../UI/Buttons/FixedButton';
 
 interface Props {
   data: EventData;
@@ -19,7 +18,7 @@ interface Props {
 }
 
 export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState(false);
   const [message, setMessage] = useState({
@@ -28,11 +27,11 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
   });
 
   useEffect(() => {
-    if (data.id && user.username) {
+    if (data.id && userData.username) {
       db.collection('events')
         .doc(data.id)
         .collection('teams')
-        .where('usernames', 'array-contains', user.username)
+        .where('usernames', 'array-contains', userData.username)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -42,7 +41,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
           });
         });
     }
-  }, [data.id, user.username]);
+  }, [data.id, userData.username]);
 
   const handleClose = () => {
     setShowInfo(false);
@@ -52,11 +51,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
     <div className="font-sans">
       {/**Back Button */}
       <div className="flex justify-start">
-        <TextButton
-          name="Go Back"
-          type="fail"
-          onClickHandler={() => router.back()}
-        />
+        <TextButton name="Go Back" type="fail" onClick={() => router.back()} />
       </div>
 
       <div className="flex flex-row space-x-5 mx-3">

@@ -88,7 +88,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
         <FixedButton
           name="Cancel"
           isDangerous={true}
-          onClickHandler={() => router.back()}
+          onClick={() => router.back()}
         />
       </div>
       <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
@@ -226,7 +226,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
               name={organizationData ? 'Update' : 'Create'}
               type="submit"
               isDisabled={formik.isSubmitting}
-              onClickHandler={() => scrollToTop()}
+              onClick={() => scrollToTop()}
             />
           </div>
         </form>

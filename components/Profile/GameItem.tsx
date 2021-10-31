@@ -17,7 +17,7 @@ export default function GameItem({
   removeGame: (docId: string) => void;
   username: string;
 }) {
-  const { user } = useAuth();
+  const { userData } = useAuth();
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: { label: '', message: '' },
@@ -83,14 +83,10 @@ export default function GameItem({
             <span className="font-sans font-bold text-lg">{ingameid}</span>
           </div>
         </div>
-        {user.username === username ? (
+        {userData.username === username ? (
           <div className="flex justify-evenly mt-5">
-            <FixedButton name="EDIT" onClickHandler={() => setBackdrop(true)} />
-            <FixedButton
-              name="DELETE"
-              onClickHandler={deleteGame}
-              isDangerous
-            />
+            <FixedButton name="EDIT" onClick={() => setBackdrop(true)} />
+            <FixedButton name="DELETE" onClick={deleteGame} isDangerous />
           </div>
         ) : null}
       </div>

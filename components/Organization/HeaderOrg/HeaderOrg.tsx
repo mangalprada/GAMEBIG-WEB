@@ -64,12 +64,8 @@ const HeaderOrg: FC<Props> = ({ data }: Props) => {
           </div>
         </div>
         <div
-          onClick={() => {
-            console.log('dataid', data.id);
-
-            router.push(`/organization/${data.id}/edit`);
-          }}
-          className="text-gray-300 text-lg font-semibold font-sans hover:bg-gray-900 p-3 rounded-md"
+          onClick={() => router.push(`/organization/${data.id}/edit`)}
+          className="text-indigo-600 text-lg font-semibold font-sans hover:bg-gray-900 px-4 py-2 rounded-md"
         >
           EDIT
         </div>

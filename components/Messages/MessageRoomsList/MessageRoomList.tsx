@@ -65,15 +65,19 @@ const MessageRoomList = ({
         errorMessage={errorMsg}
       />
       <div className="h-full overflow-auto pr-3">
-        {messageRooms.map((user: any, index: number) => {
+        {messageRooms.map((room: any, index: number) => {
           return (
             <div key={index}>
               <MessageRoom
-                receiverName={user.name}
-                receiverUsername={user.username}
-                receiverPhotoURL={user.photoURL}
+                receiverName={room.userDetails[userData.username].name}
+                receiverUsername={room.userDetails[userData.username].username}
+                receiverPhotoURL={room.userDetails[userData.username].photoURL}
                 onClick={() => {
-                  setReceiver(user);
+                  setReceiver({
+                    name: room.userDetails[userData.username].name,
+                    username: room.userDetails[userData.username].username,
+                    photoURL: room.userDetails[userData.username].photoURL,
+                  });
                 }}
               />
             </div>

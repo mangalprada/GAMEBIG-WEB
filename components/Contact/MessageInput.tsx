@@ -15,19 +15,18 @@ export default function MessageInput({
 
   const createMessageRoom = async () => {
     let roomId = '';
+    console.log(userData, receivingUser);
     await db
       .collection('messageRooms')
       .add({
         usernames: [userData.username, receivingUser.username],
         userDetails: {
-          [userData.username]: {
-            uid: userData.uid,
+          [receivingUser.username]: {
             username: userData.username,
             photoURL: userData.photoURL,
             name: userData.name,
           },
-          [receivingUser.username]: {
-            uid: receivingUser.uid,
+          [userData.username]: {
             username: receivingUser.username,
             photoURL: receivingUser.photoURL,
             name: receivingUser.name,
@@ -35,8 +34,7 @@ export default function MessageInput({
         },
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        lastMessage: '',
-        noOfUnseenMessages: 0,
+        lastMessage: message,
       })
       .then(function (docRef) {
         roomId = docRef.id;
@@ -77,6 +75,7 @@ export default function MessageInput({
       roomId = messageRoomId;
     }
     db.collection('messageRooms').doc(roomId).collection('messages').add({
+      username: userData.username,
       message: 'test',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -88,7 +87,10 @@ export default function MessageInput({
   return (
     <form
       className="w-full pb-3 flex items-center justify-between pt-4"
-      onSubmit={sendMessage}
+      onSubmit={(e) => {
+        e.preventDefault();
+        sendMessage();
+      }}
     >
       <input
         aria-placeholder="Type Here"
@@ -105,7 +107,10 @@ export default function MessageInput({
       />
 
       <button
-        onClick={sendMessage}
+        onClick={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}
         className="outline-none focus:outline-none"
         type="submit"
       >

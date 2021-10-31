@@ -24,7 +24,7 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
       db.collection('messageRooms')
         .doc(messageRoomId)
         .collection('messages')
-        .orderBy('createdAt', 'asc')
+        .orderBy('updatedAt', 'asc')
         .onSnapshot((snapshot) => {
           const messages: any = [];
           snapshot.forEach((doc) => {
@@ -44,10 +44,10 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
 
   const messagesListView =
     messages &&
-    messages.map((messages: any) => {
-      const isOwnerOfMessage = messages.userId === userData.uid;
+    messages.map((message: any) => {
+      const isOwnerOfMessage = message.username === userData.username;
       return (
-        <Message key={messages.id} isOwner={isOwnerOfMessage} data={messages} />
+        <Message key={messages.id} isOwner={isOwnerOfMessage} data={message} />
       );
     });
 

@@ -79,7 +79,6 @@ export default function GamerDetails({
           Cancel
         </span>
         <FixedButton onClick={handleRegister} name="Register" />
-      </div>
       </section>
       {team &&
         team.gamers.map((gamer, index) => (

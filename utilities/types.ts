@@ -13,6 +13,7 @@ export interface UserData {
   username: string;
   name?: string | undefined;
   dob?: Date | undefined;
+  about?: string;
   country?: string;
   phoneNumber?: string | undefined;
   email?: string | undefined;
@@ -25,6 +26,7 @@ export interface UserData {
   linkedOrganizationId?: string | null;
   linkedOrganizationName?: string | null;
   fcmToken?: string | null;
+  games?: string[];
 }
 
 export interface GamerData {

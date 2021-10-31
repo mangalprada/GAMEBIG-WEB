@@ -4,13 +4,14 @@ import nookies from 'nookies';
 import localforage from 'localforage';
 import firebase, { db } from '../firebase/firebaseClient';
 import { User, UserData } from '../utilities/types';
-import { createSign } from 'crypto';
+import { FriendRequest } from '../utilities/friends/friends';
 
 const authContext = createContext({
   userData: {} as UserData,
   updateOrgId: (id: string) => {},
   updateOrgName: (name: string) => {},
   authPageNumber: 1,
+  receivedFriendRequests: [] as FriendRequest[],
   saveUser: (userData: UserData): Promise<void> => {
     return Promise.resolve();
   },
@@ -34,6 +35,7 @@ function useProvideAuth() {
   const [user, setUser] = useState<User>({} as User);
   const [userData, setUserData] = useState<UserData>({} as UserData);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
+  const receivedFriendRequests: FriendRequest[] = [];
 
   const signout = async () => {
     await firebase.auth().signOut();
@@ -134,13 +136,27 @@ function useProvideAuth() {
         setAuthPageNumber(1);
         setUserData(userData);
       } else {
-        saveUser({ username: uid, uid });
+        saveUser({ username: uid, uid } as UserData);
         setAuthPageNumber(2);
       }
     }
   };
 
   useEffect(() => {
+    const checkFriendRequests = (uid: string) =>
+      db
+        .collection('friendRequests')
+        .where('to', '==', uid)
+        .get()
+        .then((querySnapshot) =>
+          querySnapshot.forEach((doc) =>
+            receivedFriendRequests.push({
+              id: doc.id,
+              ...(doc.data() as FriendRequest),
+            })
+          )
+        )
+        .catch((err) => console.log(err));
     const getAndSetUserData = async (currentUser: {
       uid: string;
       displayName: string;
@@ -165,6 +181,7 @@ function useProvideAuth() {
         const { uid, displayName, photoURL } = user;
         if (uid && displayName && photoURL) {
           getAndSetUserData({ uid, displayName, photoURL });
+          checkFriendRequests(uid);
         }
       }
     });
@@ -261,6 +278,7 @@ function useProvideAuth() {
     signout,
     signInByFacebook,
     signInByGoogle,
+    receivedFriendRequests,
   };
 }
 
@@ -277,6 +295,7 @@ type Props = {
   signout?: () => void;
   signInByFacebook?: () => void;
   signInByGoogle?: () => void;
+  receivedFriendRequests?: FriendRequest[];
 };
 
 export const AuthProvider = ({ children }: Props) => {

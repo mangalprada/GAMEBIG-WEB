@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useAuth } from '../../context/authContext';
+import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
@@ -22,23 +23,105 @@ const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
 };
 
 type Props = {
-  image?: string;
+  photoURL?: string;
   username: string;
-  about: string;
+  about?: string;
   games: string[];
+  uid: string;
+  to?: string;
+  id?: string;
 };
 
-const ProfileCard = ({ image, username, about, games }: Props) => {
+const Button = ({
+  onClick,
+  classname,
+  text,
+}: {
+  onClick: () => void;
+  classname: string;
+  text: string;
+}) => (
+  <div
+    onClick={onClick}
+    className={
+      'flex items-center w-full justify-center font-sans text-base md:text-xl py-1 px-4 rounded-md ' +
+      classname
+    }
+  >
+    <span>{text}</span>
+  </div>
+);
+
+const ProfileCard = ({
+  photoURL,
+  username,
+  about,
+  games,
+  uid,
+  to,
+  id,
+}: Props) => {
   const { userData } = useAuth();
+
+  const sendFriendRequest = () => {
+    db.collection('friendRequests')
+      .add({
+        from: userData.uid,
+        sender: {
+          photoURL: userData.photoURL,
+          username: userData.username,
+          about: userData.about,
+          games: userData.games,
+          uid: userData.uid,
+        },
+        receiver: { photoURL, username, about, games, uid },
+        to: uid,
+      })
+      .then(() => {
+        console.log('Friend request sent');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const acceptFriendRequest = () => {
+    db.collection('friends')
+      .add({
+        friend: { photoURL, username, about, games, uid },
+        username: userData.username,
+        uid: userData.uid,
+      })
+      .then(() => {
+        console.log('Friend request accepted');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    deleteFriendRequest();
+  };
+
+  const deleteFriendRequest = () => {
+    db.collection('friendRequests')
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log('Friend request ignored');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div
       className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
         gap-2 rounded-lg bg-gray-900 transform hover:-translate-y-4 transition duration-500 ease-in-out cursor-pointer"
     >
-      {image ? (
+      {photoURL ? (
         <div className="h-32 w-32 md:h-52 md:w-52 relative">
           <Image
-            src={image}
+            src={photoURL}
             alt="Picture of a friend"
             layout="fill"
             objectFit="contain"
@@ -53,9 +136,26 @@ const ProfileCard = ({ image, username, about, games }: Props) => {
           <GameBadge key={index} gamecode={game} />
         ))}
       </div>
-      <div className="flex w-full justify-center bg-indigo-600 font-sans text-base md:text-xl py-1 px-4 rounded-md">
-        <span>Add Friend</span>
-      </div>
+      {true ? (
+        <div className="flex flex-col w-full gap-2">
+          <Button
+            onClick={acceptFriendRequest}
+            text="Accept"
+            classname="bg-indigo-600"
+          />
+          <Button
+            onClick={deleteFriendRequest}
+            text="Ignore"
+            classname="bg-gray-900 hover:bg-gray-800"
+          />
+        </div>
+      ) : (
+        <Button
+          onClick={sendFriendRequest}
+          text="Add Friend"
+          classname="bg-Indigo-600"
+        />
+      )}
     </div>
   );
 };

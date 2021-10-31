@@ -9,6 +9,7 @@ import { useAuth } from '../../../context/authContext';
 export default function PrimaryNavigationItems() {
   const {
     userData: { linkedOrganizationId },
+    receivedFriendRequests,
   } = useAuth();
   const router = useRouter();
 
@@ -50,7 +51,14 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/friends'}
         toolTip="Friends"
       >
-        <FriendsIcon isActive={router.pathname === '/friends'} size={36} />
+        <div className="flex justify-center">
+          <FriendsIcon isActive={router.pathname === '/friends'} size={36} />
+          {receivedFriendRequests.length > 0 ? (
+            <span className="badge mb-4 bg-red-500 rounded-full p-1 text-center object-right-top text-white text-xs -left-10">
+              {receivedFriendRequests.length}
+            </span>
+          ) : null}
+        </div>
       </NavigationItem>
       <NavigationItem
         href="/messages"

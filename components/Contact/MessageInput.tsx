@@ -1,7 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/firebaseClient';
-import { postMessage } from '../../lib/chatMethods';
+import firebase, { db } from '../../firebase/firebaseClient';
 import { InputChat } from '../../utilities/contact/contact';
 
 export default function MessageInput({
@@ -14,17 +13,17 @@ export default function MessageInput({
   const [message, setMessage] = useState<string>('');
   const { userData } = useAuth();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const chat: InputChat = {
-      userName: userData.username,
-      userId: userData.uid,
-      msg: message,
-      subHeader: '',
-    };
-    const chatId = await postMessage(chat);
-    setMessage('');
-  };
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const chat: InputChat = {
+  //     userName: userData.username,
+  //     userId: userData.uid,
+  //     msg: message,
+  //     subHeader: '',
+  //   };
+  //   const chatId = await postMessage(chat);
+  //   setMessage('');
+  // };
 
   const createMessageRoom = async () => {
     let roomId = '';
@@ -46,8 +45,8 @@ export default function MessageInput({
             name: receivingUser.name,
           },
         },
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastMessage: '',
         noOfUnseenMessages: 0,
       })
@@ -71,7 +70,7 @@ export default function MessageInput({
       .collection('messageRooms')
       .doc(roomId)
       .set({
-        updatedAt: new Date(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastMessage: message,
         noOfUnseenMessages: 0, // increment
       })
@@ -91,7 +90,7 @@ export default function MessageInput({
     }
     db.collection('messageRooms').doc(roomId).collection('messages').add({
       message: 'test',
-      createdAt: new Date(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     if (messageRoomId) {
       updateMessageRoom({ roomId, message });
@@ -101,7 +100,7 @@ export default function MessageInput({
   return (
     <form
       className="w-full pb-3 flex items-center justify-between pt-4"
-      onSubmit={(e) => handleSubmit(e)}
+      onSubmit={sendMessage}
     >
       <input
         aria-placeholder="Type Here"

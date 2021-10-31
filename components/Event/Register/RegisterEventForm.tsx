@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { db } from '../../../firebase/firebaseClient';
 import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
@@ -12,9 +12,14 @@ import router from 'next/router';
 interface Props {
   tId: string;
   gameCode: string;
+  setIsAlertOpen: () => void;
 }
 
-export default function RegisterEventForm({ tId, gameCode }: Props) {
+export default function RegisterEventForm({
+  tId,
+  gameCode,
+  setIsAlertOpen,
+}: Props) {
   const { user } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
   const [backdropItem, setBackdropItem] = useState<number>(1);
@@ -150,6 +155,7 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
               ),
               2: (
                 <GamerDetails
+                  setIsAlertOpen={setIsAlertOpen}
                   tId={tId}
                   setTeamId={setTeamId}
                   onCancel={closeBackdrop}

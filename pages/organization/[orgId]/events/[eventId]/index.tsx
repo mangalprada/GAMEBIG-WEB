@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
@@ -9,6 +10,7 @@ import { useAuth } from '../../../../../context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchEventDataById } from '../../../../../lib/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
+import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
 
 interface Props {
   orgId: string;
@@ -19,6 +21,8 @@ export default function Event({ orgId, eventData }: Props) {
   const {
     userData: { linkedOrganizationId },
   } = useAuth();
+
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
 
   let isOrganizer = linkedOrganizationId === orgId ? true : false;
 
@@ -37,8 +41,19 @@ export default function Event({ orgId, eventData }: Props) {
           <ParticipantList tId={eventData.id} />
         </>
       ) : (
-        <RegisterEventForm gameCode={eventData.gameCode} tId={eventData.id} />
+        <RegisterEventForm
+          setIsAlertOpen={() => setIsAlertOpen(true)}
+          gameCode={eventData.gameCode}
+          tId={eventData.id}
+        />
       )}
+      <SnackbarAlert
+        open={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        autoHideDuration={3000}
+        type="success"
+        message={{ label: 'Registered', message: 'Registration Successful' }}
+      />
     </Aux>
   );
 }

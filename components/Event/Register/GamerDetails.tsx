@@ -11,6 +11,7 @@ interface Props {
   gameCode: string;
   onCancel: () => void;
   setIsRegistered: (val: boolean) => void;
+  setIsAlertOpen: () => void;
 }
 
 export default function GamerDetails({
@@ -20,6 +21,7 @@ export default function GamerDetails({
   gameCode,
   onCancel,
   setIsRegistered,
+  setIsAlertOpen,
 }: Props) {
   const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
@@ -55,6 +57,7 @@ export default function GamerDetails({
             teamName: team.teamName,
           });
         setTeamId(docRef.id);
+        setIsAlertOpen();
       }
     } catch (err) {
       console.log('Error adding documents in GamerDetails', err);
@@ -63,13 +66,18 @@ export default function GamerDetails({
 
   return (
     <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold">
-      <div className="flex justify-start gap-8 items-center">
-        <span>Add Details</span>
-        <span onClick={onCancel} className="hover:bg-gray-800 p-3 rounded-md">
+      <h4 className="text-xl ml-2 mb-4 font-semibold tracking-wide">
+        Add Details
+      </h4>
+      <section className="flex justify-start space-x-5 items-center">
+        <span
+          onClick={onCancel}
+          className="hover:bg-gray-800 px-4 py-2 rounded-md text-lg cursor-pointer"
+        >
           Cancel
         </span>
         <FixedButton onClickHandler={handleRegister} name="Register" />
-      </div>
+      </section>
       {team &&
         team.gamers.map((gamer, index) => (
           <GamerItem

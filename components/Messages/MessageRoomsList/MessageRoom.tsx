@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { UserData } from '../../../utilities/types';
 
 type Props = {
   receiverPhotoURL: string;

@@ -18,18 +18,19 @@ const FriendhipButtons = ({
   const [isFriend, setIsFriend] = React.useState(false);
 
   useEffect(() => {
-    db.collection('friends')
-      .where('username', '==', userData.username)
-      .where('friendUsername', '==', profilePageUsername)
-      .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.size > 0) {
-          setIsFriend(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (userData.username && profilePageName)
+      db.collection('friends')
+        .where('username', '==', userData.username)
+        .where('friendUsername', '==', profilePageUsername)
+        .get()
+        .then((querySnapshot) => {
+          if (querySnapshot.size > 0) {
+            setIsFriend(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }, [profilePageUsername, userData.username]);
 
   return (

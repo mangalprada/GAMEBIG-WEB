@@ -13,18 +13,6 @@ export default function MessageInput({
   const [message, setMessage] = useState<string>('');
   const { userData } = useAuth();
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const chat: InputChat = {
-  //     userName: userData.username,
-  //     userId: userData.uid,
-  //     msg: message,
-  //     subHeader: '',
-  //   };
-  //   const chatId = await postMessage(chat);
-  //   setMessage('');
-  // };
-
   const createMessageRoom = async () => {
     let roomId = '';
     await db

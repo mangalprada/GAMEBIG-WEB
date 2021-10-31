@@ -58,22 +58,39 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
           'bg-gradient-to-tr from-green-600 via-indigo-600 to-red-600 rounded-b-lg'
         }
       >
-        <div className="fixed mt-4 mr-4">
-          <div className="p-3 cursor-pointer" onClick={toggleShowMore}>
-            <MoreIcon size={36} />
-          </div>
+        {/** More Option Component */}
+        <div className="absolute mt-2 mr-3">
           {showMore ? (
-            <div className="flex flex-col absolute z-10 text-gray-300 font-semibold bg-gray-700 rounded-md w-32 px-4 pb-4 gap-1">
-              <div
+            <div
+              className={
+                'flex flex-col bg-gray-900 text-white py-4 px-5 rounded-lg ' +
+                'space-y-1 font-semibold tracking-wide'
+              }
+            >
+              <span
                 onClick={toggleShowMore}
-                className="flex justify-end p-1 mt-1 mr-1"
+                className="flex justify-end cursor-pointer"
               >
                 <CloseIcon size={16} />
-              </div>
-              <span onClick={goToSetting}>Settings</span>
-              <span onClick={signout}>Sign Out</span>
+              </span>
+              <span
+                className="cursor-pointer hover:text-blue-400"
+                onClick={goToSetting}
+              >
+                Settings
+              </span>
+              <span
+                className="cursor-pointer hover:text-red-400"
+                onClick={signout}
+              >
+                Signout
+              </span>
             </div>
-          ) : null}
+          ) : (
+            <div className="p-3 cursor-pointer" onClick={toggleShowMore}>
+              <MoreIcon size={36} />
+            </div>
+          )}
         </div>
       </div>
 

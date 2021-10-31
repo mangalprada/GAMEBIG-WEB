@@ -3,6 +3,7 @@
     "allowJs": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
+    "baseUrl": ".",
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,6 +15,12 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["libs/*"],
+      "@/context/*": ["context/*"],
+      "@utilities/*": ["utilities/*"]
+    },
     "pretty": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

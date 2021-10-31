@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerItem from './GamerItem';
+
 interface Props {
   tId: string;
+  setTeamId: Dispatch<SetStateAction<string>>;
   team?: TeamType;
   gameCode: string;
   onCancel: () => void;
@@ -13,6 +15,7 @@ interface Props {
 
 export default function GamerDetails({
   tId,
+  setTeamId,
   team,
   gameCode,
   onCancel,
@@ -37,24 +40,24 @@ export default function GamerDetails({
     }
   };
 
-  const saveGamerDetails = (gamersArray: GamerData[]) => {
+  const saveGamerDetails = async (gamersArray: GamerData[]) => {
     const usernames = gamersArray.map((gamer) => gamer.username);
-    if (team && gamersArray) {
-      db.collection('events')
-        .doc(tId)
-        .collection('teams')
-        .add({
-          inGameLead: team.inGameLead,
-          gamers: gamersArray,
-          usernames,
-          teamName: team.teamName,
-        })
-        .then(() => {
-          console.log('Team added');
-        })
-        .catch((error) => {
-          console.log('Error adding documents: ', error);
-        });
+    try {
+      if (team && gamersArray) {
+        const docRef = await db
+          .collection('events')
+          .doc(tId)
+          .collection('teams')
+          .add({
+            inGameLead: team.inGameLead,
+            gamers: gamersArray,
+            usernames,
+            teamName: team.teamName,
+          });
+        setTeamId(docRef.id);
+      }
+    } catch (err) {
+      console.log('Error adding documents in GamerDetails', err);
     }
   };
 

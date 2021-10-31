@@ -7,6 +7,8 @@ import GamerDetails from './GamerDetails';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
+import router from 'next/router';
+
 interface Props {
   tId: string;
   gameCode: string;
@@ -77,19 +79,28 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
     setBackdropItem(2);
   };
 
-  const unregister = () => {
-    db.collection('events').doc(tId).collection('teams').doc(teamId).delete;
+  const unregisterHandler = () => {
+    db.collection('events').doc(tId).collection('teams').doc(teamId).delete();
+    router.push('/');
   };
 
   if (isRegistered)
     return (
-      <div className="py-10 flex flex-col gap-4 font-sans text-indigo-600 font-semibold text-xl">
-        <span>You have registered for this event.</span>
+      <div
+        className={
+          'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
+          'font-semibold text-xl text-center sm:text-left'
+        }
+      >
+        <span>You have already registered for this event!</span>
         <span
-          onClick={unregister}
-          className="text-gray-500 hover:bg-gray-800 rounded-md p-3 w-32"
+          onClick={unregisterHandler}
+          className={
+            'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
+            'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
+          }
         >
-          Unregister
+          UNREGISTER
         </span>
       </div>
     );
@@ -140,6 +151,7 @@ export default function RegisterEventForm({ tId, gameCode }: Props) {
               2: (
                 <GamerDetails
                   tId={tId}
+                  setTeamId={setTeamId}
                   onCancel={closeBackdrop}
                   team={selectedTeam}
                   gameCode={gameCode}

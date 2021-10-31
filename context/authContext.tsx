@@ -76,7 +76,7 @@ function useProvideAuth() {
     await db
       .collection('users')
       .where('username', '==', username)
-      .where('username', '!=', user.uid)
+      .where('uid', '!=', user.uid)
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.size > 0) {
@@ -185,6 +185,7 @@ function useProvideAuth() {
         }
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // force refresh the token every 10 minutes

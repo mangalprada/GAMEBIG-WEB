@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/firebaseClient';
-import FixedButton from '../UI/Buttons/FixedButton';
 
 const FriendhipButtons = ({
   profilePageUsername,
@@ -31,7 +30,8 @@ const FriendhipButtons = ({
         .catch((error) => {
           console.log(error);
         });
-  }, [profilePageUsername, userData.username]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-2 md:gap-4">

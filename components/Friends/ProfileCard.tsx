@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
+import SnackbarAlert from '../UI/Snackbar/SnackBar';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
   return (
@@ -75,15 +76,14 @@ const ProfileCard = ({
           name: userData.name,
           photoURL: userData.photoURL,
           username: userData.username,
-          about: userData.about,
-          games: userData.games,
           uid: userData.uid,
         },
-        receiver: { name, photoURL, username, about, games, uid },
+        receiver: { name, photoURL, username, uid },
         to: uid,
       })
       .then(() => {
         console.log('Friend request sent');
+        alert('Friend request sent');
       })
       .catch((err) => {
         console.log(err);
@@ -122,9 +122,6 @@ const ProfileCard = ({
 
   return (
     <div
-      onClick={() => {
-        router.push(`/profile/${username}`);
-      }}
       className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
         gap-2 rounded-lg bg-gray-900 transform hover:-translate-y-4 transition duration-500 ease-in-out cursor-pointer"
     >

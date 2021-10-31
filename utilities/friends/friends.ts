@@ -3,16 +3,16 @@ export interface FriendRequest {
     name: string;
     photoURL: string;
     username: string;
-    about: string;
-    games: string[];
+    about?: string;
+    games?: string[];
     uid: string;
   };
   sender: {
     name: string;
     photoURL: string;
     username: string;
-    about: string;
-    games: string[];
+    about?: string;
+    games?: string[];
     uid: string;
   };
   to: string;

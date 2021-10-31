@@ -18,16 +18,17 @@ const MessageRoomList = ({
   const [messageRooms, setMessageRooms] = useState<any>([]);
 
   useEffect(() => {
-    db.collection('messageRooms')
-      .where('usernames', 'array-contains', userData.username)
-      .get()
-      .then((snapshot) => {
-        const rooms = snapshot.docs.map((doc) => ({
-          ...(doc.data() as UserData),
-          docId: doc.id,
-        }));
-        setMessageRooms(rooms);
-      });
+    if (userData.username)
+      db.collection('messageRooms')
+        .where('usernames', 'array-contains', userData.username)
+        .get()
+        .then((snapshot) => {
+          const rooms = snapshot.docs.map((doc) => ({
+            ...(doc.data() as UserData),
+            docId: doc.id,
+          }));
+          setMessageRooms(rooms);
+        });
   }, [userData.username]);
 
   const searchUser = (query: string) => {

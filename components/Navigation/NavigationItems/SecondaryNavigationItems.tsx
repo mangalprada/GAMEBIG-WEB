@@ -13,7 +13,7 @@ export default function SecondaryNavigationItems() {
   };
 
   return (
-    <ul className="flex items-end space-x-2">
+    <ul className="flex items-end lg:space-x-1">
       {userData.username ? (
         <>
           <NavigationItem
@@ -31,7 +31,8 @@ export default function SecondaryNavigationItems() {
             isActive={
               router.pathname === '/profile/[username]' ||
               router.pathname === '/profile/[username]/teams' ||
-              router.pathname === '/profile/[username]/edit'
+              router.pathname === '/profile/[username]/edit' ||
+              router.pathname === '/profile/[username]/games'
             }
             toolTip="Profile"
           >
@@ -47,7 +48,10 @@ export default function SecondaryNavigationItems() {
         </>
       ) : (
         <div
-          className="bg-indigo-600 hover:bg-indigo-800 font-semibold text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer"
+          className={
+            'bg-indigo-600 hover:bg-indigo-800 font-semibold ' +
+            'text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer'
+          }
           onClick={handleButtonClick}
         >
           Sign&nbsp;In/ Sign&nbsp;Up

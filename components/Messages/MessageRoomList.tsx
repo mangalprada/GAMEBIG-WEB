@@ -5,11 +5,11 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from '@/context/authContext';
+import SearchInput from '@/components/UI/Inputs/SearchInput';
 import { db } from '../../firebase/firebaseClient';
-import algoliaClient from '../../lib/algolia';
-import debounce from '../../lib/debounce';
-import SearchInput from '../UI/Inputs/SearchInput';
+import algoliaClient from '@/libs/algolia';
+import debounce from '@/libs/debounce';
 import MessageRoom from './MessageRoom';
 
 type Props = {
@@ -33,10 +33,9 @@ const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
             ...doc.data(),
             docId: doc.id,
           }));
-          console.log(rooms);
           setMessageRooms(rooms);
         });
-  }, []);
+  }, [userData.username]);
 
   const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');

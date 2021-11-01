@@ -79,8 +79,8 @@ function ProfileForm({ oldValues, push }: Props) {
   return (
     <div
       className={
-        'w-full mx-auto mt-6 ' +
-        'relative flex flex-col min-w-0 break-words w-full mb-6 ' +
+        'md:w-5/6 xl:w-2/3 mx-auto mt-6 ' +
+        'relative flex flex-col min-w-0 break-words mb-6 ' +
         'shadow-lg rounded-lg border-0'
       }
     >

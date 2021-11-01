@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import HeaderOrg from '../../../components/Organization/HeaderOrg/HeaderOrg';
 import OrganizationProfile from '../../../components/Organization/OrganizationProfile/OrganizationProfile';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { fetchOrganizationData } from '../../../lib/fetchOrganizationData';
+import { fetchOrganizationData } from '../../../libs/fetchOrganizationData';
 import { OrgFormData } from '../../../utilities/organization/types';
 
 interface Props {

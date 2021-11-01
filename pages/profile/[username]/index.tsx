@@ -5,9 +5,9 @@ import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, GamerData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../lib/getUser';
+import getUser from '../../../libs/getUser';
 import { EventData } from '../../../utilities/eventItem/types';
-import { fetchEventsDataByUsername } from '../../../lib/getAllEvents';
+import { fetchEventsDataByUsername } from '../../../libs/getAllEvents';
 import EventCard from '../../../components/Event/EventCard/EventCard';
 
 interface Props {

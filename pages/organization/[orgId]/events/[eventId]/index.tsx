@@ -8,7 +8,7 @@ import RegisterEventForm from '../../../../../components/Event/Register/Register
 import SendNotification from '../../../../../components/Event/Notification/SendNotification';
 import { useAuth } from '../../../../../context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
-import { fetchEventDataById } from '../../../../../lib/getEventData';
+import { fetchEventDataById } from '../../../../../libs/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
 import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
 import SoloRegistrationForm from '../../../../../components/Event/Register/SoloRegistrationForm';
@@ -66,64 +66,72 @@ export default function Event({ orgId, eventData }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <EventDetails isOrganizer={isOrganizer} data={eventData} />
-      {isOrganizer ? (
-        <div>
-          <SendNotification eventData={eventData} />
-          <ParticipantList tId={eventData.id} />
-        </div>
-      ) : (
-        (null as any)
-      )}
-      {!isRegistered ? (
-        {
-          Squad: (
-            <RegisterEventForm
-              teamSize={4}
-              setTeamId={setTeamId}
-              setIsAlertOpen={() => setIsAlertOpen(true)}
-              gameCode={eventData.gameCode}
-              eventId={eventData.id}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-          Duo: (
-            <RegisterEventForm
-              teamSize={2}
-              setTeamId={setTeamId}
-              setIsAlertOpen={() => setIsAlertOpen(true)}
-              gameCode={eventData.gameCode}
-              eventId={eventData.id}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-          Solo: (
-            <SoloRegistrationForm
-              gameCode={eventData.gameCode}
-              tId={eventData.id}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-        }[eventData.mode]
-      ) : (
-        <div
-          className={
-            'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
-            'font-semibold text-xl text-center sm:text-left'
-          }
-        >
-          <span>You have registered for this event!</span>
-          <span
-            onClick={unregisterHandler}
+      <main
+        className={
+          'md:w-5/6 lg:w-2/3 mx-auto mt-2 ' +
+          'relative flex flex-col md:rounded-md ' +
+          'bg-gradient-to-b from-gray-900 to-black md:px-10'
+        }
+      >
+        <EventDetails isOrganizer={isOrganizer} data={eventData} />
+        {isOrganizer ? (
+          <div>
+            <SendNotification eventData={eventData} />
+            <ParticipantList tId={eventData.id} />
+          </div>
+        ) : (
+          (null as any)
+        )}
+        {!isRegistered ? (
+          {
+            Squad: (
+              <RegisterEventForm
+                teamSize={4}
+                setTeamId={setTeamId}
+                setIsAlertOpen={() => setIsAlertOpen(true)}
+                gameCode={eventData.gameCode}
+                eventId={eventData.id}
+                setIsRegistered={setIsRegistered}
+              />
+            ),
+            Duo: (
+              <RegisterEventForm
+                teamSize={2}
+                setTeamId={setTeamId}
+                setIsAlertOpen={() => setIsAlertOpen(true)}
+                gameCode={eventData.gameCode}
+                eventId={eventData.id}
+                setIsRegistered={setIsRegistered}
+              />
+            ),
+            Solo: (
+              <SoloRegistrationForm
+                gameCode={eventData.gameCode}
+                tId={eventData.id}
+                setIsRegistered={setIsRegistered}
+              />
+            ),
+          }[eventData.mode]
+        ) : (
+          <div
             className={
-              'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
-              'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
+              'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
+              'font-semibold text-xl text-center sm:text-left'
             }
           >
-            UNREGISTER
-          </span>
-        </div>
-      )}
+            <span>You have registered for this event!</span>
+            <span
+              onClick={unregisterHandler}
+              className={
+                'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
+                'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
+              }
+            >
+              UNREGISTER
+            </span>
+          </div>
+        )}
+      </main>
       <SnackbarAlert
         open={isAlertOpen}
         onClose={() => setIsAlertOpen(false)}

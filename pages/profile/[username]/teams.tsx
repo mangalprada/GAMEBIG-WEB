@@ -7,7 +7,7 @@ import { UserData, TeamType } from '../../../utilities/types';
 import TeamIntro from '../../../components/Profile/TeamIntro';
 import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../lib/getUser';
+import getUser from '../../../libs/getUser';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import { useAuth } from '../../../context/authContext';
@@ -52,7 +52,7 @@ export default function Home({
       </Head>
 
       <ProfileHeader userData={userData} />
-      <div className="w-11/12 md:w-2/3 mx-auto mt-2">
+      <div className="w-11/12 md:w-5/6 xl:w-1/2 mx-auto mt-2">
         <div className="flex justify-end">
           {userData.username === user.username ? (
             <FixedButton name="Create Team" onClick={openBackdrop} />

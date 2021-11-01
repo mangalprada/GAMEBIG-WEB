@@ -14,7 +14,7 @@ export default function OrganizationProfile({ data }: Props) {
   return (
     <div
       className={
-        'xl:w-2/3 md:w-5/6 mx-auto font-sans px-5 pt-10 ' +
+        'xl:w-1/2 md:w-5/6 mx-auto font-sans px-5 pt-10 ' +
         'bg-gradient-to-b from-transparent to-gray-900 ' +
         'rounded-br-3xl'
       }

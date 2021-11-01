@@ -6,8 +6,8 @@ import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEv
 import { OrgFormData } from '../../../../utilities/organization/types';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
-import { fetchOrganizationData } from '../../../../lib/fetchOrganizationData';
-import { fetchEventsDataByOrgId } from '../../../../lib/getAllEvents';
+import { fetchOrganizationData } from '../../../../libs/fetchOrganizationData';
+import { fetchEventsDataByOrgId } from '../../../../libs/getAllEvents';
 import { EventData } from '../../../../utilities/eventItem/types';
 
 interface Props {

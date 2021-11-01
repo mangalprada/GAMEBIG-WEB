@@ -51,7 +51,7 @@ function BottomNavigationBar() {
               />
             </a>
           </Link>
-          <Link href="/contact" passHref>
+          <Link href="/messages" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
               <MessageIcon
                 isActive={router.pathname === '/messages'}

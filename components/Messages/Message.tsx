@@ -1,8 +1,7 @@
-import { Chat } from '../../utilities/contact/contact';
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 
 interface Props {
-  data: Chat;
+  data: any;
   isOwner: boolean;
 }
 
@@ -22,10 +21,10 @@ export default function Message({ data, isOwner }: Props) {
         }
       >
         <span className="block text-sm font-medium text-gray-600">
-          {data.userName}
+          {data.username}
         </span>
         <span className="block font-semibold text-lg text-gray-900">
-          {data.msg}
+          {data.message}
         </span>
         <span className="block text-xs font-medium text-gray-600 text-left">
           {date}

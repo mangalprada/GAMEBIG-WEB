@@ -1,14 +1,15 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import firebase, { db } from '../../firebase/firebaseClient';
-import { InputChat } from '../../utilities/contact/contact';
 
 export default function MessageInput({
   receivingUser,
   messageRoomId,
+  fetchMessages,
 }: {
   receivingUser: any;
   messageRoomId?: string;
+  fetchMessages: () => void;
 }) {
   const [message, setMessage] = useState<string>('');
   const { userData } = useAuth();
@@ -76,12 +77,13 @@ export default function MessageInput({
     }
     db.collection('messageRooms').doc(roomId).collection('messages').add({
       username: userData.username,
-      message: 'test',
+      message: message,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     if (messageRoomId) {
       updateMessageRoom({ roomId, message });
     }
+    fetchMessages();
   };
 
   return (

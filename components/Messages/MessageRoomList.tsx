@@ -1,17 +1,23 @@
-import { ChangeEvent, useState, useEffect } from 'react';
-import { useAuth } from '../../../context/authContext';
-import { db } from '../../../firebase/firebaseClient';
-import algoliaClient from '../../../lib/algolia';
-import debounce from '../../../lib/debounce';
-import { UserData } from '../../../utilities/types';
-import SearchInput from '../../UI/Inputs/SearchInput';
+import {
+  ChangeEvent,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import { useAuth } from '../../context/authContext';
+import { db } from '../../firebase/firebaseClient';
+import algoliaClient from '../../lib/algolia';
+import debounce from '../../lib/debounce';
+import SearchInput from '../UI/Inputs/SearchInput';
 import MessageRoom from './MessageRoom';
 
-const MessageRoomList = ({
-  setReceiver,
-}: {
+type Props = {
   setReceiver: (user: any) => void;
-}) => {
+  setMessageRoomId: Dispatch<SetStateAction<string>>;
+};
+
+const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
   const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -24,12 +30,13 @@ const MessageRoomList = ({
         .get()
         .then((snapshot) => {
           const rooms = snapshot.docs.map((doc) => ({
-            ...(doc.data() as UserData),
+            ...doc.data(),
             docId: doc.id,
           }));
+          console.log(rooms);
           setMessageRooms(rooms);
         });
-  }, [userData.username]);
+  }, []);
 
   const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');
@@ -40,6 +47,15 @@ const MessageRoomList = ({
       .then(({ hits }) => {
         setMessageRooms(hits);
       });
+  };
+
+  const clickHandler = (room: any) => {
+    setReceiver({
+      name: room.userDetails[userData.username].name,
+      username: room.userDetails[userData.username].username,
+      photoURL: room.userDetails[userData.username].photoURL,
+    });
+    setMessageRoomId(room.docId);
   };
 
   return (
@@ -73,11 +89,7 @@ const MessageRoomList = ({
                 receiverUsername={room.userDetails[userData.username].username}
                 receiverPhotoURL={room.userDetails[userData.username].photoURL}
                 onClick={() => {
-                  setReceiver({
-                    name: room.userDetails[userData.username].name,
-                    username: room.userDetails[userData.username].username,
-                    photoURL: room.userDetails[userData.username].photoURL,
-                  });
+                  clickHandler(room);
                 }}
               />
             </div>

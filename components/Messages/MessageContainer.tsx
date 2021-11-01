@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { games } from '../../utilities/GameList';
 import { useAuth } from '../../context/authContext';
-import { Chat } from '../../utilities/contact/contact';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { db } from '../../firebase/firebaseClient';
@@ -21,33 +20,39 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
 
   useEffect(() => {
     if (messageRoomId) {
-      db.collection('messageRooms')
-        .doc(messageRoomId)
-        .collection('messages')
-        .orderBy('updatedAt', 'asc')
-        .onSnapshot((snapshot) => {
-          const messages: any = [];
-          snapshot.forEach((doc) => {
-            messages.push({
-              ...doc.data(),
-              id: doc.id,
-            });
-          });
-          setMessages(messages);
-        });
+      fetchMessages();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageRoomId]);
 
   useEffect(() => {
     scrollLast.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const fetchMessages = () => {
+    db.collection('messageRooms')
+      .doc(messageRoomId)
+      .collection('messages')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot((snapshot) => {
+        const temp: any = [];
+        snapshot.forEach((doc) => {
+          console.log(doc.data());
+          temp.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+        });
+        setMessages(temp);
+      });
+  };
+
   const messagesListView =
     messages &&
     messages.map((message: any) => {
       const isOwnerOfMessage = message.username === userData.username;
       return (
-        <Message key={messages.id} isOwner={isOwnerOfMessage} data={message} />
+        <Message key={message.id} isOwner={isOwnerOfMessage} data={message} />
       );
     });
 
@@ -104,6 +109,7 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
       <MessageInput
         messageRoomId={messageRoomId}
         receivingUser={receivingUser}
+        fetchMessages={fetchMessages}
       />
     </div>
   );

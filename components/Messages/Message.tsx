@@ -1,4 +1,3 @@
-import { Chat } from '../../utilities/contact/contact';
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 
 interface Props {

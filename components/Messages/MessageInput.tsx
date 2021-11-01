@@ -1,7 +1,6 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import firebase, { db } from '../../firebase/firebaseClient';
-import { InputChat } from '../../utilities/contact/contact';
 
 export default function MessageInput({
   receivingUser,

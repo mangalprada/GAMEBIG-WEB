@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ChatContainer from '../../components/Messages/MessageContainer';
 import MessageRoomList from '../../components/Messages/MessageRoomList';
-import { UserData } from '../../utilities/types';
+import { MessageReceiver } from '@/utilities/messages/MessagesTypes';
 
 const Messages = () => {
   const router = useRouter();
-  const [receiver, setReceiver] = useState<UserData>();
+  const [receiver, setReceiver] = useState<MessageReceiver>(
+    {} as MessageReceiver
+  );
   const [messageRoomId, setMessageRoomId] = useState<string>('');
 
   useEffect(() => {

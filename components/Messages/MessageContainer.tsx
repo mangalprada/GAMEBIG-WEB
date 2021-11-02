@@ -6,22 +6,15 @@ import { useAuth } from '../../context/authContext';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { db } from '../../firebase/firebaseClient';
+import {
+  MessageReceiver,
+  MessageType,
+} from '@/utilities/messages/MessagesTypes';
 
 interface Props {
   messageRoomId?: string;
-  receivingUser: {
-    username: string;
-    name: string;
-    photoURL: string;
-  };
+  receivingUser: MessageReceiver;
 }
-
-type MessageType = {
-  id?: string;
-  message: string;
-  createdAt: any;
-  username: string;
-};
 
 export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
   const { userData } = useAuth();

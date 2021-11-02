@@ -4,14 +4,13 @@ import TabNavigator from '../../components/Navigation/TabNavigation/TabNavigator
 import { useAuth } from '../../context/authContext';
 import { firebaseAdmin } from '../../firebase/firebaseAdmin';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import { FriendRequest } from '../../utilities/friends/friends';
 import { UserData } from '../../utilities/types';
 
-const Friends = ({
-  friendsSuggestions,
-}: {
+type Props = {
   friendsSuggestions: UserData[];
-}) => {
+};
+
+const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
   const { userData, receivedFriendRequests } = useAuth();
   const tabs = [
     {
@@ -27,30 +26,34 @@ const Friends = ({
   ];
   return (
     <Aux>
-      <div>
+      <div className="flex flex-col items-center">
         <div className="mt-2">
           <TabNavigator tabs={tabs} />
         </div>
-        <div className="max-w-full flex flex-wrap gap-4 justify-center mt-4 pt-1">
-          <h1 className="text-2xl font-bold">Friend Requests</h1>
-          {receivedFriendRequests &&
-            receivedFriendRequests.map((friendRequest) => (
-              <div key={friendRequest.sender.uid}>
-                <ProfileCard
-                  name={friendRequest.sender.name}
-                  about={friendRequest.sender.about}
-                  games={[]}
-                  username={friendRequest.sender.username}
-                  photoURL={friendRequest.sender.photoURL}
-                  uid={friendRequest.sender.uid}
-                  to={friendRequest.to}
-                  id={friendRequest.id}
-                />
-              </div>
-            ))}
-        </div>
-        <div className="max-w-full flex flex-wrap gap-4 justify-center mt-4 pt-1">
-          <h1 className="text-2xl font-bold">Suggestions</h1>
+        {receivedFriendRequests.length > 0 && (
+          <div className="flex flex-col w-11/12 md:w-2/3 bg-gray-800 rounded-lg py-4 mx-4 mt-1">
+            <span className="text-left px-8 text-xl font-semibold text-gray-100  py-2 mt-1">
+              Friend Requests
+            </span>
+            <div className="flex flex-wrap gap-2 p-3">
+              {receivedFriendRequests.map((friendRequest) => (
+                <div key={friendRequest.sender.uid}>
+                  <ProfileCard
+                    name={friendRequest.sender.name}
+                    about={friendRequest.sender.about}
+                    games={[]}
+                    username={friendRequest.sender.username}
+                    photoURL={friendRequest.sender.photoURL}
+                    uid={friendRequest.sender.uid}
+                    to={friendRequest.to}
+                    id={friendRequest.id}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="w-11/12 md:w-2/3 flex flex-wrap gap-2 mt-4 pt-1 ">
           {friendsSuggestions.map((suggestion) => (
             <div key={suggestion.uid}>
               <ProfileCard
@@ -69,7 +72,7 @@ const Friends = ({
   );
 };
 
-export default Friends;
+export default FriendsSuggestions;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const friendsSuggestions: UserData[] = [];

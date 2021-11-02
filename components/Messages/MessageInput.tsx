@@ -2,15 +2,21 @@ import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import firebase, { db } from '../../firebase/firebaseClient';
 
+type Props = {
+  receivingUser: {
+    username: string;
+    name: string;
+    photoURL: string;
+  };
+  messageRoomId?: string;
+  fetchMessages: () => void;
+};
+
 export default function MessageInput({
   receivingUser,
   messageRoomId,
   fetchMessages,
-}: {
-  receivingUser: any;
-  messageRoomId?: string;
-  fetchMessages: () => void;
-}) {
+}: Props) {
   const [message, setMessage] = useState<string>('');
   const { userData } = useAuth();
 
@@ -83,7 +89,7 @@ export default function MessageInput({
     if (messageRoomId) {
       updateMessageRoom({ roomId, message });
     }
-    fetchMessages();
+    // fetchMessages();
   };
 
   return (

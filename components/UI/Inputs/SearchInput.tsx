@@ -6,6 +6,9 @@ type Props = {
   placeHolder?: string;
   onChangeHandler: {
     (e: ChangeEvent<any>): void;
+    <T_1 = string | ChangeEvent<any>>(field: T_1): T_1 extends ChangeEvent<any>
+      ? void
+      : (e: string | ChangeEvent<any>) => void;
   };
   isDisabled?: boolean;
   error?: boolean;

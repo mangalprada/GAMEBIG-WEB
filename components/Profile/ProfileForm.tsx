@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../../context/authContext';
@@ -8,7 +9,6 @@ import { db } from '../../firebase/firebaseClient';
 import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
-import { useRouter } from 'next/router';
 
 type Props = {
   oldValues: UserData;
@@ -135,35 +135,6 @@ function ProfileForm({ oldValues, push }: Props) {
               errorMessage={formik.errors.phoneNumber}
             />
           </div>
-          {/* <TextField
-          id="dob"
-          label="Birthday"
-          type="date"
-          defaultValue="2017-05-24"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.dob}
-          error={formik.touched.dob && Boolean(formik.errors.dob)}
-          helperText={formik.touched.dob && formik.errors.dob}
-        /> */}
-          {/* <Autocomplete
-          disabled
-          options={countries}
-          getOptionLabel={(option) => option.name}
-          onChange={(e, value) => {
-            if (value) {
-              formik.setFieldValue('country', value.name);
-            }
-          }}
-          defaultValue={{ name: formik.values.country }}
-          renderInput={(params) => (
-            <TextField {...params} label="Country" variant="outlined" />
-          )}
-        /> */}
           <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
             Social Links
           </h6>

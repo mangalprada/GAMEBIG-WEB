@@ -9,14 +9,25 @@ import { db } from '../../firebase/firebaseClient';
 
 interface Props {
   messageRoomId?: string;
-  receivingUser: any;
+  receivingUser: {
+    username: string;
+    name: string;
+    photoURL: string;
+  };
 }
+
+type MessageType = {
+  id?: string;
+  message: string;
+  createdAt: any;
+  username: string;
+};
 
 export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
   const { userData } = useAuth();
   const scrollLast = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
     if (messageRoomId) {
@@ -35,13 +46,13 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
       .collection('messages')
       .orderBy('createdAt', 'asc')
       .onSnapshot((snapshot) => {
-        const temp: any = [];
+        const temp: MessageType[] = [];
         snapshot.forEach((doc) => {
           console.log(doc.data());
           temp.push({
             ...doc.data(),
             id: doc.id,
-          });
+          } as MessageType);
         });
         setMessages(temp);
       });
@@ -49,7 +60,7 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
 
   const messagesListView =
     messages &&
-    messages.map((message: any) => {
+    messages.map((message: MessageType) => {
       const isOwnerOfMessage = message.username === userData.username;
       return (
         <Message key={message.id} isOwner={isOwnerOfMessage} data={message} />

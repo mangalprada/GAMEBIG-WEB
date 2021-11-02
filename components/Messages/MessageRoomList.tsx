@@ -50,6 +50,8 @@ const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
   };
 
   const clickHandler = (room: any) => {
+    console.log(room);
+
     setReceiver({
       name: room.userDetails[userData.username].name,
       username: room.userDetails[userData.username].username,

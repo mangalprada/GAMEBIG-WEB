@@ -1,7 +1,11 @@
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 
 interface Props {
-  data: any;
+  data: {
+    message: string;
+    createdAt: any;
+    username: string;
+  };
   isOwner: boolean;
 }
 

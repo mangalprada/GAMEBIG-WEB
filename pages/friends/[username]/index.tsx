@@ -1,16 +1,23 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import ProfileCard from '../../../components/Friends/ProfileCard';
 import TabNavigator from '../../../components/Navigation/TabNavigation/TabNavigator';
 import { useAuth } from '../../../context/authContext';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData } from '../../../utilities/types';
+import { db } from 'firebase/firebaseClient';
 
-const Friends = ({
-  friendsSuggestions,
-}: {
-  friendsSuggestions: UserData[];
-}) => {
+const Friends = () => {
   const { userData } = useAuth();
+  const [friends, setFriends] = useState([]);
+
+  // useEffect(() => {
+  //   const getFriends = async () => {
+  //     const friendsData = db.collection('')
+  //     setFriends(friendsData);
+  //   };
+  //   getFriends();
+  // }, []);
+
   const tabs = [
     {
       label: 'Suggestions',
@@ -23,6 +30,7 @@ const Friends = ({
       pathName: '/friends/[username]',
     },
   ];
+
   return (
     <Aux>
       <Head>
@@ -35,9 +43,23 @@ const Friends = ({
         <div className="mt-2">
           <TabNavigator tabs={tabs} />
         </div>
-        <div className="font-sans text-gray-300 ">
-          <span>Comming Soon...</span>
-        </div>
+        <span className="text-left px-8 text-xl font-semibold text-gray-100  py-2 mt-1">
+          My Friends
+        </span>
+        {/* <div className="w-11/12 md:w-2/3 flex flex-wrap gap-2 mt-4 pt-1 ">
+          {friends.map((friend) => (
+            <div key={suggestion.uid}>
+              <ProfileCard
+                name={suggestion.name}
+                about={suggestion.about}
+                games={[]}
+                username={suggestion.username}
+                photoURL={suggestion.photoURL}
+                uid={suggestion.uid}
+              />
+            </div>
+          ))}
+        </div> */}
       </div>
     </Aux>
   );

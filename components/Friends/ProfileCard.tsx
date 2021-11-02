@@ -72,62 +72,10 @@ const ProfileCard = ({
   const { userData } = useAuth();
   const router = useRouter();
 
-  // const sendFriendRequest = () => {
-  //   db.collection('friendRequests')
-  //     .add({
-  //       from: userData.uid,
-  //       sender: {
-  //         name: userData.name,
-  //         photoURL: userData.photoURL,
-  //         username: userData.username,
-  //         uid: userData.uid,
-  //       },
-  //       receiver: { name, photoURL, username, uid },
-  //       to: uid,
-  //     })
-  //     .then(() => {
-  //       console.log('Friend request sent');
-  //       alert('Friend request sent');
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // const acceptFriendRequest = () => {
-  //   db.collection('friends')
-  //     .add({
-  //       friendUsername: username,
-  //       friendUID: uid,
-  //       friend: { photoURL, username, name, about, games, uid },
-  //       username: userData.username,
-  //       uid: userData.uid,
-  //     })
-  //     .then(() => {
-  //       console.log('Friend request accepted');
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   deleteFriendRequest();
-  // };
-
-  // const deleteFriendRequest = () => {
-  //   db.collection('friendRequests')
-  //     .doc(id)
-  //     .delete()
-  //     .then(() => {
-  //       console.log('Friend request ignored');
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   return (
     <div
       className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
-        gap-2 rounded-lg bg-gray-900 transform hover:-translate-y-4 transition duration-500 ease-in-out cursor-pointer"
+        gap-2 rounded-lg bg-gray-900 cursor-pointer"
     >
       <div
         onClick={() => {

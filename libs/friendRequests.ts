@@ -30,7 +30,6 @@ export const sendFriendRequest = ({
     })
     .then(() => {
       console.log('Friend request sent');
-      alert('Friend request sent');
     })
     .catch((err) => {
       console.log(err);

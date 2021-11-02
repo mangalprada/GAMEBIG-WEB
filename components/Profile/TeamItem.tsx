@@ -46,15 +46,15 @@ export default function TeamItem({
         'text-gray-300 font-sans font-semibold rounded-lg bg-gray-900 '
       }
     >
-      <h6 className="text-3xl text-indigo-600">{team.teamName}</h6>
+      <h6 className="text-3xl text-indigo-600 mb-2">{team.teamName}</h6>
       <div>
         {team.gamers.map((gamer, index) => (
-          <div key={index} className="flex justify-between flex-wrap py-2.5">
+          <div key={index} className="flex justify-between flex-wrap py-1">
             <h6>
               {index + 1}. {gamer}
             </h6>
             {gamer === team.inGameLead ? (
-              <div className="bg-red-500 rounded-md py-1 px-3 ">
+              <div className="bg-red-500 rounded-md py-0.5 px-3 ">
                 <span className="text-lg text-black">IGL</span>
               </div>
             ) : null}

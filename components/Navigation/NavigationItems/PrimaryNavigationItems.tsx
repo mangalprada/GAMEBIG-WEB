@@ -14,7 +14,7 @@ export default function PrimaryNavigationItems() {
   const router = useRouter();
 
   return (
-    <ul className="hidden md:flex items-end space-x-12 mr-20">
+    <ul className="hidden md:flex items-end lg:space-x-10 lg:mr-20">
       <NavigationItem
         href="/"
         isActive={router.pathname === '/'}
@@ -54,7 +54,12 @@ export default function PrimaryNavigationItems() {
         <div className="flex justify-center">
           <FriendsIcon isActive={router.pathname === '/friends'} size={36} />
           {receivedFriendRequests.length > 0 ? (
-            <span className="badge mb-4 bg-red-500 rounded-full p-1 text-center object-right-top text-white text-xs -left-10">
+            <span
+              className={
+                'badge mb-4 bg-red-500 rounded-full p-1 text-center object-right-top ' +
+                'text-white text-xs -left-10'
+              }
+            >
               {receivedFriendRequests.length}
             </span>
           ) : null}

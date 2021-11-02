@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import EventCard from '../components/Event/EventCard/EventCard';
 import { GetServerSideProps } from 'next';
-import { fetchAllEventData } from '../lib/getAllEvents';
+import { fetchAllEventData } from '../libs/getAllEvents';
 import { EventData } from '../utilities/eventItem/types';
 
 interface Props {

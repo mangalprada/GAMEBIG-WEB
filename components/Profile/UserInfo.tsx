@@ -47,7 +47,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
   return (
     <div
       className={
-        'xl:w-2/3 md:w-5/6 mx-auto ' +
+        'xl:w-1/2 md:w-5/6 mx-auto ' +
         'bg-gradient-to-b from-transparent via-gray-900 to-transparent'
       }
     >

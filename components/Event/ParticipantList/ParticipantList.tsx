@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { fetchParticipatedTeams } from '../../../lib/getEventData';
+import { fetchParticipatedTeams } from '../../../libs/getEventData';
 
 interface Props {
   tId: string;

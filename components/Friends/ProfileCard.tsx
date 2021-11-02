@@ -7,7 +7,7 @@ import {
   sendFriendRequest,
   acceptFriendRequest,
   deleteFriendRequest,
-} from '../../lib/friendRequests';
+} from '../../libs/friendRequests';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
   return (

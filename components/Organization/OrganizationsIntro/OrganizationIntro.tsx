@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import ResponsiveButton from '../../UI/Buttons/ResponsiveButton';
-import { useAuth } from '../../../context/authContext';
+import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
+import { useAuth } from '@/context/authContext';
 
-export default function NoOrganization() {
+export default function OrganizationIntro() {
   const router = useRouter();
   const { userData } = useAuth();
 
@@ -19,7 +19,7 @@ export default function NoOrganization() {
   return (
     <div
       className={
-        'm-10 p-10 w-ful h-5/6 rounded-lg bg-gradient-to-tl font-sans font-semibold ' +
+        'my-10 mx-auto p-10 lg:w-2/3 h-5/6 rounded-lg bg-gradient-to-tl font-sans font-semibold ' +
         'from-gray-900 to-black text-center text-indigo-600'
       }
     >

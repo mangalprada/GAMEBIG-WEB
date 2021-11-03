@@ -6,6 +6,7 @@ import { useAuth } from '../../context/authContext';
 import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { isUsernameTaken, saveUser } from '@/libs/user';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -22,7 +23,7 @@ type Props = {
 };
 
 function BasicForm({ userData, setUserData }: Props) {
-  const { updateAuthPageNumber, saveUser, isUsernameTaken } = useAuth();
+  const { updateAuthPageNumber } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const formik = useFormik({
@@ -30,7 +31,7 @@ function BasicForm({ userData, setUserData }: Props) {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       setSubmitting(true);
-      const isTaken = await isUsernameTaken(values.username);
+      const isTaken = await isUsernameTaken(values.username, userData.uid);
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {

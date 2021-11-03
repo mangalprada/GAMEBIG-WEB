@@ -9,6 +9,7 @@ import { db } from '../../firebase/firebaseClient';
 import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { isUsernameTaken } from '@/libs/user';
 
 type Props = {
   oldValues: UserData;
@@ -41,7 +42,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken } = useAuth();
+  const { userData } = useAuth();
   const [showError, setShowError] = useState(false);
 
   const router = useRouter();
@@ -51,7 +52,7 @@ function ProfileForm({ oldValues, push }: Props) {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       setSubmitting(true);
-      const isTaken = await isUsernameTaken(values.username);
+      const isTaken = await isUsernameTaken(values.username, userData.uid);
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
       } else {

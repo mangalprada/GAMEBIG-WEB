@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import localforage from 'localforage';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
 import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
@@ -7,6 +9,15 @@ import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
 export default function SecondaryNavigationItems() {
   const { userData } = useAuth();
   const router = useRouter();
+  const [isUser, setIsUser] = useState(true);
+
+  useEffect(() => {
+    if (userData) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  }, [userData]);
 
   const handleButtonClick = async () => {
     await router.push('/auth');
@@ -14,7 +25,7 @@ export default function SecondaryNavigationItems() {
 
   return (
     <ul className="flex items-end lg:space-x-1">
-      {userData.username ? (
+      {isUser ? (
         <>
           <NavigationItem
             href="/notification"

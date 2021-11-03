@@ -12,7 +12,7 @@ export default function SecondaryNavigationItems() {
   const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
-    if (userData.username !== '') {
+    if (userData.username) {
       setIsUser(true);
     } else {
       setIsUser(false);

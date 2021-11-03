@@ -4,10 +4,10 @@ import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
 import CreateTeam from '../../Profile/createTeam';
 import GamerDetails from './GamerDetails';
-import Backdrop from '../../UI/Backdrop/Backdrop';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
+import Modal from '@/components/UI/Modal/Modal';
 interface Props {
   eventId: string;
   gameCode: string;
@@ -27,7 +27,7 @@ export default function RegisterEventForm({
 }: Props) {
   const { userData } = useAuth();
   const [teams, setTeams] = useState<TeamType[]>([]);
-  const [backdropItem, setBackdropItem] = useState<number>(1);
+  const [modalItem, setModalItem] = useState<number>(1);
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
   const [disableRegister, setDisableRegister] = useState<boolean>(true);
   const [showSnakbar, setShowSnakbar] = useState<boolean>(false);
@@ -58,11 +58,11 @@ export default function RegisterEventForm({
     setTeams(teams);
   }, [userData.username]);
 
-  const closeBackdrop = () => {
+  const closeModal = () => {
     setOpen(false);
   };
 
-  const openBackdrop = () => {
+  const openModal = () => {
     setOpen(true);
   };
 
@@ -73,7 +73,7 @@ export default function RegisterEventForm({
   const handleCreateTeam = (team: TeamType) => {
     setSelectedTeam(team);
     setTeams([team, ...teams]);
-    setBackdropItem(2);
+    setModalItem(2);
   };
 
   return (
@@ -103,8 +103,8 @@ export default function RegisterEventForm({
         <FixedButton
           isDisabled={disableRegister}
           onClick={() => {
-            setBackdropItem(2);
-            openBackdrop();
+            setModalItem(2);
+            openModal();
           }}
           name="Register"
         />
@@ -114,18 +114,18 @@ export default function RegisterEventForm({
       </div>
       <FixedButton
         onClick={() => {
-          setBackdropItem(1);
-          openBackdrop();
+          setModalItem(1);
+          openModal();
         }}
         name="Create Your New Team"
       />
-      <Backdrop isOpen={open}>
+      <Modal isOpen={open}>
         <div>
           {
             {
               1: (
                 <CreateTeam
-                  onCancel={closeBackdrop}
+                  onCancel={closeModal}
                   handleSubmit={handleCreateTeam}
                   teamSize={teamSize}
                 />
@@ -136,16 +136,16 @@ export default function RegisterEventForm({
                   setTeamId={setTeamId}
                   teamSize={teamSize}
                   eventId={eventId}
-                  onCancel={closeBackdrop}
+                  onCancel={closeModal}
                   team={selectedTeam}
                   gameCode={gameCode}
                   setIsRegistered={setIsRegistered}
                 />
               ),
-            }[backdropItem]
+            }[modalItem]
           }
         </div>
-      </Backdrop>
+      </Modal>
       <SnackbarAlert
         autoHideDuration={5000}
         message={{

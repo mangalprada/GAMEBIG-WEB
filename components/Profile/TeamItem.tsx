@@ -3,17 +3,19 @@ import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
 
+type Props = {
+  team: TeamType;
+  removeTeam: (id: string) => void;
+  openModal: (open: boolean) => void;
+  setSelectedTeam: (team: TeamType) => void;
+};
+
 export default function TeamItem({
   team,
   removeTeam,
-  openBackdrop,
+  openModal,
   setSelectedTeam,
-}: {
-  team: TeamType;
-  removeTeam: (id: string) => void;
-  openBackdrop: (open: boolean) => void;
-  setSelectedTeam: (team: TeamType) => void;
-}) {
+}: Props) {
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: { label: '', message: '' },
@@ -36,7 +38,7 @@ export default function TeamItem({
 
   const handleEdit = () => {
     setSelectedTeam(team);
-    openBackdrop(true);
+    openModal(true);
   };
 
   return (

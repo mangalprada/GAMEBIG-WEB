@@ -12,8 +12,8 @@ import { games as allSupportedGames } from '../../../utilities/GameList';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../libs/getUser';
 import getGamerData from '../../../libs/getGamerData';
-import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
+import Modal from '@/components/UI/Modal/Modal';
 
 export default function Home({
   userData,
@@ -74,7 +74,7 @@ export default function Home({
             })}
           </div>
         </div>
-        <Backdrop isOpen={open} closeBackdrop={handleClose}>
+        <Modal isOpen={open} closeModal={handleClose}>
           <div>
             {Object.keys(allSupportedGames).map(function (key, index) {
               return (
@@ -88,7 +88,7 @@ export default function Home({
               );
             })}
           </div>
-        </Backdrop>
+        </Modal>
       </Aux>
     </div>
   );

@@ -9,8 +9,8 @@ import TeamItem from '../../../components/Profile/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../libs/getUser';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
-import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import { useAuth } from '../../../context/authContext';
+import Modal from '@/components/UI/Modal/Modal';
 
 export default function Home({
   userData,
@@ -20,16 +20,16 @@ export default function Home({
   teams: Array<TeamType>;
 }) {
   const { userData: user } = useAuth();
-  const [backdropOpen, setBackdropOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState(teams);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
     undefined
   );
-  const closeBackdrop = () => {
-    setBackdropOpen(false);
+  const closeModal = () => {
+    setModalOpen(false);
   };
-  const openBackdrop = () => {
-    setBackdropOpen(true);
+  const openModal = () => {
+    setModalOpen(true);
   };
 
   const removeTeam = (docId: string) => {
@@ -55,7 +55,7 @@ export default function Home({
       <div className="w-11/12 md:w-5/6 xl:w-1/2 mx-auto mt-2">
         <div className="flex justify-end">
           {userData.username === user.username ? (
-            <FixedButton name="Create Team" onClick={openBackdrop} />
+            <FixedButton name="Create Team" onClick={openModal} />
           ) : null}
         </div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
@@ -65,20 +65,20 @@ export default function Home({
                 <TeamItem
                   team={team}
                   key={index}
-                  openBackdrop={openBackdrop}
+                  openModal={openModal}
                   setSelectedTeam={setSelectedTeam}
                   removeTeam={removeTeam}
                 />
               );
             })
           ) : (
-            <TeamIntro openBackdrop={openBackdrop} />
+            <TeamIntro openModal={openModal} />
           )}
         </div>
       </div>
-      <Backdrop isOpen={backdropOpen}>
-        <CreateTeam teamData={selectedTeam} onCancel={closeBackdrop} />
-      </Backdrop>
+      <Modal isOpen={modalOpen}>
+        <CreateTeam teamData={selectedTeam} onCancel={closeModal} />
+      </Modal>
     </Aux>
   );
 }

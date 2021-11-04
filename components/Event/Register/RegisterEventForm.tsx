@@ -4,14 +4,13 @@ import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
 import CreateTeam from '../../Profile/createTeam';
 import GamerDetails from './GamerDetails';
-import Backdrop from '../../UI/Backdrop/Backdrop';
 import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
-import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
+import Modal from '@/components/UI/Modal/Modal';
+import { useUI } from '@/context/uiContext';
 interface Props {
   eventId: string;
   gameCode: string;
-  setIsAlertOpen: () => void;
   teamSize: number;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
@@ -22,16 +21,15 @@ export default function RegisterEventForm({
   gameCode,
   teamSize,
   setIsRegistered,
-  setIsAlertOpen,
   setTeamId,
 }: Props) {
   const { userData } = useAuth();
+  const { openSnackBar } = useUI();
+
   const [teams, setTeams] = useState<TeamType[]>([]);
-  const [backdropItem, setBackdropItem] = useState<number>(1);
+  const [modalItem, setModalItem] = useState<number>(1);
   const [selectedTeam, setSelectedTeam] = useState<TeamType>();
   const [disableRegister, setDisableRegister] = useState<boolean>(true);
-  const [showSnakbar, setShowSnakbar] = useState<boolean>(false);
-  const [snakbarMessage, setSnakbarMessage] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -58,22 +56,18 @@ export default function RegisterEventForm({
     setTeams(teams);
   }, [userData.username]);
 
-  const closeBackdrop = () => {
+  const closeModal = () => {
     setOpen(false);
   };
 
-  const openBackdrop = () => {
+  const openModal = () => {
     setOpen(true);
-  };
-
-  const hideSnackbar = () => {
-    setShowSnakbar(false);
   };
 
   const handleCreateTeam = (team: TeamType) => {
     setSelectedTeam(team);
     setTeams([team, ...teams]);
-    setBackdropItem(2);
+    setModalItem(2);
   };
 
   return (
@@ -90,10 +84,11 @@ export default function RegisterEventForm({
               setSelectedTeam(val);
             } else {
               setDisableRegister(true);
-              setSnakbarMessage(
-                `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}.`
-              );
-              setShowSnakbar(true);
+              openSnackBar({
+                label: 'Oops!',
+                message: `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}.`,
+                type: 'warning',
+              });
             }
           }}
           label="Select From Existing Teams"
@@ -103,8 +98,8 @@ export default function RegisterEventForm({
         <FixedButton
           isDisabled={disableRegister}
           onClick={() => {
-            setBackdropItem(2);
-            openBackdrop();
+            setModalItem(2);
+            openModal();
           }}
           name="Register"
         />
@@ -114,48 +109,37 @@ export default function RegisterEventForm({
       </div>
       <FixedButton
         onClick={() => {
-          setBackdropItem(1);
-          openBackdrop();
+          setModalItem(1);
+          openModal();
         }}
         name="Create Your New Team"
       />
-      <Backdrop isOpen={open}>
+      <Modal isOpen={open}>
         <div>
           {
             {
               1: (
                 <CreateTeam
-                  onCancel={closeBackdrop}
+                  onCancel={closeModal}
                   handleSubmit={handleCreateTeam}
                   teamSize={teamSize}
                 />
               ),
               2: (
                 <GamerDetails
-                  setIsAlertOpen={setIsAlertOpen}
                   setTeamId={setTeamId}
                   teamSize={teamSize}
                   eventId={eventId}
-                  onCancel={closeBackdrop}
+                  onCancel={closeModal}
                   team={selectedTeam}
                   gameCode={gameCode}
                   setIsRegistered={setIsRegistered}
                 />
               ),
-            }[backdropItem]
+            }[modalItem]
           }
         </div>
-      </Backdrop>
-      <SnackbarAlert
-        autoHideDuration={5000}
-        message={{
-          label: 'Oops!',
-          message: snakbarMessage,
-        }}
-        onClose={hideSnackbar}
-        open={showSnakbar}
-        type="warning"
-      />
+      </Modal>
     </div>
   );
 }

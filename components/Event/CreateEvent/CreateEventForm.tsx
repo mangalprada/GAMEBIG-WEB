@@ -32,13 +32,13 @@ export default function CreateEventForm() {
   const {
     userData: { linkedOrganizationId, linkedOrganizationName },
   } = useAuth();
-  const [isBackDropOpen, setIsBackDropOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
-      setIsBackDropOpen(true);
+      setIsModalOpen(true);
       if (linkedOrganizationId && linkedOrganizationName) {
         const tournId = await addNewEvent(
           linkedOrganizationId,
@@ -51,7 +51,7 @@ export default function CreateEventForm() {
           router.push('/404');
         }
       }
-      setIsBackDropOpen(false);
+      setIsModalOpen(false);
       resetForm();
     },
   });
@@ -122,7 +122,7 @@ export default function CreateEventForm() {
                 name="noOfSlots"
                 value={formik.values.noOfSlots}
                 min={2}
-                max={25}
+                max={formik.values.mode === 'Solo' ? 100 : 25}
                 onSlide={(e) =>
                   formik.setFieldValue('noOfSlots', e.target.value)
                 }

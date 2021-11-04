@@ -7,6 +7,7 @@ import '../styles/globals.css';
 import '../public/npprogress.css';
 import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';
+import { UIProvider } from '@/context/uiContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -30,11 +31,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router]);
   return (
-    <AuthProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AuthProvider>
+    <UIProvider>
+      <AuthProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AuthProvider>
+    </UIProvider>
   );
 }
 

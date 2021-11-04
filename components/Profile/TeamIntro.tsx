@@ -1,10 +1,10 @@
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 
-export default function TeamIntro({
-  openBackdrop,
-}: {
-  openBackdrop: () => void;
-}) {
+type Props = {
+  openModal: () => void;
+};
+
+export default function TeamIntro({ openModal }: Props) {
   return (
     <div
       className={
@@ -15,7 +15,7 @@ export default function TeamIntro({
       <span className="text-xl md:text-3xl py-6">
         Create a team and participate in events, NOW!
       </span>
-      <ResponsiveButton name="Create" type="submit" onClick={openBackdrop} />
+      <ResponsiveButton name="Create" type="submit" onClick={openModal} />
     </div>
   );
 }

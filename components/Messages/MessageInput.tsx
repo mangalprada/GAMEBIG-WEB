@@ -62,7 +62,7 @@ export default function MessageInput({
     await db
       .collection('messageRooms')
       .doc(roomId)
-      .set({
+      .update({
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastMessage: message,
         noOfUnseenMessages: 0, // increment
@@ -89,7 +89,7 @@ export default function MessageInput({
     if (messageRoomId) {
       updateMessageRoom({ roomId, message });
     }
-    // fetchMessages();
+    fetchMessages();
   };
 
   return (

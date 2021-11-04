@@ -1,32 +1,30 @@
-import { useState } from 'react';
+import { useUI } from '@/context/uiContext';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
 
+type Props = {
+  team: TeamType;
+  removeTeam: (id: string) => void;
+  openModal: (open: boolean) => void;
+  setSelectedTeam: (team: TeamType) => void;
+};
+
 export default function TeamItem({
   team,
   removeTeam,
-  openBackdrop,
+  openModal,
   setSelectedTeam,
-}: {
-  team: TeamType;
-  removeTeam: (id: string) => void;
-  openBackdrop: (open: boolean) => void;
-  setSelectedTeam: (team: TeamType) => void;
-}) {
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: { label: '', message: '' },
-    severity: 'success' as const,
-  });
+}: Props) {
+  const { openSnackBar } = useUI();
 
   const deleteTeam = async () => {
     try {
       await db.collection('teams').doc(team.docId).delete();
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: { label: 'Deleted', message: `${team.teamName} deleted!` },
+      openSnackBar({
+        label: 'Deleted',
+        message: `${team.teamName} deleted!`,
+        type: 'success',
       });
       if (team.docId) removeTeam(team.docId);
     } catch (err) {
@@ -36,7 +34,7 @@ export default function TeamItem({
 
   const handleEdit = () => {
     setSelectedTeam(team);
-    openBackdrop(true);
+    openModal(true);
   };
 
   return (

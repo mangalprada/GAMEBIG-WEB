@@ -1,42 +1,39 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import { db } from '../../firebase/firebaseClient';
 import { games } from '../../utilities/GameList';
 import { GamerData } from '../../utilities/types';
 import { useAuth } from '../../context/authContext';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { useUI } from '@/context/uiContext';
+
+type Props = {
+  game: GamerData;
+  setBackdrop: (open: boolean) => void;
+  removeGame: (docId: string) => void;
+  username: string;
+};
 
 export default function GameItem({
   game,
   setBackdrop,
   removeGame,
   username,
-}: {
-  game: GamerData;
-  setBackdrop: (open: boolean) => void;
-  removeGame: (docId: string) => void;
-  username: string;
-}) {
+}: Props) {
   const { userData } = useAuth();
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: { label: '', message: '' },
-    severity: 'success' as const,
-  });
+  const { openSnackBar } = useUI();
+
   const { gameCode, ingameid, ingamename, docId } = game;
 
   const deleteGame = async () => {
     try {
       await db.collection('gamers').doc(docId).delete();
-      if (gameCode)
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: {
-            label: 'Deleted',
-            message: `${games[gameCode].name} deleted!`,
-          },
+      if (gameCode) {
+        openSnackBar({
+          label: 'Deleted',
+          message: `${games[gameCode].name} deleted!`,
+          type: 'success',
         });
+      }
       if (docId) removeGame(docId);
     } catch (err) {
       console.log('err', err);

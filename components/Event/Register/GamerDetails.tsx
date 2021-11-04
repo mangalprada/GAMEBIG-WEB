@@ -12,7 +12,6 @@ interface Props {
   gameCode: string;
   onCancel: () => void;
   setIsRegistered: (val: boolean) => void;
-  setIsAlertOpen: () => void;
 }
 
 export default function GamerDetails({
@@ -23,7 +22,6 @@ export default function GamerDetails({
   gameCode,
   onCancel,
   setIsRegistered,
-  setIsAlertOpen,
 }: Props) {
   const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
@@ -59,7 +57,6 @@ export default function GamerDetails({
             teamName: team.teamName,
           });
         setTeamId(docRef.id);
-        setIsAlertOpen();
       }
     } catch (err) {
       console.log('Error adding documents in GamerDetails', err);

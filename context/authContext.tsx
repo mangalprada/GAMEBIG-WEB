@@ -5,7 +5,7 @@ import localforage from 'localforage';
 import firebase from '../firebase/firebaseClient';
 import { UserData } from '../utilities/types';
 import { FriendRequest } from '../utilities/friends/friends';
-import { getFriendRequests, getUserData, saveUser } from '@/libs/user';
+import { getFriendRequests, getUserData, createUser } from '@/libs/user';
 
 const authContext = createContext({
   userData: {} as UserData,
@@ -56,7 +56,7 @@ function useProviderAuth() {
           username: userData.uid,
         });
       } else {
-        saveUser({ username: uid, uid } as UserData);
+        createUser({ username: uid, uid } as UserData);
         setAuthPageNumber(2);
       }
     }

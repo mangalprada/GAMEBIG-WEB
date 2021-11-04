@@ -122,7 +122,7 @@ export default function CreateEventForm() {
                 name="noOfSlots"
                 value={formik.values.noOfSlots}
                 min={2}
-                max={25}
+                max={formik.values.mode === 'Solo' ? 100 : 25}
                 onSlide={(e) =>
                   formik.setFieldValue('noOfSlots', e.target.value)
                 }

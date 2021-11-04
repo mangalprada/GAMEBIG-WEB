@@ -5,7 +5,7 @@ import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
-import { isUsernameTaken, saveUser } from '@/libs/user';
+import { isUsernameTaken, updateUser } from '@/libs/user';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -22,7 +22,7 @@ type Props = {
 };
 
 function BasicForm({ userData, setUserData }: Props) {
-  const { updateAuthPageNumber, saveUser, isUsernameTaken } = useAuth();
+  const { updateAuthPageNumber } = useAuth();
   const { openSnackBar } = useUI();
 
   const formik = useFormik({
@@ -40,7 +40,7 @@ function BasicForm({ userData, setUserData }: Props) {
         });
       } else {
         setUserData(values);
-        saveUser(values);
+        updateUser(values);
         updateAuthPageNumber(3);
       }
       setSubmitting(false);

@@ -2,7 +2,15 @@ import { FriendRequest } from '@/utilities/friends/friends';
 import { UserData } from '@/utilities/types';
 import { db } from 'firebase/firebaseClient';
 
-export const saveUser = async (userData: UserData) => {
+export const updateUser = async (userData: UserData) => {
+  try {
+    await db.collection('users').doc(userData.uid).update(userData);
+  } catch (err) {
+    console.log('err', err);
+  }
+};
+
+export const createUser = async (userData: UserData) => {
   try {
     await db
       .collection('users')

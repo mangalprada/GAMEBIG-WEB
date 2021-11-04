@@ -41,8 +41,7 @@ const validationSchema = yup.object({
 });
 
 function ProfileForm({ oldValues, push }: Props) {
-  const { isUsernameTaken, userData } = useAuth();
-
+  const { userData } = useAuth();
   const router = useRouter();
 
   const formik = useFormik({

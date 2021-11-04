@@ -19,8 +19,8 @@ const Messages = () => {
   }, [router.query.receiver]);
 
   return (
-    <div className="fixed md:w-10/12">
-      <div className="flex items-center mt-4 md:gap-8 h-screen ">
+    <div className="flex justify-center px-2 py-6">
+      <div className="flex w-full md:w-3/4 md:gap-8 h-screen ">
         <MessageRoomList
           setMessageRoomId={setMessageRoomId}
           setReceiver={setReceiver}

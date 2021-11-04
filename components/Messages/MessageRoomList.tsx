@@ -15,9 +15,18 @@ import MessageRoom from './MessageRoom';
 type Props = {
   setReceiver: (user: any) => void;
   setMessageRoomId: Dispatch<SetStateAction<string>>;
+  setShowMsgContainer: Dispatch<SetStateAction<boolean>>;
+  isSmallScreen: boolean;
+  showMsgContainer: boolean;
 };
 
-const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
+const MessageRoomList = ({
+  setReceiver,
+  setMessageRoomId,
+  setShowMsgContainer,
+  isSmallScreen,
+  showMsgContainer,
+}: Props) => {
   const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -33,7 +42,6 @@ const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
             ...doc.data(),
             docId: doc.id,
           }));
-          console.log(rooms);
           setMessageRooms(rooms);
         });
   }, [userData.username]);
@@ -42,7 +50,6 @@ const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
     const index = algoliaClient.initIndex('messageRooms');
     index.search(query).then(({ hits }) => {
       setMessageRooms(hits);
-      console.log(hits);
     });
   };
 
@@ -53,46 +60,55 @@ const MessageRoomList = ({ setReceiver, setMessageRoomId }: Props) => {
       photoURL: room.userDetails[userData.username].photoURL,
     });
     setMessageRoomId(room.docId);
+    setShowMsgContainer(true);
   };
 
+  if (isSmallScreen && showMsgContainer) return null;
+
   return (
-    <div className="w-full md:w-1/3 h-full pt-2">
-      <SearchInput
-        name="searchUser"
-        onChangeHandler={(e: ChangeEvent) => {
-          const target = e.target as HTMLInputElement;
-          setQuery(target.value);
-          const debouncedGetSearch = debounce(
-            () => searchUser(target.value),
-            500
-          );
-          if (target.value.trim() !== '') {
-            debouncedGetSearch();
-          } else {
-            setMessageRooms([]);
-          }
-        }}
-        placeHolder="Search someone and send a message..."
-        value={query}
-        error={Boolean(errorMsg)}
-        errorMessage={errorMsg}
-      />
-      <div className="h-full overflow-auto pr-3">
-        {messageRooms.map((room: any, index: number) => {
-          return (
-            <div key={index}>
-              <MessageRoom
-                receiverName={room.userDetails[userData.username].name}
-                receiverUsername={room.userDetails[userData.username].username}
-                receiverPhotoURL={room.userDetails[userData.username].photoURL}
-                lastMessage={room.lastMessage}
-                onClick={() => {
-                  clickHandler(room);
-                }}
-              />
-            </div>
-          );
-        })}
+    <div className="w-full md:w-1/3 h-full px-1">
+      <div className="w-full h-full pt-2">
+        <SearchInput
+          name="searchUser"
+          onChangeHandler={(e: ChangeEvent) => {
+            const target = e.target as HTMLInputElement;
+            setQuery(target.value);
+            const debouncedGetSearch = debounce(
+              () => searchUser(target.value),
+              500
+            );
+            if (target.value.trim() !== '') {
+              debouncedGetSearch();
+            } else {
+              setMessageRooms([]);
+            }
+          }}
+          placeHolder="Search"
+          value={query}
+          error={Boolean(errorMsg)}
+          errorMessage={errorMsg}
+        />
+        <div className="h-full overflow-auto pr-3">
+          {messageRooms.map((room: any, index: number) => {
+            return (
+              <div key={index}>
+                <MessageRoom
+                  receiverName={room.userDetails[userData.username].name}
+                  receiverUsername={
+                    room.userDetails[userData.username].username
+                  }
+                  receiverPhotoURL={
+                    room.userDetails[userData.username].photoURL
+                  }
+                  lastMessage={room.lastMessage}
+                  onClick={() => {
+                    clickHandler(room);
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

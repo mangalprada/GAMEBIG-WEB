@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { games } from '../../utilities/GameList';
 import { useAuth } from '../../context/authContext';
 import Message from './Message';
 import MessageInput from './MessageInput';
@@ -10,13 +9,23 @@ import {
   MessageReceiver,
   MessageType,
 } from '@/utilities/messages/MessagesTypes';
+import BackArrow from '../UI/Icons/EventIcons/BackArrow';
 
 interface Props {
   messageRoomId?: string;
   receivingUser: MessageReceiver;
+  showMsgContainer: boolean;
+  isSmallScreen: boolean;
+  setShowMsgContainer: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
+export default function MessageContainer({
+  receivingUser,
+  messageRoomId,
+  showMsgContainer,
+  isSmallScreen,
+  setShowMsgContainer,
+}: Props) {
   const { userData } = useAuth();
   const scrollLast = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -41,7 +50,6 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
       .onSnapshot((snapshot) => {
         const temp: MessageType[] = [];
         snapshot.forEach((doc) => {
-          console.log(doc.data());
           temp.push({
             ...doc.data(),
             id: doc.id,
@@ -64,16 +72,29 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
     router.push(`/profile/${receivingUser.username}`);
   };
 
-  if (!receivingUser)
+  if (!isSmallScreen && !showMsgContainer)
     return (
-      <div className="text-right font-sans font-bold text-3xl text-indigo-600">
+      <div className="flex flex-col justify-center text-center font-sans font-bold text-3xl text-indigo-600">
         Chat with your fellow gaming Warriors!
       </div>
     );
 
+  if (isSmallScreen && !showMsgContainer) return null;
+
   return (
-    <div className="h-screen w-3/5 hidden md:flex flex-col">
-      <div className="flex gap-6 items-center justify-start px-4 bg-gray-900 rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800">
+    <div className="h-screen w-full md:w-3/5 flex flex-col px-3">
+      <div
+        className="flex gap-6 items-center justify-start px-4 bg-gray-900 
+          rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800"
+      >
+        {isSmallScreen && (
+          <BackArrow
+            onClick={() => {
+              setShowMsgContainer(false);
+            }}
+            size={24}
+          />
+        )}
         {receivingUser.photoURL ? (
           <div
             onClick={openProfile}
@@ -90,13 +111,13 @@ export default function ChatContainer({ receivingUser, messageRoomId }: Props) {
         ) : null}
         <span
           onClick={openProfile}
-          className="text-2xl text-gray-300 cursor-pointer"
+          className="text-sm md:text-2xl text-gray-300 cursor-pointer"
         >
           {receivingUser.name}
         </span>
         <span
           onClick={openProfile}
-          className="text-xl text-gray-300 cursor-pointer"
+          className="text-xs md:text-lg text-gray-500 cursor-pointer"
         >
           {receivingUser.username}
         </span>

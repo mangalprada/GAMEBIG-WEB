@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
 import SelectDropDown from '../UI/Select/SelectDropDown';
 import LoadingLottie from '../UI/Loaders/Dots';
+import { useUI } from '@/context/uiContext';
 
 const validationSchema = yup.object({
   teamName: yup.string().required('Team name is required'),
@@ -22,25 +22,10 @@ type PropsType = {
   handleSubmit?: (teamData: TeamType) => void;
 };
 
-type SnackbarDataType = {
-  open: boolean;
-  severity: 'success' | 'info' | 'warning' | 'error';
-  message: {
-    label: string;
-    message: string;
-  };
-};
-
 const emptyValues = {
   username: '',
   teamName: '',
   inGameLead: '',
-};
-
-const initialSnackbarData = {
-  open: false,
-  message: { label: '', message: '' },
-  severity: 'warning' as const,
 };
 
 export default function CreateTeam({
@@ -49,10 +34,10 @@ export default function CreateTeam({
   onCancel,
   handleSubmit,
 }: PropsType) {
+  const { openSnackBar } = useUI();
+
   const [loading, setLoading] = useState(false);
   const [gamers, setgamers] = useState<Array<string>>(teamData?.gamers || []);
-  const [snackbarData, setSnackbarData] =
-    useState<SnackbarDataType>(initialSnackbarData);
 
   const formik = useFormik({
     initialValues: {
@@ -72,42 +57,29 @@ export default function CreateTeam({
     },
   });
 
-  const handleClose = () => {
-    setSnackbarData(initialSnackbarData);
-  };
-
   const saveTeam = async (team: TeamType) => {
     if (teamSize && gamers.length !== teamSize) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: {
-          label: 'Oops!',
-          message: `You need to have ${teamSize} gamers to create a Team`,
-        },
-        severity: 'warning' as const,
+      openSnackBar({
+        label: 'Oops!',
+        message: `You need to have ${teamSize} gamers to create a Team`,
+        type: 'warning',
       });
       return;
     }
     if (!team.inGameLead) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: {
-          label: 'Oh Oh!',
-          message: `You need a In Game Lead to create a Team!`,
-        },
-        severity: 'warning' as const,
+      openSnackBar({
+        label: 'Oh Oh!',
+        message: `You need a In Game Lead to create a Team!`,
+        type: 'warning',
       });
       return;
     }
     try {
       await db.collection('teams').add(team);
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: { label: 'Yay!', message: `${team.teamName} added!` },
-        severity: 'success' as const,
+      openSnackBar({
+        label: 'Yay!',
+        message: `${team.teamName} added!`,
+        type: 'success',
       });
       onCancel();
     } catch (err) {
@@ -236,13 +208,6 @@ export default function CreateTeam({
           onClick={formik.handleSubmit}
         />
       </div>
-      <SnackbarAlert
-        open={snackbarData.open}
-        onClose={handleClose}
-        autoHideDuration={5000}
-        message={snackbarData.message}
-        type={snackbarData.severity}
-      />
     </div>
   );
 }

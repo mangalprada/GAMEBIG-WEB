@@ -1,3 +1,4 @@
+import { useUI } from '@/context/uiContext';
 import { useState, useEffect, FC } from 'react';
 import CloseIcon from '../Icons/SnackbarIcons/CloseIcon';
 import ErrorIcon from '../Icons/SnackbarIcons/ErrorIcon';
@@ -6,23 +7,12 @@ import SuccessIcon from '../Icons/SnackbarIcons/SuccessIcon';
 import WarningIcon from '../Icons/SnackbarIcons/WarningIcon';
 
 type Props = {
-  open: boolean;
-  onClose: () => void;
   autoHideDuration: number;
-  type: 'success' | 'info' | 'warning' | 'error';
-  message: {
-    label: string;
-    message: string;
-  };
 };
 
-const SnackbarAlert: FC<Props> = ({
-  open,
-  onClose,
-  autoHideDuration,
-  type,
-  message,
-}: Props) => {
+const SnackbarAlert: FC<Props> = ({ autoHideDuration }: Props) => {
+  const { snackBar, closeSnackBar } = useUI();
+
   const [primaryBGColor, setPrimaryBGColor] = useState('');
   const [secondaryBGColor, setSecondaryBGColor] = useState('');
   const [icon, setIcon] = useState(<></>);
@@ -30,20 +20,20 @@ const SnackbarAlert: FC<Props> = ({
 
   useEffect(() => {
     var timeId: number | undefined = undefined;
-    if (open) {
-      setPosition('right-4 ');
+    if (snackBar.isOpen) {
+      setPosition('md:right-4 right-1 ');
       timeId = window.setTimeout(() => {
         setPosition('-right-96 ');
-        onClose();
+        closeSnackBar();
       }, autoHideDuration);
     }
     return () => {
       window.clearTimeout(timeId);
     };
-  }, [open, autoHideDuration, onClose]);
+  }, [snackBar.isOpen, autoHideDuration, closeSnackBar]);
 
   useEffect(() => {
-    switch (type) {
+    switch (snackBar.type) {
       case 'success':
         setIcon(<SuccessIcon />);
         setPrimaryBGColor('bg-green-500 ');
@@ -69,11 +59,11 @@ const SnackbarAlert: FC<Props> = ({
         setPrimaryBGColor('bg-gray-500 ');
         setSecondaryBGColor('bg-gray-600 ');
     }
-  }, [type]);
+  }, [snackBar.type]);
 
   const handleClose = () => {
     setPosition('-right-96 ');
-    onClose();
+    closeSnackBar();
   };
   return (
     <div
@@ -88,9 +78,9 @@ const SnackbarAlert: FC<Props> = ({
       </div>
       <div className="w-auto items-center p-4">
         <span className="text-lg font-semibold pb-4 tracking-wide text-gray-100">
-          {message.label}
+          {snackBar.label}
         </span>
-        <p className="leading-tight text-gray-50">{message.message}</p>
+        <p className="leading-tight text-gray-50">{snackBar.message}</p>
       </div>
       <div
         className="absolute right-1 top-1 cursor-pointer"

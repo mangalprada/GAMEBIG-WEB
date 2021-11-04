@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useUI } from '@/context/uiContext';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
@@ -16,19 +16,15 @@ export default function TeamItem({
   openModal,
   setSelectedTeam,
 }: Props) {
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: { label: '', message: '' },
-    severity: 'success' as const,
-  });
+  const { openSnackBar } = useUI();
 
   const deleteTeam = async () => {
     try {
       await db.collection('teams').doc(team.docId).delete();
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: { label: 'Deleted', message: `${team.teamName} deleted!` },
+      openSnackBar({
+        label: 'Deleted',
+        message: `${team.teamName} deleted!`,
+        type: 'success',
       });
       if (team.docId) removeTeam(team.docId);
     } catch (err) {

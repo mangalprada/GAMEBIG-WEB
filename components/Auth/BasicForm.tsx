@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { useAuth } from '../../context/authContext';
 import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { useUI } from '@/context/uiContext';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -23,7 +22,7 @@ type Props = {
 
 function BasicForm({ userData, setUserData }: Props) {
   const { updateAuthPageNumber, saveUser, isUsernameTaken } = useAuth();
-  const [showError, setShowError] = useState(false);
+  const { openSnackBar } = useUI();
 
   const formik = useFormik({
     initialValues: userData,
@@ -33,6 +32,11 @@ function BasicForm({ userData, setUserData }: Props) {
       const isTaken = await isUsernameTaken(values.username);
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
+        openSnackBar({
+          label: 'Taken!',
+          message: 'username is taken',
+          type: 'warning',
+        });
       } else {
         setUserData(values);
         saveUser(values);
@@ -41,10 +45,6 @@ function BasicForm({ userData, setUserData }: Props) {
       setSubmitting(false);
     },
   });
-
-  const handleClose = () => {
-    setShowError(false);
-  };
 
   return (
     <div
@@ -66,13 +66,6 @@ function BasicForm({ userData, setUserData }: Props) {
       <div className="flex justify-center">
         <FixedButton onClick={formik.handleSubmit} name="Continue" />
       </div>
-      <SnackbarAlert
-        open={showError}
-        onClose={handleClose}
-        autoHideDuration={5000}
-        message={{ label: 'Taken!', message: 'username is taken' }}
-        type="warning"
-      />
     </div>
   );
 }

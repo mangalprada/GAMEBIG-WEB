@@ -10,7 +10,6 @@ import { useAuth } from '../../../../../context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchEventDataById } from '../../../../../libs/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
-import SnackbarAlert from '@/components/UI/Snackbar/SnackBar';
 import SoloRegistrationForm from '../../../../../components/Event/Register/SoloRegistrationForm';
 import { db } from '../../../../../firebase/firebaseClient';
 import router from 'next/router';
@@ -26,8 +25,6 @@ export default function Event({ orgId, eventData }: Props) {
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
-
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
 
   let isOrganizer = linkedOrganizationId === orgId ? true : false;
 
@@ -88,7 +85,6 @@ export default function Event({ orgId, eventData }: Props) {
               <RegisterEventForm
                 teamSize={4}
                 setTeamId={setTeamId}
-                setIsAlertOpen={() => setIsAlertOpen(true)}
                 gameCode={eventData.gameCode}
                 eventId={eventData.id}
                 setIsRegistered={setIsRegistered}
@@ -98,7 +94,6 @@ export default function Event({ orgId, eventData }: Props) {
               <RegisterEventForm
                 teamSize={2}
                 setTeamId={setTeamId}
-                setIsAlertOpen={() => setIsAlertOpen(true)}
                 gameCode={eventData.gameCode}
                 eventId={eventData.id}
                 setIsRegistered={setIsRegistered}
@@ -132,13 +127,6 @@ export default function Event({ orgId, eventData }: Props) {
           </div>
         )}
       </main>
-      <SnackbarAlert
-        open={isAlertOpen}
-        onClose={() => setIsAlertOpen(false)}
-        autoHideDuration={3000}
-        type="success"
-        message={{ label: 'Registered', message: 'Registration Successful' }}
-      />
     </Aux>
   );
 }

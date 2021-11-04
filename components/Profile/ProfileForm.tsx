@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../../context/authContext';
-import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { UserData } from '../../utilities/types';
 import { db } from '../../firebase/firebaseClient';
 import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
@@ -42,7 +41,6 @@ const validationSchema = yup.object({
 
 function ProfileForm({ oldValues, push }: Props) {
   const { isUsernameTaken } = useAuth();
-  const [showError, setShowError] = useState(false);
 
   const router = useRouter();
 
@@ -61,10 +59,6 @@ function ProfileForm({ oldValues, push }: Props) {
       setSubmitting(false);
     },
   });
-
-  const handleClose = () => {
-    setShowError(false);
-  };
 
   const saveUserData = async (username: string, userData: UserData) => {
     try {
@@ -201,13 +195,6 @@ function ProfileForm({ oldValues, push }: Props) {
           />
         </form>
       </div>
-      <SnackbarAlert
-        open={showError}
-        onClose={handleClose}
-        autoHideDuration={5000}
-        message={{ label: 'Oops!', message: 'username is taken!' }}
-        type="warning"
-      />
     </div>
   );
 }

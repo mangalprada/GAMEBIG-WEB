@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { getDecoratedTime } from '../../utilities/functions/dateConvert';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import SnackbarAlert from '../../components/UI/Snackbar/SnackBar';
+import { useUI } from '@/context/uiContext';
 
 export default function Home() {
+  const { openSnackBar } = useUI();
+
   const [notices, setNotices] = useState([]);
-  const [showInfo, setShowInfo] = useState(false);
-  const [message, setMessage] = useState({ label: '', message: '' });
 
   useEffect(() => {
     let notices = [];
@@ -17,10 +17,6 @@ export default function Home() {
     }
     setNotices(notices);
   }, []);
-
-  const handleClose = () => {
-    setShowInfo(false);
-  };
 
   return (
     <Aux>
@@ -42,11 +38,11 @@ export default function Home() {
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(roomId);
-                    setMessage({
+                    openSnackBar({
                       label: 'Copied!',
                       message: 'Room Id copied to clipboard',
+                      type: 'info',
                     });
-                    setShowInfo(true);
                   }}
                   className=""
                 >
@@ -56,11 +52,11 @@ export default function Home() {
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(password);
-                    setMessage({
+                    openSnackBar({
                       label: 'Copied',
                       message: 'Password copied to clipboard',
+                      type: 'info',
                     });
-                    setShowInfo(true);
                   }}
                   className=""
                 >
@@ -70,13 +66,6 @@ export default function Home() {
             </div>
           );
         })}
-        <SnackbarAlert
-          open={showInfo}
-          onClose={handleClose}
-          autoHideDuration={3000}
-          message={message}
-          type="info"
-        />
       </div>
     </Aux>
   );

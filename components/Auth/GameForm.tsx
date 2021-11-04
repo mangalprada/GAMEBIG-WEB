@@ -3,10 +3,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Image from 'next/image';
 import { db } from '../../firebase/firebaseClient';
-import SnackbarAlert from '../UI/Snackbar/SnackBar';
 import { GamerData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
 import NormalInput from '../UI/Inputs/NormalInput';
+import { useUI } from '@/context/uiContext';
 
 const validationSchema = yup.object({
   ingamename: yup.string().required('In Game Name is required'),
@@ -35,6 +35,8 @@ const GameForm: FC<Props> = ({
   oldValues,
   addToCurrentGames,
 }: Props) => {
+  const { openSnackBar } = useUI();
+
   const [snackbarData, setSnackbarData] = useState({
     open: false,
     message: { label: '', message: '' },
@@ -53,10 +55,10 @@ const GameForm: FC<Props> = ({
       await db
         .collection('gamers')
         .add({ username: username, gameCode: game.gameCode, ...gameData });
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: { label: 'Saved', message: `${game.name} added!` },
+      openSnackBar({
+        label: 'Saved',
+        message: `${game.name} added!`,
+        type: 'success',
       });
     } catch (err) {
       console.log('err', err);
@@ -69,10 +71,10 @@ const GameForm: FC<Props> = ({
   }) => {
     try {
       await db.collection('gamers').doc(oldValues?.docId).update(gameData);
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: { label: 'Updated', message: `${game.name} updated!` },
+      openSnackBar({
+        label: 'Updated',
+        message: `${game.name} updated!`,
+        type: 'success',
       });
     } catch (err) {
       console.log('err', err);
@@ -147,13 +149,6 @@ const GameForm: FC<Props> = ({
           </div>
         </form>
       </div>
-      <SnackbarAlert
-        open={snackbarData.open}
-        onClose={handleSnackbarClose}
-        autoHideDuration={5000}
-        message={snackbarData.message}
-        type={snackbarData.severity}
-      />
     </div>
   );
 };

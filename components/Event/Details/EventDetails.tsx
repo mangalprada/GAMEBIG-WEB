@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useAuth } from '../../../context/authContext';
-import SnackbarAlert from '../../UI/Snackbar/SnackBar';
 import { EventData } from '../../../utilities/eventItem/types';
 import {
   getDecoratedDate,
@@ -11,6 +10,7 @@ import { games } from '../../../utilities/GameList';
 import { db } from '../../../firebase/firebaseClient';
 import TextButton from '../../UI/Buttons/TextButton';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
+import { useUI } from '@/context/uiContext';
 
 interface Props {
   data: EventData;
@@ -19,6 +19,8 @@ interface Props {
 
 export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
   const { userData } = useAuth();
+  const { openSnackBar } = useUI();
+
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState(false);
   const [message, setMessage] = useState({
@@ -42,10 +44,6 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
         });
     }
   }, [data.id, userData.username]);
-
-  const handleClose = () => {
-    setShowInfo(false);
-  };
 
   return (
     <div className="font-sans">
@@ -133,11 +131,11 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
                   onClick={() => {
                     if (data.roomId) {
                       navigator.clipboard.writeText(data.roomId);
-                      setMessage({
+                      openSnackBar({
                         label: 'Copied!',
                         message: 'Room ID copied to clipboard',
+                        type: 'warning',
                       });
-                      setShowInfo(true);
                     }
                   }}
                 >
@@ -154,9 +152,10 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
                   onClick={() => {
                     if (data.password) {
                       navigator.clipboard.writeText(data.password);
-                      setMessage({
+                      openSnackBar({
                         label: 'Copied!',
                         message: 'Password copied to clipboard',
+                        type: 'warning',
                       });
                       setShowInfo(true);
                     }
@@ -169,13 +168,6 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
           )}
         </div>
       ) : null}
-      <SnackbarAlert
-        open={showInfo}
-        onClose={handleClose}
-        autoHideDuration={3000}
-        message={message}
-        type="warning"
-      />
     </div>
   );
 }

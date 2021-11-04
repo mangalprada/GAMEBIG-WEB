@@ -5,6 +5,7 @@ import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
+import { isUsernameTaken, saveUser } from '@/libs/user';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -29,7 +30,7 @@ function BasicForm({ userData, setUserData }: Props) {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       setSubmitting(true);
-      const isTaken = await isUsernameTaken(values.username);
+      const isTaken = await isUsernameTaken(values.username, userData.uid);
       if (isTaken) {
         setErrors({ username: 'This username is taken!' });
         openSnackBar({

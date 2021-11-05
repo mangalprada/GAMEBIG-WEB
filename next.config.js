@@ -16,7 +16,11 @@ module.exports = withPWA({
     includePaths: [path.join(__dirname, 'classes')],
   },
   images: {
-    domains: ['lh3.googleusercontent.com', 'play-lh.googleusercontent.com'],
+    domains: [
+      'lh3.googleusercontent.com',
+      'play-lh.googleusercontent.com',
+      'graph.facebook.com',
+    ],
   },
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,

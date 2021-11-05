@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import localforage from 'localforage';
 import { useAuth } from '../../context/authContext';
 import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
@@ -17,12 +18,12 @@ const validationSchema = yup.object({
 });
 
 type Props = {
-  userData: UserData;
-  setUserData: (userData: UserData) => void;
+  data: UserData;
+  setData: (userData: UserData) => void;
 };
 
-function BasicForm({ userData, setUserData }: Props) {
-  const { updateAuthPageNumber } = useAuth();
+function BasicForm({ setData }: Props) {
+  const { updateAuthPageNumber, setUserData, userData } = useAuth();
   const { openSnackBar } = useUI();
 
   const formik = useFormik({
@@ -39,9 +40,15 @@ function BasicForm({ userData, setUserData }: Props) {
           type: 'warning',
         });
       } else {
-        setUserData(values);
-        updateUser(values);
+        const data = { ...userData, ...values };
+        setUserData(data);
+        setData(data);
+        updateUser(data);
         updateAuthPageNumber(3);
+        localforage.setItem('user', {
+          uid: userData.uid,
+          username: values.username,
+        });
       }
       setSubmitting(false);
     },
@@ -65,7 +72,11 @@ function BasicForm({ userData, setUserData }: Props) {
         />
       </form>
       <div className="flex justify-center">
-        <FixedButton onClick={formik.handleSubmit} name="Continue" />
+        <FixedButton
+          onClick={formik.handleSubmit}
+          type="submit"
+          name="Continue"
+        />
       </div>
     </div>
   );

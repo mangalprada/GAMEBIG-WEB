@@ -15,7 +15,7 @@ const inititalValues: UserData = {
 
 export default function Home() {
   const { authPageNumber } = useAuth();
-  const [userData, setUserData] = useState(inititalValues);
+  const [data, setData] = useState(inititalValues);
   return (
     <Aux>
       <Head>
@@ -36,8 +36,8 @@ export default function Home() {
         {
           {
             1: <AuthComponent />,
-            2: <BasicForm userData={userData} setUserData={setUserData} />,
-            3: <AddGames isUpdating={false} username={userData.username} />,
+            2: <BasicForm data={data} setData={setData} />,
+            3: <AddGames isUpdating={false} username={data.username} />,
           }[authPageNumber]
         }
       </div>

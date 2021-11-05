@@ -9,6 +9,7 @@ import { getFriendRequests, getUserData, createUser } from '@/libs/user';
 
 const authContext = createContext({
   userData: {} as UserData,
+  setUserData: (data: UserData) => {},
   updateOrgId: (id: string) => {},
   updateOrgName: (name: string) => {},
   authPageNumber: 1,
@@ -38,6 +39,7 @@ function useProviderAuth() {
     await firebase.auth().signOut();
     setUserData({} as UserData);
     localforage.removeItem('user');
+    nookies.destroy(undefined, 'token');
     setAuthPageNumber(1);
   };
 
@@ -46,18 +48,21 @@ function useProviderAuth() {
     nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
     if (uid && displayName && photoURL) {
-      const userData = await getUserData(uid);
-      if (userData) {
+      const tempUser = await getUserData(uid);
+      if (tempUser.uid) {
         router.push('/');
         setAuthPageNumber(1);
-        setUserData(userData);
+        setUserData(tempUser);
         localforage.setItem('user', {
-          uid: userData.uid,
-          username: userData.uid,
+          uid: tempUser.uid,
+          username: tempUser.username,
         });
       } else {
-        createUser({ username: uid, uid } as UserData);
+        const temp = { username: uid, uid, photoURL } as UserData;
+        setUserData(temp);
         setAuthPageNumber(2);
+        createUser(temp);
+        router.push('/auth');
       }
     }
   };
@@ -93,24 +98,14 @@ function useProviderAuth() {
   };
   useEffect(() => {
     getLocalUser();
-    return firebase.auth().onIdTokenChanged(async (user) => {
-      if (!user) {
-        nookies.set(undefined, 'token', '', {});
-        localforage.removeItem('user');
-        return;
-      } else {
-        const userData: UserData = await getUserData(user.uid);
-        setUserData(userData);
-        localforage.setItem('user', {
-          uid: user.uid,
-          username: userData.username,
-        });
-        const requests = getFriendRequests(userData.username);
-        setReceivedFriendRequests(requests);
-        const token = await user.getIdToken(true);
-        nookies.set(undefined, 'token', token, {});
-      }
-    });
+    const user = firebase.auth().currentUser;
+    if (user) {
+      handleSignIn(user);
+    } else {
+      setUserData({} as UserData);
+      localforage.removeItem('user');
+      nookies.destroy(undefined, 'token');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -128,6 +123,7 @@ function useProviderAuth() {
 
   return {
     userData,
+    setUserData,
     updateOrgId,
     updateOrgName,
     authPageNumber,
@@ -142,6 +138,7 @@ function useProviderAuth() {
 type Props = {
   isSignedIn?: boolean;
   userData?: UserData;
+  setUserData?: (data: UserData) => void;
   updateOrgId?: () => void;
   updateOrgName?: (name: string) => void;
   children: React.ReactNode;

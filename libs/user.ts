@@ -12,15 +12,7 @@ export const updateUser = async (userData: UserData) => {
 
 export const createUser = async (userData: UserData) => {
   try {
-    await db
-      .collection('users')
-      .doc(userData.uid)
-      .set({
-        ...userData,
-        name: userData.name,
-        uid: userData.uid,
-        photoURL: userData.photoURL,
-      });
+    await db.collection('users').doc(userData.uid).set(userData);
   } catch (err) {
     console.log('err', err);
   }

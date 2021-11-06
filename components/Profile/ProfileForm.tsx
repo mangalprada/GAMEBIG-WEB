@@ -95,6 +95,7 @@ function ProfileForm({ oldValues, push }: Props) {
           </h6>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
             <FormInput
+              isDisabled={true}
               labelName="username"
               name="username"
               value={formik.values.username}

@@ -52,7 +52,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
         if (userData.linkedOrganizationName !== value.name) {
           updateOrgName(value.name);
           await addOrganizationIdtoAdminUser(
-            userData.docId,
+            userData.uid,
             value.name,
             organizationData.id
           );
@@ -62,12 +62,10 @@ function CreateOrganizationForm({ organizationData }: Props) {
         const orgId = await addOrganization(value);
         if (orgId) {
           updateOrgId(orgId);
-          if (userData.docId) updateOrgName(value.name);
-          await addOrganizationIdtoAdminUser(userData.docId, value.name, orgId);
+          if (userData.uid) updateOrgName(value.name);
+          await addOrganizationIdtoAdminUser(userData.uid, value.name, orgId);
           router.push(`/organization/${orgId}`);
         }
-
-        router.push(`/organization/${orgId}`);
       }
       resetForm();
     },

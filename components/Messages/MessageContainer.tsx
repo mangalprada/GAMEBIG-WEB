@@ -17,6 +17,7 @@ interface Props {
   showMsgContainer: boolean;
   isSmallScreen: boolean;
   setShowMsgContainer: Dispatch<SetStateAction<boolean>>;
+  setMessageRoomId: Dispatch<SetStateAction<string>>;
 }
 
 export default function MessageContainer({
@@ -25,6 +26,7 @@ export default function MessageContainer({
   showMsgContainer,
   isSmallScreen,
   setShowMsgContainer,
+  setMessageRoomId,
 }: Props) {
   const { userData } = useAuth();
   const scrollLast = useRef<HTMLDivElement>(null);
@@ -43,20 +45,24 @@ export default function MessageContainer({
   }, [messages]);
 
   const fetchMessages = () => {
-    db.collection('messageRooms')
-      .doc(messageRoomId)
-      .collection('messages')
-      .orderBy('createdAt', 'asc')
-      .onSnapshot((snapshot) => {
-        const temp: MessageType[] = [];
-        snapshot.forEach((doc) => {
-          temp.push({
-            ...doc.data(),
-            id: doc.id,
-          } as MessageType);
+    try {
+      db.collection('messageRooms')
+        .doc(messageRoomId)
+        .collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot((snapshot) => {
+          const temp: MessageType[] = [];
+          snapshot.forEach((doc) => {
+            temp.push({
+              ...doc.data(),
+              id: doc.id,
+            } as MessageType);
+          });
+          setMessages(temp);
         });
-        setMessages(temp);
-      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const messagesListView =
@@ -71,13 +77,6 @@ export default function MessageContainer({
   const openProfile = () => {
     router.push(`/profile/${receivingUser.username}`);
   };
-
-  if (!isSmallScreen && !showMsgContainer)
-    return (
-      <div className="flex flex-col justify-center text-center font-sans font-bold text-3xl text-indigo-600">
-        Chat with your fellow gaming Warriors!
-      </div>
-    );
 
   if (isSmallScreen && !showMsgContainer) return null;
 
@@ -135,6 +134,7 @@ export default function MessageContainer({
         messageRoomId={messageRoomId}
         receivingUser={receivingUser}
         fetchMessages={fetchMessages}
+        setMessageRoomId={setMessageRoomId}
       />
     </div>
   );

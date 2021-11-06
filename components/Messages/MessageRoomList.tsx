@@ -30,7 +30,8 @@ const MessageRoomList = ({
   const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [messageRooms, setMessageRooms] = useState<any>([]);
+  const [messageRooms, setMessageRooms] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     if (userData.username)
@@ -42,14 +43,14 @@ const MessageRoomList = ({
             ...doc.data(),
             docId: doc.id,
           }));
-          setMessageRooms(rooms);
+          setMessageRooms(rooms as any);
         });
   }, [userData.username]);
 
   const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');
     index.search(query).then(({ hits }) => {
-      setMessageRooms(hits);
+      console.log(hits);
     });
   };
 
@@ -68,7 +69,7 @@ const MessageRoomList = ({
   return (
     <div className="w-full md:w-1/3 h-full px-1">
       <div className="w-full h-full pt-2">
-        <SearchInput
+        {/* <SearchInput
           name="searchUser"
           onChangeHandler={(e: ChangeEvent) => {
             const target = e.target as HTMLInputElement;
@@ -80,14 +81,14 @@ const MessageRoomList = ({
             if (target.value.trim() !== '') {
               debouncedGetSearch();
             } else {
-              setMessageRooms([]);
+              setSearchResults([]);
             }
           }}
           placeHolder="Search"
           value={query}
           error={Boolean(errorMsg)}
           errorMessage={errorMsg}
-        />
+        /> */}
         <div className="h-full overflow-auto pr-3">
           {messageRooms.map((room: any, index: number) => {
             return (

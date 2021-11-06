@@ -10,45 +10,40 @@ type Props = {
   };
   messageRoomId?: string;
   fetchMessages: () => void;
+  setMessageRoomId: (val: string) => void;
 };
 
 export default function MessageInput({
   receivingUser,
   messageRoomId,
   fetchMessages,
+  setMessageRoomId,
 }: Props) {
   const [message, setMessage] = useState<string>('');
   const { userData } = useAuth();
 
   const createMessageRoom = async () => {
     let roomId = '';
-    console.log(userData, receivingUser);
-    await db
-      .collection('messageRooms')
-      .add({
-        usernames: [userData.username, receivingUser.username],
-        userDetails: {
-          [receivingUser.username]: {
-            username: userData.username,
-            photoURL: userData.photoURL,
-            name: userData.name,
+    try {
+      await db
+        .collection('messageRooms')
+        .add({
+          usernames: [userData.username, receivingUser.username],
+          userDetails: {
+            [receivingUser.username]: userData,
+            [userData.username]: receivingUser,
           },
-          [userData.username]: {
-            username: receivingUser.username,
-            photoURL: receivingUser.photoURL,
-            name: receivingUser.name,
-          },
-        },
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        lastMessage: message,
-      })
-      .then(function (docRef) {
-        roomId = docRef.id;
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-      });
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastMessage: message,
+          type: 'direct',
+        })
+        .then(function (docRef) {
+          roomId = docRef.id;
+        });
+    } catch (error) {
+      console.log(error);
+    }
     return roomId;
   };
 
@@ -59,17 +54,15 @@ export default function MessageInput({
     roomId: string;
     message: string;
   }) => {
-    await db
-      .collection('messageRooms')
-      .doc(roomId)
-      .update({
+    try {
+      await db.collection('messageRooms').doc(roomId).update({
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastMessage: message,
         noOfUnseenMessages: 0, // increment
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const sendMessage = async () => {
@@ -81,12 +74,17 @@ export default function MessageInput({
     } else {
       roomId = messageRoomId;
     }
-    db.collection('messageRooms').doc(roomId).collection('messages').add({
-      username: userData.username,
-      message: message,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    if (messageRoomId) {
+    try {
+      db.collection('messageRooms').doc(roomId).collection('messages').add({
+        username: userData.username,
+        message: message,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    if (roomId) {
+      setMessageRoomId(roomId);
       updateMessageRoom({ roomId, message });
     }
     fetchMessages();

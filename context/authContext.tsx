@@ -58,7 +58,12 @@ function useProviderAuth() {
           username: tempUser.username,
         });
       } else {
-        const temp = { username: uid, uid, photoURL } as UserData;
+        const temp = {
+          username: uid,
+          name: displayName,
+          uid,
+          photoURL,
+        } as UserData;
         setUserData(temp);
         setAuthPageNumber(2);
         createUser(temp);
@@ -103,10 +108,18 @@ function useProviderAuth() {
       handleSignIn(user);
     } else {
       setUserData({} as UserData);
-      localforage.removeItem('user');
-      nookies.destroy(undefined, 'token');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // force refresh the token every 10 minutes
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      const user = firebase.auth().currentUser;
+      if (user) await user.getIdToken(true);
+    }, 10 * 60 * 1000);
+
+    return () => clearInterval(handle);
   }, []);
 
   const updateOrgId = (id: string) => {

@@ -5,24 +5,27 @@ import { GamerData } from '../../utilities/types';
 import { useAuth } from '../../context/authContext';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
+import router from 'next/router';
 
 type Props = {
   game: GamerData;
-  setBackdrop: (open: boolean) => void;
-  removeGame: (docId: string) => void;
+  setIsModalOpen: (open: boolean) => void;
   username: string;
+  setGameCode: (gameCode: string) => void;
+  setPageNumber: (pageNumber: number) => void;
 };
 
 export default function GameItem({
   game,
-  setBackdrop,
-  removeGame,
+  setIsModalOpen,
   username,
+  setGameCode,
+  setPageNumber,
 }: Props) {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
 
-  const { gameCode, ingameid, ingamename, docId } = game;
+  const { gameCode, inGameId, inGameName, kd, highestTier, docId } = game;
 
   const deleteGame = async () => {
     try {
@@ -34,11 +37,18 @@ export default function GameItem({
           type: 'success',
         });
       }
-      if (docId) removeGame(docId);
+      if (docId) router.push(`/profile/${username}/games`);
     } catch (err) {
       console.log('err', err);
     }
   };
+
+  function editGameHandler() {
+    gameCode && setGameCode(gameCode);
+    setPageNumber(2);
+    setIsModalOpen(true);
+  }
+
   return (
     <div
       className={
@@ -66,23 +76,35 @@ export default function GameItem({
         </div>
       </div>
       <div className="flex flex-col justify-evenly w-full">
-        <div className="flex justify-evenly">
-          <div>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-5 mx-6">
+          <section>
             <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
               In Game Name
             </label>
-            <span className="font-sans font-bold text-lg">{ingamename}</span>
-          </div>
-          <div>
+            <span className="font-sans font-bold text-lg">{inGameName}</span>
+          </section>
+          <section>
             <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
               In Game ID
             </label>
-            <span className="font-sans font-bold text-lg">{ingameid}</span>
-          </div>
+            <span className="font-sans font-bold text-lg">{inGameId}</span>
+          </section>
+          <section>
+            <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
+              K/D
+            </label>
+            <span className="font-sans font-bold text-lg">{kd}</span>
+          </section>
+          <section>
+            <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide">
+              Highest Tier
+            </label>
+            <span className="font-sans font-bold text-lg">{highestTier}</span>
+          </section>
         </div>
         {userData.username === username ? (
-          <div className="flex justify-evenly mt-5">
-            <FixedButton name="EDIT" onClick={() => setBackdrop(true)} />
+          <div className="flex justify-between px-6 mt-5">
+            <FixedButton name="EDIT" onClick={editGameHandler} />
             <FixedButton name="DELETE" onClick={deleteGame} isDangerous />
           </div>
         ) : null}

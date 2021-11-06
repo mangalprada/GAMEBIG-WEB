@@ -40,9 +40,8 @@ const TextArea: FC<Props> = ({
             rows={4}
             placeholder={placeHolder}
             onChange={onChangeHandler}
-          >
-            {value}
-          </textarea>
+            value={value}
+          ></textarea>
         </div>
       </div>
     </div>

@@ -22,8 +22,12 @@ export const addOrganizationIdtoAdminUser = async (
   orgName: string,
   orgId: string
 ) => {
-  await db
-    .collection('users')
-    .doc(docId)
-    .update({ linkedOrganizationId: orgId, linkedOrganizationName: orgName });
+  try {
+    await db
+      .collection('users')
+      .doc(docId)
+      .update({ linkedOrganizationId: orgId, linkedOrganizationName: orgName });
+  } catch (err) {
+    console.log("Error adding organization data to Admin's collection - ", err);
+  }
 };

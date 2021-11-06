@@ -6,13 +6,13 @@ import { GamerData } from '../../../utilities/types';
 import FormInput from '../../UI/Inputs/FormInput';
 
 const validationSchema = yup.object({
-  ingamename: yup.string().required('In Game Name is required'),
-  ingameid: yup.string().required('In Game Id is required'),
+  inGameName: yup.string().required('In Game Name is required'),
+  inGameId: yup.string().required('In Game Id is required'),
 });
 
 const emptyValues = {
-  ingamename: '',
-  ingameid: '',
+  inGameName: '',
+  inGameId: '',
 };
 
 interface Props {
@@ -40,9 +40,9 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-              const { ingamename, ingameid } = doc.data();
-              if (ingamename && ingameid)
-                gamerArray.push({ ingamename, ingameid, docId: doc.id });
+              const { inGameName, inGameId } = doc.data();
+              if (inGameName && inGameId)
+                gamerArray.push({ inGameName, inGameId, docId: doc.id });
             });
           })
           .catch((error) => {
@@ -50,9 +50,9 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
           });
       }
       const gamer = gamerArray[0];
-      if (gamer && gamer.ingamename && gamer.ingameid) {
-        const { ingamename, ingameid } = gamer;
-        formik.setValues({ ingameid, ingamename });
+      if (gamer && gamer.inGameName && gamer.inGameId) {
+        const { inGameName, inGameId } = gamer;
+        formik.setValues({ inGameId, inGameName });
       }
     };
     getDetails();
@@ -62,12 +62,12 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
   }, [gameCode, username]);
 
   useEffect(() => {
-    const { ingamename, ingameid } = formik.values;
-    if (ingamename && ingameid) {
-      updateGamer(username, { ingamename, ingameid });
+    const { inGameName, inGameId } = formik.values;
+    if (inGameName && inGameId) {
+      updateGamer(username, { inGameName, inGameId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formik.values.ingameid, formik.values.ingamename, username]);
+  }, [formik.values.inGameId, formik.values.inGameName, username]);
 
   return (
     <div className="font-sans text-gray-300">
@@ -83,19 +83,19 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
       />
       <FormInput
         labelName="In Game Name"
-        name="ingamename"
-        value={formik.values.ingamename}
+        name="inGameName"
+        value={formik.values.inGameName}
         onChangeHandler={formik.handleChange}
-        error={Boolean(formik.errors.ingamename)}
-        errorMessage={formik.errors.ingamename}
+        error={Boolean(formik.errors.inGameName)}
+        errorMessage={formik.errors.inGameName}
       />
       <FormInput
         labelName="In Game Id"
-        name="ingameid"
-        value={formik.values.ingameid}
+        name="inGameId"
+        value={formik.values.inGameId}
         onChangeHandler={formik.handleChange}
-        error={Boolean(formik.errors.ingameid)}
-        errorMessage={formik.errors.ingameid}
+        error={Boolean(formik.errors.inGameId)}
+        errorMessage={formik.errors.inGameId}
       />
     </div>
   );

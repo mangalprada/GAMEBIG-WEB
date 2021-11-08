@@ -102,14 +102,7 @@ function useProviderAuth() {
     }
   };
   useEffect(() => {
-    // getLocalUser();
-    // const user = firebase.auth().currentUser;
-    // if (user) {
-    //   handleSignIn(user);
-    //   console.log('user');
-    // } else {
-    //   console.log('no user');
-    // }
+    getLocalUser();
     return firebase.auth().onIdTokenChanged(async (user) => {
       if (!user) {
         nookies.set(undefined, 'token', '', {});
@@ -117,16 +110,6 @@ function useProviderAuth() {
         return;
       } else {
         handleSignIn(user);
-        // const userData: UserData = await getUserData(user.uid);
-        // setUserData(userData);
-        // localforage.setItem('user', {
-        //   uid: user.uid,
-        //   username: userData.username,
-        // });
-        // const requests = getFriendRequests(userData.username);
-        // setReceivedFriendRequests(requests);
-        // const token = await user.getIdToken(true);
-        // nookies.set(undefined, 'token', token, {});
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -12,3 +12,5 @@ export const GAMES = [
     name: 'Free Fire',
   },
 ];
+
+export const GameCodesOnly = ['bgmi-m', 'cod-m', 'gff-m'];

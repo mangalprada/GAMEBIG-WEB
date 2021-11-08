@@ -13,6 +13,8 @@ export const MODES = [
   },
 ];
 
+export const ModesOnly = ['Solo', 'Duo', 'Squad'];
+
 export const TYPES = [
   {
     id: 'custom',
@@ -38,3 +40,5 @@ export const SCREAMS = [
     name: 'T1',
   },
 ];
+
+export const ScreamsOnly = ['T3', 'T2', 'T1'];

@@ -3,7 +3,10 @@ import { EventData } from '../utilities/eventItem/types';
 
 export const fetchAllEventData = async () => {
   let eventDatas = [] as EventData[];
-  const eventRef = firebaseAdmin.firestore().collection('events');
+  const eventRef = firebaseAdmin
+    .firestore()
+    .collection('events')
+    .orderBy('startTime', 'desc');
   try {
     const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {

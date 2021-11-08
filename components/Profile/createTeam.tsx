@@ -126,7 +126,7 @@ export default function CreateTeam({
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg w-11/12 md:w-1/2 text-gray-300 font-sans font-semibold m-auto py-10">
+    <div className="bg-gray-900 rounded-lg w-full text-gray-300 font-sans font-semibold m-auto py-10">
       <span className="text-2xl py-6 ml-10">Create Your Team</span>
       <div className="grid grid-cols-1 md:grid-cols-2 m-10">
         <form className="flex flex-col" onSubmit={formik.handleSubmit}>

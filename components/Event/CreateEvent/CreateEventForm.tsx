@@ -138,7 +138,7 @@ export default function CreateEventForm() {
               />
             </div>
             <TextArea
-              name="about"
+              name="description"
               labelName="Rules for Matches"
               placeHolder="Describe your Rules and Point distribution here"
               value={formik.values.description}

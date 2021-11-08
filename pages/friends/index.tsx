@@ -26,16 +26,16 @@ const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
   ];
   return (
     <Aux>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col">
         <div className="mt-2">
           <TabNavigator tabs={tabs} />
         </div>
         {receivedFriendRequests.length > 0 && (
-          <div className="flex flex-col w-11/12 md:w-2/3 bg-gray-800 rounded-lg py-4 mx-4 mt-1">
-            <span className="text-left px-8 text-xl font-semibold text-gray-100  py-2 mt-1">
+          <div className="flex flex-col xl:w-1/2 md:w-5/6 bg-gray-800 rounded-lg py-4 mx-auto mt-1">
+            <span className="text-left px-8 text-xl font-semibold text-gray-100 py-2 mt-1">
               Friend Requests
             </span>
-            <div className="flex flex-wrap gap-2 p-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {receivedFriendRequests.map((friendRequest) => (
                 <div key={friendRequest.sender.uid}>
                   <ProfileCard
@@ -53,7 +53,7 @@ const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
             </div>
           </div>
         )}
-        <div className="w-11/12 md:w-2/3 flex flex-wrap gap-2 mt-4 pt-1 ">
+        <div className="xl:w-1/2 md:w-5/6 grid grid-cols-2 sm:grid-cols-3 gap-6 mt-4 pt-1 mx-auto">
           {friendsSuggestions.map((suggestion) => (
             <div key={suggestion.uid}>
               <ProfileCard

@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Aux from '../hoc/Auxiliary/Auxiliary';
 import EventCard from '../components/Event/EventCard/EventCard';
 import { GetServerSideProps } from 'next';
 import { fetchAllEventData } from '../libs/getAllEvents';
 import { EventData } from '../utilities/eventItem/types';
+import Feedback from '@/components/Feedback/Feedback';
 
 interface Props {
   events: EventData[];
@@ -21,17 +21,12 @@ export default function Home({ events }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <Aux>
-        <div className="mt-10">
-          {events.map((eventItem: EventData) => (
-            <EventCard
-              key={eventItem.id}
-              data={eventItem}
-              isOrganizer={false}
-            />
-          ))}
-        </div>
-      </Aux>
+      <div className="mt-10">
+        {events.map((eventItem: EventData) => (
+          <EventCard key={eventItem.id} data={eventItem} isOrganizer={false} />
+        ))}
+      </div>
+      <Feedback />
     </div>
   );
 }

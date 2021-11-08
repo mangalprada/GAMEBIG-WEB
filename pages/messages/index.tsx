@@ -76,7 +76,7 @@ const Messages = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <Aux>
-        <div className="w-full mt-4 flex justify-center">
+        <div className="w-full mt-4 flex justify-center fixed">
           <div className="flex justify-center w-full md:w-3/4 md:gap-8 h-screen">
             <MessageRoomList
               setMessageRoomId={setMessageRoomId}

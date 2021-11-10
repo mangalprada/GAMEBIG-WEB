@@ -20,7 +20,7 @@ function BottomNavigationBar() {
         <div className="flex w-full justify-evenly">
           <Link href="/" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <TrophyIcon isActive={router.pathname === '/'} size={38} />
+              <TrophyIcon isActive={router.pathname === '/'} size={30} />
             </a>
           </Link>
           <Link
@@ -39,7 +39,7 @@ function BottomNavigationBar() {
                   router.pathname === '/organization' ||
                   router.pathname === '/organization/create'
                 }
-                size={36}
+                size={30}
               />
             </a>
           </Link>
@@ -47,15 +47,20 @@ function BottomNavigationBar() {
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
               <FriendsIcon
                 isActive={router.pathname === '/friends'}
-                size={36}
+                size={30}
               />
+            </a>
+          </Link>
+          <Link href="/join" passHref>
+            <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
+              <FriendsIcon isActive={router.pathname === '/join'} size={30} />
             </a>
           </Link>
           <Link href="/messages" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
               <MessageIcon
                 isActive={router.pathname === '/messages'}
-                size={36}
+                size={30}
               />
             </a>
           </Link>

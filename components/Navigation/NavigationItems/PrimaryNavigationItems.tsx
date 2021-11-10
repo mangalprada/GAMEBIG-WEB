@@ -66,6 +66,15 @@ export default function PrimaryNavigationItems() {
         </div>
       </NavigationItem>
       <NavigationItem
+        href="/join"
+        isActive={router.pathname === '/join'}
+        toolTip="Join"
+      >
+        <div className="flex justify-center">
+          <FriendsIcon isActive={router.pathname === '/join'} size={36} />
+        </div>
+      </NavigationItem>
+      <NavigationItem
         href="/messages"
         isActive={router.pathname === '/messages'}
         toolTip="Messages"

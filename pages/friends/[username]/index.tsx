@@ -5,18 +5,27 @@ import TabNavigator from '../../../components/Navigation/TabNavigation/TabNaviga
 import { useAuth } from '../../../context/authContext';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { db } from 'firebase/firebaseClient';
+import { ProfileCardData } from '@/utilities/friends/friends';
 
 const Friends = () => {
   const { userData } = useAuth();
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<ProfileCardData[]>([]);
 
-  // useEffect(() => {
-  //   const getFriends = async () => {
-  //     const friendsData = db.collection('')
-  //     setFriends(friendsData);
-  //   };
-  //   getFriends();
-  // }, []);
+  useEffect(() => {
+    const getFriends = async () => {
+      const friendsList: ProfileCardData[] = [];
+      const querySnapshot = await db
+        .collection('users')
+        .doc(userData.uid)
+        .collection('friends')
+        .get();
+      querySnapshot.forEach((doc) => {
+        friendsList.push(doc.data() as ProfileCardData);
+      });
+      setFriends(friendsList);
+    };
+    getFriends();
+  }, [userData.uid]);
 
   const tabs = [
     {
@@ -39,27 +48,28 @@ const Friends = () => {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center">
         <div className="mt-2">
           <TabNavigator tabs={tabs} />
         </div>
-        <span className="text-left px-8 text-xl font-semibold text-gray-100  py-2 mt-1">
-          My Friends
-        </span>
-        {/* <div className="w-11/12 md:w-2/3 flex flex-wrap gap-2 mt-4 pt-1 ">
-          {friends.map((friend) => (
-            <div key={suggestion.uid}>
-              <ProfileCard
-                name={suggestion.name}
-                about={suggestion.about}
-                games={[]}
-                username={suggestion.username}
-                photoURL={suggestion.photoURL}
-                uid={suggestion.uid}
-              />
-            </div>
-          ))}
-        </div> */}
+        <div className="flex flex-col xl:w-1/2 md:w-5/6 rounded-lg py-4 mx-auto mt-1">
+          <span className="text-left px-8 text-xl font-semibold text-gray-100  py-2 mt-1">
+            My Friends
+          </span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+            {friends.map((friend) => (
+              <div key={friend.uid}>
+                <ProfileCard
+                  name={friend.name}
+                  games={[]}
+                  username={friend.username}
+                  photoURL={friend.photoURL}
+                  uid={friend.uid}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Aux>
   );

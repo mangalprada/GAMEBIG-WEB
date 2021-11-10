@@ -57,6 +57,8 @@ function useProviderAuth() {
           uid: tempUser.uid,
           username: tempUser.username,
         });
+        const requests = await getFriendRequests(tempUser.uid);
+        setReceivedFriendRequests(requests);
       } else {
         const temp = {
           username: uid,

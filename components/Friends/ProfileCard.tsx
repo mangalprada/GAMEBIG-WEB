@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/firebaseClient';
+import { useUI } from '@/context/uiContext';
 import { games } from '../../utilities/GameList';
+import { ProfileCardData } from '../../utilities/friends/friends';
 import {
   sendFriendRequest,
   acceptFriendRequest,
@@ -28,17 +29,6 @@ const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
   );
 };
 
-type Props = {
-  photoURL?: string;
-  name?: string;
-  username: string;
-  about?: string;
-  games: string[];
-  uid: string;
-  to?: string;
-  id?: string;
-};
-
 const Button = ({
   onClick,
   classname,
@@ -62,14 +52,14 @@ const Button = ({
 const ProfileCard = ({
   photoURL,
   username,
-  about,
   games,
   uid,
   name,
-  to,
+  receiverUid,
   id,
-}: Props) => {
+}: ProfileCardData) => {
   const { userData } = useAuth();
+  const { openSnackBar } = useUI();
   const router = useRouter();
 
   return (
@@ -102,45 +92,70 @@ const ProfileCard = ({
           ))}
         </div>
       </div>
-      {to ? (
+      {receiverUid ? (
         <div className="flex flex-col w-full gap-2">
           <Button
-            onClick={() =>
+            onClick={() => {
               acceptFriendRequest({
-                acceptingUsername: userData.username,
+                acceptingUser: {
+                  name: userData.name as string,
+                  photoURL: userData.photoURL as string,
+                  username: userData.username,
+                  uid: userData.uid,
+                },
                 requestingUser: {
                   photoURL: photoURL as string,
-                  username,
+                  username: username as string,
                   name: name as string,
+                  uid: uid as string,
                 },
                 docId: id as string,
-              })
-            }
+              });
+              openSnackBar({
+                message: `${username} and you are friends!`,
+                type: 'success',
+                label: 'Accepted!',
+              });
+            }}
             text="Accept"
             classname="bg-indigo-600"
           />
           <Button
-            onClick={() => deleteFriendRequest(id as string)}
+            onClick={() => {
+              deleteFriendRequest(id as string);
+              openSnackBar({
+                message: `Request is Ignored!`,
+                type: 'success',
+                label: 'Ignored!',
+              });
+            }}
             text="Ignore"
             classname="bg-gray-900 hover:bg-gray-800"
           />
         </div>
       ) : (
         <Button
-          onClick={() =>
+          onClick={() => {
             sendFriendRequest({
               sendingUser: {
                 name: userData.name as string,
                 photoURL: userData.photoURL as string,
                 username: userData.username,
+                uid: userData.uid,
               },
               receivingUser: {
                 photoURL: photoURL as string,
                 username,
                 name: name as string,
+                uid: uid as string,
               },
-            })
-          }
+            });
+            openSnackBar({
+              message: `Request sent to ${username}`,
+              type: 'success',
+              label: 'Sent!',
+            });
+          }}
           text="Add Friend"
           classname="bg-indigo-600"
         />

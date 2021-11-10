@@ -4,6 +4,7 @@ type User = {
   photoURL: string;
   username: string;
   name: string;
+  uid: string;
 };
 
 export const sendFriendRequest = ({
@@ -15,18 +16,20 @@ export const sendFriendRequest = ({
 }) => {
   db.collection('friendRequests')
     .add({
-      from: sendingUser.username,
+      senderUid: sendingUser.uid,
       sender: {
         name: sendingUser.name,
         photoURL: sendingUser.photoURL,
         username: sendingUser.username,
+        uid: sendingUser.uid,
       },
       receiver: {
         name: receivingUser.name,
         photoURL: receivingUser.photoURL,
         username: receivingUser.username,
+        uid: receivingUser.uid,
       },
-      to: receivingUser.username,
+      receiverUid: receivingUser.uid,
     })
     .then(() => {
       console.log('Friend request sent');
@@ -37,24 +40,28 @@ export const sendFriendRequest = ({
 };
 
 export const acceptFriendRequest = ({
-  acceptingUsername,
+  acceptingUser,
   requestingUser,
   docId,
 }: {
-  acceptingUsername: string;
+  acceptingUser: User;
   requestingUser: User;
   docId: string;
 }) => {
-  db.collection('friends')
-    .add({
-      friendUsername: requestingUser.username,
-      friend: {
-        photoURL: requestingUser.photoURL,
-        username: requestingUser.username,
-        name: requestingUser.name,
-      },
-      username: acceptingUsername,
+  db.collection('users')
+    .doc(acceptingUser.uid)
+    .collection('friends')
+    .add(requestingUser)
+    .then(() => {
+      console.log('Friend request accepted');
     })
+    .catch((err) => {
+      console.log(err);
+    });
+  db.collection('users')
+    .doc(requestingUser.uid)
+    .collection('friends')
+    .add(acceptingUser)
     .then(() => {
       console.log('Friend request accepted');
     })

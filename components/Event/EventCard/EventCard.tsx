@@ -34,11 +34,11 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   useEffect(() => {
-    if (data.id && userData.username) {
+    if (data.id && userData.uid) {
       db.collection('events')
         .doc(data.id)
         .collection('teams')
-        .where('usernames', 'array-contains', userData.username)
+        .where('uids', 'array-contains', userData.uid)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -48,7 +48,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           });
         });
     }
-  }, [data.id, userData.username]);
+  }, [data.id, userData.uid]);
 
   const onForwardAction = () => {
     if (userData.uid === '' || userData.uid === undefined) {

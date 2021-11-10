@@ -22,6 +22,7 @@ export const getGamerData = async (username: string) => {
             kills: datFetched.kills ? datFetched.kills : '',
             about: datFetched.about ? datFetched.about : '',
             username: datFetched.username ? datFetched.username : '',
+            uid: datFetched.uid ? datFetched.uid : '',
           };
         });
       });

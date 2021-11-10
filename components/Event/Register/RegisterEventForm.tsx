@@ -35,9 +35,9 @@ export default function RegisterEventForm({
   useEffect(() => {
     const getTeams = () => {
       const teams: Array<TeamType> = [];
-      if (userData.username) {
+      if (userData.uid) {
         db.collection('teams')
-          .where('gamers', 'array-contains-any', [userData.username])
+          .where('gamers', 'array-contains-any', [userData.uid])
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -54,7 +54,7 @@ export default function RegisterEventForm({
 
     const teams: TeamType[] = getTeams();
     setTeams(teams);
-  }, [userData.username]);
+  }, [userData.uid]);
 
   const closeModal = () => {
     setOpen(false);

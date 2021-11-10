@@ -34,9 +34,9 @@ const MessageRoomList = ({
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    if (userData.username)
+    if (userData.uid)
       db.collection('messageRooms')
-        .where('usernames', 'array-contains', userData.username)
+        .where('uids', 'array-contains', userData.uid)
         .get()
         .then((snapshot) => {
           const rooms = snapshot.docs.map((doc) => ({
@@ -45,7 +45,7 @@ const MessageRoomList = ({
           }));
           setMessageRooms(rooms as any);
         });
-  }, [userData.username]);
+  }, [userData.uid]);
 
   const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');

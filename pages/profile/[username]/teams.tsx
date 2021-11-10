@@ -54,7 +54,7 @@ export default function Home({
       <ProfileHeader userData={userData} />
       <div className="w-11/12 md:w-5/6 xl:w-1/2 mx-auto mt-2">
         <div className="flex justify-end">
-          {userData.username === user.username ? (
+          {userData.uid === user.uid ? (
             <FixedButton name="Create Team" onClick={openModal} />
           ) : null}
         </div>

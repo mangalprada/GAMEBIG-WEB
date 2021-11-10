@@ -37,17 +37,22 @@ export const getUserData = async (uid: string) => {
   return user;
 };
 
-export const getFriendRequests = (username: string) => {
+export const getFriendRequests = async (uid: string) => {
+  console.log('123123123');
+
   const requests: FriendRequest[] = [];
-  db.collection('friendRequests')
-    .where('to', '==', username)
+  await db
+    .collection('friendRequests')
+    .where('receiverUid', '==', uid)
     .get()
     .then((querySnapshot) =>
       querySnapshot.forEach((doc) => {
+        const data = doc.data() as FriendRequest;
         requests.push({
           id: doc.id,
-          ...(doc.data() as FriendRequest),
+          ...data,
         });
+        console.log(uid, data, 'getting friend req');
       })
     )
     .catch((err) => console.log(err));

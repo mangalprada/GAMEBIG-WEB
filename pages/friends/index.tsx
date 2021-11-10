@@ -40,12 +40,11 @@ const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
                 <div key={friendRequest.sender.uid}>
                   <ProfileCard
                     name={friendRequest.sender.name}
-                    about={friendRequest.sender.about}
                     games={[]}
                     username={friendRequest.sender.username}
                     photoURL={friendRequest.sender.photoURL}
                     uid={friendRequest.sender.uid}
-                    to={friendRequest.to}
+                    receiverUid={friendRequest.receiverUid}
                     id={friendRequest.id}
                   />
                 </div>
@@ -58,7 +57,6 @@ const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
             <div key={suggestion.uid}>
               <ProfileCard
                 name={suggestion.name}
-                about={suggestion.about}
                 games={[]}
                 username={suggestion.username}
                 photoURL={suggestion.photoURL}

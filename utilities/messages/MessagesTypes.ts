@@ -3,6 +3,7 @@ export interface MessageReceiver {
   name: string;
   photoURL: string;
   id?: string;
+  uid: string;
 }
 
 export type MessageType = {
@@ -10,4 +11,5 @@ export type MessageType = {
   message: string;
   createdAt: any;
   username: string;
+  uid: string;
 };

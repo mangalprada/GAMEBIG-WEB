@@ -7,6 +7,7 @@ import { GamerData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
 import NormalInput from '../UI/Inputs/NormalInput';
 import { useUI } from '@/context/uiContext';
+import { useAuth } from '@/context/authContext';
 
 const validationSchema = yup.object({
   inGameName: yup.string().required('In Game Name is required'),
@@ -36,6 +37,9 @@ const GameForm: FC<Props> = ({
   addToCurrentGames,
 }: Props) => {
   const { openSnackBar } = useUI();
+  const {
+    userData: { uid },
+  } = useAuth();
 
   const saveGame = async (gameData: GamerData) => {
     try {
@@ -75,11 +79,11 @@ const GameForm: FC<Props> = ({
       const { inGameId, inGameName } = values;
       setSubmitting(true);
       if (oldValues) {
-        updateGame({ inGameId, inGameName });
+        updateGame({ uid, inGameId, inGameName });
       } else {
-        saveGame({ inGameId, inGameName });
+        saveGame({ uid, inGameId, inGameName });
       }
-      addToCurrentGames(values);
+      addToCurrentGames({ ...values, uid });
       setSubmitting(false);
     },
   });

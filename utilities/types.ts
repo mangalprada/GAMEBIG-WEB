@@ -35,6 +35,7 @@ export interface GamerData {
   inGameName: string | undefined;
   inGameId: string | undefined;
   username?: string | undefined;
+  uid: string;
   kd?: string | undefined;
   highestTier?: string | undefined;
   damage?: string | undefined;

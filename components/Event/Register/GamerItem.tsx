@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData } from '../../../utilities/types';
 import FormInput from '../../UI/Inputs/FormInput';
+import { useAuth } from '@/context/authContext';
 
 const validationSchema = yup.object({
   inGameName: yup.string().required('In Game Name is required'),
@@ -23,6 +24,9 @@ interface Props {
 }
 
 const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
+  const {
+    userData: { uid },
+  } = useAuth();
   const formik = useFormik({
     initialValues: emptyValues,
     validationSchema: validationSchema,
@@ -42,7 +46,7 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
             querySnapshot.forEach((doc) => {
               const { inGameName, inGameId } = doc.data();
               if (inGameName && inGameId)
-                gamerArray.push({ inGameName, inGameId, docId: doc.id });
+                gamerArray.push({ uid, inGameName, inGameId, docId: doc.id });
             });
           })
           .catch((error) => {
@@ -64,7 +68,7 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
   useEffect(() => {
     const { inGameName, inGameId } = formik.values;
     if (inGameName && inGameId) {
-      updateGamer(username, { inGameName, inGameId });
+      updateGamer(username, { uid, inGameName, inGameId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.inGameId, formik.values.inGameName, username]);

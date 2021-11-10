@@ -68,7 +68,7 @@ export default function MessageContainer({
   const messagesListView =
     messages &&
     messages.map((message: MessageType) => {
-      const isOwnerOfMessage = message.username === userData.username;
+      const isOwnerOfMessage = message.uid === userData.uid;
       return (
         <Message key={message.id} isOwner={isOwnerOfMessage} data={message} />
       );

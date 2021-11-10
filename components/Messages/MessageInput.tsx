@@ -4,6 +4,7 @@ import firebase, { db } from '../../firebase/firebaseClient';
 
 type Props = {
   receivingUser: {
+    uid: string;
     username: string;
     name: string;
     photoURL: string;
@@ -28,10 +29,10 @@ export default function MessageInput({
       await db
         .collection('messageRooms')
         .add({
-          usernames: [userData.username, receivingUser.username],
+          uids: [userData.uid, receivingUser.uid],
           userDetails: {
-            [receivingUser.username]: userData,
-            [userData.username]: receivingUser,
+            [receivingUser.uid]: userData,
+            [userData.uid]: receivingUser,
           },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -76,6 +77,7 @@ export default function MessageInput({
     }
     try {
       db.collection('messageRooms').doc(roomId).collection('messages').add({
+        uid: userData.uid,
         username: userData.username,
         message: message,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),

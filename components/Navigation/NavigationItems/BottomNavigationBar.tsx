@@ -3,6 +3,7 @@ import Link from 'next/link';
 import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
+import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
 
@@ -53,7 +54,9 @@ function BottomNavigationBar() {
           </Link>
           <Link href="/join" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <FriendsIcon isActive={router.pathname === '/join'} size={30} />
+
+              <JoinIcon isActive={router.pathname === '/join'} size={30} />
+
             </a>
           </Link>
           <Link href="/messages" passHref>

@@ -4,6 +4,7 @@ import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
+import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
 import { useAuth } from '../../../context/authContext';
 
 export default function PrimaryNavigationItems() {
@@ -70,9 +71,8 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/join'}
         toolTip="Join"
       >
-        <div className="flex justify-center">
-          <FriendsIcon isActive={router.pathname === '/join'} size={36} />
-        </div>
+        <JoinIcon isActive={router.pathname === '/join'} size={32} />
+
       </NavigationItem>
       <NavigationItem
         href="/messages"

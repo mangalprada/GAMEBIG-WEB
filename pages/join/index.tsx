@@ -1,13 +1,23 @@
-import { NextPage } from 'next';
-import Head from 'next/head';
 import { useState } from 'react';
+import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import TeamUpItem from '../../components/Join/TeamUpItem';
 import Modal from '@/components/UI/Modal/Modal';
 import CreatePostForm from '@/components/Join/CreatePostForm';
+import { useAuth } from '@/context/authContext';
+import { JoinPostType } from '@/utilities/join/JoinPostType';
+import { firebaseAdmin } from 'firebase/firebaseAdmin';
 
-const JoinPage: NextPage = () => {
+const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  let createPostForm = undefined;
+  const {
+    userData: { uid },
+  } = useAuth();
+  const router = useRouter();
+  const goToMyPosts = () => {
+    router.push(`/join/${uid}`);
+  };
 
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
@@ -30,6 +40,7 @@ const JoinPage: NextPage = () => {
               'cursor-pointer hover:text-indigo-600 hover:bg-indigo-200 ' +
               'px-3 py-1.5 top-2 left-2.5 rounded-md active:bg-indigo-300'
             }
+            onClick={goToMyPosts}
           >
             My Posts
           </span>
@@ -44,6 +55,13 @@ const JoinPage: NextPage = () => {
             Team Up +
           </span>
         </div>
+        <div>
+          {joinPosts.map((joinPost) => (
+            <div key={joinPost.id}>
+              <TeamUpItem data={joinPost} />
+            </div>
+          ))}
+        </div>
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <CreatePostForm closeModal={() => setIsModalOpen(false)} />
         </Modal>
@@ -53,3 +71,24 @@ const JoinPage: NextPage = () => {
 };
 
 export default JoinPage;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const joinPosts: JoinPostType[] = [];
+  try {
+    await firebaseAdmin
+      .firestore()
+      .collection('join')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          joinPosts.push({ ...(doc.data() as JoinPostType), id: doc.id });
+        });
+      });
+    return { props: { joinPosts } };
+  } catch (err) {
+    context.res.writeHead(302, { Location: '/auth' });
+    context.res.end();
+    console.log('Error getting server side props:', err);
+    return { props: null };
+  }
+}

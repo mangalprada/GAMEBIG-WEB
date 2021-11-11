@@ -12,7 +12,7 @@ const FixedButton: FC<ButtonProps> = ({
     <div className="my-4">
       <button
         className={
-          'text-white font-normal tracking-wide text-lg py-2 px-4 rounded-lg ' +
+          'text-white font-normal tracking-wide text-base md:text-lg py-1 md:py-2 px-2 md:px-4 rounded-md md:rounded-lg ' +
           (isDisabled
             ? 'bg-gray-500 opacity-50 cursor-not-allowed'
             : 'transition duration-300 ease-in-out shadow-lg hover:shadow-xl ' +

@@ -6,6 +6,14 @@ export interface User {
   linkedOrgId?: string | null | undefined;
 }
 
+export interface BasicUserType {
+  docId?: string;
+  uid: string;
+  username: string;
+  name?: string;
+  photoURL?: string | undefined;
+}
+
 export interface UserData {
   docId?: string;
   photoURL?: string | undefined;

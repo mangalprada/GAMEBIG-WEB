@@ -7,7 +7,7 @@ export default function Icon({ size, isActive }: Props) {
   return (
     <svg
       height={size}
-      viewBox="0 0 20 20"
+      viewBox="0 0 25 25"
       width={size}
       className={
         'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-600')

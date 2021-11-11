@@ -54,7 +54,7 @@ function BottomNavigationBar() {
           </Link>
           <Link href="/join" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <JoinIcon isActive={router.pathname === '/join'} size={24} />
+              <JoinIcon isActive={router.pathname === '/join'} size={30} />
             </a>
           </Link>
           <Link href="/messages" passHref>

@@ -56,14 +56,13 @@ export default function SelectDropDown({
       <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
         {label}
       </label>
-      <div ref={wrapperRef}>
+      <div ref={wrapperRef} onMouseDown={toggleIsListVisible}>
         <section
           className={
             'flex justify-between bg-gray-700 w-full md:w-1/2 py-3 px-8 rounded-md tracking-wider ' +
             'text-lg font-semibold font-sans focus:outline-none text-md text-gray-300 cursor-pointer ' +
             (isListVisible ? 'ring ring-indigo-500' : '')
           }
-          onMouseDown={toggleIsListVisible}
         >
           {selectedItem}
           {isListVisible ? (

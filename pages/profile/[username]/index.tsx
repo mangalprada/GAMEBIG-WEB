@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import nookies from 'nookies';
+import { ParsedUrlQuery } from 'querystring';
 import { GetServerSidePropsContext } from 'next';
 import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -40,21 +41,18 @@ export default function Home({ events, userData }: Props) {
   );
 }
 
+interface IParams extends ParsedUrlQuery {
+  username: string;
+}
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   let events: EventData[] = [];
   let userData: UserData = {} as UserData;
   try {
-    const cookies = nookies.get(context);
-    await firebaseAdmin
-      .auth()
-      .verifyIdToken(cookies.token)
-      .then(async () => {
-        const { username } = context.query;
-        if (typeof username == 'string') {
-          userData = await getUser(username);
-          events = await fetchEventsDataByUsername(username);
-        }
-      });
+    const { username } = context.params as IParams;
+    userData = await getUser(username);
+    events = await fetchEventsDataByUsername(username);
+
     return {
       props: { userData, events },
     };

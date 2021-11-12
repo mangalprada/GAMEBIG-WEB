@@ -7,7 +7,7 @@ export const fetchAllEventData = async () => {
     .firestore()
     .collection('events')
     .where('startTime', '>=', new Date())
-    .orderBy('startTime', 'desc');
+    .orderBy('startTime', 'asc');
   try {
     const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {

@@ -141,7 +141,9 @@ function ProfileForm({ oldValues, push }: Props) {
             <DateOnlyPicker
               name="dob"
               label="Date of Birth"
-              value={formik.values.dob && new Date(formik.values.dob)}
+              value={
+                formik.values.dob ? new Date(formik.values.dob) : new Date()
+              }
               changeHandler={(date: Date) => formik.setFieldValue('dob', date)}
               error={Boolean(formik.errors.dob)}
               errorMessage={formik.errors.dob}

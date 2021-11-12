@@ -11,6 +11,8 @@ const getUser = async (username: string) => {
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
+        console.log('DOB type - ', typeof data.dob);
+
         if (data) {
           user.push({
             ...data,

@@ -10,7 +10,7 @@ import { UserData } from '../../utilities/types';
 const inititalValues: UserData = {
   uid: '',
   username: '',
-  country: 'India',
+  location: 'India',
 };
 
 export default function Home() {

@@ -9,6 +9,8 @@ import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { isUsernameTaken } from '@/libs/user';
+import DateOnlyPicker from '../UI/Picker/DateOnlyPicker';
+import TextArea from '../UI/Inputs/TextArea';
 
 type Props = {
   oldValues: UserData;
@@ -31,7 +33,7 @@ const validationSchema = yup.object({
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
     .length(10, 'Phone number must be 10 digits long'),
-  country: yup.string().required('Country is required'),
+  location: yup.string().required('Location is required'),
   youtubeLink: yup.string().url('Enter a valid URL'),
   twitchLink: yup.string().url('Enter a valid URL'),
   facebookLink: yup.string().url('Enter a valid URL'),
@@ -93,7 +95,7 @@ function ProfileForm({ oldValues, push }: Props) {
           <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
             User Information
           </h6>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-10">
             <FormInput
               isDisabled={true}
               labelName="username"
@@ -129,11 +131,35 @@ function ProfileForm({ oldValues, push }: Props) {
               error={Boolean(formik.errors.phoneNumber)}
               errorMessage={formik.errors.phoneNumber}
             />
+            <FormInput
+              labelName="Location"
+              name="location"
+              value={formik.values.location}
+              onChangeHandler={formik.handleChange}
+              placeHolder="City, Country"
+            />
+            <DateOnlyPicker
+              name="dob"
+              label="Date of Birth"
+              value={formik.values.dob && new Date(formik.values.dob)}
+              changeHandler={(date: Date) => formik.setFieldValue('dob', date)}
+              error={Boolean(formik.errors.dob)}
+              errorMessage={formik.errors.dob}
+            />
+            <section className="md:col-span-2 col-span-1">
+              <TextArea
+                labelName="About me"
+                name="about"
+                value={formik.values.about}
+                onChangeHandler={formik.handleChange}
+                placeHolder="I'm a professional esports player 😎"
+              />
+            </section>
           </div>
           <h6 className="text-gray-400 md:text-sm mt-10 mb-6 font-bold uppercase">
             Social Links
           </h6>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-10">
             <FormInput
               labelName="Youtube"
               name="youtubeLink"

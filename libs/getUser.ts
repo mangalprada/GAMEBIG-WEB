@@ -2,7 +2,7 @@ import { firebaseAdmin } from '../firebase/firebaseAdmin';
 import { UserData } from '../utilities/types';
 
 const getUser = async (username: string) => {
-  const user: UserData[] = [];
+  const user: any[] = [];
   await firebaseAdmin
     .firestore()
     .collection('users')
@@ -10,8 +10,14 @@ const getUser = async (username: string) => {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        const data = doc.data() as UserData;
-        user.push({ ...data, docId: doc.id });
+        const data = doc.data();
+        if (data) {
+          user.push({
+            ...data,
+            dob: data.dob.toDate().toISOString(),
+            docId: doc.id,
+          });
+        }
       });
     })
     .catch((error) => {

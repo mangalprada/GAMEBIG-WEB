@@ -16,6 +16,7 @@ import { useAuth } from '../../context/authContext';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
 import FriendshipButtons from '../Friends/FriendshipButtons';
+import { getDecoratedDate } from '@/utilities/functions/dateConvert';
 
 type Props = {
   userData: UserData;
@@ -123,7 +124,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
               </h2>
             ) : null}
             {/** User Name */}
-            <p className="text-sm leading-5 font-semibold text-gray-300 mt-1  ml-1">
+            <p className="text-sm leading-5 font-semibold text-gray-400 mt-1  ml-1">
               @&nbsp;{userData.username}
             </p>
           </div>
@@ -132,17 +133,17 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
             {userData.dob && userData.username === user.username ? (
               <p className="text-white leading-tight mb-2 flex flex-row space-x-1">
                 <CakeIcon size={20} />
-                <span>{userData.dob}</span>
+                <span>{getDecoratedDate(userData.dob.toString())}</span>
               </p>
             ) : null}
             {/** Location */}
-            {userData.country ? (
+            {userData.location ? (
               <p className="text-white leading-tight mb-2 flex flex-row space-x-1">
                 <LocationIcon
                   size={20}
                   className={'fill-current text-gray-300'}
                 />
-                <span>{userData.country}</span>
+                <span>{userData.location}</span>
               </p>
             ) : null}
             {/** Email */}
@@ -154,9 +155,11 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
             ) : null}
 
             {/** About me */}
-            <p className="text-white leading-tight mb-2 ml-1">
-              I&apos;m a casual Gamer.
-            </p>
+            {userData.about ? (
+              <p className="text-white leading-tight mb-2 ml-1 md:w-3/4 mt-2">
+                {userData.about}
+              </p>
+            ) : null}
 
             {/** Social Links */}
             <div className="flex flex-row space-x-4 mt-5 ml-1">

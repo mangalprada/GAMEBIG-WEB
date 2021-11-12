@@ -4,12 +4,12 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ProfileForm from '../../../components/Profile/ProfileForm';
 import { UserData } from '../../../utilities/types';
 
-const emptyInitialValues = {
+const emptyInitialValues: UserData = {
   username: '',
   uid: '',
   name: '',
   dob: new Date('2014-08-18T21:11:54'),
-  country: '',
+  location: '',
   phoneNumber: '',
   email: '',
   youtubeLink: '',
@@ -18,7 +18,8 @@ const emptyInitialValues = {
   instagramLink: '',
   twitterLink: '',
   redditLink: '',
-} as UserData;
+  about: '',
+};
 
 export default function Home() {
   const router = useRouter();

@@ -22,7 +22,7 @@ export interface UserData {
   name?: string | undefined;
   dob?: Date | undefined;
   about?: string;
-  country?: string;
+  location?: string;
   phoneNumber?: string | undefined;
   email?: string | undefined;
   youtubeLink?: string | undefined;

@@ -67,7 +67,6 @@ const DateOnlyPicker: FC<Props> = ({
       </label>
       <DatePicker
         name={name}
-        closeOnScroll={(e) => e.target === document}
         selected={value}
         onChange={(date: Date) => changeHandler(date)}
         dateFormat="dd MMMM YYY"

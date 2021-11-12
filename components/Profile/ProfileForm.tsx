@@ -33,7 +33,7 @@ const validationSchema = yup.object({
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
     .length(10, 'Phone number must be 10 digits long'),
-  location: yup.string().required('Location is required'),
+  location: yup.string().optional(),
   youtubeLink: yup.string().url('Enter a valid URL'),
   twitchLink: yup.string().url('Enter a valid URL'),
   facebookLink: yup.string().url('Enter a valid URL'),

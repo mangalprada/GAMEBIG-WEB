@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { db } from '../../../firebase/firebaseClient';
-import { GamerData } from '../../../utilities/types';
+import { BasicUserType, GamerData } from '../../../utilities/types';
 import FormInput from '../../UI/Inputs/FormInput';
-import { useAuth } from '@/context/authContext';
+import HorizontalProfile from '@/components/Profile/HorizontalProfile';
 
 const validationSchema = yup.object({
   inGameName: yup.string().required('In Game Name is required'),
@@ -17,16 +17,19 @@ const emptyValues = {
 };
 
 interface Props {
-  username: string;
+  gamer: BasicUserType;
   gameCode: string;
   serialNo?: number;
   updateGamer: (username: string, gameData: GamerData) => void;
 }
 
-const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
-  const {
-    userData: { uid },
-  } = useAuth();
+const GamerRegistrationForm = ({
+  gamer,
+  gameCode,
+  updateGamer,
+  serialNo,
+}: Props) => {
+  const { uid, username, name, photoURL } = gamer;
   const formik = useFormik({
     initialValues: emptyValues,
     validationSchema: validationSchema,
@@ -60,31 +63,23 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
       }
     };
     getDetails();
-    console.log('GamerItem: useEffect');
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameCode, username]);
+  }, [gameCode]);
 
   useEffect(() => {
     const { inGameName, inGameId } = formik.values;
     if (inGameName && inGameId) {
-      updateGamer(username, { uid, inGameName, inGameId });
+      updateGamer(uid, { uid, username, name, photoURL, inGameName, inGameId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formik.values.inGameId, formik.values.inGameName, username]);
+  }, [formik.values.inGameId, formik.values.inGameName]);
 
   return (
-    <div className="font-sans text-gray-300">
+    <div className="flex flex-col gap-2 font-sans text-gray-300">
       {serialNo ? (
-        <span className="text-xl text-indigo-600 py-4">Player {serialNo}</span>
+        <span className="text-xl text-indigo-600">Player {serialNo}</span>
       ) : null}
-      <FormInput
-        labelName="GameBig username"
-        name="username"
-        isDisabled={true}
-        value={username}
-        onChangeHandler={formik.handleChange}
-      />
+      <HorizontalProfile user={gamer} />
       <FormInput
         labelName="In Game Name"
         name="inGameName"
@@ -105,4 +100,4 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
   );
 };
 
-export default GamerItem;
+export default GamerRegistrationForm;

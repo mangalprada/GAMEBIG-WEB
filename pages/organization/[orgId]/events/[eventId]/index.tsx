@@ -21,7 +21,7 @@ interface Props {
 
 export default function Event({ orgId, eventData }: Props) {
   const {
-    userData: { linkedOrganizationId, username },
+    userData: { linkedOrganizationId, uid },
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
@@ -29,11 +29,11 @@ export default function Event({ orgId, eventData }: Props) {
   let isOrganizer = linkedOrganizationId === orgId ? true : false;
 
   useEffect(() => {
-    if (eventData.id && username) {
+    if (eventData.id && uid) {
       db.collection('events')
         .doc(eventData.id)
         .collection('teams')
-        .where('usernames', 'array-contains', username)
+        .where('uids', 'array-contains', uid)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -44,7 +44,7 @@ export default function Event({ orgId, eventData }: Props) {
           });
         });
     }
-  }, [eventData.id, username]);
+  }, [eventData.id, uid]);
 
   const unregisterHandler = () => {
     db.collection('events')
@@ -74,7 +74,7 @@ export default function Event({ orgId, eventData }: Props) {
         {isOrganizer ? (
           <div>
             <SendNotification eventData={eventData} />
-            <ParticipantList tId={eventData.id} />
+            <ParticipantList eventId={eventData.id} />
           </div>
         ) : (
           (null as any)

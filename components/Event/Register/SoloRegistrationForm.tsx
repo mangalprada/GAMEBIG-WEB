@@ -3,7 +3,7 @@ import { useAuth } from '../../../context/authContext';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
-import GamerItem from './GamerItem';
+import GamerRegistrationForm from './GamerRegistrationForm';
 interface Props {
   tId: string;
   gameCode: string;
@@ -16,6 +16,7 @@ export default function GamerDetails({
   setIsRegistered,
 }: Props) {
   const { userData } = useAuth();
+  const { name, username, uid, photoURL } = userData;
   const [gamers, setGamers] = useState({} as Record<string, GamerData>);
 
   const updateGamer = (username: string, gamer: GamerData) => {
@@ -53,8 +54,8 @@ export default function GamerDetails({
 
   return (
     <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold mt-10">
-      <GamerItem
-        username={userData.username}
+      <GamerRegistrationForm
+        gamer={{ name, username, photoURL, uid }}
         gameCode={gameCode}
         updateGamer={updateGamer}
       />

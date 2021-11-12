@@ -49,6 +49,8 @@ export interface GamerData {
   damage?: string | undefined;
   kills?: string | undefined;
   about?: string | undefined;
+  name?: string | undefined;
+  photoURL?: string | undefined;
 }
 export interface TeamType {
   teamName: string;

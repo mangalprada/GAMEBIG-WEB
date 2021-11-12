@@ -6,9 +6,9 @@ import HorizontalProfile from './HorizontalProfile';
 
 type Props = {
   team: TeamType;
-  removeTeam: (id: string) => void;
-  openModal: (open: boolean) => void;
-  setSelectedTeam: (team: TeamType) => void;
+  removeTeam?: (id: string) => void;
+  openModal?: (open: boolean) => void;
+  setSelectedTeam?: (team: TeamType) => void;
 };
 
 export default function TeamItem({
@@ -27,15 +27,17 @@ export default function TeamItem({
         message: `${team.teamName} deleted!`,
         type: 'success',
       });
-      if (team.docId) removeTeam(team.docId);
+      if (team.docId && removeTeam) removeTeam(team.docId);
     } catch (err) {
       console.log('err', err);
     }
   };
 
   const handleEdit = () => {
-    setSelectedTeam(team);
-    openModal(true);
+    if (setSelectedTeam && openModal) {
+      setSelectedTeam(team);
+      openModal(true);
+    }
   };
 
   return (
@@ -53,10 +55,12 @@ export default function TeamItem({
           </div>
         ))}
       </div>
-      <div className="flex justify-end">
-        <TextButton type="normal" name="Edit" onClick={handleEdit} />
-        <TextButton type="fail" name="Delete" onClick={deleteTeam} />
-      </div>
+      {openModal ? (
+        <div className="flex justify-end">
+          <TextButton type="normal" name="Edit" onClick={handleEdit} />
+          <TextButton type="fail" name="Delete" onClick={deleteTeam} />
+        </div>
+      ) : null}
     </div>
   );
 }

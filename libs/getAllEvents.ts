@@ -6,6 +6,7 @@ export const fetchAllEventData = async () => {
   const eventRef = firebaseAdmin
     .firestore()
     .collection('events')
+    .where('startTime', '>=', new Date())
     .orderBy('startTime', 'desc');
   try {
     const querySnapshot = await eventRef.get();

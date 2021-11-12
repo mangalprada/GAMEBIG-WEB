@@ -1,3 +1,4 @@
+import { TeamType } from '@/utilities/types';
 import { db } from '../firebase/firebaseClient';
 import { EventData } from '../utilities/eventItem/types';
 
@@ -36,7 +37,7 @@ export const fetchEventDataById = async (id: string) => {
 };
 
 export const fetchParticipatedTeams = async (eventId: string) => {
-  let participants = [] as Record<string, any>[];
+  let participants: TeamType[] = [];
   const participatedTeamsRef = db
     .collection('events')
     .doc(eventId)
@@ -48,9 +49,11 @@ export const fetchParticipatedTeams = async (eventId: string) => {
         const data = doc.data();
         if (data)
           participants.push({
-            players: data.usernames,
-            leader: data.inGameLead,
+            gamers: data.gamers,
+            uids: data.uids,
+            inGameLead: data.inGameLead,
             teamName: data.teamName,
+            docId: doc.id,
           });
       }
     });

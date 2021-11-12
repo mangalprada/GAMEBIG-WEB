@@ -35,20 +35,20 @@ export default function RegisterEventForm({
   useEffect(() => {
     const getTeams = () => {
       const teams: Array<TeamType> = [];
-      // if (userData.uid) {
-      //   db.collection('teams')
-      //     .where('uids', 'array-contains-any', [userData.uid])
-      //     .get()
-      //     .then((querySnapshot) => {
-      //       querySnapshot.forEach((doc) => {
-      //         const { teamName, gamers, inGameLead } = doc.data();
-      //         teams.push({ teamName, gamers, inGameLead, docId: doc.id });
-      //       });
-      //     }) //todo
-      //     .catch((error) => {
-      //       console.log('Error getting documents: ', error);
-      //     });
-      // }
+      if (userData.uid) {
+        db.collection('teams')
+          .where('uids', 'array-contains-any', [userData.uid])
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              const team = doc.data() as TeamType;
+              teams.push({ ...team, docId: doc.id });
+            });
+          })
+          .catch((error) => {
+            console.log('Error getting documents: ', error);
+          });
+      }
       return teams;
     };
 
@@ -75,7 +75,9 @@ export default function RegisterEventForm({
       id="register"
       className="flex flex-col font-sans font-semibold text-gray-300 px-4"
     >
-      <label className="text-xl text-gray-300 py-5">Register For Event</label>
+      <label className="font-sans font-se text-xl text-gray-300 py-5">
+        Register For Event
+      </label>
       <div className="mt-4 md:w-1/2 ">
         <SelectDropDown
           handleChange={(val) => {
@@ -114,7 +116,7 @@ export default function RegisterEventForm({
         }}
         name="Create Your New Team"
       />
-      <Modal isOpen={open}>
+      <Modal isOpen={open} closeModal={closeModal}>
         <div>
           {
             {

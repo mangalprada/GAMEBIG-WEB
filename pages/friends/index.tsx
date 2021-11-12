@@ -73,7 +73,7 @@ const FriendsSuggestions = ({ friendsSuggestions }: Props) => {
 export default FriendsSuggestions;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const friendsSuggestions: UserData[] = [];
+  const friendsSuggestions = [] as any[];
 
   await firebaseAdmin
     .firestore()
@@ -81,9 +81,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     .limit(40)
     .get()
     .then((querySnapshot) =>
-      querySnapshot.forEach((doc) =>
-        friendsSuggestions.push(doc.data() as UserData)
-      )
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        friendsSuggestions.push({
+          ...data,
+          docId: doc.id,
+          dob: data.dob ? data.dob.toDate().toISOString() : null,
+        });
+      })
     )
     .catch((err) => console.log(err));
 

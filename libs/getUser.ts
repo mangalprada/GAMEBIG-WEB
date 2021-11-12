@@ -14,7 +14,7 @@ const getUser = async (username: string) => {
         if (data) {
           user.push({
             ...data,
-            dob: data.dob.toDate().toISOString(),
+            dob: data.dob ? data.dob.toDate().toISOString() : null,
             docId: doc.id,
           });
         }

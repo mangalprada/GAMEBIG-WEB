@@ -36,10 +36,10 @@ const GamerItem = ({ username, gameCode, updateGamer, serialNo }: Props) => {
   useEffect(() => {
     const getDetails = async () => {
       const gamerArray: GamerData[] = [];
-      if (username && gameCode) {
+      if (uid && gameCode) {
         await db
           .collection('gamers')
-          .where('username', '==', username)
+          .where('uid', '==', uid)
           .where('gameCode', '==', gameCode)
           .get()
           .then((querySnapshot) => {

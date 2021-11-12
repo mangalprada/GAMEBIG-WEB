@@ -8,6 +8,7 @@ import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
 import TrophyIcon from '@/components/UI/Icons/EventIcons/TrophyIcon';
 import EventIcon from '@/components/UI/Icons/EventIcons/EventIcon';
+import ShareIcon from '@/components/UI/Icons/Others/ShareIcon';
 import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
@@ -122,7 +123,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           ${getDecoratedTime(data.startTime, -30)}`}
         </span>
       </div>
-      <div className="flex flex-row justify-between md:mx-20 mx-8">
+      <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
         <TextButton
           name="DETAILS"
           type="normal"

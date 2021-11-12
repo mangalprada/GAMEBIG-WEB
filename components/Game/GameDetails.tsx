@@ -38,7 +38,7 @@ const GameDetails: FC<Props> = ({
   };
 
   const {
-    userData: { username },
+    userData: { username, uid },
   } = useAuth();
 
   const { openSnackBar } = useUI();
@@ -46,7 +46,7 @@ const GameDetails: FC<Props> = ({
   const formik = useFormik({
     initialValues: { ...initialValues, ...gameData },
     onSubmit: (values) => {
-      saveGamerData(values, username, gameCode);
+      saveGamerData(values, gameCode, uid);
     },
   });
 

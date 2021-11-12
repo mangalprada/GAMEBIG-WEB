@@ -50,7 +50,7 @@ export default function PrimaryNavigationItems() {
       <NavigationItem
         href="/friends"
         isActive={router.pathname === '/friends'}
-        toolTip="Friends"
+        toolTip="People"
       >
         <div className="flex justify-center">
           <FriendsIcon isActive={router.pathname === '/friends'} size={36} />

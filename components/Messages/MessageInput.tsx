@@ -30,7 +30,7 @@ export default function MessageInput({
         .collection('messageRooms')
         .add({
           uids: [userData.uid, receivingUser.uid],
-          userDetails: {
+          receiver: {
             [receivingUser.uid]: userData,
             [userData.uid]: receivingUser,
           },

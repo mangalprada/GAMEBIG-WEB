@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import CreateTeam from '../../../components/Profile/createTeam';
-import { db } from '../../../firebase/firebaseClient';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, TeamType } from '../../../utilities/types';
 import TeamIntro from '../../../components/Profile/TeamIntro';
@@ -11,20 +10,38 @@ import getUser from '../../../libs/getUser';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import { useAuth } from '../../../context/authContext';
 import Modal from '@/components/UI/Modal/Modal';
+import { db } from 'firebase/firebaseClient';
 
-export default function Home({
-  userData,
-  teams,
-}: {
-  userData: UserData;
-  teams: Array<TeamType>;
-}) {
-  const { userData: user } = useAuth();
+export default function Home({ userData }: { userData: UserData }) {
+  const {
+    userData: { uid },
+  } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentTeams, setCurrentTeams] = useState(teams);
+  const [currentTeams, setCurrentTeams] = useState<TeamType[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    if (uid) {
+      db.collection('teams')
+        .where('uids', 'array-contains', uid)
+        .get()
+        .then((querySnapshot) => {
+          const teams: TeamType[] = [];
+          querySnapshot.forEach((doc) => {
+            const data = doc.data() as TeamType;
+            teams.push({ ...data, docId: doc.id });
+          });
+          console.log(teams);
+          setCurrentTeams(teams);
+        })
+        .catch((error) => {
+          console.log('Error getting documents: ', error);
+        });
+    }
+  }, [uid]);
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -54,7 +71,7 @@ export default function Home({
       <ProfileHeader userData={userData} />
       <div className="w-11/12 md:w-5/6 xl:w-1/2 mx-auto mt-2">
         <div className="flex justify-end">
-          {userData.uid === user.uid ? (
+          {userData.uid === uid ? (
             <FixedButton name="Create Team" onClick={openModal} />
           ) : null}
         </div>
@@ -76,7 +93,7 @@ export default function Home({
           )}
         </div>
       </div>
-      <Modal isOpen={modalOpen}>
+      <Modal closeModal={closeModal} isOpen={modalOpen}>
         <CreateTeam teamData={selectedTeam} onCancel={closeModal} />
       </Modal>
     </Aux>
@@ -88,24 +105,7 @@ export async function getServerSideProps(context: {
 }) {
   const { username } = context.params;
   const userData = await getUser(username);
-
-  const teams: Array<TeamType> = [];
-
-  await db
-    .collection('teams')
-    .where('gamers', 'array-contains-any', [username])
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const { teamName, gamers, inGameLead } = doc.data();
-        teams.push({ teamName, gamers, inGameLead, docId: doc.id });
-      });
-    })
-    .catch((error) => {
-      console.log('Error getting documents: ', error);
-    });
-
   return {
-    props: { userData, teams },
+    props: { userData },
   };
 }

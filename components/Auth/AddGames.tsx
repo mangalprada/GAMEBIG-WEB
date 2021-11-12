@@ -6,13 +6,7 @@ import { GamerData } from '../../utilities/types';
 import GameForm from './GameForm';
 import FixedButton from '../UI/Buttons/FixedButton';
 
-function AddGames({
-  username,
-  isUpdating,
-}: {
-  username: string;
-  isUpdating: boolean;
-}) {
+function AddGames({ uid }: { uid: string }) {
   const { updateAuthPageNumber } = useAuth();
   const [currentGames, setCurrentGames] = useState<Array<GamerData>>([]);
   const router = useRouter();
@@ -38,7 +32,7 @@ function AddGames({
           {Object.keys(games).map(function (key, index) {
             return (
               <GameForm
-                username={username}
+                uid={uid}
                 game={games[key]}
                 addToCurrentGames={addToCurrentGames}
                 key={index}

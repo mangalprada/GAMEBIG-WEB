@@ -35,20 +35,20 @@ export default function RegisterEventForm({
   useEffect(() => {
     const getTeams = () => {
       const teams: Array<TeamType> = [];
-      if (userData.uid) {
-        db.collection('teams')
-          .where('gamers', 'array-contains-any', [userData.uid])
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const { teamName, gamers, inGameLead } = doc.data();
-              teams.push({ teamName, gamers, inGameLead, docId: doc.id });
-            });
-          })
-          .catch((error) => {
-            console.log('Error getting documents: ', error);
-          });
-      }
+      // if (userData.uid) {
+      //   db.collection('teams')
+      //     .where('uids', 'array-contains-any', [userData.uid])
+      //     .get()
+      //     .then((querySnapshot) => {
+      //       querySnapshot.forEach((doc) => {
+      //         const { teamName, gamers, inGameLead } = doc.data();
+      //         teams.push({ teamName, gamers, inGameLead, docId: doc.id });
+      //       });
+      //     }) //todo
+      //     .catch((error) => {
+      //       console.log('Error getting documents: ', error);
+      //     });
+      // }
       return teams;
     };
 

@@ -50,7 +50,7 @@ const Messages = () => {
       let roomId = '';
       const querySnapshot = await db
         .collection('messageRooms')
-        .where('usernames', 'array-contains-any', [receiverdata.username])
+        .where('uids', 'array-contains-any', [receiverdata.uid])
         .get();
       querySnapshot.forEach((doc) => {
         const data = doc.data();

@@ -4,11 +4,7 @@ import { useAuth } from '../../context/authContext';
 import { useUI } from '@/context/uiContext';
 import { games } from '../../utilities/GameList';
 import { ProfileCardData } from '../../utilities/friends/friends';
-import {
-  sendFriendRequest,
-  acceptFriendRequest,
-  deleteFriendRequest,
-} from '../../libs/friendRequests';
+import { follow } from '../../libs/follow';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
   return (
@@ -84,82 +80,48 @@ const ProfileCard = ({
             />
           </div>
         ) : null}
-        <span className="text-indigo-600 text-xl">{name}</span>
-        <span className="text-gray-300 text-xl">{username}</span>
+        <span className="text-gray-300 hover:text-indigo-600 text-xl">
+          {name}
+        </span>
+        <span className="text-gray-500 text-base">@{username}</span>
         <div className="flex flex-wrap justify-center">
           {games.map((game: string, index: number) => (
             <GameBadge key={index} gamecode={game} />
           ))}
         </div>
       </div>
-      {receiverUid ? (
-        <div className="flex flex-col w-full gap-2">
-          <Button
-            onClick={() => {
-              acceptFriendRequest({
-                acceptingUser: {
-                  name: userData.name as string,
-                  photoURL: userData.photoURL as string,
-                  username: userData.username,
-                  uid: userData.uid,
-                },
-                requestingUser: {
-                  photoURL: photoURL as string,
-                  username: username as string,
-                  name: name as string,
-                  uid: uid as string,
-                },
-                docId: id as string,
-              });
-              openSnackBar({
-                message: `${username} and you are friends!`,
-                type: 'success',
-                label: 'Accepted!',
-              });
-            }}
-            text="Accept"
-            classname="bg-indigo-600"
-          />
-          <Button
-            onClick={() => {
-              deleteFriendRequest(id as string);
-              openSnackBar({
-                message: `Request is Ignored!`,
-                type: 'success',
-                label: 'Ignored!',
-              });
-            }}
-            text="Ignore"
-            classname="bg-gray-900 hover:bg-gray-800"
-          />
-        </div>
-      ) : (
-        <Button
-          onClick={() => {
-            sendFriendRequest({
-              sendingUser: {
-                name: userData.name as string,
-                photoURL: userData.photoURL as string,
-                username: userData.username,
-                uid: userData.uid,
-              },
-              receivingUser: {
-                photoURL: photoURL as string,
-                username,
-                name: name as string,
-                uid: uid as string,
-              },
-            });
-            openSnackBar({
-              message: `Request sent to ${username}`,
-              type: 'success',
-              label: 'Sent!',
-            });
-          }}
-          text="Add Friend"
-          classname="bg-indigo-600"
-        />
-      )}
+      <Button
+        onClick={() => {
+          follow({
+            follower: {
+              name: userData.name as string,
+              photoURL: userData.photoURL as string,
+              username: userData.username,
+              uid: userData.uid,
+            },
+            followee: {
+              photoURL: photoURL as string,
+              username,
+              name: name as string,
+              uid: uid as string,
+            },
+          });
+          openSnackBar({
+            message: `You are Following ${username}`,
+            type: 'success',
+            label: '',
+          });
+        }}
+        text="Follow"
+        classname="bg-indigo-600"
+      />
+      <Button
+        onClick={() => {
+          //todo: send message
+        }}
+        text="Message"
+        classname="bg-indigo-600"
+      />
     </div>
   );
 };

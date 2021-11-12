@@ -5,12 +5,14 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
+import { useRouter } from 'next/router';
 import { db } from '../../firebase/firebaseClient';
 import { useAuth } from '@/context/authContext';
 import SearchInput from '@/components/UI/Inputs/SearchInput';
 import algoliaClient from '@/libs/algolia';
 import debounce from '@/libs/debounce';
 import MessageRoom from './MessageRoom';
+import FixedButton from '../UI/Buttons/FixedButton';
 
 type Props = {
   setReceiver: (user: any) => void;
@@ -27,6 +29,7 @@ const MessageRoomList = ({
   isSmallScreen,
   showMsgContainer,
 }: Props) => {
+  const router = useRouter();
   const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -52,6 +55,10 @@ const MessageRoomList = ({
     index.search(query).then(({ hits }) => {
       console.log(hits);
     });
+  };
+
+  const openFriendsPage = () => {
+    router.push('/friends');
   };
 
   const clickHandler = (room: any) => {
@@ -89,27 +96,34 @@ const MessageRoomList = ({
           error={Boolean(errorMsg)}
           errorMessage={errorMsg}
         /> */}
-        <div className="h-full overflow-auto pr-3">
-          {messageRooms.map((room: any, index: number) => {
-            return (
-              <div key={index}>
-                <MessageRoom
-                  receiverName={room.userDetails[userData.username].name}
-                  receiverUsername={
-                    room.userDetails[userData.username].username
-                  }
-                  receiverPhotoURL={
-                    room.userDetails[userData.username].photoURL
-                  }
-                  lastMessage={room.lastMessage}
-                  onClick={() => {
-                    clickHandler(room);
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {messageRooms.length > 0 ? (
+          <div className="h-full overflow-auto pr-3">
+            {messageRooms.map((room: any, index: number) => {
+              return (
+                <div key={index}>
+                  <MessageRoom
+                    receiverName={room.userDetails[userData.username].name}
+                    receiverUsername={
+                      room.userDetails[userData.username].username
+                    }
+                    receiverPhotoURL={
+                      room.userDetails[userData.username].photoURL
+                    }
+                    lastMessage={room.lastMessage}
+                    onClick={() => {
+                      clickHandler(room);
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <FixedButton
+            name="Find People To Message"
+            onClick={openFriendsPage}
+          />
+        )}
       </div>
     </div>
   );

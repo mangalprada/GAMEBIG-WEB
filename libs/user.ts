@@ -18,6 +18,25 @@ export const createUser = async (userData: UserData) => {
   }
 };
 
+export const getUserByUsername = async (username: string) => {
+  const user: UserData[] = [];
+  await db
+    .collection('users')
+    .where('username', '==', username)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as UserData;
+        user.push({ ...data, docId: doc.id });
+      });
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
+
+  return user[0];
+};
+
 export const getUserData = async (uid: string) => {
   let user: UserData = {} as UserData;
   await db
@@ -38,8 +57,6 @@ export const getUserData = async (uid: string) => {
 };
 
 export const getFriendRequests = async (uid: string) => {
-  console.log('123123123');
-
   const requests: FriendRequest[] = [];
   await db
     .collection('friendRequests')

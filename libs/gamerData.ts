@@ -1,12 +1,12 @@
 import { db } from 'firebase/firebaseClient';
 import { GamerData } from '../utilities/types';
 
-export const getGamerData = async (username: string) => {
+export const getGamerData = async (uid: string) => {
   const savedGames: Record<string, GamerData> = {};
   try {
     await db
       .collection('gamers')
-      .where('username', '==', username)
+      .where('uid', '==', uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -34,14 +34,14 @@ export const getGamerData = async (username: string) => {
 
 export const saveGamerData = async (
   gamerData: GamerData,
-  username: string,
-  gameCode: string
+  gameCode: string,
+  uid: string
 ) => {
   try {
     if (gamerData.docId) {
       await db.collection('gamers').doc(gamerData.docId).set(gamerData);
     } else {
-      await db.collection('gamers').add({ ...gamerData, username, gameCode });
+      await db.collection('gamers').add({ ...gamerData, uid, gameCode });
     }
   } catch (error) {
     console.log('Error saving gamer data: ', error);

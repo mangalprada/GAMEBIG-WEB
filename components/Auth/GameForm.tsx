@@ -17,10 +17,11 @@ const validationSchema = yup.object({
 const emptyValues = {
   inGameName: '',
   inGameId: '',
+  uid: '',
 };
 
 type Props = {
-  username: string;
+  uid: string;
   game: {
     gameCode: string;
     name: string;
@@ -31,21 +32,18 @@ type Props = {
 };
 
 const GameForm: FC<Props> = ({
-  username,
+  uid,
   game,
   oldValues,
   addToCurrentGames,
 }: Props) => {
   const { openSnackBar } = useUI();
-  const {
-    userData: { uid },
-  } = useAuth();
-
   const saveGame = async (gameData: GamerData) => {
     try {
-      await db
-        .collection('gamers')
-        .add({ username: username, gameCode: game.gameCode, ...gameData });
+      await db.collection('gamers').add({
+        gameCode: game.gameCode,
+        ...gameData,
+      });
       openSnackBar({
         label: 'Saved',
         message: `${game.name} added!`,

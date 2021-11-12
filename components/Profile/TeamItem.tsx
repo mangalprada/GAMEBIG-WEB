@@ -2,6 +2,7 @@ import { useUI } from '@/context/uiContext';
 import { db } from '../../firebase/firebaseClient';
 import { TeamType } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
+import HorizontalProfile from './HorizontalProfile';
 
 type Props = {
   team: TeamType;
@@ -40,22 +41,15 @@ export default function TeamItem({
   return (
     <div
       className={
-        'flex flex-col my-2 py-4 px-8 justify-center text-lg ' +
+        'flex flex-col my-1 px-2 py-6 justify-center text-lg ' +
         'text-gray-300 font-sans font-semibold rounded-lg bg-gray-900 '
       }
     >
-      <h6 className="text-3xl text-indigo-600 mb-2">{team.teamName}</h6>
+      <h6 className="text-2xl text-indigo-600 mx-4 mb-2">{team.teamName}</h6>
       <div>
         {team.gamers.map((gamer, index) => (
-          <div key={index} className="flex justify-between flex-wrap py-1">
-            <h6>
-              {index + 1}. {gamer}
-            </h6>
-            {gamer === team.inGameLead ? (
-              <div className="bg-red-500 rounded-md py-0.5 px-3 ">
-                <span className="text-lg text-black">IGL</span>
-              </div>
-            ) : null}
+          <div key={index}>
+            <HorizontalProfile user={gamer} />
           </div>
         ))}
       </div>

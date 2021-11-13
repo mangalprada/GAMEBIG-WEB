@@ -31,7 +31,7 @@ function useProvideUI() {
   });
 
   const [shareLink, setShareLink] = useState({
-    isModalOpen: true,
+    isModalOpen: false,
     link: 'https://www.gamebig.in',
   });
 

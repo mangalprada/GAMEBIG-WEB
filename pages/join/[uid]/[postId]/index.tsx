@@ -77,7 +77,7 @@ export default function Home() {
                   <div className="relative h-10 w-10 md:h-14 md:w-14 cursor-pointer">
                     <Image
                       src={joinee.photoURL}
-                      alt="Picture of a friend"
+                      alt="Picture"
                       layout="fill"
                       objectFit="contain"
                       className="rounded-full"

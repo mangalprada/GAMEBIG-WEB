@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { useUI } from '@/context/uiContext';
 import { games } from '../../utilities/GameList';
 import { ProfileCardData } from '../../utilities/friends/friends';
-import { follow } from '../../libs/follow';
+import { follow, isFollowing } from '../../libs/follow';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
   return (
@@ -51,12 +52,23 @@ const ProfileCard = ({
   games,
   uid,
   name,
-  receiverUid,
-  id,
 }: ProfileCardData) => {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
   const router = useRouter();
+  const [following, setFollowing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkFollowing = async () => {
+      const val = await isFollowing(userData.uid, uid);
+      console.log(val, userData.uid, uid);
+
+      setFollowing(val);
+    };
+    if (userData.uid) {
+      checkFollowing();
+    }
+  }, [uid, userData.uid]);
 
   return (
     <div
@@ -90,31 +102,36 @@ const ProfileCard = ({
           ))}
         </div>
       </div>
-      <Button
-        onClick={() => {
-          follow({
-            follower: {
-              name: userData.name as string,
-              photoURL: userData.photoURL as string,
-              username: userData.username,
-              uid: userData.uid,
-            },
-            followee: {
-              photoURL: photoURL as string,
-              username,
-              name: name as string,
-              uid: uid as string,
-            },
-          });
-          openSnackBar({
-            message: `You are Following ${username}`,
-            type: 'success',
-            label: '',
-          });
-        }}
-        text="Follow"
-        classname="bg-indigo-600"
-      />
+      {!following ? (
+        <Button
+          onClick={() => {
+            follow({
+              follower: {
+                name: userData.name as string,
+                photoURL: userData.photoURL as string,
+                username: userData.username,
+                uid: userData.uid,
+              },
+              followee: {
+                photoURL: photoURL as string,
+                username,
+                name: name as string,
+                uid: uid as string,
+              },
+            });
+            openSnackBar({
+              message: `You are Following ${username}`,
+              type: 'success',
+              label: '',
+            });
+            setFollowing(true);
+          }}
+          text="Follow"
+          classname="bg-indigo-600"
+        />
+      ) : (
+        <span className="font-sans text-gray-500 cursor-auto">Following</span>
+      )}
     </div>
   );
 };

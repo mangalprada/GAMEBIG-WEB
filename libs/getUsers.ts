@@ -1,12 +1,10 @@
 import { firebaseAdmin } from '../firebase/firebaseAdmin';
-import { UserData } from '../utilities/types';
 
-const getUser = async (username: string) => {
+const getUsers = async () => {
   const user: any[] = [];
   await firebaseAdmin
     .firestore()
     .collection('users')
-    .where('username', '==', username)
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -24,7 +22,7 @@ const getUser = async (username: string) => {
       console.log('Error getting documents: ', error);
     });
 
-  return user[0];
+  return user;
 };
 
-export default getUser;
+export default getUsers;

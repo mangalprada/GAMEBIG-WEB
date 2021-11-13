@@ -4,8 +4,7 @@ import nookies from 'nookies';
 import localforage from 'localforage';
 import firebase from '../firebase/firebaseClient';
 import { UserData } from '../utilities/types';
-import { FriendRequest } from '../utilities/friends/friends';
-import { getFriendRequests, getUserData, createUser } from '@/libs/user';
+import { getUserData, createUser } from '@/libs/user';
 
 const authContext = createContext({
   userData: {} as UserData,
@@ -13,7 +12,6 @@ const authContext = createContext({
   updateOrgId: (id: string) => {},
   updateOrgName: (name: string) => {},
   authPageNumber: 1,
-  receivedFriendRequests: [] as FriendRequest[],
   updateAuthPageNumber: (pageNumber: number) => {},
   signout: (): Promise<void> => {
     return Promise.resolve();
@@ -30,9 +28,6 @@ function useProviderAuth() {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData>({} as UserData);
   const [authPageNumber, setAuthPageNumber] = useState<number>(1);
-  const [receivedFriendRequests, setReceivedFriendRequests] = useState(
-    [] as FriendRequest[]
-  );
 
   const signout = async () => {
     await router.push('/');
@@ -57,8 +52,6 @@ function useProviderAuth() {
           uid: tempUser.uid,
           username: tempUser.username,
         });
-        const requests = await getFriendRequests(tempUser.uid);
-        setReceivedFriendRequests(requests);
       } else {
         const temp = {
           username: uid,
@@ -149,7 +142,6 @@ function useProviderAuth() {
     signout,
     signInByFacebook,
     signInByGoogle,
-    receivedFriendRequests,
   };
 }
 
@@ -165,7 +157,6 @@ type Props = {
   signout?: () => void;
   signInByFacebook?: () => void;
   signInByGoogle?: () => void;
-  receivedFriendRequests?: FriendRequest[];
 };
 
 export const AuthProvider = ({ children }: Props) => {

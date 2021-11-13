@@ -32,4 +32,15 @@ export const follow = ({
     });
 };
 
+export const isFollowing = async (myUid: string, otherUid: string) => {
+  const userDoc = await db
+    .collection('users')
+    .doc(myUid)
+    .collection('following')
+    .doc(otherUid)
+    .get();
+  if (userDoc.exists) return true;
+  return false;
+};
+
 export const unfollow = () => {};

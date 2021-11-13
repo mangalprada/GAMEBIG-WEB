@@ -1,7 +1,6 @@
+import getUsers from '@/libs/getUsers';
 import { GetServerSidePropsContext } from 'next';
 import ProfileCard from '../../components/Friends/ProfileCard';
-import { useAuth } from '../../context/authContext';
-import { firebaseAdmin } from '../../firebase/firebaseAdmin';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
 
@@ -9,8 +8,7 @@ type Props = {
   users: UserData[];
 };
 
-const FriendsSuggestions = ({ users }: Props) => {
-  const { userData, receivedFriendRequests } = useAuth();
+const People = ({ users }: Props) => {
   return (
     <Aux>
       <div className="flex flex-col">
@@ -32,19 +30,11 @@ const FriendsSuggestions = ({ users }: Props) => {
   );
 };
 
-export default FriendsSuggestions;
+export default People;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const users: UserData[] = [];
-  await firebaseAdmin
-    .firestore()
-    .collection('users')
-    .limit(30)
-    .get()
-    .then((querySnapshot) =>
-      querySnapshot.forEach((doc) => users.push(doc.data() as UserData))
-    )
-    .catch((err) => console.log(err));
+  let users: UserData[] = [];
+  users = await getUsers();
   return {
     props: { users },
   };

@@ -1,4 +1,3 @@
-import { FriendRequest } from '@/utilities/friends/friends';
 import { UserData } from '@/utilities/types';
 import { db } from 'firebase/firebaseClient';
 
@@ -54,26 +53,6 @@ export const getUserData = async (uid: string) => {
       console.log('Error getting documents: ', error);
     });
   return user;
-};
-
-export const getFriendRequests = async (uid: string) => {
-  const requests: FriendRequest[] = [];
-  await db
-    .collection('friendRequests')
-    .where('receiverUid', '==', uid)
-    .get()
-    .then((querySnapshot) =>
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as FriendRequest;
-        requests.push({
-          id: doc.id,
-          ...data,
-        });
-        console.log(uid, data, 'getting friend req');
-      })
-    )
-    .catch((err) => console.log(err));
-  return requests;
 };
 
 export const isUsernameTaken = async (username: string, uid: string) =>

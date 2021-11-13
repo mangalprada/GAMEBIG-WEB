@@ -1,6 +1,6 @@
 import getUsers from '@/libs/getUsers';
 import { GetServerSidePropsContext } from 'next';
-import ProfileCard from '../../components/Friends/ProfileCard';
+import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
 

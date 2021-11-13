@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { useUI } from '@/context/uiContext';
 import { games } from '../../utilities/GameList';
-import { ProfileCardData } from '../../utilities/friends/friends';
+import { ProfileCardData } from '../../utilities/people/people';
 import { follow, isFollowing } from '../../libs/follow';
 
 const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
@@ -61,8 +61,6 @@ const ProfileCard = ({
   useEffect(() => {
     const checkFollowing = async () => {
       const val = await isFollowing(userData.uid, uid);
-      console.log(val, userData.uid, uid);
-
       setFollowing(val);
     };
     if (userData.uid) {

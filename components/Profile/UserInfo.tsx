@@ -15,7 +15,7 @@ import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
-import FriendshipButtons from '../Friends/FriendshipButtons';
+import FollowButton from './FollowButton';
 import { getDecoratedDate } from '@/utilities/functions/dateConvert';
 
 type Props = {
@@ -108,10 +108,11 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
               name="EDIT PROFILE"
             />
           ) : (
-            <FriendshipButtons
+            <FollowButton
               profilePagePhotoURL={userData.photoURL}
               profilePageName={userData.name}
               profilePageUsername={userData.username}
+              profilePageUid={userData.uid}
             />
           )}
         </div>

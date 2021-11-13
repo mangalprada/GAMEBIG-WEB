@@ -57,8 +57,8 @@ const MessageRoomList = ({
     });
   };
 
-  const openFriendsPage = () => {
-    router.push('/friends');
+  const openPeoplePage = () => {
+    router.push('/people');
   };
 
   const clickHandler = (room: any) => {
@@ -119,10 +119,7 @@ const MessageRoomList = ({
             })}
           </div>
         ) : (
-          <FixedButton
-            name="Find People To Message"
-            onClick={openFriendsPage}
-          />
+          <FixedButton name="Find People To Message" onClick={openPeoplePage} />
         )}
       </div>
     </div>

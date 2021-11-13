@@ -44,12 +44,9 @@ function BottomNavigationBar() {
               />
             </a>
           </Link>
-          <Link href="/friends" passHref>
+          <Link href="/people" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <FriendsIcon
-                isActive={router.pathname === '/friends'}
-                size={36}
-              />
+              <FriendsIcon isActive={router.pathname === '/people'} size={36} />
             </a>
           </Link>
           <Link href="/join" passHref>

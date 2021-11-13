@@ -130,7 +130,14 @@ const ProfileCard = ({
           classname="bg-indigo-600"
         />
       ) : (
-        <span className="font-sans text-gray-500 cursor-auto">Following</span>
+        <span
+          className="font-sans text-gray-500 cursor-auto "
+          onClick={() => {
+            throw new Error('Sentry Frontend Error');
+          }}
+        >
+          Following
+        </span>
       )}
     </div>
   );

@@ -40,6 +40,9 @@ export default function TeamItem({
     }
   };
 
+  if (team.gamers.length === 1)
+    return <HorizontalProfile user={team.gamers[0]} />;
+
   return (
     <div
       className={

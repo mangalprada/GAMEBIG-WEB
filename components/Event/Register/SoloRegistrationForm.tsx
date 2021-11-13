@@ -17,31 +17,25 @@ export default function GamerDetails({
 }: Props) {
   const { userData } = useAuth();
   const { name, username, uid, photoURL } = userData;
-  const [gamers, setGamers] = useState({} as Record<string, GamerData>);
+  const [gamers, setGamers] = useState<GamerData[]>([]);
 
-  const updateGamer = (username: string, gamer: GamerData) => {
-    gamers[username] = gamer;
+  const updateGamer = (uid: string, gamer: GamerData) => {
+    setGamers([gamer]);
   };
 
   const handleRegister = async () => {
-    const gamersArray: GamerData[] = [];
-    Object.keys(gamers).map(function (key) {
-      gamersArray.push({ username: key, ...gamers[key] });
-    });
-    saveGamerDetails(gamersArray);
-    setGamers({});
+    saveGamerDetails();
+    setGamers([]);
     setIsRegistered(true);
   };
 
-  const saveGamerDetails = (gamersArray: GamerData[]) => {
-    const usernames = gamersArray.map((gamer) => gamer.username);
+  const saveGamerDetails = () => {
     db.collection('events')
       .doc(tId)
       .collection('teams')
       .add({
-        gamers: gamersArray,
-        usernames,
-        teamName: usernames[0],
+        gamers,
+        uids: [uid],
       })
       .then(() => {
         setIsRegistered(true);

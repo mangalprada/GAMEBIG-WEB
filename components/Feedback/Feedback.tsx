@@ -1,8 +1,8 @@
+import { FC, useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useUI } from '@/context/uiContext';
 import { submitFeedback } from '@/libs/feedback';
-import { useFormik } from 'formik';
-import { FC, useState } from 'react';
-import * as yup from 'yup';
 import ResponsiveButton from '../UI/Buttons/ResponsiveButton';
 import Facebook from '../UI/Icons/SocialIcons/FacebookIcon';
 import Instagram from '../UI/Icons/SocialIcons/InstagramIcon';
@@ -15,6 +15,19 @@ const Feedback: FC = () => {
   const { openSnackBar } = useUI();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogueOpen, setIsDialogueOpen] = useState(true);
+
+  useEffect(() => {
+    let timeId: number | undefined = undefined;
+    if (isDialogueOpen) {
+      timeId = window.setTimeout(() => {
+        setIsDialogueOpen(false);
+      }, 5000);
+    }
+    return () => {
+      window.clearTimeout(timeId);
+    };
+  }, [isDialogueOpen]);
 
   const formik = useFormik({
     initialValues: {
@@ -44,8 +57,31 @@ const Feedback: FC = () => {
     },
   });
 
+  function onButtonClick() {
+    setIsModalOpen(true);
+    if (isDialogueOpen) {
+      setIsDialogueOpen(false);
+    }
+  }
+
   return (
     <div>
+      {isDialogueOpen ? (
+        <section
+          className={
+            'fixed md:bottom-20 bottom-28 md:right-8 right-4 z-40 ' +
+            'bg-green-500 px-3 py-2 rounded-md -skew-x-3 w-48 mb-1'
+          }
+        >
+          <span className="text-gray-900 font-semibold tracking-wide text-lg">
+            Hi!!
+          </span>
+          <br />
+          <span className="text-gray-900 font-semibold tracking-wide text-lg">
+            Give your feedback Here
+          </span>
+        </section>
+      ) : null}
       <section>
         <button
           className={
@@ -56,7 +92,7 @@ const Feedback: FC = () => {
               : 'md:bottom-5 md:right-8 bottom-14 right-4 z-40 ') +
             'bg-green-500 hover:bg-green-600/80'
           }
-          onClick={() => setIsModalOpen(true)}
+          onClick={onButtonClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

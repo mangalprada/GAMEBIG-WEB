@@ -63,8 +63,9 @@ const GamerRegistrationForm = ({
       }
     };
     getDetails();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameCode]);
+  }, [gameCode, uid]);
 
   useEffect(() => {
     const { inGameName, inGameId } = formik.values;

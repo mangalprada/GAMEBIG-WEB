@@ -115,6 +115,10 @@ export default function Event({ orgId, eventData }: Props) {
             }
           >
             <span>You have registered for this event!</span>
+            <span>
+              Get Room Id and Password will be available here before 15 minutes
+              of event.
+            </span>
             <span
               onClick={unregisterHandler}
               className={

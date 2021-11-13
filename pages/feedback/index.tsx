@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import MessageContainer from '../../components/Messages/MessageContainer';
-import TypeContainer from '../../components/Messages/MessageInput';
 import Facebook from '../../components/UI/Icons/SocialIcons/FacebookIcon';
 import Instagram from '../../components/UI/Icons/SocialIcons/InstagramIcon';
 import Twitter from '../../components/UI/Icons/SocialIcons/TwitterIcon';

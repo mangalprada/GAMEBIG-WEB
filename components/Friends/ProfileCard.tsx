@@ -115,13 +115,6 @@ const ProfileCard = ({
         text="Follow"
         classname="bg-indigo-600"
       />
-      <Button
-        onClick={() => {
-          //todo: send message
-        }}
-        text="Message"
-        classname="bg-indigo-600"
-      />
     </div>
   );
 };

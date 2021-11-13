@@ -8,7 +8,6 @@ import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
 import TrophyIcon from '@/components/UI/Icons/EventIcons/TrophyIcon';
 import EventIcon from '@/components/UI/Icons/EventIcons/EventIcon';
-import ShareIcon from '@/components/UI/Icons/Others/ShareIcon';
 import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
@@ -21,6 +20,7 @@ import {
   getDecoratedDate,
   getDecoratedTime,
 } from '@/utilities/functions/dateConvert';
+import ShareEventLink from '@/components/UI/Share/ShareEventLink';
 
 type Props = {
   data: EventData;
@@ -63,26 +63,38 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
     <div
       className={
         'h-auto md:w-2/3 xl:w-1/2 rounded-lg my-3 md:mx-auto mx-4 ' +
-        'bg-gray-900 transform hover:scale-105 hover:-translate-y-1 ' +
-        'transition duration-500 ease-in-out cursor-pointer'
+        'bg-gray-900 transform hover:scale-[1.03] md:hover:scale-[1.02] ' +
+        'hover:-translate-y-0.5 md:hover:-translate-y-1 transition duration-500 ease-in-out'
       }
-      onClick={onForwardAction}
     >
+      {/** Header */}
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
           <EventCardAvatar content={data.linkedOrgName[0]} />
-          <span className="text-gray-300 text-xl font-semibold font-sans tracking-wide self-center mx-3">
-            {data.linkedOrgName}
-          </span>
+          <div>
+            <span className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3">
+              {data.linkedOrgName}
+            </span>
+            <section className="flex flex-row mx-2 items-center mt-0.5">
+              <LocationIcon
+                className={'fill-current text-indigo-500'}
+                size={15}
+              />
+              <span className="text-gray-300 text-sm font-semibold font-sans ml-1">
+                India
+              </span>
+            </section>
+          </div>
         </div>
-        <div className="flex self-center">
-          <LocationIcon className={'fill-current text-indigo-500'} size={24} />
-          <span className="text-gray-300 text-base font-semibold font-sans ml-1">
-            India
-          </span>
-        </div>
+
+        {/** Share Event */}
+        <ShareEventLink
+          link={`https://gamebig.in/organization/${data.linkedOrgId}/events/${data.id}`}
+        />
       </div>
-      <div className="mx-6 md:mx-16">
+
+      {/** Event Contents */}
+      <div className="mx-6 md:mx-16 cursor-pointer" onClick={onForwardAction}>
         <div className="flex flex-wrap justify-between">
           <EventCardRowItem
             content={`${games[data.gameCode].shortName} - ${data.mode}`}

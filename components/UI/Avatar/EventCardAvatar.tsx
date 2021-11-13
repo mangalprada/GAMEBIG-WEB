@@ -6,9 +6,9 @@ type Props = {
 
 const EventCardAvatar: FC<Props> = ({ content }: Props) => {
   return (
-    <div className="flex justify-center w-10 h-10 bg-indigo-600 rounded-full items-center">
-      <span className="self-center text-xl font-bold tracking-wide text-gray-900 font-sans">
-        {content}
+    <div className="flex justify-center w-12 h-12 bg-indigo-600 rounded-full items-center">
+      <span className="self-center text-2xl font-bold tracking-wide text-gray-900 font-sans">
+        {content.toString().toUpperCase()}
       </span>
     </div>
   );

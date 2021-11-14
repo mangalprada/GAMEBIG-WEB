@@ -2,16 +2,16 @@ import firebase, { db } from '../firebase/firebaseClient';
 import { EventFormData } from '../utilities/eventItem/types';
 
 export const addNewEvent = async (
-  orgId: string,
-  orgName: string | null,
+  pageId: string,
+  pageName: string | null,
   data: EventFormData
 ) => {
   let eventId = null;
   try {
     const eventRef = await db.collection('events').add({
       ...data,
-      linkedOrgId: orgId,
-      linkedOrgName: orgName,
+      linkedPageId: pageId,
+      linkedPageName: pageName,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     eventId = eventRef.id;

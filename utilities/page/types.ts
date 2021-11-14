@@ -1,4 +1,4 @@
-export interface OrgFormData {
+export interface PageFormData {
   id?: string;
   name: string;
   about: string;

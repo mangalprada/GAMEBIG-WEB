@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import NavigationItem from './NavigationItem/NavigationItem';
-import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
+import PageIcon from '../../UI/Icons/NavIcons/PageIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
@@ -9,7 +9,7 @@ import { useAuth } from '../../../context/authContext';
 
 export default function PrimaryNavigationItems() {
   const {
-    userData: { linkedOrganizationId },
+    userData: { linkedPageId },
   } = useAuth();
   const router = useRouter();
 
@@ -23,25 +23,21 @@ export default function PrimaryNavigationItems() {
         <TrophyIcon isActive={router.pathname === '/'} size={40} />
       </NavigationItem>
       <NavigationItem
-        href={
-          linkedOrganizationId
-            ? `/organization/${linkedOrganizationId}/events`
-            : `/organization`
-        }
+        href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
         isActive={
-          router.pathname === '/organization/[orgId]/events' ||
-          router.pathname === '/organization/[orgId]' ||
-          router.pathname === '/organization' ||
-          router.pathname === '/organization/create'
+          router.pathname === '/page/[pageId]/events' ||
+          router.pathname === '/page/[pageId]' ||
+          router.pathname === '/page' ||
+          router.pathname === '/page/create'
         }
-        toolTip="Organization"
+        toolTip="Page"
       >
-        <OrganizationIcon
+        <PageIcon
           isActive={
-            router.pathname === '/organization/[orgId]/events' ||
-            router.pathname === '/organization/[orgId]' ||
-            router.pathname === '/organization' ||
-            router.pathname === '/organization/create'
+            router.pathname === '/page/[pageId]/events' ||
+            router.pathname === '/page/[pageId]' ||
+            router.pathname === '/page' ||
+            router.pathname === '/page/create'
           }
           size={36}
         />

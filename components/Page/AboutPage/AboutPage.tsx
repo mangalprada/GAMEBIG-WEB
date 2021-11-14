@@ -1,5 +1,5 @@
-import { OrgFormData } from '../../../utilities/organization/types';
-import TwitchIcon from '../..//UI/Icons/SocialIcons/TwitchIcon';
+import { PageFormData } from '../../../utilities/page/types';
+import TwitchIcon from '../../UI/Icons/SocialIcons/TwitchIcon';
 import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
 import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
@@ -7,10 +7,10 @@ import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
 
 interface Props {
-  data: OrgFormData;
+  data: PageFormData;
 }
 
-export default function OrganizationProfile({ data }: Props) {
+export default function AboutPage({ data }: Props) {
   return (
     <div
       className={

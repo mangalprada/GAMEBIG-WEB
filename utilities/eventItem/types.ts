@@ -20,8 +20,8 @@ export interface EventData {
   description: string;
   prize: string;
   createdAt: string;
-  linkedOrgId: string;
-  linkedOrgName: string;
+  linkedPageId: string;
+  linkedPageName: string;
   roomId?: string;
   password?: string;
 }

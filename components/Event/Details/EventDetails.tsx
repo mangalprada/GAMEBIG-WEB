@@ -14,10 +14,10 @@ import { useUI } from '@/context/uiContext';
 
 interface Props {
   data: EventData;
-  isOrganizer: boolean;
+  isPageOwner: boolean;
 }
 
-export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
+export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
 
@@ -53,9 +53,9 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
       </div>
 
       <div className="flex flex-row space-x-5 mx-3">
-        <EventCardAvatar content={data?.linkedOrgName[0]} />
+        <EventCardAvatar content={data?.linkedPageName[0]} />
         <h1 className="text-indigo-600 text-xl font-semibold flex my-auto">
-          {data?.linkedOrgName}
+          {data?.linkedPageName}
         </h1>
       </div>
 
@@ -121,7 +121,7 @@ export default function DetailsAsParticipant({ data, isOrganizer }: Props) {
         </section>
       </div>
 
-      {isOrganizer || isRegistered ? (
+      {isPageOwner || isRegistered ? (
         <div>
           {data.roomId && (
             <div>

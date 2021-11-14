@@ -3,7 +3,7 @@ export interface User {
   email?: string | undefined;
   name: string;
   photoURL?: string | undefined;
-  linkedOrgId?: string | null | undefined;
+  linkedPageId?: string | null | undefined;
 }
 
 export interface BasicUserType {
@@ -31,8 +31,8 @@ export interface UserData {
   instagramLink?: string | undefined;
   twitterLink?: string | undefined;
   redditLink?: string | undefined;
-  linkedOrganizationId?: string | null;
-  linkedOrganizationName?: string | null;
+  linkedPageId?: string | null;
+  linkedPageName?: string | null;
   fcmToken?: string | null;
   games?: string[];
 }

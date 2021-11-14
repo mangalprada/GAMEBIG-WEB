@@ -47,8 +47,8 @@ export default function Home({ events: eventsFromProps }: Props) {
           prize: data.prize,
           startTime: data.startTime.toDate().toISOString(),
           createdAt: data.createdAt.toDate().toISOString(),
-          linkedOrgId: data.linkedOrgId,
-          linkedOrgName: data.linkedOrgName,
+          linkedPageId: data.linkedPageId,
+          linkedPageName: data.linkedPageName,
         };
         eventData.push(event);
       });
@@ -87,7 +87,7 @@ export default function Home({ events: eventsFromProps }: Props) {
           </section>
         </div>
         {events.map((eventItem: EventData) => (
-          <EventCard key={eventItem.id} data={eventItem} isOrganizer={false} />
+          <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
         ))}
         <Feedback />
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>

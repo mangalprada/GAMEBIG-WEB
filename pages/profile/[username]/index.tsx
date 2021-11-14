@@ -32,7 +32,7 @@ export default function Home({ events, userData }: Props) {
             <EventCard
               key={eventItem.id}
               data={eventItem}
-              isOrganizer={false}
+              isPageOwner={false}
             />
           ))}
         </div>

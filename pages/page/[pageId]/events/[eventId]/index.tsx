@@ -15,18 +15,18 @@ import { db } from '../../../../../firebase/firebaseClient';
 import router from 'next/router';
 
 interface Props {
-  orgId: string;
+  pageId: string;
   eventData: EventData;
 }
 
-export default function Event({ orgId, eventData }: Props) {
+export default function Event({ pageId, eventData }: Props) {
   const {
-    userData: { linkedOrganizationId, uid },
+    userData: { linkedPageId, uid },
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
 
-  let isOrganizer = linkedOrganizationId === orgId ? true : false;
+  let isPageOwner = linkedPageId === pageId ? true : false;
 
   useEffect(() => {
     if (eventData.id && uid) {
@@ -70,8 +70,8 @@ export default function Event({ orgId, eventData }: Props) {
           'bg-gradient-to-b from-gray-900 to-black md:px-10'
         }
       >
-        <EventDetails isOrganizer={isOrganizer} data={eventData} />
-        {isOrganizer ? (
+        <EventDetails isPageOwner={isPageOwner} data={eventData} />
+        {isPageOwner ? (
           <div>
             <SendNotification eventData={eventData} />
             <ParticipantList eventId={eventData.id} />
@@ -136,17 +136,17 @@ export default function Event({ orgId, eventData }: Props) {
 }
 
 interface IParams extends ParsedUrlQuery {
-  orgId: string;
+  pageId: string;
   eventId: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { orgId, eventId } = context.params as IParams;
+  const { pageId, eventId } = context.params as IParams;
   const eventData = await fetchEventDataById(eventId);
   return {
     props: {
       eventData,
-      orgId,
+      pageId,
     },
   };
 };

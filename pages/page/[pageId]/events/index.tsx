@@ -1,21 +1,21 @@
 import Head from 'next/head';
-import HeaderOrg from '../../../../components/Organization/HeaderOrg/HeaderOrg';
+import HeaderOrg from '../../../../components/Page/HeaderOrg/HeaderOrg';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 import EventCard from '../../../../components/Event/EventCard/EventCard';
 import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEventButton';
-import { OrgFormData } from '../../../../utilities/organization/types';
+import { PageFormData } from '../../../../utilities/page/types';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSideProps } from 'next';
-import { fetchOrganizationData } from '../../../../libs/fetchOrganizationData';
-import { fetchEventsDataByOrgId } from '../../../../libs/getAllEvents';
+import { fetchPageData } from '../../../../libs/fetchPageData';
+import { fetchEventsDataByPageId } from '../../../../libs/getAllEvents';
 import { EventData } from '../../../../utilities/eventItem/types';
 
 interface Props {
-  organizationData: OrgFormData | undefined;
+  pageData: PageFormData | undefined;
   events: EventData[];
 }
 
-export default function Events({ organizationData, events }: Props) {
+export default function Events({ pageData, events }: Props) {
   return (
     <Aux>
       <Head>
@@ -27,17 +27,15 @@ export default function Events({ organizationData, events }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      {organizationData ? (
+      {pageData ? (
         <>
-          <HeaderOrg data={organizationData} />
-          {organizationData.id && (
-            <CreateEventButton orgId={organizationData.id} />
-          )}
+          <HeaderOrg data={pageData} />
+          {pageData.id && <CreateEventButton pageId={pageData.id} />}
           {events.map((eventItem: EventData) => (
             <EventCard
               key={eventItem.id}
               data={eventItem}
-              isOrganizer={false}
+              isPageOwner={false}
             />
           ))}
         </>
@@ -49,18 +47,18 @@ export default function Events({ organizationData, events }: Props) {
 }
 
 interface IParams extends ParsedUrlQuery {
-  orgId: string;
+  pageId: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { orgId } = context.params as IParams;
-  let organizationData = undefined;
-  organizationData = await fetchOrganizationData(orgId);
-  let events = await fetchEventsDataByOrgId(orgId);
+  const { pageId } = context.params as IParams;
+  let pageData = undefined;
+  pageData = await fetchPageData(pageId);
+  let events = await fetchEventsDataByPageId(pageId);
   events = events === undefined ? [] : events;
   return {
     props: {
-      organizationData,
+      pageData,
       events,
     },
   };

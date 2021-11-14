@@ -24,10 +24,10 @@ import ShareEventLink from '@/components/UI/Share/ShareEventLink';
 
 type Props = {
   data: EventData;
-  isOrganizer: boolean;
+  isPageOwner: boolean;
 };
 
-const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
+const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
   const router = useRouter();
 
   const { userData } = useAuth();
@@ -55,7 +55,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
     if (userData.uid === '' || userData.uid === undefined) {
       router.push('/auth');
     } else {
-      router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`);
+      router.push(`/page/${data.linkedPageId}/events/${data.id}/`);
     }
   };
 
@@ -70,10 +70,10 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
       {/** Header */}
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
-          <EventCardAvatar content={data.linkedOrgName[0]} />
+          <EventCardAvatar content={data.linkedPageName[0]} />
           <div>
             <span className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3">
-              {data.linkedOrgName}
+              {data.linkedPageName}
             </span>
             <section className="flex flex-row mx-2 items-center mt-0.5">
               <LocationIcon
@@ -89,7 +89,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
 
         {/** Share Event */}
         <ShareEventLink
-          link={`https://gamebig.in/organization/${data.linkedOrgId}/events/${data.id}`}
+          link={`https://gamebig.in/page/${data.linkedPageId}/events/${data.id}`}
         />
       </div>
 
@@ -140,11 +140,11 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
           name="DETAILS"
           type="normal"
           onClick={() =>
-            router.push(`/organization/${data.linkedOrgId}/events/${data.id}/`)
+            router.push(`/page/${data.linkedPageId}/events/${data.id}/`)
           }
         />
 
-        {!isOrganizer && (
+        {!isPageOwner && (
           <>
             {isRegistered ? (
               <TextButton
@@ -152,7 +152,7 @@ const EventCard: FC<Props> = ({ data, isOrganizer }: Props) => {
                 type="success"
                 onClick={() =>
                   router.push(
-                    `/organization/${data.linkedOrgId}/events/${data.id}/#register`
+                    `/page/${data.linkedPageId}/events/${data.id}/#register`
                   )
                 }
               />

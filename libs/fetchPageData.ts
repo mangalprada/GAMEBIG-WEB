@@ -1,16 +1,16 @@
 import { db } from '../firebase/firebaseClient';
-import { OrgFormData } from '../utilities/organization/types';
+import { PageFormData } from '../utilities/page/types';
 
-export const fetchOrganizationData = async (orgId: string) => {
-  let organizationData: OrgFormData | undefined = undefined;
-  const organizationRef = db.collection('organizations').doc(orgId);
+export const fetchPageData = async (pageId: string) => {
+  let pageData: PageFormData | undefined = undefined;
+  const pageRef = db.collection('pages').doc(pageId);
   try {
-    const orgDoc = await organizationRef.get();
-    if (orgDoc.exists) {
-      const data = orgDoc.data();
+    const pageDoc = await pageRef.get();
+    if (pageDoc.exists) {
+      const data = pageDoc.data();
       if (data) {
-        organizationData = {
-          id: orgId,
+        pageData = {
+          id: pageId,
           name: data.name,
           about: data.about,
           location: data.location,
@@ -28,8 +28,8 @@ export const fetchOrganizationData = async (orgId: string) => {
       }
     }
   } catch (err) {
-    console.log('Error getting Organization data', err);
+    console.log('Error getting Page data', err);
   }
 
-  return organizationData;
+  return pageData;
 };

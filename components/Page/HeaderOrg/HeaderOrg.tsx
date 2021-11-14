@@ -4,30 +4,30 @@ import Head from 'next/head';
 import TabNavigator from '@/components/Navigation/TabNavigation/TabNavigator';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { useAuth } from '@/context/authContext';
-import { OrgFormData } from '@/utilities/organization/types';
+import { PageFormData } from '@/utilities/page/types';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';
 
 type Props = {
-  data: OrgFormData;
+  data: PageFormData;
 };
 
-const HeaderOrg: FC<Props> = ({ data }: Props) => {
+const PageHeader: FC<Props> = ({ data }: Props) => {
   const {
-    userData: { linkedOrganizationId },
+    userData: { linkedPageId },
   } = useAuth();
   const router = useRouter();
 
   const TABS = [
     {
       label: 'Events',
-      href: `/organization/${linkedOrganizationId}/events`,
-      pathName: '/organization/[orgId]/events',
+      href: `/page/${linkedPageId}/events`,
+      pathName: '/page/[orgId]/events',
     },
     {
       label: 'About',
-      href: `/organization/${linkedOrganizationId}`,
-      pathName: '/organization/[orgId]',
+      href: `/page/${linkedPageId}`,
+      pathName: '/page/[orgId]',
     },
   ];
 
@@ -70,7 +70,7 @@ const HeaderOrg: FC<Props> = ({ data }: Props) => {
         </div>
         <TextButton
           name="EDIT"
-          onClick={() => router.push(`/organization/${data.id}/edit`)}
+          onClick={() => router.push(`/page/${data.id}/edit`)}
           type="normal"
         />
       </div>
@@ -79,4 +79,4 @@ const HeaderOrg: FC<Props> = ({ data }: Props) => {
   );
 };
 
-export default HeaderOrg;
+export default PageHeader;

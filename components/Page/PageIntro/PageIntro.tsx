@@ -2,17 +2,15 @@ import { useRouter } from 'next/router';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import { useAuth } from '@/context/authContext';
 
-export default function OrganizationIntro() {
+export default function PageIntro() {
   const router = useRouter();
   const { userData } = useAuth();
 
-  const createOrgButtonClickHandler = () => {
-    console.log('User', userData.uid);
-
+  const createPageHandler = () => {
     if (userData.uid === undefined || userData.uid === '') {
       router.push('/auth');
     } else {
-      router.push('/organization/create');
+      router.push('/page/create');
     }
   };
 
@@ -24,7 +22,7 @@ export default function OrganizationIntro() {
       }
     >
       <span className="text-xl md:text-4xl py-6">
-        Create an Organization and Host Matches and Events
+        Create an Page For host events or give updates about your clan
       </span>
       <div className="py-8 text-ceter text-sm md:text-lg text-gray-300">
         <span className="text-center font-sans font-semibold">For</span>
@@ -44,10 +42,7 @@ export default function OrganizationIntro() {
         </ul>
       </div>
       <div className="bottom-8">
-        <ResponsiveButton
-          name="Create Now!"
-          onClick={createOrgButtonClickHandler}
-        />
+        <ResponsiveButton name="Create Now!" onClick={createPageHandler} />
       </div>
     </div>
   );

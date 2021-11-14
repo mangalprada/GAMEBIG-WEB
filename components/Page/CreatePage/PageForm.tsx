@@ -1,12 +1,8 @@
 import router from 'next/router';
 import { useFormik } from 'formik';
-import { OrgFormData } from '@/utilities/organization/types';
-import { validationSchema } from '@/utilities/organization/validator';
-import {
-  addOrganization,
-  addOrganizationIdtoAdminUser,
-  updateOrganization,
-} from '@/libs/addOrganization';
+import { PageFormData } from '@/utilities/page/types';
+import { validationSchema } from '@/utilities/page/validator';
+import { addPage, addPageIdtoAdminUser, updatePage } from '@/libs/addPage';
 import { useAuth } from '@/context/authContext';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
@@ -20,7 +16,7 @@ const scrollToTop = () => {
   });
 };
 
-const initialValues: OrgFormData = {
+const initialValues: PageFormData = {
   name: '',
   about: '',
   location: '',
@@ -37,34 +33,30 @@ const initialValues: OrgFormData = {
 };
 
 type Props = {
-  organizationData?: OrgFormData;
+  pageData?: PageFormData;
 };
 
-function CreateOrganizationForm({ organizationData }: Props) {
-  const { userData, updateOrgId, updateOrgName } = useAuth();
+function CreatePageForm({ pageData }: Props) {
+  const { userData, updatePageId, updatePageName } = useAuth();
 
   const formik = useFormik({
-    initialValues: organizationData || initialValues,
+    initialValues: pageData || initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value, { resetForm }) => {
-      if (organizationData && organizationData.id) {
-        updateOrganization(value, organizationData.id);
-        if (userData.linkedOrganizationName !== value.name) {
-          updateOrgName(value.name);
-          await addOrganizationIdtoAdminUser(
-            userData.uid,
-            value.name,
-            organizationData.id
-          );
+      if (pageData && pageData.id) {
+        updatePage(value, pageData.id);
+        if (userData.linkedPageName !== value.name) {
+          updatePageName(value.name);
+          await addPageIdtoAdminUser(userData.uid, value.name, pageData.id);
         }
-        router.push(`/organization/${organizationData.id}`);
+        router.push(`/page/${pageData.id}`);
       } else {
-        const orgId = await addOrganization(value);
-        if (orgId) {
-          updateOrgId(orgId);
-          if (userData.uid) updateOrgName(value.name);
-          await addOrganizationIdtoAdminUser(userData.uid, value.name, orgId);
-          router.push(`/organization/${orgId}`);
+        const pageId = await addPage(value);
+        if (pageId) {
+          updatePageId(pageId);
+          if (userData.uid) updatePageName(value.name);
+          await addPageIdtoAdminUser(userData.uid, value.name, pageId);
+          router.push(`/page/${pageId}`);
         }
       }
       resetForm();
@@ -81,7 +73,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
     >
       <div className="rounded-t-lg bg-gradient-to-tl from-gray-900 to-black mb-0 md:px-7 px-4 py-6 text-center flex justify-between">
         <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
-          {organizationData ? 'Update Organization' : 'Create Organization'}
+          {pageData ? 'Update Page' : 'Create Page'}
         </h6>
         <FixedButton
           name="Cancel"
@@ -96,7 +88,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
           </h6>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInput
-              labelName="Organization Name*"
+              labelName="Page Name*"
               name="name"
               value={formik.values.name}
               placeHolder="Awsome Esports"
@@ -221,7 +213,7 @@ function CreateOrganizationForm({ organizationData }: Props) {
           </div>
           <div>
             <ResponsiveButton
-              name={organizationData ? 'Update' : 'Create'}
+              name={pageData ? 'Update' : 'Create'}
               type="submit"
               isDisabled={formik.isSubmitting}
               onClick={() => scrollToTop()}
@@ -233,4 +225,4 @@ function CreateOrganizationForm({ organizationData }: Props) {
   );
 }
 
-export default CreateOrganizationForm;
+export default CreatePageForm;

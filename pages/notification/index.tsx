@@ -28,13 +28,13 @@ export default function Home() {
       </Head>
       <div className="">
         {notices.map(function (notice, index) {
-          const { roomId, password, linkedOrgName, startTime } = notice;
+          const { roomId, password, linkedPageName, startTime } = notice;
           const readableStartTime = getDecoratedTime(startTime);
           return (
             <div key={index} className="">
               <h2>
-                Details of match by {linkedOrgName} at {readableStartTime} are :
-                RoomId:{' '}
+                Details of match by {linkedPageName} at {readableStartTime} are
+                : RoomId:{' '}
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(roomId);

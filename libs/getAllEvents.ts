@@ -23,8 +23,8 @@ export const fetchAllEventData = async () => {
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
         createdAt: data.createdAt.toDate().toISOString(),
-        linkedOrgId: data.linkedOrgId,
-        linkedOrgName: data.linkedOrgName,
+        linkedPageId: data.linkedPageId,
+        linkedPageName: data.linkedPageName,
         roomId: data.roomId ? data.roomId : '',
         password: data.password ? data.password : '',
       };
@@ -36,10 +36,10 @@ export const fetchAllEventData = async () => {
   return eventDatas;
 };
 
-export const fetchEventsDataByOrgId = async (orgId: string) => {
+export const fetchEventsDataByPageId = async (pageId: string) => {
   let eventDatas = [] as EventData[];
   const eventRef = firebaseAdmin.firestore().collection('events');
-  const query = eventRef.where('linkedOrgId', '==', orgId);
+  const query = eventRef.where('linkedPageId', '==', pageId);
   try {
     const querySnapshot = await query.get();
     querySnapshot.forEach((doc) => {
@@ -55,8 +55,8 @@ export const fetchEventsDataByOrgId = async (orgId: string) => {
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
         createdAt: data.createdAt.toDate().toISOString(),
-        linkedOrgId: data.linkedOrgId,
-        linkedOrgName: data.linkedOrgName,
+        linkedPageId: data.linkedPageId,
+        linkedPageName: data.linkedPageName,
       };
       eventDatas.push(eventData);
     });
@@ -85,8 +85,8 @@ export const fetchEventsDataByUsername = async (username: string) => {
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
         createdAt: data.createdAt.toDate().toISOString(),
-        linkedOrgId: data.linkedOrgId,
-        linkedOrgName: data.linkedOrgName,
+        linkedPageId: data.linkedPageId,
+        linkedPageName: data.linkedPageName,
       };
       eventDatas.push(eventData);
     });

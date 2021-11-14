@@ -9,8 +9,8 @@ import { getUserData, createUser } from '@/libs/user';
 const authContext = createContext({
   userData: {} as UserData,
   setUserData: (data: UserData) => {},
-  updateOrgId: (id: string) => {},
-  updateOrgName: (name: string) => {},
+  updatePageId: (id: string) => {},
+  updatePageName: (name: string) => {},
   authPageNumber: 1,
   updateAuthPageNumber: (pageNumber: number) => {},
   signout: (): Promise<void> => {
@@ -120,12 +120,12 @@ function useProviderAuth() {
     return () => clearInterval(handle);
   }, []);
 
-  const updateOrgId = (id: string) => {
-    setUserData({ ...userData, linkedOrganizationId: id });
+  const updatePageId = (id: string) => {
+    setUserData({ ...userData, linkedPageId: id });
   };
 
-  const updateOrgName = (name: string) => {
-    setUserData({ ...userData, linkedOrganizationName: name });
+  const updatePageName = (name: string) => {
+    setUserData({ ...userData, linkedPageName: name });
   };
 
   const updateAuthPageNumber = (pageNo: number) => {
@@ -135,8 +135,8 @@ function useProviderAuth() {
   return {
     userData,
     setUserData,
-    updateOrgId,
-    updateOrgName,
+    updatePageId,
+    updatePageName,
     authPageNumber,
     updateAuthPageNumber,
     signout,
@@ -149,8 +149,8 @@ type Props = {
   isSignedIn?: boolean;
   userData?: UserData;
   setUserData?: (data: UserData) => void;
-  updateOrgId?: () => void;
-  updateOrgName?: (name: string) => void;
+  updatePageId?: () => void;
+  updatePageName?: (name: string) => void;
   children: React.ReactNode;
   authPageNumber?: number;
   updateAuthPageNumber?: (param: number) => void;

@@ -30,7 +30,7 @@ const INITIAL_STATE: EventFormData = {
 
 export default function CreateEventForm() {
   const {
-    userData: { linkedOrganizationId, linkedOrganizationName },
+    userData: { linkedPageId, linkedPageName },
   } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -39,14 +39,10 @@ export default function CreateEventForm() {
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
       setIsModalOpen(true);
-      if (linkedOrganizationId && linkedOrganizationName) {
-        const tournId = await addNewEvent(
-          linkedOrganizationId,
-          linkedOrganizationName,
-          value
-        );
+      if (linkedPageId && linkedPageName) {
+        const tournId = await addNewEvent(linkedPageId, linkedPageName, value);
         if (tournId) {
-          router.push(`/organization/${linkedOrganizationId}/events`);
+          router.push(`/page/${linkedPageId}/events`);
         } else {
           router.push('/404');
         }

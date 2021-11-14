@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import OrganizationIcon from '../../UI/Icons/NavIcons/OrganizationIcon';
+import PageIcon from '../../UI/Icons/NavIcons/PageIcon';
 import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
@@ -9,7 +9,7 @@ import { useAuth } from '../../../context/authContext';
 
 function BottomNavigationBar() {
   const {
-    userData: { linkedOrganizationId },
+    userData: { linkedPageId },
   } = useAuth();
   const router = useRouter();
   return (
@@ -25,20 +25,16 @@ function BottomNavigationBar() {
             </a>
           </Link>
           <Link
-            href={
-              linkedOrganizationId
-                ? `/organization/${linkedOrganizationId}/events`
-                : `/organization`
-            }
+            href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
             passHref
           >
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <OrganizationIcon
+              <PageIcon
                 isActive={
-                  router.pathname === '/organization/[orgId]/events' ||
-                  router.pathname === '/organization/[orgId]' ||
-                  router.pathname === '/organization' ||
-                  router.pathname === '/organization/create'
+                  router.pathname === '/page/[pageId]/events' ||
+                  router.pathname === '/page/[pageId]' ||
+                  router.pathname === '/page' ||
+                  router.pathname === '/page/create'
                 }
                 size={36}
               />

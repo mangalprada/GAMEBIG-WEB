@@ -12,13 +12,16 @@ const uiContext = createContext({
     message: string;
     type: string;
   }) => {},
+
   closeSnackBar: () => {},
+
   // Share Link Modal
   shareLink: {
     isModalOpen: false,
     link: '',
+    message: '',
   },
-  openShareModal: (link: string) => {},
+  openShareModal: (link: string, message: string) => {},
   closeShareModal: () => {},
 });
 
@@ -33,6 +36,7 @@ function useProvideUI() {
   const [shareLink, setShareLink] = useState({
     isModalOpen: false,
     link: 'https://www.gamebig.in',
+    message: '',
   });
 
   function openSnackBar(alertObject: {
@@ -57,10 +61,11 @@ function useProvideUI() {
     });
   }
 
-  function openShareModal(link: string) {
+  function openShareModal(link: string, message: string) {
     setShareLink({
       isModalOpen: true,
       link: link,
+      message: message,
     });
   }
 
@@ -68,6 +73,7 @@ function useProvideUI() {
     setShareLink({
       isModalOpen: false,
       link: 'https://www.gamebig.in',
+      message: '',
     });
   }
 
@@ -97,9 +103,10 @@ type contextProps = {
   closeSnackBar?: () => void;
   shareLink?: {
     isModalOpen: boolean;
-    link: '';
+    link: string;
+    message: string;
   };
-  openShareModal?: (link: string) => void;
+  openShareModal?: (link: string, message: string) => void;
   closeShareModal?: () => void;
 };
 

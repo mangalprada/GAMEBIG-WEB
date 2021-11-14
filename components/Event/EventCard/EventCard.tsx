@@ -52,17 +52,13 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
   }, [data.id, userData.uid]);
 
   const onForwardAction = () => {
-    if (userData.uid === '' || userData.uid === undefined) {
-      router.push('/auth');
-    } else {
-      router.push(`/page/${data.linkedPageId}/events/${data.id}/`);
-    }
+    router.push(`/page/${data.linkedPageId}/events/${data.id}/`);
   };
 
   return (
     <div
       className={
-        'h-auto md:w-2/3 xl:w-1/2 rounded-lg my-3 md:mx-auto mx-4 ' +
+        'h-auto md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 md:mx-auto mx-4 ' +
         'bg-gray-900 transform hover:scale-[1.03] md:hover:scale-[1.02] ' +
         'hover:-translate-y-0.5 md:hover:-translate-y-1 transition duration-500 ease-in-out'
       }
@@ -90,50 +86,57 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         {/** Share Event */}
         <ShareEventLink
           link={`https://gamebig.in/page/${data.linkedPageId}/events/${data.id}`}
+          game={games[data.gameCode].shortName}
         />
       </div>
 
       {/** Event Contents */}
-      <div className="mx-6 md:mx-16 cursor-pointer" onClick={onForwardAction}>
-        <div className="flex flex-wrap justify-between">
-          <EventCardRowItem
-            content={`${games[data.gameCode].shortName} - ${data.mode}`}
-          >
-            <EsportsIcon styles={'fill-current text-purple-700'} />
-          </EventCardRowItem>
-          <EventCardRowItem content={`Daily Custom - ${data.tier}`}>
-            <TrophyIcon styles={'fill-current text-yellow-500'} />
-          </EventCardRowItem>
-        </div>
-        <div className="flex flex-wrap justify-between">
-          <EventCardRowItem content={`${getDecoratedDate(data.startTime)}`}>
-            <EventIcon styles={'fill-current text-indigo-400'} />
-          </EventCardRowItem>
-          <EventCardRowItem
-            content={`${getDecoratedTime(data.startTime)} - 
+      <div
+        className={
+          'grid sm:grid-cols-2 grid-cols-1 justify-items-center md:mx-5 gap-y-5 cursor-pointer'
+        }
+        onClick={onForwardAction}
+      >
+        <EventCardRowItem
+          content={`${games[data.gameCode].shortName} - ${data.mode}`}
+        >
+          <EsportsIcon styles={'fill-current text-purple-700'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem content={`Daily Custom - ${data.tier}`}>
+          <TrophyIcon styles={'fill-current text-yellow-500'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem content={`${getDecoratedDate(data.startTime)}`}>
+          <EventIcon styles={'fill-current text-indigo-400'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem
+          content={`${getDecoratedTime(data.startTime)} - 
             ${getDecoratedTime(data.startTime, 30)}`}
-          >
-            <AccessTimeIcon styles={'fill-current text-blue-500'} />
-          </EventCardRowItem>
-        </div>
-        <div className="flex flex-wrap justify-between">
-          <EventCardRowItem
-            content={`${data.prize ? data.prize + ' ₹' : 'No Prize'}`}
-          >
-            <MoneyIcon styles={'fill-current text-green-600'} />
-          </EventCardRowItem>
-          <EventCardRowItem content={`${data.noOfSlots} slots available`}>
-            <RoomEntryIcon styles={'fill-current text-gray-600'} />
-          </EventCardRowItem>
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-center mt-3 mx-3">
-        <HourglassIcon styles={'fill-current text-red-300'} />
-        <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
-          {`Registration open till 
+        >
+          <AccessTimeIcon styles={'fill-current text-blue-500'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem
+          content={`${data.prize ? data.prize + ' ₹' : 'No Prize'}`}
+        >
+          <MoneyIcon styles={'fill-current text-green-600'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem content={`${data.noOfSlots} slots available`}>
+          <RoomEntryIcon styles={'fill-current text-gray-600'} />
+        </EventCardRowItem>
+
+        {/** Registration Close by */}
+        <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
+          <HourglassIcon styles={'fill-current text-red-300'} />
+          <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
+            {`Registration open till 
           ${getDecoratedDate(data.startTime)}, 
           ${getDecoratedTime(data.startTime, -30)}`}
-        </span>
+          </span>
+        </section>
       </div>
       <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
         <TextButton
@@ -144,7 +147,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           }
         />
 
-        {!isPageOwner && (
+        {isPageOwner ? null : (
           <>
             {isRegistered ? (
               <TextButton

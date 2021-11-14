@@ -9,9 +9,8 @@ import FixedButton from '../../UI/Buttons/FixedButton';
 import Modal from '@/components/UI/Modal/Modal';
 import { useUI } from '@/context/uiContext';
 import { EventData } from '@/utilities/eventItem/types';
+
 interface Props {
-  eventId: string;
-  gameCode: string;
   teamSize: number;
   eventData: EventData;
   setIsRegistered: (val: boolean) => void;
@@ -19,9 +18,7 @@ interface Props {
 }
 
 export default function RegisterEventForm({
-  eventId,
   eventData,
-  gameCode,
   teamSize,
   setIsRegistered,
   setTeamId,
@@ -134,11 +131,11 @@ export default function RegisterEventForm({
                 <GamerDetails
                   setTeamId={setTeamId}
                   teamSize={teamSize}
-                  eventId={eventId}
+                  eventId={eventData.id}
                   eventData={eventData}
                   onCancel={closeModal}
                   team={selectedTeam}
-                  gameCode={gameCode}
+                  gameCode={eventData.gameCode}
                   setIsRegistered={setIsRegistered}
                 />
               ),

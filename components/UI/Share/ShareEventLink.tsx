@@ -4,13 +4,17 @@ import ShareIcon from '../Icons/Others/ShareIcon';
 
 type Props = {
   link: string;
+  game: string;
 };
 
-const ShareEventLink: FC<Props> = ({ link }) => {
+const ShareEventLink: FC<Props> = ({ link, game }) => {
   const { openShareModal } = useUI();
 
   function handleShareClick() {
-    openShareModal(link);
+    openShareModal(
+      link,
+      `Hey there!! Join this exciting ${game} event on gamebig.in`
+    );
   }
 
   return (

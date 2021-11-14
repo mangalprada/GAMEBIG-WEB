@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { ParsedUrlQuery } from 'querystring';
-import EventDetails from '../../../../../components/Event/Details/EventDetails';
-import ParticipantList from '../../../../../components/Event/ParticipantList/ParticipantList';
-import RegisterEventForm from '../../../../../components/Event/Register/RegisterEventForm';
-import SendNotification from '../../../../../components/Event/Notification/SendNotification';
-import { useAuth } from '../../../../../context/authContext';
-import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
-import { fetchEventDataById } from '../../../../../libs/getEventData';
-import { EventData } from '../../../../../utilities/eventItem/types';
-import SoloRegistrationForm from '../../../../../components/Event/Register/SoloRegistrationForm';
-import { db } from '../../../../../firebase/firebaseClient';
 import router from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
+import EventDetails from '@/components/Event/Details/EventDetails';
+import { useAuth } from '@/context/authContext';
+import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
+import { fetchEventDataById } from '@/libs/getEventData';
+import { EventData } from '@/utilities/eventItem/types';
+import { db } from '../../../../../firebase/firebaseClient';
+import RespondToEvent from '@/components/Event/Register/RespondToEvent';
 
 interface Props {
   pageId: string;
@@ -46,15 +43,6 @@ export default function Event({ pageId, eventData }: Props) {
     }
   }, [eventData.id, uid]);
 
-  const unregisterHandler = () => {
-    db.collection('events')
-      .doc(eventData.id)
-      .collection('teams')
-      .doc(teamId)
-      .delete();
-    router.push('/');
-  };
-
   return (
     <Aux>
       <Head>
@@ -65,73 +53,35 @@ export default function Event({ pageId, eventData }: Props) {
       </Head>
       <main
         className={
-          'md:w-5/6 lg:w-2/3 mx-auto mt-2 ' +
+          'md:w-5/6 lg:w-2/3 mx-auto md:mt-2 ' +
           'relative flex flex-col md:rounded-md ' +
           'bg-gradient-to-b from-gray-900 to-black md:px-10'
         }
       >
         <EventDetails isPageOwner={isPageOwner} data={eventData} />
-        {isPageOwner ? (
-          <div>
-            <SendNotification eventData={eventData} />
-            <ParticipantList eventId={eventData.id} />
-          </div>
+
+        {uid ? (
+          <RespondToEvent
+            pageId={pageId}
+            eventData={eventData}
+            isRegistered={isRegistered}
+            setIsRegistered={setIsRegistered}
+            teamId={teamId}
+            setTeamId={setTeamId}
+          />
         ) : (
-          (null as any)
-        )}
-        {!isRegistered ? (
-          {
-            Squad: (
-              <RegisterEventForm
-                teamSize={4}
-                setTeamId={setTeamId}
-                gameCode={eventData.gameCode}
-                eventId={eventData.id}
-                setIsRegistered={setIsRegistered}
-                eventData={eventData}
-              />
-            ),
-            Duo: (
-              <RegisterEventForm
-                teamSize={2}
-                setTeamId={setTeamId}
-                gameCode={eventData.gameCode}
-                eventId={eventData.id}
-                setIsRegistered={setIsRegistered}
-                eventData={eventData}
-              />
-            ),
-            Solo: (
-              <SoloRegistrationForm
-                gameCode={eventData.gameCode}
-                eventId={eventData.id}
-                setIsRegistered={setIsRegistered}
-                eventData={eventData}
-              />
-            ),
-          }[eventData.mode]
-        ) : (
-          <div
-            className={
-              'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
-              'font-semibold text-xl text-center sm:text-left'
-            }
-          >
-            <span>You have registered for this event!</span>
-            <span>
-              Get Room Id and Password will be available here before 15 minutes
-              of event.
-            </span>
-            <span
-              onClick={unregisterHandler}
+          <section className="mx-auto mt-16">
+            <button
               className={
-                'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
-                'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
+                'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +
+                'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
               }
+              type="button"
+              onClick={() => router.push('/auth')}
             >
-              UNREGISTER
-            </span>
-          </div>
+              Sign in / Sign up to Register
+            </button>
+          </section>
         )}
       </main>
     </Aux>

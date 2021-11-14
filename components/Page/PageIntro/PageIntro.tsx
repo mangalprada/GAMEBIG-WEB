@@ -17,25 +17,19 @@ export default function PageIntro() {
   return (
     <div
       className={
-        'my-10 mx-auto p-10 lg:w-2/3 h-5/6 rounded-lg bg-gradient-to-tl font-sans font-semibold ' +
+        'my-10 mx-auto p-10 w-4/5 lg:w-3/5 h-5/6 rounded-lg bg-gradient-to-tl font-sans font-semibold ' +
         'from-gray-900 to-black text-center text-indigo-600'
       }
     >
       <span className="text-xl md:text-4xl py-6">
         Create a Page for your Clan or Esports Organization
       </span>
-      <div className="py-8 text-ceter text-sm md:text-lg text-gray-300">
-        <span className="text-center font-sans font-semibold">
+      <div className="flex flex-col my-8 text-center text-sm md:text-lg text-gray-300">
+        <span className="font-sans font-semibold">
           Join the thrilling Esports World
         </span>
-        <ul>
-          <li>
-            <span>of games like BGMI, COD, Free Fire</span>
-          </li>
-          <li>
-            <span>and more upcoming games...</span>
-          </li>
-        </ul>
+        <span>of games like BGMI, COD, Free Fire</span>
+        <span>and more upcoming games...</span>
       </div>
       <div className="bottom-8">
         <ResponsiveButton name="Create Now!" onClick={createPageHandler} />

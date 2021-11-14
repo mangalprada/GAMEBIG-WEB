@@ -67,7 +67,7 @@ const ShareLinkModal: FC = () => {
             onClick={() => {
               window.open(
                 `https://api.whatsapp.com/send/?phone&text=${shareLink.link}` +
-                  `%0AHey%20there!!%20Join%20this%20exciting%20event%20on%20gamebig.in`,
+                  `%0A${shareLink.message}`,
                 '_blank'
               );
             }}

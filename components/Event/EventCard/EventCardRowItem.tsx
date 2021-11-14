@@ -7,7 +7,7 @@ type Props = {
 
 const EventCardRowItem: FC<Props> = ({ content, children }: Props) => {
   return (
-    <div className="flex flex-row sm:px-5 sm:py-3 p-3 sm:w-5/12 w-full">
+    <div className="flex flex-row sm:w-2/3 w-4/5">
       {children}
       <span className="text-gray-400 text-lg font-sans font-semibold ml-3">
         {content}

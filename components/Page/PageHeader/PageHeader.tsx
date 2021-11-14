@@ -22,12 +22,12 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
     {
       label: 'Events',
       href: `/page/${linkedPageId}/events`,
-      pathName: '/page/[orgId]/events',
+      pathName: '/page/[pageId]/events',
     },
     {
       label: 'About',
       href: `/page/${linkedPageId}`,
-      pathName: '/page/[orgId]',
+      pathName: '/page/[pageId]',
     },
   ];
 

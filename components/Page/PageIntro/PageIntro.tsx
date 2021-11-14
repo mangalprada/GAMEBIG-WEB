@@ -22,22 +22,18 @@ export default function PageIntro() {
       }
     >
       <span className="text-xl md:text-4xl py-6">
-        Create a Page to host events or give updates about your clan
+        Create a Page for your Clan or Esports Organization
       </span>
       <div className="py-8 text-ceter text-sm md:text-lg text-gray-300">
-        <span className="text-center font-sans font-semibold">For</span>
+        <span className="text-center font-sans font-semibold">
+          Join the thrilling Esports World
+        </span>
         <ul>
           <li>
-            <span>Battle Grounds Mobile India / PUBG Mobile</span>
+            <span>of games like BGMI, COD, Free Fire</span>
           </li>
           <li>
-            <span>Call of Duty Mobile</span>
-          </li>
-          <li>
-            <span>Garena Free Fire</span>
-          </li>
-          <li>
-            <span>and more upcoming...</span>
+            <span>and more upcoming games...</span>
           </li>
         </ul>
       </div>

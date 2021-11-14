@@ -37,7 +37,7 @@ type Props = {
 };
 
 function CreatePageForm({ pageData }: Props) {
-  const { userData, updatePageId, updatePageName } = useAuth();
+  const { userData, updatePageId, updatePageName, refetchUserData } = useAuth();
 
   const formik = useFormik({
     initialValues: pageData || initialValues,
@@ -56,6 +56,7 @@ function CreatePageForm({ pageData }: Props) {
           updatePageId(pageId);
           if (userData.uid) updatePageName(value.name);
           await addPageIdtoAdminUser(userData.uid, value.name, pageId);
+          refetchUserData();
           router.push(`/page/${pageId}`);
         }
       }

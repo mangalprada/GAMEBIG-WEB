@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <Aux>
       <Head>
-        <title>Pages</title>
+        <title>Page</title>
         <meta
           name="description"
           content="Create an Page and Start host custom room matches for BGMI, Call of Duty and Gerena Freefire"

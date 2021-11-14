@@ -8,16 +8,19 @@ import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import Modal from '@/components/UI/Modal/Modal';
 import { useUI } from '@/context/uiContext';
+import { EventData } from '@/utilities/eventItem/types';
 interface Props {
   eventId: string;
   gameCode: string;
   teamSize: number;
+  eventData: EventData;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
 }
 
 export default function RegisterEventForm({
   eventId,
+  eventData,
   gameCode,
   teamSize,
   setIsRegistered,
@@ -132,6 +135,7 @@ export default function RegisterEventForm({
                   setTeamId={setTeamId}
                   teamSize={teamSize}
                   eventId={eventId}
+                  eventData={eventData}
                   onCancel={closeModal}
                   team={selectedTeam}
                   gameCode={gameCode}

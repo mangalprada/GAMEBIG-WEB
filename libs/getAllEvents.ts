@@ -66,12 +66,15 @@ export const fetchEventsDataByPageId = async (pageId: string) => {
   return eventDatas;
 };
 
-export const fetchEventsDataByUsername = async (username: string) => {
+export const fetchEventsDataByUid = async (uid: string) => {
   let eventDatas = [] as EventData[];
-  const eventRef = firebaseAdmin.firestore().collection('events');
-  const query = eventRef.where('gamerUsernames', 'array-contains', username);
+  const eventRef = firebaseAdmin
+    .firestore()
+    .collection('users')
+    .doc(uid)
+    .collection('events');
   try {
-    const querySnapshot = await query.get();
+    const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const eventData = {

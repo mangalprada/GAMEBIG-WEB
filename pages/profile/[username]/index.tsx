@@ -8,7 +8,7 @@ import { UserData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../libs/getUser';
 import { EventData } from '../../../utilities/eventItem/types';
-import { fetchEventsDataByUsername } from '../../../libs/getAllEvents';
+import { fetchEventsDataByUid } from '../../../libs/getAllEvents';
 import EventCard from '../../../components/Event/EventCard/EventCard';
 
 interface Props {
@@ -53,10 +53,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     await firebaseAdmin
       .auth()
       .verifyIdToken(cookies.token)
-      .then(async () => {
+      .then(async (user) => {
         const { username } = context.params as IParams;
         userData = await getUser(username);
-        events = await fetchEventsDataByUsername(username);
+        events = await fetchEventsDataByUid(username);
       });
   } catch (err) {
     context.res.writeHead(302, { Location: '/auth' });

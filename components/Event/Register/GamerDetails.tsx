@@ -1,3 +1,4 @@
+import { EventData } from '@/utilities/eventItem/types';
 import { useState, Dispatch, SetStateAction } from 'react';
 import { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
@@ -7,6 +8,7 @@ import GamerRegistrationForm from './GamerRegistrationForm';
 interface Props {
   setTeamId: Dispatch<SetStateAction<string>>;
   eventId: string;
+  eventData: EventData;
   teamSize: number;
   team?: TeamType;
   gameCode: string;
@@ -17,6 +19,7 @@ interface Props {
 export default function GamerDetails({
   setTeamId,
   eventId,
+  eventData,
   teamSize,
   team,
   gameCode,
@@ -37,13 +40,29 @@ export default function GamerDetails({
       uids.push(key);
     });
     if (gamersArray.length === teamSize) {
-      console.log(gamersArray, uids);
-
       saveGamerDetails(gamersArray, uids);
+      addEventToUsers(uids);
       setGamers({});
       setIsRegistered(true);
       onCancel();
     }
+  };
+
+  const addEventToUsers = (uids: string[]) => {
+    uids.forEach(async (uid) => {
+      await db
+        .collection('users')
+        .doc(uid)
+        .collection('events')
+        .doc(eventId)
+        .set(eventData)
+        .then(() => {
+          console.log('Registrtion Done');
+        })
+        .catch((error) => {
+          console.log('Error adding documents: ', error);
+        });
+    });
   };
 
   const saveGamerDetails = async (gamersArray: GamerData[], uids: string[]) => {

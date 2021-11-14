@@ -88,6 +88,7 @@ export default function Event({ pageId, eventData }: Props) {
                 gameCode={eventData.gameCode}
                 eventId={eventData.id}
                 setIsRegistered={setIsRegistered}
+                eventData={eventData}
               />
             ),
             Duo: (
@@ -97,13 +98,15 @@ export default function Event({ pageId, eventData }: Props) {
                 gameCode={eventData.gameCode}
                 eventId={eventData.id}
                 setIsRegistered={setIsRegistered}
+                eventData={eventData}
               />
             ),
             Solo: (
               <SoloRegistrationForm
                 gameCode={eventData.gameCode}
-                tId={eventData.id}
+                eventId={eventData.id}
                 setIsRegistered={setIsRegistered}
+                eventData={eventData}
               />
             ),
           }[eventData.mode]

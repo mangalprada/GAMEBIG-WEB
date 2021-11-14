@@ -1,3 +1,4 @@
+import { EventData } from '@/utilities/eventItem/types';
 import { useState } from 'react';
 import { useAuth } from '../../../context/authContext';
 import { db } from '../../../firebase/firebaseClient';
@@ -5,13 +6,15 @@ import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerRegistrationForm from './GamerRegistrationForm';
 interface Props {
-  tId: string;
+  eventId: string;
   gameCode: string;
+  eventData: EventData;
   setIsRegistered: (val: boolean) => void;
 }
 
 export default function GamerDetails({
-  tId,
+  eventId,
+  eventData,
   gameCode,
   setIsRegistered,
 }: Props) {
@@ -29,9 +32,10 @@ export default function GamerDetails({
     setIsRegistered(true);
   };
 
-  const saveGamerDetails = () => {
-    db.collection('events')
-      .doc(tId)
+  const saveGamerDetails = async () => {
+    await db
+      .collection('events')
+      .doc(eventId)
       .collection('teams')
       .add({
         gamers,
@@ -40,6 +44,18 @@ export default function GamerDetails({
       .then(() => {
         setIsRegistered(true);
         console.log('Team added');
+      })
+      .catch((error) => {
+        console.log('Error adding documents: ', error);
+      });
+    await db
+      .collection('users')
+      .doc(uid)
+      .collection('events')
+      .doc(eventId)
+      .set(eventData)
+      .then(() => {
+        console.log('Registrtion Done');
       })
       .catch((error) => {
         console.log('Error adding documents: ', error);

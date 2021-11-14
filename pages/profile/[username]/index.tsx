@@ -56,7 +56,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       .then(async (user) => {
         const { username } = context.params as IParams;
         userData = await getUser(username);
-        events = await fetchEventsDataByUid(username);
+        events = await fetchEventsDataByUid(userData.uid);
       });
   } catch (err) {
     context.res.writeHead(302, { Location: '/auth' });

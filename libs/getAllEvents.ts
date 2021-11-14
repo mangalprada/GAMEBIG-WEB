@@ -77,6 +77,8 @@ export const fetchEventsDataByUid = async (uid: string) => {
     const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
+      console.log(data);
+
       const eventData = {
         id: doc.id,
         gameCode: data.gameCode,
@@ -86,8 +88,8 @@ export const fetchEventsDataByUid = async (uid: string) => {
         noOfSlots: data.noOfSlots,
         description: data.description,
         prize: data.prize,
-        startTime: data.startTime.toDate().toISOString(),
-        createdAt: data.createdAt.toDate().toISOString(),
+        startTime: data.startTime,
+        createdAt: data.createdAt,
         linkedPageId: data.linkedPageId,
         linkedPageName: data.linkedPageName,
       };

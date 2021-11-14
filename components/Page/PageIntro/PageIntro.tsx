@@ -22,7 +22,7 @@ export default function PageIntro() {
       }
     >
       <span className="text-xl md:text-4xl py-6">
-        Create an Page For host events or give updates about your clan
+        Create a Page to host events or give updates about your clan
       </span>
       <div className="py-8 text-ceter text-sm md:text-lg text-gray-300">
         <span className="text-center font-sans font-semibold">For</span>

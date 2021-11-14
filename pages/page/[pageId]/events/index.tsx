@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import HeaderOrg from '../../../../components/Page/HeaderOrg/HeaderOrg';
+import PageHeader from '../../../../components/Page/PageHeader/PageHeader';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 import EventCard from '../../../../components/Event/EventCard/EventCard';
 import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEventButton';
@@ -29,7 +29,7 @@ export default function Events({ pageData, events }: Props) {
       </Head>
       {pageData ? (
         <>
-          <HeaderOrg data={pageData} />
+          <PageHeader data={pageData} />
           {pageData.id && <CreateEventButton pageId={pageData.id} />}
           {events.map((eventItem: EventData) => (
             <EventCard

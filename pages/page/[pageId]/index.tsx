@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import HeaderOrg from '../../../components/Page/HeaderOrg/HeaderOrg';
+import PageHeader from '../../../components/Page/PageHeader/PageHeader';
 import AboutPage from '../../../components/Page/AboutPage/AboutPage';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { fetchPageData } from '../../../libs/fetchPageData';
@@ -22,7 +22,7 @@ export default function PageAdmin({ pageData }: Props) {
       </Head>
       {pageData ? (
         <>
-          <HeaderOrg data={pageData} />
+          <PageHeader data={pageData} />
           <AboutPage data={pageData} />
         </>
       ) : (

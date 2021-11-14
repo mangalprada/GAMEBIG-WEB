@@ -12,6 +12,7 @@ export const fetchPageData = async (pageId: string) => {
         pageData = {
           id: pageId,
           name: data.name,
+          category: data.category,
           about: data.about,
           location: data.location,
           email: data.email,

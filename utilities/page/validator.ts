@@ -9,6 +9,7 @@ const phoneRegExp = new RegExp(
 
 export const validationSchema = yup.object({
   name: yup.string().required('Name is Required'),
+  category: yup.string().required('For is Required'),
   about: yup.string(),
   location: yup.string().notRequired(),
   email: yup

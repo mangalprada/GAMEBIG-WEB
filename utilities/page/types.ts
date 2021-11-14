@@ -1,6 +1,7 @@
 export interface PageFormData {
   id?: string;
   name: string;
+  category: string;
   about: string;
   location: string;
   email: string;

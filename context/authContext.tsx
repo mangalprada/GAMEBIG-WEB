@@ -9,8 +9,6 @@ import { getUserData, createUser } from '@/libs/user';
 const authContext = createContext({
   userData: {} as UserData,
   setUserData: (data: UserData) => {},
-  updatePageId: (id: string) => {},
-  updatePageName: (name: string) => {},
   authPageNumber: 1,
   updateAuthPageNumber: (pageNumber: number) => {},
   refetchUserData: () => {},
@@ -70,7 +68,7 @@ function useProviderAuth() {
 
   const refetchUserData = async () => {
     const data = await getUserData(userData.uid);
-    if (data) setUserData(data);
+    if (data.linkedPageId) setUserData(data);
   };
 
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
@@ -126,14 +124,6 @@ function useProviderAuth() {
     return () => clearInterval(handle);
   }, []);
 
-  const updatePageId = (id: string) => {
-    setUserData({ ...userData, linkedPageId: id });
-  };
-
-  const updatePageName = (name: string) => {
-    setUserData({ ...userData, linkedPageName: name });
-  };
-
   const updateAuthPageNumber = (pageNo: number) => {
     setAuthPageNumber(pageNo);
   };
@@ -141,8 +131,6 @@ function useProviderAuth() {
   return {
     userData,
     setUserData,
-    updatePageId,
-    updatePageName,
     authPageNumber,
     updateAuthPageNumber,
     refetchUserData,
@@ -156,8 +144,6 @@ type Props = {
   isSignedIn?: boolean;
   userData?: UserData;
   setUserData?: (data: UserData) => void;
-  updatePageId?: () => void;
-  updatePageName?: (name: string) => void;
   children: React.ReactNode;
   authPageNumber?: number;
   updateAuthPageNumber?: (param: number) => void;

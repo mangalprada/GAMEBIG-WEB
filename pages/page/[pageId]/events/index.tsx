@@ -30,7 +30,9 @@ export default function Events({ pageData, events }: Props) {
       {pageData ? (
         <>
           <PageHeader data={pageData} />
-          {pageData.id && <CreateEventButton pageId={pageData.id} />}
+          {pageData.id && pageData.category === 'organizer' ? (
+            <CreateEventButton pageId={pageData.id} />
+          ) : null}
           {events.map((eventItem: EventData) => (
             <EventCard
               key={eventItem.id}

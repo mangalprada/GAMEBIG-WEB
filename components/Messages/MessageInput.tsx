@@ -32,7 +32,12 @@ export default function MessageInput({
         .add({
           uids: [userData.uid, receivingUser.uid],
           receiver: {
-            [receivingUser.uid]: userData,
+            [receivingUser.uid]: {
+              uid: userData.uid,
+              username: userData.username,
+              name: userData.name,
+              photoURL: userData.photoURL,
+            },
             [userData.uid]: receivingUser,
           },
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),

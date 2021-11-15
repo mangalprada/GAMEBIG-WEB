@@ -1,9 +1,10 @@
 import Head from 'next/head';
-import getUsers from '@/libs/getUsers';
 import { GetServerSidePropsContext } from 'next';
+import nookies from 'nookies';
 import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
+import { firebaseAdmin } from 'firebase/firebaseAdmin';
 
 type Props = {
   users: UserData[];
@@ -46,8 +47,41 @@ const People = ({ users }: Props) => {
 export default People;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let users: UserData[] = [];
-  users = await getUsers();
+  let users: any[] = [];
+  let uid = '';
+
+  const cookies = nookies.get(context);
+  try {
+    await firebaseAdmin
+      .auth()
+      .verifyIdToken(cookies.token)
+      .then(async (user) => {
+        if (user) uid = user.uid;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+
+  await firebaseAdmin
+    .firestore()
+    .collection('users')
+    .where('uid', '!=', uid)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data) {
+          users.push({
+            ...data,
+            dob: data.dob ? data.dob.toDate().toISOString() : null,
+            docId: doc.id,
+          });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
   return {
     props: { users },
   };

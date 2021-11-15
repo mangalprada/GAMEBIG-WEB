@@ -36,7 +36,7 @@ export default function Home() {
         {
           {
             1: <AuthComponent />,
-            2: <BasicForm data={data} setData={setData} />,
+            2: <BasicForm setData={setData} />,
             3: <AddGames uid={data.uid} />,
           }[authPageNumber]
         }

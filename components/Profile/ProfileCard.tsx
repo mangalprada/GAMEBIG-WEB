@@ -20,7 +20,7 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
   const router = useRouter();
   const [following, setFollowing] = useState<boolean>(false);
 
-  const fullName = name && name.length > 14 ? name.slice(0, 15) + '...' : name;
+  const fullName = name && name.length > 15 ? name.slice(0, 15) + '...' : name;
 
   useEffect(() => {
     const checkFollowing = async () => {

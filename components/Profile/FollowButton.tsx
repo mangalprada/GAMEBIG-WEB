@@ -73,6 +73,7 @@ const FollowButton = ({
             username: profilePageUsername,
             name: profilePageName,
             photoURL: profilePagePhotoURL,
+            uid: profilePageUid,
           });
           router.push({
             pathname: `/messages`,

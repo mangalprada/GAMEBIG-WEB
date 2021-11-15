@@ -13,3 +13,13 @@ export type MessageType = {
   username: string;
   uid: string;
 };
+
+export interface MessageRoomType {
+  uids: string[];
+  receiver: any;
+  createdAt: any;
+  updatedAt: any;
+  lastMessage: string;
+  type: 'direct';
+  docId: string;
+}

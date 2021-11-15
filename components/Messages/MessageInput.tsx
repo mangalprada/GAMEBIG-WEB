@@ -24,7 +24,8 @@ export default function MessageInput({
   const { userData } = useAuth();
 
   const createMessageRoom = async () => {
-    let roomId = '';
+    let roomId;
+
     try {
       await db
         .collection('messageRooms')
@@ -39,7 +40,7 @@ export default function MessageInput({
           lastMessage: message,
           type: 'direct',
         })
-        .then(function (docRef) {
+        .then((docRef) => {
           roomId = docRef.id;
         });
     } catch (error) {
@@ -67,7 +68,7 @@ export default function MessageInput({
   };
 
   const sendMessage = async () => {
-    if (message === '') return;
+    if (message.trim() === '') return;
 
     let roomId;
     if (!messageRoomId) {
@@ -82,6 +83,7 @@ export default function MessageInput({
         message: message,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
+      setMessage('');
     } catch (e) {
       console.log(e);
     }

@@ -4,7 +4,10 @@ import { useRouter } from 'next/router';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import MessageContainer from '../../components/Messages/MessageContainer';
 import MessageRoomList from '../../components/Messages/MessageRoomList';
-import { MessageReceiver } from '@/utilities/messages/MessagesTypes';
+import {
+  MessageReceiver,
+  MessageRoomType,
+} from '@/utilities/messages/MessagesTypes';
 import { db } from 'firebase/firebaseClient';
 import { useAuth } from '@/context/authContext';
 
@@ -17,15 +20,38 @@ const Messages = () => {
   const [messageRoomId, setMessageRoomId] = useState<string>('');
   const [showMsgContainer, setShowMsgContainer] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+  const [messageRooms, setMessageRooms] = useState<MessageRoomType[]>([]);
 
   useEffect(() => {
+    if (userData.uid) {
+      db.collection('messageRooms')
+        .where('uids', 'array-contains', userData.uid)
+        .get()
+        .then((snapshot) => {
+          const rooms = snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            docId: doc.id,
+          }));
+          setMessageRooms(rooms as any);
+        });
+    }
+  }, [userData.uid]);
+
+  useEffect(() => {
+    const getRoomId = async (uid: string) => {
+      messageRooms.find((room) => {
+        if (room.type === 'direct' && room.receiver[userData.uid].uid === uid) {
+          setMessageRoomId(room.docId);
+        }
+      });
+    };
     if (router.query.receiver && typeof router.query.receiver == 'string') {
       const data: MessageReceiver = JSON.parse(router.query.receiver);
       setReceiver(data);
-      getMessageRoomId(data);
+      getRoomId(data.uid);
+      setShowMsgContainer(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.receiver]);
+  }, [messageRooms, router.query.receiver, userData.uid]);
 
   useEffect(() => {
     handleWindowResize();
@@ -41,29 +67,6 @@ const Messages = () => {
       setIsSmallScreen(true);
     } else {
       setIsSmallScreen(false);
-    }
-  };
-
-  const getMessageRoomId = async (receiverdata: MessageReceiver) => {
-    if (!receiverdata.username) return;
-    try {
-      let roomId = '';
-      const querySnapshot = await db
-        .collection('messageRooms')
-        .where('uids', 'array-contains-any', [receiverdata.uid])
-        .get();
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (
-          data.type === 'direct' &&
-          data.usernames.includes(userData.username)
-        ) {
-          roomId = doc.id;
-        }
-      });
-      setMessageRoomId(roomId);
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -84,6 +87,7 @@ const Messages = () => {
               setShowMsgContainer={setShowMsgContainer}
               showMsgContainer={showMsgContainer}
               isSmallScreen={isSmallScreen}
+              messageRooms={messageRooms}
             />
             <MessageContainer
               messageRoomId={messageRoomId}

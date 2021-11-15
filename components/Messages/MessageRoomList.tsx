@@ -13,6 +13,7 @@ import algoliaClient from '@/libs/algolia';
 import debounce from '@/libs/debounce';
 import MessageRoom from './MessageRoom';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { MessageRoomType } from '@/utilities/messages/MessagesTypes';
 
 type Props = {
   setReceiver: (user: any) => void;
@@ -20,6 +21,7 @@ type Props = {
   setShowMsgContainer: Dispatch<SetStateAction<boolean>>;
   isSmallScreen: boolean;
   showMsgContainer: boolean;
+  messageRooms: MessageRoomType[];
 };
 
 const MessageRoomList = ({
@@ -28,27 +30,13 @@ const MessageRoomList = ({
   setShowMsgContainer,
   isSmallScreen,
   showMsgContainer,
+  messageRooms,
 }: Props) => {
   const router = useRouter();
   const { userData } = useAuth();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  const [messageRooms, setMessageRooms] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-
-  useEffect(() => {
-    if (userData.uid)
-      db.collection('messageRooms')
-        .where('uids', 'array-contains', userData.uid)
-        .get()
-        .then((snapshot) => {
-          const rooms = snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            docId: doc.id,
-          }));
-          setMessageRooms(rooms as any);
-        });
-  }, [userData.uid]);
 
   const searchUser = (query: string) => {
     const index = algoliaClient.initIndex('messageRooms');
@@ -63,9 +51,10 @@ const MessageRoomList = ({
 
   const clickHandler = (room: any) => {
     setReceiver({
-      name: room.userDetails[userData.username].name,
-      username: room.userDetails[userData.username].username,
-      photoURL: room.userDetails[userData.username].photoURL,
+      name: room.receiver[userData.uid].name,
+      username: room.receiver[userData.uid].username,
+      photoURL: room.receiver[userData.uid].photoURL,
+      uid: room.receiver[userData.uid].uid,
     });
     setMessageRoomId(room.docId);
     setShowMsgContainer(true);
@@ -102,13 +91,10 @@ const MessageRoomList = ({
               return (
                 <div key={index}>
                   <MessageRoom
-                    receiverName={room.userDetails[userData.username].name}
-                    receiverUsername={
-                      room.userDetails[userData.username].username
-                    }
-                    receiverPhotoURL={
-                      room.userDetails[userData.username].photoURL
-                    }
+                    receiverName={room.receiver[userData.uid].name}
+                    receiverUsername={room.receiver[userData.uid].username}
+                    receiverPhotoURL={room.receiver[userData.uid].photoURL}
+                    receiverUid={room.receiver[userData.uid].uid}
                     lastMessage={room.lastMessage}
                     onClick={() => {
                       clickHandler(room);

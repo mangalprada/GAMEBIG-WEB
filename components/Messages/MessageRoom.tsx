@@ -4,6 +4,7 @@ type Props = {
   receiverPhotoURL: string;
   receiverName: string;
   receiverUsername: string;
+  receiverUid: string;
   lastMessage?: string;
   onClick: (user: any) => void;
 };
@@ -12,15 +13,19 @@ const MessageRoom = ({
   receiverPhotoURL,
   receiverName,
   receiverUsername,
+  receiverUid,
   lastMessage,
   onClick,
 }: Props) => {
-  console.log();
-
   return (
     <div
       onClick={() =>
-        onClick({ receiverUsername, receiverName, receiverPhotoURL })
+        onClick({
+          receiverUsername,
+          receiverName,
+          receiverPhotoURL,
+          receiverUid,
+        })
       }
       className="flex items-center justify-items-stretch text-gray-300 font-sans font-semibold 
     bg-gray-900 w-full gap-3 px-3 py-3.5  m-1 rounded-md"
@@ -49,4 +54,4 @@ const MessageRoom = ({
 
 export default MessageRoom;
 
-//todo: show time of last message and name of the username
+//todo: show time of last message

@@ -11,6 +11,7 @@ import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import { useAuth } from '../../../context/authContext';
 import Modal from '@/components/UI/Modal/Modal';
 import { db } from 'firebase/firebaseClient';
+import { fetchTeams } from '@/libs/fetchTeams';
 
 export default function Home({ userData }: { userData: UserData }) {
   const {
@@ -23,23 +24,13 @@ export default function Home({ userData }: { userData: UserData }) {
   );
 
   useEffect(() => {
-    if (uid) {
-      db.collection('teams')
-        .where('uids', 'array-contains', uid)
-        .get()
-        .then((querySnapshot) => {
-          const teams: TeamType[] = [];
-          querySnapshot.forEach((doc) => {
-            const data = doc.data() as TeamType;
-            teams.push({ ...data, docId: doc.id });
-          });
-          console.log(teams);
-          setCurrentTeams(teams);
-        })
-        .catch((error) => {
-          console.log('Error getting documents: ', error);
-        });
-    }
+    const getTeamData = async () => {
+      if (uid) {
+        const teams = await fetchTeams(uid);
+        setCurrentTeams(teams);
+      }
+    };
+    getTeamData();
   }, [uid]);
 
   const closeModal = () => {

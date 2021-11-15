@@ -4,7 +4,7 @@ import nookies from 'nookies';
 import localforage from 'localforage';
 import firebase from '../firebase/firebaseClient';
 import { UserData } from '../utilities/types';
-import { getUserData, createUser } from '@/libs/user';
+import { getUserData } from '@/libs/user';
 
 const authContext = createContext({
   userData: {} as UserData,
@@ -53,14 +53,12 @@ function useProviderAuth() {
         });
       } else {
         const temp = {
-          username: uid,
           name: displayName,
           uid,
           photoURL,
         } as UserData;
         setUserData(temp);
         setAuthPageNumber(2);
-        createUser(temp);
         router.push('/auth');
       }
     }

@@ -107,17 +107,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   let savedGames: Record<string, GamerData> = {};
   let userData: UserData = {} as UserData;
   try {
-    const cookies = nookies.get(context);
-    await firebaseAdmin
-      .auth()
-      .verifyIdToken(cookies.token)
-      .then(async () => {
-        const { username } = context.query;
-        if (typeof username == 'string') {
-          userData = await getUser(username);
-          savedGames = await getGamerData(username);
-        }
-      });
+    const { username } = context.query;
+    if (typeof username == 'string') {
+      userData = await getUser(username);
+      savedGames = await getGamerData(userData.uid);
+    }
+
     return {
       props: { userData, savedGames },
     };

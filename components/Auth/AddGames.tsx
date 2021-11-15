@@ -28,9 +28,11 @@ function AddGames({ uid }: { uid: string }) {
           'from-gray-900 via-transparent to-gray-900 rounded-md mx-5'
         }
       >
-        <span className="text-xl text-center text-gray-300 font-sans mb-4">
-          Add games details to quickly register for events!!
-        </span>
+        <div className="w-full flex justify-center my-8">
+          <span className="text-lg md:text-2xl text-center text-gray-300 font-sans">
+            Add games details to quickly register for events!!
+          </span>
+        </div>
         <div className="flex flex-col flex-wrap ">
           {Object.keys(games).map(function (key, index) {
             return (

@@ -6,7 +6,7 @@ import { UserData } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
-import { isUsernameTaken, updateUser } from '@/libs/user';
+import { isUsernameTaken, createUser } from '@/libs/user';
 
 const usernameRegExp = /^[a-zA-Z0-9-_]{0,40}$/;
 
@@ -15,10 +15,10 @@ const validationSchema = yup.object({
     .string()
     .matches(usernameRegExp, 'username can contain only letters and numbers')
     .required('username is required'),
+  name: yup.string().required('Name is required'),
 });
 
 type Props = {
-  data: UserData;
   setData: (userData: UserData) => void;
 };
 
@@ -43,7 +43,7 @@ function BasicForm({ setData }: Props) {
         const data = { ...userData, ...values };
         setUserData(data);
         setData(data);
-        updateUser(data);
+        createUser(data);
         updateAuthPageNumber(3);
         localforage.setItem('user', {
           uid: userData.uid,
@@ -57,11 +57,11 @@ function BasicForm({ setData }: Props) {
   return (
     <div
       className={
-        'flex flex-col mb-10 px-10 md:px-32  md:w-3/5 pt-20 font-san font-semibold ' +
+        'mb-10 px-10 md:px-32  md:w-1/2 pt-20 font-san font-semibold ' +
         'rounded-lg bg-gradient-to-tl from-gray-900 via-black to-gray-900'
       }
     >
-      <form className="flex justify-center ">
+      <form className="flex flex-col justify-center ">
         <FormInput
           labelName="username"
           name="username"
@@ -69,6 +69,14 @@ function BasicForm({ setData }: Props) {
           onChangeHandler={formik.handleChange}
           error={Boolean(formik.errors.username)}
           errorMessage={formik.errors.username}
+        />
+        <FormInput
+          labelName="Full Name"
+          name="name"
+          value={formik.values.name}
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.name)}
+          errorMessage={formik.errors.name}
         />
       </form>
       <div className="flex justify-center">

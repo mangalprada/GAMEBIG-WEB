@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function Message({ data, isOwner }: Props) {
-  const date =
+  const time =
     data.createdAt && getDecoratedTime(data.createdAt.toDate().toISOString());
   return (
     <div
@@ -29,7 +29,7 @@ export default function Message({ data, isOwner }: Props) {
           {data.message}
         </span>
         <span className="block text-xs font-medium text-gray-600 text-left">
-          {date}
+          {time}
         </span>
       </div>
     </div>

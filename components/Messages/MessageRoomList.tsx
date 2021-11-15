@@ -96,6 +96,7 @@ const MessageRoomList = ({
                     receiverPhotoURL={room.receiver[userData.uid].photoURL}
                     receiverUid={room.receiver[userData.uid].uid}
                     lastMessage={room.lastMessage}
+                    updatedAt={room.updatedAt}
                     onClick={() => {
                       clickHandler(room);
                     }}

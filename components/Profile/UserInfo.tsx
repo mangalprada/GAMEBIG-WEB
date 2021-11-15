@@ -15,7 +15,7 @@ import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
-import FollowButton from './FollowButton';
+import FollowButton from './ProfileVisitorAction';
 import { getDecoratedDate } from '@/utilities/functions/dateConvert';
 
 type Props = {

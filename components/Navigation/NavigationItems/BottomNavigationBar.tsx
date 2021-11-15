@@ -13,10 +13,13 @@ function BottomNavigationBar() {
   } = useAuth();
   const router = useRouter();
   return (
-    <div className="md:hidden w-full h-screen font-sans">
+    <div className="md:hidden w-full font-sans">
       <section
         id="bottom-navigation"
-        className="block bg-black fixed inset-x-0 bottom-0 z-10 shadow"
+        className={
+          'block rounded-t-xl fixed inset-x-0 bottom-0 z-10 shadow ' +
+          'bg-gradient-to-t from-black via-black to-gray-800'
+        }
       >
         <div className="flex w-full justify-evenly">
           <Link href="/" passHref>
@@ -36,7 +39,7 @@ function BottomNavigationBar() {
                   router.pathname === '/page' ||
                   router.pathname === '/page/create'
                 }
-                size={36}
+                size={33}
               />
             </a>
           </Link>
@@ -47,14 +50,14 @@ function BottomNavigationBar() {
           </Link>
           <Link href="/join" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
-              <JoinIcon isActive={router.pathname === '/join'} size={36} />
+              <JoinIcon isActive={router.pathname === '/join'} size={34} />
             </a>
           </Link>
           <Link href="/messages" passHref>
             <a className="py-1 px-4 sm:px-8 text-gray-600 focus:text-indigo-500 hover:text-indigo-500">
               <MessageIcon
                 isActive={router.pathname === '/messages'}
-                size={36}
+                size={33}
               />
             </a>
           </Link>

@@ -93,38 +93,41 @@ const GameDetails: FC<Props> = ({
         </p>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:gap-x-10 gap-x-5">
           <FormInput
-            labelName="In Game ID"
+            labelName="In Game ID [REQUIRED]"
             name="inGameId"
             value={formik.values.inGameId}
             onChangeHandler={formik.handleChange}
           />
           <FormInput
-            labelName="In Game Name"
+            labelName="In Game Name [REQUIRED]"
             name="inGameName"
             value={formik.values.inGameName}
             onChangeHandler={formik.handleChange}
           />
           <FormInput
-            labelName="K/D"
+            labelName="K/D [OPTIONAL]"
             name="kd"
+            placeHolder="3.2"
             value={formik.values.kd}
             onChangeHandler={formik.handleChange}
           />
           <FormInput
-            labelName="Highest Tier Reached"
+            labelName="Highest Tier Reached [OPTIONAL]"
             name="highestTier"
             value={formik.values.highestTier}
             onChangeHandler={formik.handleChange}
           />
           <FormInput
-            labelName="Highest Damage"
+            labelName="Highest Damage [OPTIONAL]"
             name="damage"
+            placeHolder="1234"
             value={formik.values.damage}
             onChangeHandler={formik.handleChange}
           />
           <FormInput
-            labelName="Highest Kills"
+            labelName="Highest Kills [OPTIONAL]"
             name="kills"
+            placeHolder="10"
             value={formik.values.kills}
             onChangeHandler={formik.handleChange}
           />

@@ -1,62 +1,26 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { useUI } from '@/context/uiContext';
-import { games } from '../../utilities/GameList';
-import { ProfileCardData } from '../../utilities/people/people';
 import { follow, isFollowing } from '../../libs/follow';
+import FollowButton from '../UI/Buttons/FollowButton';
+import ProfileIcon from '../UI/Icons/NavIcons/ProfileIcon';
 
-const GameBadge = ({ gamecode, key }: { gamecode: string; key: number }) => {
-  return (
-    <div className="flex m-1 py-1 px-1.5 border-2 border-green-500 bg-gray-800 rounded-md gap-2">
-      <div className="relative h-5 w-5 ">
-        <Image
-          src={games[gamecode].imageSource}
-          alt="Picture of a friend"
-          layout="fill"
-          objectFit="contain"
-          className="rounded-full"
-        />
-      </div>
-      <span className="text-sm text-indigo-600">
-        {games[gamecode].shortName}
-      </span>
-    </div>
-  );
+type Props = {
+  photoURL: string | undefined;
+  name: string | undefined;
+  username: string;
+  uid: string;
 };
 
-const Button = ({
-  onClick,
-  classname,
-  text,
-}: {
-  onClick: () => void;
-  classname: string;
-  text: string;
-}) => (
-  <div
-    onClick={onClick}
-    className={
-      'flex items-center w-full justify-center font-sans text-base md:text-xl py-1 px-4 rounded-md ' +
-      classname
-    }
-  >
-    <span>{text}</span>
-  </div>
-);
-
-const ProfileCard = ({
-  photoURL,
-  username,
-  games,
-  uid,
-  name,
-}: ProfileCardData) => {
+const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
   const router = useRouter();
   const [following, setFollowing] = useState<boolean>(false);
+
+  const fullName = name && name.length > 14 ? name.slice(0, 15) + '...' : name;
 
   useEffect(() => {
     const checkFollowing = async () => {
@@ -68,74 +32,101 @@ const ProfileCard = ({
     }
   }, [uid, userData.uid]);
 
+  function handleFollow() {
+    follow({
+      follower: {
+        name: userData.name as string,
+        photoURL: userData.photoURL as string,
+        username: userData.username,
+        uid: userData.uid,
+      },
+      followee: {
+        photoURL: photoURL as string,
+        username,
+        name: name as string,
+        uid: uid as string,
+      },
+    });
+    openSnackBar({
+      message: `You are Following ${name}`,
+      type: 'success',
+      label: '',
+    });
+    setFollowing(true);
+  }
+
+  function onProfileCardClick() {
+    router.push(`/profile/${username}`);
+  }
+
   return (
     <div
-      className="flex flex-col items-center font-sans font-semibold text-gray-300 h-auto w-min p-2 md:p-4
-        gap-2 rounded-lg bg-gray-900 cursor-pointer"
+      className={
+        'bg-gray-900 py-4 rounded-lg shadow-lg text-center ' +
+        'md:hover:-translate-y-0.5'
+      }
     >
-      <div
-        onClick={() => {
-          router.push(`/profile/${username}`);
-        }}
-        className="flex flex-col items-center"
-      >
-        {photoURL ? (
-          <div className="h-32 w-32 md:h-52 md:w-52 relative">
-            <Image
-              src={photoURL}
-              alt="Picture of a friend"
-              layout="fill"
-              objectFit="contain"
-              className="rounded-lg"
-            />
-          </div>
-        ) : null}
-        <span className="text-gray-300 hover:text-indigo-600 text-xl">
-          {name}
-        </span>
-        <span className="text-gray-500 text-base">@{username}</span>
-        <div className="flex flex-wrap justify-center">
-          {games.map((game: string, index: number) => (
-            <GameBadge key={index} gamecode={game} />
-          ))}
-        </div>
-      </div>
-      {!following ? (
-        <Button
-          onClick={() => {
-            follow({
-              follower: {
-                name: userData.name as string,
-                photoURL: userData.photoURL as string,
-                username: userData.username,
-                uid: userData.uid,
-              },
-              followee: {
-                photoURL: photoURL as string,
-                username,
-                name: name as string,
-                uid: uid as string,
-              },
-            });
-            openSnackBar({
-              message: `You are Following ${username}`,
-              type: 'success',
-              label: '',
-            });
-            setFollowing(true);
-          }}
-          text="Follow"
-          classname="bg-indigo-600"
-        />
+      {/** Profile Pic */}
+      {photoURL ? (
+        <section className="mb-3 h-20 w-20 md:h-40 md:w-40 relative mx-auto">
+          <Image
+            src={photoURL}
+            alt="Profile Picture"
+            layout="fill"
+            objectFit="contain"
+            className="rounded-full cursor-pointer"
+            onClick={onProfileCardClick}
+          />
+        </section>
       ) : (
-        <span
-          className="font-sans text-gray-500 cursor-auto "
-          onClick={() => {
-            throw new Error('Sentry Frontend Error');
-          }}
+        <section
+          className={
+            'cursor-pointer flex justify-center items-center ' +
+            'h-20 w-20 md:h-40 md:w-40 mx-auto mb-3'
+          }
         >
-          Following
+          <ProfileIcon size={100} isActive={false} />
+        </section>
+      )}
+
+      {/** Name and UserName */}
+      <section
+        className="flex flex-col cursor-pointer"
+        onClick={onProfileCardClick}
+      >
+        <span
+          className={
+            'text-gray-200 hover:underline sm:text-lg text-sm font-semibold'
+          }
+          title={name}
+        >
+          {name ? fullName : 'NA'}
         </span>
+        <span className="text-gray-400 text-xs sm:text-base font-medium">
+          @{username}
+        </span>
+      </section>
+
+      {/** Follow Button */}
+      {following ? (
+        <div
+          className={
+            'flex justify-center items-center mx-auto mt-3 w-3/4 ' +
+            'bg-green-500/30 hover:bg-green-300/20 cursor-default ' +
+            'rounded-md py-1'
+          }
+        >
+          <span
+            className={'font-sans text-green-100 text-lg font-semibold'}
+            onClick={() => {
+              throw new Error('Sentry Frontend Error');
+            }}
+          >
+            Following
+          </span>
+        </div>
+      ) : (
+        <FollowButton name="Follow" onClick={handleFollow} />
       )}
     </div>
   );

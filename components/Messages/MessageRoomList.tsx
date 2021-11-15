@@ -85,7 +85,7 @@ const MessageRoomList = ({
           error={Boolean(errorMsg)}
           errorMessage={errorMsg}
         /> */}
-        {messageRooms.length < 0 ? (
+        {messageRooms.length > 0 ? (
           <div className="h-full overflow-auto pr-3">
             {messageRooms.map((room: any, index: number) => {
               return (

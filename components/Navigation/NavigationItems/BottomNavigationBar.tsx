@@ -13,7 +13,7 @@ function BottomNavigationBar() {
   } = useAuth();
   const router = useRouter();
   return (
-    <div className="md:hidden w-full font-sans">
+    <div className="md:hidden w-full h-12 font-sans">
       <section
         id="bottom-navigation"
         className={

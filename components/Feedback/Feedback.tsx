@@ -22,7 +22,7 @@ const Feedback: FC = () => {
     if (isDialogueOpen) {
       timeId = window.setTimeout(() => {
         setIsDialogueOpen(false);
-      }, 5000);
+      }, 2500);
     }
     return () => {
       window.clearTimeout(timeId);
@@ -70,14 +70,14 @@ const Feedback: FC = () => {
         <section
           className={
             'fixed md:bottom-20 bottom-28 md:right-8 right-4 z-40 ' +
-            'bg-green-500 px-3 py-2 rounded-md -skew-x-3 w-48 mb-1'
+            'bg-green-500 px-3 py-2 rounded-md w-48 mb-1'
           }
         >
-          <span className="text-gray-900 font-semibold tracking-wide text-lg">
+          <span className="text-gray-900 font-semibold tracking-wide text-sm md:text-lg">
             Hi!!
           </span>
           <br />
-          <span className="text-gray-900 font-semibold tracking-wide text-lg">
+          <span className="text-gray-900 font-semibold tracking-wide text-sm md:text-lg">
             Give your feedback Here
           </span>
         </section>

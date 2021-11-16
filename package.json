@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^0.1.1",
     "@sentry/nextjs": "^6.14.3",
     "algoliasearch": "^4.11.0",
     "firebase": "^8.9.1",

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import { useAuth } from '@/context/authContext';
+import PageFAQ from './PageFAQ';
 
 export default function PageIntro() {
   const router = useRouter();
@@ -17,23 +18,35 @@ export default function PageIntro() {
   return (
     <div
       className={
-        'my-10 mx-auto p-10 w-4/5 lg:w-3/5 h-5/6 rounded-lg bg-gradient-to-tl font-sans font-semibold ' +
-        'from-gray-900 to-black text-center text-indigo-600'
+        'my-10 mx-auto p-10 w-11/12 sm:w-4/5 lg:w-3/5 h-5/6 rounded-lg ' +
+        'bg-gradient-to-br from-gray-900 to-black ' +
+        'font-sans font-semibold'
       }
     >
-      <span className="text-xl md:text-4xl py-6">
-        Create a Page for your Clan or Esports Organization
-      </span>
-      <div className="flex flex-col my-8 text-center text-sm md:text-lg text-gray-300">
-        <span className="font-sans font-semibold">
-          Join the thrilling Esports World
+      <section className="text-center">
+        <span className="text-2xl md:text-4xl py-6 text-indigo-600">
+          Create a Page for your Clan or Esports Organization
         </span>
-        <span>of games like BGMI, COD, Free Fire</span>
-        <span>and more upcoming games...</span>
-      </div>
-      <div className="bottom-8">
+      </section>
+
+      <section className="w-11/12 mx-auto mt-20">
         <ResponsiveButton name="Create Now!" onClick={createPageHandler} />
-      </div>
+      </section>
+
+      <section className="mt-24">
+        <h3
+          className={
+            'flex justify-start w-11/12 mx-auto mb-5 ' +
+            'text-2xl font-medium text-gray-400'
+          }
+        >
+          FAQ
+        </h3>
+        <PageFAQ />
+        <span className="text-sm text-red-900 tracking-wider mt-1 flex justify-start w-11/12 mx-auto">
+          **Page for clan is under development**
+        </span>
+      </section>
     </div>
   );
 }

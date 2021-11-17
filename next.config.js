@@ -29,6 +29,9 @@ const moduleExports = withPWA({
       'graph.facebook.com',
     ],
   },
+  sentry: {
+    disableServerWebpackPlugin: true,
+  },
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,

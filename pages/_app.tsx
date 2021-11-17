@@ -5,9 +5,10 @@ import NProgress from 'nprogress';
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 import '../public/npprogress.css';
-import { AuthProvider } from '../context/authContext';
 import Layout from '../hoc/Layout/Layout';
+import { AuthProvider } from '../context/authContext';
 import { UIProvider } from '@/context/uiContext';
+import { NotificationProvider } from '@/context/notificationContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -33,9 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UIProvider>
       <AuthProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <NotificationProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </NotificationProvider>
       </AuthProvider>
     </UIProvider>
   );

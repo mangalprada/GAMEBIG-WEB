@@ -40,7 +40,7 @@ export default function PageIntro() {
             'text-2xl font-medium text-gray-400'
           }
         >
-          FAQ
+          FAQS
         </h3>
         <PageFAQ />
         <span className="text-sm text-red-900 tracking-wider mt-1 flex justify-start w-11/12 mx-auto">

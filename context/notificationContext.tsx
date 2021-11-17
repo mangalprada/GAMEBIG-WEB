@@ -8,9 +8,10 @@ type LocalUser = {
   username: string;
 } | null;
 
-const notificationContext = createContext({});
+const notificationContext = createContext({ notices: [] });
 
 function useProviderNotification() {
+  const [notices, setNotices] = useState<any>([]);
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -60,6 +61,7 @@ function useProviderNotification() {
       console.log('error', err);
     }
   }, []);
+  return { notices };
 }
 
 type Props = {
@@ -67,8 +69,9 @@ type Props = {
 };
 
 export const NotificationProvider = ({ children }: Props) => {
+  const provider = useProviderNotification();
   return (
-    <notificationContext.Provider value={{}}>
+    <notificationContext.Provider value={provider}>
       {children}
     </notificationContext.Provider>
   );

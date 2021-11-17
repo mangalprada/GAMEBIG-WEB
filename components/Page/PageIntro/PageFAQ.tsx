@@ -39,7 +39,7 @@ const PageFAQ: FC = () => {
             }
           >
             Pages are places where event organizers can organize events and
-            clans can connect with their fans by building their community.
+            clans can connect with their fans and build their community.
           </span>
         </Accordion.Content>
       </Accordion.Item>

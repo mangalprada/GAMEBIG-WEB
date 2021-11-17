@@ -28,12 +28,16 @@ export default function SendNotification({
     const { linkedPageId, linkedPageName, startTime } = eventData;
     const sendEventMessage = functions.httpsCallable('sendEventMessage');
     sendEventMessage({
-      roomId,
-      password,
-      tournamnetId: eventData.id,
-      linkedPageId,
-      linkedPageName,
-      startTime,
+      data: {
+        roomId,
+        password,
+        tournamnetId: eventData.id,
+        linkedPageId,
+        linkedPageName,
+        startTime,
+      },
+      type: 'event',
+      target: [],
     })
       .then((result) => {
         console.log(result);

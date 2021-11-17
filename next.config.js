@@ -8,20 +8,20 @@ const withPWA = require('next-pwa');
 
 const { withSentryConfig } = require('@sentry/nextjs');
 
-const moduleExports = {
-  // pwa: {
-  //   dest: 'public',
-  //   disable: process.env.NODE_ENV === 'development',
-  // },
+const moduleExports = withPWA({
+  pwa: {
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
+  },
   reactStrictMode: true,
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'classes')],
   },
+  outputFileTracing: false,
   images: {
     domains: [
       'lh3.googleusercontent.com',
@@ -42,7 +42,7 @@ const moduleExports = {
     ALGOLIA_APPLICATION_ID: process.env.ALGOLIA_APPLICATION_ID,
     ALGOLIA_SEARCH_ONLY_API_KEY: process.env.ALGOLIA_SEARCH_ONLY_API_KEY,
   },
-};
+});
 
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that

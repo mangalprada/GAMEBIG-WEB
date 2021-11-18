@@ -65,6 +65,9 @@ export default function Home() {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
+        <div className="xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans my-2">
+          <FixedButton name="Back" isDangerous onClick={() => router.back()} />
+        </div>
         <div>{teamUpjoinee ? <TeamUpItem data={teamUpjoinee} /> : null}</div>
         <div>
           {joinees?.map((joinee) => {

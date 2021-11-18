@@ -21,9 +21,7 @@ const MessageRoom = ({
   onClick,
 }: Props) => {
   const name =
-    receiverName && receiverName.length > 18
-      ? `${receiverName.slice(0, 18)}...`
-      : receiverName;
+    receiverName.length > 18 ? `${receiverName.slice(0, 18)}...` : receiverName;
   const time = getDecoratedTime(updatedAt.toDate().toISOString());
 
   return (

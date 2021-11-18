@@ -90,7 +90,7 @@ export default function Post({ data }: Props) {
       <div
         className={
           'grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 mt-8 gap-5 ' +
-          'cursor-pointer hover:bg-black/40 p-3 rounded-md'
+          'cursor-pointer bg-black/30 hover:bg-black/50 px-6 py-3 rounded-md'
         }
         onClick={handleCardClick}
       >

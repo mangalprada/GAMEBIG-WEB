@@ -116,12 +116,7 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
             'rounded-md py-1'
           }
         >
-          <span
-            className={'font-sans text-green-100 text-lg font-semibold'}
-            onClick={() => {
-              throw new Error('Sentry Frontend Error');
-            }}
-          >
+          <span className={'font-sans text-green-100 text-lg font-semibold'}>
             Following
           </span>
         </div>

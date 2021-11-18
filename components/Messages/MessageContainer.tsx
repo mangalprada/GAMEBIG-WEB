@@ -81,7 +81,7 @@ export default function MessageContainer({
   if (isSmallScreen && !showMsgContainer) return null;
 
   return (
-    <div className="h-[90%] w-full md:w-3/5 flex flex-col px-3 z-50">
+    <div className="h-[90%] relative w-full md:w-3/5 flex flex-col px-3 z-50">
       <div
         className="flex gap-6 items-center justify-start px-4 bg-gray-900 
           rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800"

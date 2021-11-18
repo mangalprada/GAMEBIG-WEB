@@ -101,7 +101,7 @@ export default function MessageInput({
 
   return (
     <form
-      className="w-full pb-3 flex items-center justify-between pt-4"
+      className="w-full pb-3 flex items-center justify-between sticky pt-4"
       onSubmit={(e) => {
         e.preventDefault();
         sendMessage();

@@ -59,7 +59,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
     <div
       className={
         'h-auto md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 md:mx-auto mx-4 ' +
-        'bg-gray-900 transform hover:scale-[1.03] md:hover:scale-[1.02] ' +
+        'bg-gray-900 transform sm:hover:scale-[1.03] lg:hover:scale-[1.02] ' +
         'hover:-translate-y-0.5 md:hover:-translate-y-1 transition duration-500 ease-in-out'
       }
     >
@@ -93,38 +93,45 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       {/** Event Contents */}
       <div
         className={
-          'grid sm:grid-cols-2 grid-cols-1 justify-items-center md:mx-5 gap-y-5 cursor-pointer'
+          'grid sm:grid-cols-2 grid-cols-1 justify-items-center md:mx-5 gap-y-4 cursor-pointer'
         }
         onClick={onForwardAction}
       >
         <EventCardRowItem
           content={`${games[data.gameCode].shortName} - ${data.mode}`}
+          label="Game"
+          image={games[data.gameCode].imageSource}
         >
           <EsportsIcon styles={'fill-current text-purple-700'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`Daily Custom - ${data.tier}`}>
+        <EventCardRowItem content={`Daily Custom - ${data.tier}`} label="Tier">
           <TrophyIcon styles={'fill-current text-yellow-500'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`${getDecoratedDate(data.startTime)}`}>
+        <EventCardRowItem
+          content={`${getDecoratedDate(data.startTime)}`}
+          label="Event Date"
+        >
           <EventIcon styles={'fill-current text-indigo-400'} />
         </EventCardRowItem>
 
         <EventCardRowItem
           content={`${getDecoratedTime(data.startTime)} - 
             ${getDecoratedTime(data.startTime, 30)}`}
+          label="Event Time"
         >
           <AccessTimeIcon styles={'fill-current text-blue-500'} />
         </EventCardRowItem>
 
         <EventCardRowItem
           content={`${data.prize ? data.prize + ' ₹' : 'No Prize'}`}
+          label="Prize"
         >
           <MoneyIcon styles={'fill-current text-green-600'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`${data.noOfSlots} slots available`}>
+        <EventCardRowItem content={`${data.noOfSlots} available`} label="Slots">
           <RoomEntryIcon styles={'fill-current text-gray-600'} />
         </EventCardRowItem>
 

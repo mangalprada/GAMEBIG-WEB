@@ -40,8 +40,8 @@ export default function Post({ data }: Props) {
   return (
     <div
       className={
-        'xl:w-1/2 md:w-5/6 mx-auto font-sans px-3 md:px-12 pb-8 pt-4 ' +
-        'bg-gray-900 rounded-lg my-2 '
+        'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans px-3 md:px-12 pb-8 pt-4 ' +
+        'bg-gray-900 rounded-lg my-2 px-5'
       }
       onClick={onClick}
     >
@@ -71,7 +71,7 @@ export default function Post({ data }: Props) {
           </section>
         </section>
         {data.uid !== uid ? (
-          <FixedButton name={`Join ${data.username}`} onClick={createJoinee} />
+          <FixedButton name="Apply" onClick={createJoinee} />
         ) : null}
       </div>
       <span className="text-gray-100 tracking-wide pt-1">

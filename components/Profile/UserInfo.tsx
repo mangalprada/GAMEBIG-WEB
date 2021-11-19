@@ -76,7 +76,10 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
               </span>
               <span
                 className="cursor-pointer hover:text-blue-400"
-                onClick={goToSetting}
+                // onClick={goToSetting}
+                onClick={() => {
+                  throw new Error('Sentry Frontend Error');
+                }}
               >
                 Settings
               </span>

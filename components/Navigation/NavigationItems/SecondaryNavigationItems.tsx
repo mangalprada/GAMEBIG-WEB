@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import localforage from 'localforage';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
@@ -47,14 +48,28 @@ export default function SecondaryNavigationItems() {
             }
             toolTip="Profile"
           >
-            <ProfileIcon
-              isActive={
-                router.pathname === '/profile/[username]' ||
-                router.pathname === '/profile/[username]/teams' ||
-                router.pathname === '/profile/[username]/edit'
-              }
-              size={36}
-            />
+            <div>
+              {userData.photoURL ? (
+                <div className="relative h-7 w-7 cursor-pointer">
+                  <Image
+                    src={userData.photoURL}
+                    alt="Picture of a friend"
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-full"
+                  />
+                </div>
+              ) : (
+                <ProfileIcon
+                  isActive={
+                    router.pathname === '/profile/[username]' ||
+                    router.pathname === '/profile/[username]/teams' ||
+                    router.pathname === '/profile/[username]/edit'
+                  }
+                  size={36}
+                />
+              )}
+            </div>
           </NavigationItem>
         </>
       ) : (

@@ -12,6 +12,7 @@ moduleExports = withPWA({
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
   },
+  outputFileTracing: false,
   reactStrictMode: true,
   i18n: {
     locales: ['en'],

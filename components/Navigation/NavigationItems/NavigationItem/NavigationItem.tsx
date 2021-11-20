@@ -26,7 +26,7 @@ export default function NavigationItem({
         <div
           className={
             'relative sm:max-w-xl sm:mx-auto group cursor-pointer inline-block ' +
-            'pt-1.5 pb-2 px-6 flex flex-col justify-center text-center ' +
+            'pt-1.5 pb-2 px-5 flex flex-col justify-center text-center ' +
             (isActive
               ? ''
               : 'hover:bg-gray-900 rounded-t-lg transition duration-300')

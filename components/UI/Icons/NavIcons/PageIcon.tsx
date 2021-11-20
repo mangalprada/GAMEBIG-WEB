@@ -6,6 +6,8 @@ type Props = {
 export default function Icon({ size, isActive }: Props) {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
+      enableBackground="new 0 0 24 24"
       height={size}
       viewBox="0 0 24 24"
       width={size}
@@ -13,8 +15,14 @@ export default function Icon({ size, isActive }: Props) {
         'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-600')
       }
     >
-      <path d="M0 0h24v24H0V0z" fill="none" />
-      <path d="M12 7V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-8zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm9 12h-7v-2h2v-2h-2v-2h2v-2h-2V9h7c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1zm-1-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
+      <g>
+        <rect fill="none" height="24" width="24" />
+      </g>
+      <g>
+        <g>
+          <path d="M6,13c-2.2,0-4,1.8-4,4s1.8,4,4,4s4-1.8,4-4S8.2,13,6,13z M12,3C9.8,3,8,4.8,8,7s1.8,4,4,4s4-1.8,4-4S14.2,3,12,3z M18,13 c-2.2,0-4,1.8-4,4s1.8,4,4,4s4-1.8,4-4S20.2,13,18,13z" />
+        </g>
+      </g>
     </svg>
   );
 }

@@ -20,7 +20,7 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/'}
         toolTip="Events"
       >
-        <TrophyIcon isActive={router.pathname === '/'} size={40} />
+        <TrophyIcon isActive={router.pathname === '/'} size={33} />
       </NavigationItem>
       <NavigationItem
         href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
@@ -39,7 +39,7 @@ export default function PrimaryNavigationItems() {
             router.pathname === '/page' ||
             router.pathname === '/page/create'
           }
-          size={36}
+          size={33}
         />
       </NavigationItem>
       <NavigationItem
@@ -61,7 +61,7 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/messages'}
         toolTip="Messages"
       >
-        <MessageIcon isActive={router.pathname === '/messages'} size={36} />
+        <MessageIcon isActive={router.pathname === '/messages'} size={33} />
       </NavigationItem>
     </ul>
   );

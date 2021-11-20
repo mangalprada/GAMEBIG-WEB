@@ -6,16 +6,18 @@ type Props = {
 export default function Icon({ size, isActive }: Props) {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
+      enableBackground="new 0 0 24 24"
       height={size}
-      viewBox="0 0 25 25"
+      viewBox="0 0 24 24"
       width={size}
       className={
         'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-600')
       }
     >
       <g>
-        <rect fill="none" height={size} width={size} />
-        <rect fill="none" height={size} width={size} />
+        <rect fill="none" height="24" width="24" />
+        <rect fill="none" height="24" width="24" />
       </g>
       <g>
         <path d="M22,9V8c0-0.55-0.45-1-1-1h0c-0.55,0-1,0.45-1,1v1h-1c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h1v1c0,0.55,0.45,1,1,1h0 c0.55,0,1-0.45,1-1v-1h1c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H22z" />

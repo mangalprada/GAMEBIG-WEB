@@ -48,9 +48,9 @@ export default function SecondaryNavigationItems() {
             }
             toolTip="Profile"
           >
-            <div>
+            <>
               {userData.photoURL ? (
-                <div className="relative h-7 w-7 cursor-pointer">
+                <div className="relative h-8 w-8 my-0.5 cursor-pointer">
                   <Image
                     src={userData.photoURL}
                     alt="Picture of a friend"
@@ -69,7 +69,7 @@ export default function SecondaryNavigationItems() {
                   size={36}
                 />
               )}
-            </div>
+            </>
           </NavigationItem>
         </>
       ) : (

@@ -16,6 +16,23 @@ interface Props {
 }
 
 export default function Events({ pageData, events }: Props) {
+  const hostedEvents = events.map((eventItem: EventData) => (
+    <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
+  ));
+
+  const emptyEventsComponent = (
+    <div
+      className={
+        'md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 mt-10 md:mx-auto mx-4 ' +
+        'flex flex-col justify-center items-center'
+      }
+    >
+      <span className="text-xl text-gray-400 font-medium text-center">
+        Start hosting new Events and increase your community! 👨🏾‍🤝‍👨🏻
+      </span>
+    </div>
+  );
+
   return (
     <Aux>
       <Head>
@@ -33,13 +50,7 @@ export default function Events({ pageData, events }: Props) {
           {pageData.id && pageData.category === 'organizer' ? (
             <CreateEventButton pageId={pageData.id} />
           ) : null}
-          {events.map((eventItem: EventData) => (
-            <EventCard
-              key={eventItem.id}
-              data={eventItem}
-              isPageOwner={false}
-            />
-          ))}
+          {events.length === 0 ? emptyEventsComponent : hostedEvents}
         </>
       ) : (
         <div>Network Error</div>

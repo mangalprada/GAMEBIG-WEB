@@ -13,7 +13,7 @@ const AuthComponent: FC = () => {
   return (
     <div
       className={
-        'flex flex-col mb-10 px-auto w-11/12 md:w-2/5 py-5 font-san font-semibold ' +
+        'flex flex-col mb-16 px-auto w-11/12 md:w-2/5 py-5 font-san font-semibold ' +
         'rounded-lg bg-gradient-to-br from-gray-800 via-black to-gray-900'
       }
     >

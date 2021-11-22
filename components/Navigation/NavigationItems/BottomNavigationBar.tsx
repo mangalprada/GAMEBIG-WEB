@@ -24,7 +24,7 @@ function BottomNavigationBar() {
         <div className="flex w-full justify-evenly space-x-1">
           {/** Events */}
           <Link href="/" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 p-0.5">
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <TrophyIcon isActive={router.pathname === '/'} size={30} />
               </span>
@@ -46,7 +46,7 @@ function BottomNavigationBar() {
             href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
             passHref
           >
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 p-0.5">
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <PageIcon
                   isActive={
@@ -76,7 +76,7 @@ function BottomNavigationBar() {
 
           {/** People */}
           <Link href="/people" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 p-0.5">
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <FriendsIcon
                   isActive={router.pathname === '/people'}
@@ -98,7 +98,7 @@ function BottomNavigationBar() {
 
           {/** Teamup */}
           <Link href="/join" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 p-0.5">
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center">
                 <JoinIcon isActive={router.pathname === '/join'} size={32} />
               </span>
@@ -117,7 +117,7 @@ function BottomNavigationBar() {
 
           {/**Message */}
           <Link href="/messages" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 p-0.5">
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <MessageIcon
                   isActive={router.pathname === '/messages'}

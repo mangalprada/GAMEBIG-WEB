@@ -60,11 +60,29 @@ const MessageRoomList = ({
     setShowMsgContainer(true);
   };
 
+  const messageRoomsComponent = messageRooms.map((room: any, index: number) => {
+    return (
+      <div key={index}>
+        <MessageRoom
+          receiverName={room.receiver[userData.uid].name}
+          receiverUsername={room.receiver[userData.uid].username}
+          receiverPhotoURL={room.receiver[userData.uid].photoURL}
+          receiverUid={room.receiver[userData.uid].uid}
+          lastMessage={room.lastMessage}
+          updatedAt={room.updatedAt}
+          onClick={() => {
+            clickHandler(room);
+          }}
+        />
+      </div>
+    );
+  });
+
   if (isSmallScreen && showMsgContainer) return null;
 
   return (
     <div className="w-full md:w-1/3 h-full px-1">
-      <div className="w-full h-full pt-2">
+      <div className="w-full h-full">
         {/* <SearchInput
           name="searchUser"
           onChangeHandler={(e: ChangeEvent) => {
@@ -86,24 +104,8 @@ const MessageRoomList = ({
           errorMessage={errorMsg}
         /> */}
         {messageRooms.length > 0 ? (
-          <div className="h-full overflow-auto pr-3">
-            {messageRooms.map((room: any, index: number) => {
-              return (
-                <div key={index}>
-                  <MessageRoom
-                    receiverName={room.receiver[userData.uid].name}
-                    receiverUsername={room.receiver[userData.uid].username}
-                    receiverPhotoURL={room.receiver[userData.uid].photoURL}
-                    receiverUid={room.receiver[userData.uid].uid}
-                    lastMessage={room.lastMessage}
-                    updatedAt={room.updatedAt}
-                    onClick={() => {
-                      clickHandler(room);
-                    }}
-                  />
-                </div>
-              );
-            })}
+          <div className="h-full overflow-auto pr-1">
+            {messageRoomsComponent}
           </div>
         ) : (
           <div className="flex justify-center">

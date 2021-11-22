@@ -47,7 +47,7 @@ const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
             }
             onClick={goToMyPosts}
           >
-            My Posts
+            My Listings
           </span>
           <span
             className={

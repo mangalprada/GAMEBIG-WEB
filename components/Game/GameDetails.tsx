@@ -58,7 +58,7 @@ const GameDetails: FC<Props> = ({
   function onSaveHandler() {
     formik.handleSubmit();
     closeModal();
-    router.push(`/profile/${username}/games`);
+    router.push(`/profile/${username}`);
     openSnackBar({
       type: 'success',
       label: 'Saved',

@@ -37,7 +37,7 @@ export default function GameItem({
           type: 'success',
         });
       }
-      if (docId) router.push(`/profile/${username}/games`);
+      if (docId) router.push(`/profile/${username}`);
     } catch (err) {
       console.log('err', err);
     }

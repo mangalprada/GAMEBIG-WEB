@@ -46,7 +46,7 @@ function AddGames({ uid }: { uid: string }) {
           })}
         </div>
       </div>
-      <div className="flex justify-evenly w-full xl:px-52">
+      <div className="flex justify-evenly w-full mb-16 md:mb-0 xl:px-52">
         <FixedButton name="Back" onClick={() => updateAuthPageNumber(2)} />
         <FixedButton
           name={currentGames.length === 0 ? 'Skip' : 'Finish'}

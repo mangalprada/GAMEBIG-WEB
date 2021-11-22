@@ -60,6 +60,25 @@ export default function Home({ events: eventsFromProps }: Props) {
     }
   };
 
+  const allEvents = events.map((eventItem: EventData) => (
+    <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
+  ));
+
+  const emptyEventsComponent = (
+    <div
+      className={
+        'md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg mt-28 md:mx-auto mx-4 ' +
+        'flex flex-col justify-center items-center'
+      }
+    >
+      <span className="md:text-2xl text-xl text-gray-400 font-medium text-center">
+        <p>Looks like there are no events yet.</p>
+        <br />
+        <p>Come after some time. Thank you for visiting.</p>
+      </span>
+    </div>
+  );
+
   return (
     <div>
       <Head>
@@ -86,9 +105,7 @@ export default function Home({ events: eventsFromProps }: Props) {
             <FilterIcon size={32} />
           </section>
         </div>
-        {events.map((eventItem: EventData) => (
-          <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
-        ))}
+        {events.length === 0 ? emptyEventsComponent : allEvents}
         <Feedback />
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div

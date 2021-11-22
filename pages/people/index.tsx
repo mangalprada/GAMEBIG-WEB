@@ -23,10 +23,15 @@ const People = ({ users }: Props) => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <Aux>
+        <div className="xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 mx-auto mt-2">
+          <span className="text-gray-400 font-medium text-lg tracking-wide">
+            People you may know
+          </span>
+        </div>
         <div
           className={
             'xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 grid grid-cols-2 sm:grid-cols-3 ' +
-            'gap-3 sm:gap-5 mt-4 mx-auto'
+            'gap-3 sm:gap-5 mt-3 mx-auto'
           }
         >
           {users.map((user) => (

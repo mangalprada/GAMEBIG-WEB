@@ -22,7 +22,7 @@ const EventCardRowItem: FC<Partial<Props>> = ({
           {label}
         </span>
       </section>
-      <section className="flex flex-row gap-x-3 items-center mt-1.5 ml-[2.15rem]">
+      <section className="flex flex-row gap-x-3 items-center ml-[2.15rem]">
         {image ? (
           <span className="h-8 w-8 relative">
             <Image

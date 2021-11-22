@@ -34,8 +34,6 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
     setGameCode('');
   };
 
-  console.log(savedGames);
-
   const usersGames = Object.keys(savedGames).map((key) => {
     return [...Array(savedGames[key].gameCode)].map((_, index) => {
       return (
@@ -50,6 +48,21 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
       );
     });
   });
+
+  const noGamesComponent = (
+    <div
+      className={
+        'md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 mt-4 md:mx-auto mx-4 ' +
+        'flex flex-col justify-center items-center'
+      }
+    >
+      <span className="text-lg text-gray-500 font-medium text-center">
+        {userData.username === user.username
+          ? 'Start adding game details to showcase your skills! 😎'
+          : 'No games Found for this user 🙄'}
+      </span>
+    </div>
+  );
 
   return (
     <div>
@@ -70,7 +83,7 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
               />
             ) : null}
           </div>
-          <div>{usersGames}</div>
+          <div>{usersGames.length === 0 ? noGamesComponent : usersGames}</div>
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>
           <>

@@ -65,14 +65,14 @@ const TeamUpFAQ: FC = () => {
           <ol className="list-decimal mx-5 tracking-wide text-indigo-200">
             <li className="text-lg">
               Click on <strong>Find Teammate</strong> and add all the
-              requirements you want to have in your team mate.
+              requirements you want to have in your teammate.
             </li>
             <li className="text-lg">Others will see and apply for the role.</li>
             <li className="text-lg">
               Review their profiles and decide if they are a good fit for you.
             </li>
             <li className="text-lg">
-              Onboard your perfect team mate and start conquering.
+              Onboard your perfect teammate and start conquering.
             </li>
           </ol>
         </div>

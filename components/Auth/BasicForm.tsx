@@ -57,7 +57,7 @@ function BasicForm({ setData }: Props) {
   return (
     <div
       className={
-        'mb-10 px-10 md:px-32  md:w-1/2 pt-20 font-san font-semibold ' +
+        'mb-16 px-10 md:px-32 md:w-1/2 pt-20 font-san font-semibold ' +
         'rounded-lg bg-gradient-to-tl from-gray-900 via-black to-gray-900'
       }
     >

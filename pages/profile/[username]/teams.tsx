@@ -12,6 +12,8 @@ import { useAuth } from '../../../context/authContext';
 import Modal from '@/components/UI/Modal/Modal';
 import { db } from 'firebase/firebaseClient';
 import { fetchTeams } from '@/libs/fetchTeams';
+import TextButton from '@/components/UI/Buttons/TextButton';
+import router from 'next/router';
 
 export default function Home({ userData }: { userData: UserData }) {
   const {
@@ -47,6 +49,19 @@ export default function Home({ userData }: { userData: UserData }) {
     setCurrentTeams(temp);
   };
 
+  const noTeamsComponent = (
+    <div
+      className={
+        'md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 mt-4 md:mx-auto mx-4 ' +
+        'flex flex-col justify-center items-center'
+      }
+    >
+      <span className="text-lg text-gray-500 font-medium text-center">
+        No Teams Found!
+      </span>
+    </div>
+  );
+
   return (
     <Aux>
       <Head>
@@ -62,9 +77,11 @@ export default function Home({ userData }: { userData: UserData }) {
       <ProfileHeader userData={userData} />
       <div className="w-11/12 md:w-5/6 xl:w-1/2 mx-auto mt-2">
         <div className="flex justify-end">
-          {userData.uid === uid ? (
+          {userData.uid === uid && currentTeams.length !== 0 ? (
             <FixedButton name="Create Team" onClick={openModal} />
-          ) : null}
+          ) : (
+            noTeamsComponent
+          )}
         </div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
           {currentTeams.length !== 0 ? (

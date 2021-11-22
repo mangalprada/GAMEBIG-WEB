@@ -10,6 +10,7 @@ import {
 } from '@/utilities/messages/MessagesTypes';
 import { db } from 'firebase/firebaseClient';
 import { useAuth } from '@/context/authContext';
+import MobileMessageContainer from '@/components/Messages/MobileMessageContainer';
 
 const Messages = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const Messages = () => {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
   const [messageRooms, setMessageRooms] = useState<MessageRoomType[]>([]);
 
+  // Fetches all message rooms
   useEffect(() => {
     if (userData.uid) {
       db.collection('messageRooms')
@@ -55,9 +57,6 @@ const Messages = () => {
 
   useEffect(() => {
     handleWindowResize();
-  }, []);
-
-  useEffect(() => {
     window.addEventListener('resize', handleWindowResize);
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
@@ -79,26 +78,34 @@ const Messages = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <Aux>
-        <div className="w-full mt-4 flex justify-center fixed">
-          <div className="flex justify-center w-full md:w-3/4 md:gap-8 h-screen">
-            <MessageRoomList
-              setMessageRoomId={setMessageRoomId}
-              setReceiver={setReceiver}
-              setShowMsgContainer={setShowMsgContainer}
-              showMsgContainer={showMsgContainer}
-              isSmallScreen={isSmallScreen}
-              messageRooms={messageRooms}
-            />
+        <div className="w-full mt-4 flex justify-center h-[85vh] fixed md:gap-8">
+          <MessageRoomList
+            setMessageRoomId={setMessageRoomId}
+            setReceiver={setReceiver}
+            setShowMsgContainer={setShowMsgContainer}
+            showMsgContainer={showMsgContainer}
+            isSmallScreen={isSmallScreen}
+            messageRooms={messageRooms}
+          />
+          {isSmallScreen ? null : (
             <MessageContainer
               messageRoomId={messageRoomId}
               setMessageRoomId={setMessageRoomId}
               receivingUser={receiver}
-              setShowMsgContainer={setShowMsgContainer}
-              showMsgContainer={showMsgContainer}
-              isSmallScreen={isSmallScreen}
             />
-          </div>
+          )}
         </div>
+        {isSmallScreen ? (
+          <MobileMessageContainer
+            messageRoomId={messageRoomId}
+            setMessageRoomId={setMessageRoomId}
+            receivingUser={receiver}
+            setShowMsgContainer={setShowMsgContainer}
+            showMsgContainer={showMsgContainer}
+          />
+        ) : (
+          <></>
+        )}
       </Aux>
     </div>
   );

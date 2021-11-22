@@ -101,7 +101,7 @@ export default function MessageInput({
 
   return (
     <form
-      className="w-full pb-3 flex items-center justify-between sticky pt-4"
+      className="w-full flex items-center justify-between mt-2"
       onSubmit={(e) => {
         e.preventDefault();
         sendMessage();
@@ -111,7 +111,7 @@ export default function MessageInput({
         aria-placeholder="Type Here"
         placeholder="Type Here..."
         className={
-          'py-3 mx-3 pl-5 block w-full rounded-lg bg-gray-700 ' +
+          'py-3 mr-3 pl-5 block w-full rounded-lg bg-gray-700 ' +
           'outline-none font-semibold font-sans focus:text-gray-200 tracking-wide'
         }
         type="text"

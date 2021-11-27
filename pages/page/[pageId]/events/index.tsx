@@ -28,7 +28,7 @@ export default function Events({ pageData, events }: Props) {
       }
     >
       <span className="text-xl text-gray-400 font-medium text-center">
-        Start hosting new Events and increase your community! 👨🏾‍🤝‍👨🏻
+        Start hosting new Events and build your community!
       </span>
     </div>
   );

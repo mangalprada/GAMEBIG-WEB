@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  Dispatch,
+  FC,
+  SetStateAction,
+} from 'react';
 import { useAuth } from '@/context/authContext';
 import SendNotification from '../Notification/SendNotification';
 import ParticipantList from '../ParticipantList/ParticipantList';
@@ -7,6 +14,9 @@ import SoloRegistrationForm from './SoloRegistrationForm';
 import { EventData } from '@/utilities/eventItem/types';
 import { db } from 'firebase/firebaseClient';
 import router from 'next/router';
+import { TeamType } from '@/utilities/types';
+import { fetchParticipatedTeams } from '@/libs/getEventData';
+import EventResultForm from '../Result/EventResultForm';
 
 type Props = {
   pageId: string;
@@ -28,7 +38,7 @@ const RespondToEvent: FC<Props> = ({
   const {
     userData: { linkedPageId, uid },
   } = useAuth();
-
+  const [participants, setParticipants] = useState<TeamType[]>([]);
   let isPageOwner = linkedPageId === pageId ? true : false;
 
   const unregisterHandler = () => {
@@ -40,12 +50,22 @@ const RespondToEvent: FC<Props> = ({
     router.push('/');
   };
 
+  const teamsArr = useCallback(async () => {
+    const teams = await fetchParticipatedTeams(eventData.id);
+    setParticipants(teams);
+  }, [eventData.id]);
+
+  useEffect(() => {
+    teamsArr();
+  }, [teamsArr]);
+
   return (
     <div>
       {isPageOwner ? (
         <div>
           <SendNotification eventData={eventData} />
-          <ParticipantList eventId={eventData.id} />
+          <EventResultForm eventId={eventData.id} participants={participants} />
+          <ParticipantList participants={participants} />
         </div>
       ) : null}
 
@@ -87,7 +107,7 @@ const RespondToEvent: FC<Props> = ({
             ${eventData.linkedPageName}
             shares them.`}
           </span>
-          <span
+          {/* <span
             onClick={unregisterHandler}
             className={
               'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
@@ -95,7 +115,7 @@ const RespondToEvent: FC<Props> = ({
             }
           >
             UNREGISTER
-          </span>
+          </span> */}
         </div>
       )}
     </div>

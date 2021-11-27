@@ -6,8 +6,9 @@ import { ParsedUrlQuery } from 'querystring';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
-import { fetchEventDataById } from '@/libs/getEventData';
-import { EventData } from '@/utilities/eventItem/types';
+import { fetchEventDataById } from '../../../../../libs/getEventData';
+import { EventData } from '../../../../../utilities/eventItem/types';
+import EventResults from '@/components/Event/Result/EventResults';
 import { db } from '../../../../../firebase/firebaseClient';
 import RespondToEvent from '@/components/Event/Register/RespondToEvent';
 
@@ -43,6 +44,15 @@ export default function Event({ pageId, eventData }: Props) {
     }
   }, [eventData.id, uid]);
 
+  const unregisterHandler = () => {
+    db.collection('events')
+      .doc(eventData.id)
+      .collection('teams')
+      .doc(teamId)
+      .delete();
+    router.push('/');
+  };
+
   return (
     <Aux>
       <Head>
@@ -59,7 +69,7 @@ export default function Event({ pageId, eventData }: Props) {
         }
       >
         <EventDetails isPageOwner={isPageOwner} data={eventData} />
-
+        <EventResults eventId={eventData.id} />
         {uid ? (
           <RespondToEvent
             pageId={pageId}

@@ -57,6 +57,9 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
 
   return (
     <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold mt-10">
+      <span className="font-sans text-xl mb-4">
+        Register yourself for ths event
+      </span>
       <GamerRegistrationForm
         gamer={{ name, username, photoURL, uid }}
         gameCode={eventData.id}

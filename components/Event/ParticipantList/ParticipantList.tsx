@@ -4,21 +4,10 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchParticipatedTeams } from '../../../libs/getEventData';
 
 interface Props {
-  eventId: string;
+  participants: TeamType[];
 }
 
-export default function ParticipantList({ eventId }: Props) {
-  const [participants, setParticipants] = useState<TeamType[]>([]);
-
-  const teamsArr = useCallback(async () => {
-    const teams = await fetchParticipatedTeams(eventId);
-    setParticipants(teams);
-  }, [eventId]);
-
-  useEffect(() => {
-    teamsArr();
-  }, [teamsArr]);
-
+export default function ParticipantList({ participants }: Props) {
   return (
     <div className="mx-4">
       <h5 className="text-gray-400 text-xl font-semibold mb-5">

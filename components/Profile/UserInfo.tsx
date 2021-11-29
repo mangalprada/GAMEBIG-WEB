@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { UserData } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
 import { useRouter } from 'next/router';
@@ -13,10 +13,9 @@ import FacebookIcon from '../UI/Icons/SocialIcons/FacebookIcon';
 import TwitterIcon from '../UI/Icons/SocialIcons/TwitterIcon';
 import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
-import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
-import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
 import FollowButton from './ProfileVisitorAction';
 import { getDecoratedDate } from '@/utilities/functions/dateConvert';
+import MoreActions from './MoreActions';
 
 type Props = {
   userData: UserData;
@@ -24,8 +23,7 @@ type Props = {
 
 const UserInfo: FC<Props> = ({ userData }: Props) => {
   const router = useRouter();
-  const { userData: user, signout } = useAuth();
-  const [showMore, setShowMore] = useState(false);
+  const { userData: user } = useAuth();
 
   const goToEditPage = () => {
     if (userData) {
@@ -35,14 +33,6 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
         query: { data: stringifiedUsedData },
       });
     }
-  };
-
-  const goToSetting = () => {
-    router.push(`/profile/${user.username}/settings`);
-  };
-
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
   };
 
   return (
@@ -60,39 +50,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
         }
       >
         {/** More Option Component */}
-        <div className="absolute mt-2 mr-3">
-          {showMore ? (
-            <div
-              className={
-                'flex flex-col bg-gray-900 text-white py-4 px-5 rounded-lg ' +
-                'space-y-1 font-semibold tracking-wide'
-              }
-            >
-              <span
-                onClick={toggleShowMore}
-                className="flex justify-end cursor-pointer"
-              >
-                <CloseIcon size={16} />
-              </span>
-              <span
-                className="cursor-pointer hover:text-blue-400"
-                onClick={goToSetting}
-              >
-                Settings
-              </span>
-              <span
-                className="cursor-pointer hover:text-red-400"
-                onClick={signout}
-              >
-                Signout
-              </span>
-            </div>
-          ) : (
-            <div className="p-3 cursor-pointer" onClick={toggleShowMore}>
-              <MoreIcon size={36} />
-            </div>
-          )}
-        </div>
+        {userData && userData.uid === user.uid ? <MoreActions /> : null}
       </div>
 
       {/** Profile photo and Edit button */}

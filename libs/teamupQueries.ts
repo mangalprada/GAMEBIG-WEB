@@ -6,7 +6,7 @@ export async function createNewPost(
   post: TeamUpSchemaType,
   userData: UserData
 ) {
-  const joinCollectionRef = db.collection('join');
+  const joinCollectionRef = db.collection('teamOpening');
   try {
     await joinCollectionRef.add({
       ...post,

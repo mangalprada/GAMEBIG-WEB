@@ -28,7 +28,7 @@ export default function Post({ data }: Props) {
     try {
       if (data.uid !== uid) {
         await db
-          .collection('join')
+          .collection('teamOpening')
           .doc(data.id)
           .collection('joinees')
           .doc(uid)

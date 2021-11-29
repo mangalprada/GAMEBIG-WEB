@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import Head from 'next/head';
-import TeamUpItem from '../../../components/Join/TeamUpItem';
+import TeamUpItem from '../../../components/Openings/TeamUpItem';
 import { db } from 'firebase/firebaseClient';
 import { JoinPostType } from '@/utilities/join/JoinPostType';
 
@@ -13,7 +13,7 @@ export default function MyPosts() {
 
   useEffect(() => {
     const getPosts = async () => {
-      db.collection('join')
+      db.collection('teamOpening')
         .where('uid', '==', uid)
         .get()
         .then((querySnapshot) => {

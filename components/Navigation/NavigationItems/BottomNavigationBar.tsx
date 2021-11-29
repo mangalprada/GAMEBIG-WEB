@@ -97,20 +97,23 @@ function BottomNavigationBar() {
           </Link>
 
           {/** Teamup */}
-          <Link href="/join" passHref>
+          <Link href="/openings" passHref>
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center">
-                <JoinIcon isActive={router.pathname === '/join'} size={32} />
+                <JoinIcon
+                  isActive={router.pathname === '/openings'}
+                  size={32}
+                />
               </span>
               <span
                 className={
                   'text-xs text-gray-400 -mt-0.5 -ml-1.5 flex flex-1 justify-center ' +
-                  (router.pathname === '/join'
+                  (router.pathname === '/openings'
                     ? 'text-indigo-600 font-medium'
                     : 'text-gray-600')
                 }
               >
-                Join
+                Openings
               </span>
             </a>
           </Link>

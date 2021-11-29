@@ -28,8 +28,7 @@ const Messages = () => {
     if (userData.uid) {
       db.collection('messageRooms')
         .where('uids', 'array-contains', userData.uid)
-        .get()
-        .then((snapshot) => {
+        .onSnapshot((snapshot) => {
           const rooms = snapshot.docs.map((doc) => ({
             ...doc.data(),
             docId: doc.id,

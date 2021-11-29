@@ -5,7 +5,7 @@ import { db } from 'firebase/firebaseClient';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import TeamUpItem from '../../../../components/Join/TeamUpItem';
+import TeamUpItem from '../../../../components/Openings/TeamUpItem';
 import { JoinPostType } from '@/utilities/join/JoinPostType';
 import { BasicUserType } from '@/utilities/types';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
@@ -21,7 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof postId === 'string') {
-      db.collection('join')
+      db.collection('teamOpening')
         .doc(postId)
         .get()
         .then((doc) => {
@@ -32,7 +32,7 @@ export default function Home() {
         });
       if (uid === uidFromQuery) {
         const joinees: BasicUserType[] = [];
-        db.collection('join')
+        db.collection('teamOpening')
           .doc(postId)
           .collection('joinees')
           .get()

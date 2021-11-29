@@ -50,11 +50,11 @@ export default function PrimaryNavigationItems() {
         <FriendsIcon isActive={router.pathname === '/people'} size={36} />
       </NavigationItem>
       <NavigationItem
-        href="/join"
-        isActive={router.pathname === '/join'}
-        toolTip="Join"
+        href="/openings"
+        isActive={router.pathname === '/openings'}
+        toolTip="Openings"
       >
-        <JoinIcon isActive={router.pathname === '/join'} size={33} />
+        <JoinIcon isActive={router.pathname === '/openings'} size={33} />
       </NavigationItem>
       <NavigationItem
         href="/messages"

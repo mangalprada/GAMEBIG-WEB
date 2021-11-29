@@ -25,15 +25,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className="flex flex-col mx-auto w-11/12 md:w-1/2">
+      <div className="flex flex-col mx-auto px-1 md:px-0 w-full lg:w-1/2 md:w-2/3">
         {notices.map(function (notice, index) {
           return (
             <div
-              className="bg-gray-900 rounded-md py-2 px-4 my-0.5 "
+              className={
+                'flex rounded-sm py-2 px-3 my-0.5 ' +
+                (notice.isRead ? 'bg-gray-900 ' : 'bg-gray-700')
+              }
               key={index}
               onClick={() => handleClick(notice.type)}
             >
-              <span className="text-lg text-gray-300 font-sans">
+              <span className="text-lg text-gray-100 font-sans">
                 {notice.message}
               </span>
             </div>

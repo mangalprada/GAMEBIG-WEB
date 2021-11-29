@@ -15,8 +15,7 @@ function useProviderNotification() {
     db.collection('users')
       .doc(userData.uid)
       .collection('notifications')
-      .get()
-      .then((snapshots) => {
+      .onSnapshot((snapshots) => {
         const tempNotices: Notification[] = [];
         snapshots.forEach((doc) => {
           tempNotices.push(doc.data() as Notification);

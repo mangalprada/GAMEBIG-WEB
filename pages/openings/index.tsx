@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import TeamUpItem from '../../components/Join/TeamUpItem';
+import TeamUpItem from '../../components/Openings/TeamUpItem';
 import Modal from '@/components/UI/Modal/Modal';
-import CreatePostForm from '@/components/Join/CreatePostForm';
+import CreatePostForm from '@/components/Openings/CreatePostForm';
 import { useAuth } from '@/context/authContext';
 import { JoinPostType } from '@/utilities/join/JoinPostType';
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import Aux from 'hoc/Auxiliary/Auxiliary';
-import TeamUpFAQ from '@/components/Join/TeamUpFAQ';
+import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
 
 const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +24,7 @@ const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
       <Head>
-        <title>Join</title>
+        <title>Openings</title>
         <meta name="description" content="Join teams and Clans!" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
@@ -80,7 +80,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     await firebaseAdmin
       .firestore()
-      .collection('join')
+      .collection('teamOpening')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

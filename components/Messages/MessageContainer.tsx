@@ -114,7 +114,8 @@ export default function MessageContainer({
         }
       >
         {/* {messages} */}
-        <div ref={scrollLast}>{messagesListView}</div>
+        <div>{messagesListView}</div>
+        <div ref={scrollLast} />
       </div>
 
       {/** Message Input Container */}

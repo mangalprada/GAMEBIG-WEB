@@ -142,9 +142,9 @@ export default function Home({
                 );
               })}
             </div>
-          ) : (
+          ) : userDataFromServer.uid === uid ? (
             <TeamIntro openModal={openModal} />
-          )}
+          ) : null}
         </div>
       </div>
       <Modal closeModal={closeModal} isOpen={modalOpen}>

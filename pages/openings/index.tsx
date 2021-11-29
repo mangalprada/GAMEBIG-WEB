@@ -6,7 +6,7 @@ import TeamUpItem from '../../components/Openings/TeamUpItem';
 import Modal from '@/components/UI/Modal/Modal';
 import CreatePostForm from '@/components/Openings/CreatePostForm';
 import { useAuth } from '@/context/authContext';
-import { JoinPostType } from '@/utilities/join/JoinPostType';
+import { JoinPostType } from '@/utilities/openings/JoinPostType';
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
@@ -18,7 +18,7 @@ const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
   } = useAuth();
   const router = useRouter();
   const goToMyPosts = () => {
-    router.push(`/join/${uid}`);
+    router.push(`/openings/${uid}`);
   };
 
   return (

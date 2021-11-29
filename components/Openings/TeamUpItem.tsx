@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/authContext';
 import { games } from '@/utilities/GameList';
-import { JoinPostType } from '@/utilities/join/JoinPostType';
+import { JoinPostType } from '@/utilities/openings/JoinPostType';
 import { db } from 'firebase/firebaseClient';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -21,7 +21,7 @@ export default function Post({ data }: Props) {
   };
 
   const handleCardClick = () => {
-    router.push(`/join/${data.uid}/${data.id}`);
+    router.push(`/openings/${data.uid}/${data.id}`);
   };
 
   const createJoinee = async () => {

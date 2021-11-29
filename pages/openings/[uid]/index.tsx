@@ -3,7 +3,7 @@ import { useAuth } from '@/context/authContext';
 import Head from 'next/head';
 import TeamUpItem from '../../../components/Openings/TeamUpItem';
 import { db } from 'firebase/firebaseClient';
-import { JoinPostType } from '@/utilities/join/JoinPostType';
+import { JoinPostType } from '@/utilities/openings/JoinPostType';
 
 export default function MyPosts() {
   const [posts, setPosts] = useState<JoinPostType[]>([]);

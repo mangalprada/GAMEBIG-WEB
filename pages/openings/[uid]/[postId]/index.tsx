@@ -6,7 +6,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import TeamUpItem from '../../../../components/Openings/TeamUpItem';
-import { JoinPostType } from '@/utilities/join/JoinPostType';
+import { JoinPostType } from '@/utilities/openings/JoinPostType';
 import { BasicUserType } from '@/utilities/types';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 

@@ -1,4 +1,4 @@
-import { TeamUpSchemaType } from '@/utilities/join/teamUpTypes';
+import { TeamUpSchemaType } from '@/utilities/openings/teamUpTypes';
 import { UserData } from '@/utilities/types';
 import { db } from 'firebase/firebaseClient';
 

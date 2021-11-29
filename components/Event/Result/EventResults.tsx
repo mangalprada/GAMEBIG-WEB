@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from 'firebase/firebaseClient';
-import TeamItem from '@/components/Profile/TeamItem';
+import TeamItem from '@/components/Team/TeamItem';
 
 interface Props {
   eventId: string;

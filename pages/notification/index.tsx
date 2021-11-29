@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { getDecoratedTime } from '../../utilities/functions/dateConvert';
+import { useAuth } from '@/context/authContext';
+import { useNotication } from '@/context/notificationContext';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
-import { useUI } from '@/context/uiContext';
 
 export default function Home() {
-  const { openSnackBar } = useUI();
+  const { userData } = useAuth();
+  const { notices } = useNotication();
+  const router = useRouter();
 
-  const [notices, setNotices] = useState([]);
-
-  useEffect(() => {
-    let notices = [];
-    let stringifiedNotices = localStorage.getItem('notices');
-    if (stringifiedNotices) {
-      notices = JSON.parse(stringifiedNotices);
+  const handleClick = (type: string) => {
+    switch (type) {
+      case 'TEAM':
+        router.push(`/profile/${userData.username}/teams`);
+        break;
     }
-    setNotices(notices);
-  }, []);
+  };
 
   return (
     <Aux>
@@ -26,43 +25,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <div className="">
+      <div className="flex flex-col mx-auto w-11/12 md:w-1/2">
         {notices.map(function (notice, index) {
-          const { roomId, password, linkedPageName, startTime } = notice;
-          const readableStartTime = getDecoratedTime(startTime);
           return (
-            <div key={index} className="">
-              <h2>
-                Details of match by {linkedPageName} at {readableStartTime} are
-                : RoomId:{' '}
-                <span
-                  onClick={() => {
-                    navigator.clipboard.writeText(roomId);
-                    openSnackBar({
-                      label: 'Copied!',
-                      message: 'Room Id copied to clipboard',
-                      type: 'info',
-                    });
-                  }}
-                  className=""
-                >
-                  {roomId}
-                </span>
-                Password:{' '}
-                <span
-                  onClick={() => {
-                    navigator.clipboard.writeText(password);
-                    openSnackBar({
-                      label: 'Copied',
-                      message: 'Password copied to clipboard',
-                      type: 'info',
-                    });
-                  }}
-                  className=""
-                >
-                  {password}
-                </span>
-              </h2>
+            <div
+              className="bg-gray-900 rounded-md py-2 px-4 my-0.5 "
+              key={index}
+              onClick={() => handleClick(notice.type)}
+            >
+              <span className="text-lg text-gray-300 font-sans">
+                {notice.message}
+              </span>
             </div>
           );
         })}

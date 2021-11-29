@@ -10,7 +10,7 @@ const HorizontalProfile = ({ user }: { user: BasicUserType }) => {
     router.push(`/profile/${username}`);
   };
   return (
-    <div className="m-2 py-1.5 px-2 md:py-3 md:px-6 rounded-md bg-gray-800">
+    <div className="m-2 py-1.5 px-2 md:py-1 md:px-4 rounded-md bg-gray-800">
       <section
         className="flex gap-3 items-center justify-start "
         onClick={() => openProfile(user.username)}

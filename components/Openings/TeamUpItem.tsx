@@ -83,7 +83,9 @@ export default function Post({ data }: Props) {
           </section>
         </section>
         {data.uid !== uid ? (
-          <FixedButton name="Apply" onClick={(e) => e && createJoinee(e)} />
+          <div onClick={(e) => e && createJoinee(e)}>
+            <FixedButton name="Apply" />
+          </div>
         ) : null}
       </div>
 
@@ -139,24 +141,32 @@ export default function Post({ data }: Props) {
             {data.experience}
           </span>
         </section>
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-sm">Role</span>
-          <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
-            {data.role}
-          </span>
-        </section>
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-sm">Purpose</span>
-          <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
-            {data.purpose}
-          </span>
-        </section>
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-sm">Language</span>
-          <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
-            {data.language}
-          </span>
-        </section>
+        {data.role ? (
+          <section className="flex flex-col">
+            <span className="font-semibold text-gray-500 text-sm">Role</span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.role}
+            </span>
+          </section>
+        ) : null}
+        {data.purpose ? (
+          <section className="flex flex-col">
+            <span className="font-semibold text-gray-500 text-sm">Purpose</span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.purpose}
+            </span>
+          </section>
+        ) : null}
+        {data.language ? (
+          <section className="flex flex-col">
+            <span className="font-semibold text-gray-500 text-sm">
+              Language
+            </span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.language}
+            </span>
+          </section>
+        ) : null}
       </div>
     </div>
   );

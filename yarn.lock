@@ -2856,6 +2856,11 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
+clsx@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
+
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
@@ -5990,6 +5995,13 @@ react-firebase-hooks@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-3.0.4.tgz#2185357d2bd6f7292552bc65f2459bbf9364e673"
   integrity sha512-eqhj8O5t/9nzGS/DfCGQX9goqbxTP2T/qrY2B13s4rx/VIJ4Bx3WnZgqxEVA0Y/mWZBh7gOlXSPdRGbxBq5d8g==
+
+react-image-crop@^9.0.5:
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-9.0.5.tgz#a6dfe5411156f1dd1e435b128424ccf175a86948"
+  integrity sha512-J5lbsBMI36GsbkRHXNEo95OjwpxfkUBrEl9Oxb7z5mDC7iamySXYKhkv9QoidkfmI9e8Vj7q3SgNCVfuZHQMQw==
+  dependencies:
+    clsx "^1.1.1"
 
 react-is@17.0.2:
   version "17.0.2"

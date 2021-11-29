@@ -23,6 +23,7 @@ moduleExports = withPWA({
       'lh3.googleusercontent.com',
       'play-lh.googleusercontent.com',
       'graph.facebook.com',
+      'firebasestorage.googleapis.com',
     ],
   },
   env: {

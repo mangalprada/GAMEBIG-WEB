@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/messaging';
+import 'firebase/storage';
 import 'firebase/functions';
 
 const config = {
@@ -21,3 +22,4 @@ if (!firebase.apps.length) {
 export default firebase;
 export const db = firebase.firestore();
 export const functions = firebase.app().functions('asia-east2');
+export const storage = firebase.storage();

@@ -11,6 +11,7 @@ import FixedButton from '../UI/Buttons/FixedButton';
 import { isUsernameTaken } from '@/libs/user';
 import DateOnlyPicker from '../UI/Picker/DateOnlyPicker';
 import TextArea from '../UI/Inputs/TextArea';
+import EditAvatar from '../UI/Avatar/EditAvatar';
 
 type Props = {
   oldValues: UserData;
@@ -72,6 +73,16 @@ function ProfileForm({ oldValues, push }: Props) {
     }
   };
 
+  const onImageUpload = (url: string) => {
+    try {
+      db.collection('users').doc(userData.uid).update({
+        photoURL: url,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div
       className={
@@ -91,6 +102,7 @@ function ProfileForm({ oldValues, push }: Props) {
         />
       </div>
       <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
+        <EditAvatar onUpload={onImageUpload} />
         <form onSubmit={formik.handleSubmit}>
           <h6 className="text-gray-400 md:text-sm mt-3 mb-6 font-bold uppercase">
             User Information

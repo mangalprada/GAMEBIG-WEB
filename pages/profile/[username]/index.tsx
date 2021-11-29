@@ -68,7 +68,7 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
     <div>
       <Head>
         <title>Profile</title>
-        <meta name="description" content="Players Profile" />
+        <meta name="description" content={`${userData.name}'s Profile`} />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

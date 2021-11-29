@@ -77,8 +77,6 @@ function useProviderNotification() {
       getToken();
       navigator.serviceWorker.addEventListener('message', async (message) => {
         const data = message.data['firebase-messaging-msg-data'];
-        console.log({ data });
-
         if (data) {
           const oldNotices: any = await localforage.getItem('notices');
           const notices = oldNotices ? [data, ...oldNotices] : [data];

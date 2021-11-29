@@ -73,11 +73,12 @@ export const isUsernameTaken = async (username: string, uid: string) =>
     });
 
 export const updateFcmToken = async (uid: string, token: string) => {
-  await db
-    .collection('users')
-    .doc(uid)
-    .update({
-      fcmToken: token,
-    })
-    .catch((err) => console.log(err));
+  try {
+    if (uid)
+      await db.collection('users').doc(uid).update({
+        fcmToken: token,
+      });
+  } catch (err) {
+    console.log(err, 'error updating token');
+  }
 };

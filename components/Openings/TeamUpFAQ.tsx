@@ -57,7 +57,6 @@ const TeamUpFAQ: FC = () => {
             Can&apos;t find a player whose synergy matches yours 😢?
           </span>
           <span className="text-lg text-yellow-300">
-            {' '}
             Well, you&apos;re at the right place! 🥳
           </span>
           <br />

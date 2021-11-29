@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
-import { db } from '../../firebase/firebaseClient';
 import { follow, isFollowing } from '@/libs/follow';
 import { useUI } from '@/context/uiContext';
 
-const FollowButton = ({
+const ProfileVisitorAction = ({
   profilePageUsername,
   profilePagePhotoURL,
   profilePageName,
@@ -24,8 +23,6 @@ const FollowButton = ({
   useEffect(() => {
     const checkFollowing = async () => {
       const val = await isFollowing(userData.uid, profilePageUid);
-      console.log(val, userData.uid, profilePageUid);
-
       setFollowing(val);
     };
     if (userData.uid) {
@@ -87,4 +84,4 @@ const FollowButton = ({
   );
 };
 
-export default FollowButton;
+export default ProfileVisitorAction;

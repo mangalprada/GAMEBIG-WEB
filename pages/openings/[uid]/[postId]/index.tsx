@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import { useAuth } from '@/context/authContext';
 import { db } from 'firebase/firebaseClient';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import TeamUpItem from '../../../../components/Openings/TeamUpItem';
-import { JoinPostType } from '@/utilities/openings/JoinPostType';
+import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import { BasicUserType } from '@/utilities/types';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
+import TextButton from '@/components/UI/Buttons/TextButton';
+import HorizontalProfile from '@/components/Profile/HorizontalProfile';
+import ProfileCard from '@/components/Profile/ProfileCard';
 
 export default function Home() {
   const {
@@ -16,8 +18,8 @@ export default function Home() {
   } = useAuth();
   const router = useRouter();
   const { uid: uidFromQuery, postId } = router.query;
-  const [teamUpjoinee, setTeamUpjoinee] = useState<JoinPostType>();
-  const [joinees, setJoinees] = useState<BasicUserType[]>();
+  const [teamupPost, setTeamUpPost] = useState<TeamUpPost>();
+  const [joinees, setJoinees] = useState<BasicUserType[]>([]);
 
   useEffect(() => {
     if (typeof postId === 'string') {
@@ -25,36 +27,33 @@ export default function Home() {
         .doc(postId)
         .get()
         .then((doc) => {
-          setTeamUpjoinee(doc.data() as JoinPostType);
+          setTeamUpPost(doc.data() as TeamUpPost);
         })
         .catch((err) => {
           console.log(err);
         });
+
       if (uid === uidFromQuery) {
-        const joinees: BasicUserType[] = [];
-        db.collection('teamOpening')
-          .doc(postId)
-          .collection('joinees')
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              joinees.push({
-                ...(doc.data() as BasicUserType),
-                docId: doc.id,
+        try {
+          db.collection('teamOpening')
+            .doc(postId)
+            .collection('joinees')
+            .onSnapshot((querySnapshot) => {
+              const users: BasicUserType[] = [];
+              querySnapshot.forEach((doc) => {
+                users.push({
+                  ...(doc.data() as BasicUserType),
+                  docId: doc.id,
+                });
               });
+              setJoinees(users);
             });
-            setJoinees(joinees);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   }, [postId, uid, uidFromQuery]);
-
-  const openProfile = (username: string) => {
-    router.push(`/profile/${username}`);
-  };
 
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
@@ -65,41 +64,35 @@ export default function Home() {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
-        <div className="xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans my-2">
-          <FixedButton name="Back" isDangerous onClick={() => router.back()} />
+        <div className="flex justify-start md:w-2/3 mx-auto px-2">
+          <TextButton name="Go Back" type="normal" onClick={router.back} />
         </div>
-        <div>{teamUpjoinee ? <TeamUpItem data={teamUpjoinee} /> : null}</div>
+        <div>{teamupPost ? <TeamUpItem data={teamupPost} /> : null}</div>
         <div>
-          {joinees?.map((joinee) => {
-            <div className="flex items-center justify-between px-3 mb-8 rounded-lg border-2 border-gray-800 ">
-              <section
-                className="flex gap-3 items-center justify-start "
-                onClick={() => openProfile(joinee.username)}
-              >
-                {joinee.photoURL ? (
-                  <div className="relative h-10 w-10 md:h-14 md:w-14 cursor-pointer">
-                    <Image
-                      src={joinee.photoURL}
-                      alt="Picture"
-                      layout="fill"
-                      objectFit="contain"
-                      className="rounded-full"
-                    />
-                  </div>
-                ) : null}
-                <section className="flex flex-col cursor-pointer">
-                  <span className="font-semibold text-sm  md:text-lg text-gray-300 hover:text-indigo-600">
-                    {joinee.name}
-                  </span>
-                  <span className="font-semibold text-gray-500 text-xs md:text-base">
-                    @{joinee.username}
-                  </span>
-                </section>
-              </section>
-              <FixedButton name="Follow" />
-              <FixedButton name="Message" />
-            </div>;
-          })}
+          {joinees.length > 0 ? (
+            <div
+              className={
+                'xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 grid grid-cols-2 sm:grid-cols-3 ' +
+                'gap-3 sm:gap-5 mt-3 mx-auto'
+              }
+            >
+              {joinees.map((joinee) => (
+                <ProfileCard
+                  name={joinee.name}
+                  photoURL={joinee.photoURL}
+                  uid={joinee.uid}
+                  username={joinee.username}
+                  key={joinee.uid}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center">
+              <span className="text-center text-gray-300 font-sans font-semibold text-lg">
+                No one has applied to join you yet
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

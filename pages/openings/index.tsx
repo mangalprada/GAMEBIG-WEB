@@ -6,12 +6,12 @@ import TeamUpItem from '../../components/Openings/TeamUpItem';
 import Modal from '@/components/UI/Modal/Modal';
 import CreatePostForm from '@/components/Openings/CreatePostForm';
 import { useAuth } from '@/context/authContext';
-import { JoinPostType } from '@/utilities/openings/JoinPostType';
+import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
 
-const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
+const JoinPage = ({ joinPosts }: { joinPosts: TeamUpPost[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     userData: { uid },
@@ -57,12 +57,12 @@ const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
             }
             onClick={() => setIsModalOpen(true)}
           >
-            Find Teammate
+            Ask For Teammates
           </span>
         </div>
         <div>
           {joinPosts.map((joinPost) => (
-            <TeamUpItem data={joinPost} key={joinPost.id} />
+            <TeamUpItem data={joinPost} key={joinPost.docId} />
           ))}
         </div>
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
@@ -76,7 +76,7 @@ const JoinPage = ({ joinPosts }: { joinPosts: JoinPostType[] }) => {
 export default JoinPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const joinPosts: JoinPostType[] = [];
+  const joinPosts: TeamUpPost[] = [];
   try {
     await firebaseAdmin
       .firestore()
@@ -84,7 +84,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          joinPosts.push({ ...(doc.data() as JoinPostType), id: doc.id });
+          joinPosts.push({ ...(doc.data() as TeamUpPost), docId: doc.id });
         });
       });
     return { props: { joinPosts } };

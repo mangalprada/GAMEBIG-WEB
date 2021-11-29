@@ -1,5 +1,5 @@
-export type JoinPostType = {
-  id: string | undefined;
+export type TeamUpPost = {
+  docId?: string | undefined;
   name: string | undefined;
   username: string;
   uid: string;

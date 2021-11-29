@@ -13,7 +13,7 @@ import FacebookIcon from '../UI/Icons/SocialIcons/FacebookIcon';
 import TwitterIcon from '../UI/Icons/SocialIcons/TwitterIcon';
 import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
-import FollowButton from './ProfileVisitorAction';
+import ProfileVisitorAction from './ProfileVisitorAction';
 import { getDecoratedDate } from '@/utilities/functions/dateConvert';
 import MoreActions from './MoreActions';
 
@@ -66,7 +66,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
               name="EDIT PROFILE"
             />
           ) : (
-            <FollowButton
+            <ProfileVisitorAction
               profilePagePhotoURL={userData.photoURL}
               profilePageName={userData.name}
               profilePageUsername={userData.username}

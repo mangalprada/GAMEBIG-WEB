@@ -11,32 +11,18 @@ import {
 import { db } from 'firebase/firebaseClient';
 import { useAuth } from '@/context/authContext';
 import MobileMessageContainer from '@/components/Messages/MobileMessageContainer';
+import { useMessages } from '@/context/messageContext';
 
 const Messages = () => {
   const router = useRouter();
   const { userData } = useAuth();
+  const { messageRooms } = useMessages();
   const [receiver, setReceiver] = useState<MessageReceiver>(
     {} as MessageReceiver
   );
   const [messageRoomId, setMessageRoomId] = useState<string>('');
   const [showMsgContainer, setShowMsgContainer] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
-  const [messageRooms, setMessageRooms] = useState<MessageRoomType[]>([]);
-
-  // Fetches all message rooms
-  useEffect(() => {
-    if (userData.uid) {
-      db.collection('messageRooms')
-        .where('uids', 'array-contains', userData.uid)
-        .onSnapshot((snapshot) => {
-          const rooms = snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            docId: doc.id,
-          }));
-          setMessageRooms(rooms as any);
-        });
-    }
-  }, [userData.uid]);
 
   useEffect(() => {
     const getRoomId = async (uid: string) => {

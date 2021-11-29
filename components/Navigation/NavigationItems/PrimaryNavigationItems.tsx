@@ -6,12 +6,14 @@ import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
 import { useAuth } from '../../../context/authContext';
+import { useMessages } from '@/context/messageContext';
 
 export default function PrimaryNavigationItems() {
   const {
     userData: { linkedPageId },
   } = useAuth();
   const router = useRouter();
+  const { unseen } = useMessages();
 
   return (
     <ul className="hidden md:flex items-end lg:space-x-10 lg:mr-20">
@@ -61,7 +63,14 @@ export default function PrimaryNavigationItems() {
         isActive={router.pathname === '/messages'}
         toolTip="Messages"
       >
-        <MessageIcon isActive={router.pathname === '/messages'} size={33} />
+        <div>
+          <MessageIcon isActive={router.pathname === '/messages'} size={33} />
+          {unseen > 0 ? (
+            <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-green-600">
+              <span className="text-white text-sm">{unseen}</span>
+            </div>
+          ) : null}
+        </div>
       </NavigationItem>
     </ul>
   );

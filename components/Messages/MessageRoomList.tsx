@@ -14,6 +14,7 @@ import debounce from '@/libs/debounce';
 import MessageRoom from './MessageRoom';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { MessageRoomType } from '@/utilities/messages/MessagesTypes';
+import { useMessages } from '@/context/messageContext';
 
 type Props = {
   setReceiver: (user: any) => void;
@@ -34,6 +35,7 @@ const MessageRoomList = ({
 }: Props) => {
   const router = useRouter();
   const { userData } = useAuth();
+  const { updateCurrentMessageRoom } = useMessages();
   const [query, setQuery] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -49,6 +51,22 @@ const MessageRoomList = ({
     router.push('/people');
   };
 
+  const updateUnseenMessageCount = async (room: any) => {
+    try {
+      await db
+        .collection('messageRooms')
+        .doc(room.docId)
+        .update({
+          unseen: {
+            ...room.unseen,
+            [userData.uid]: 0,
+          },
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const clickHandler = (room: any) => {
     setReceiver({
       name: room.receiver[userData.uid].name,
@@ -58,6 +76,8 @@ const MessageRoomList = ({
     });
     setMessageRoomId(room.docId);
     setShowMsgContainer(true);
+    updateCurrentMessageRoom(room);
+    updateUnseenMessageCount(room);
   };
 
   const messageRoomsComponent = messageRooms.map((room: any, index: number) => {
@@ -70,6 +90,8 @@ const MessageRoomList = ({
           receiverUid={room.receiver[userData.uid].uid}
           lastMessage={room.lastMessage}
           updatedAt={room.updatedAt}
+          unseen={room.unerad}
+          noOfUnseen={room.noOfUnseen}
           onClick={() => {
             clickHandler(room);
           }}

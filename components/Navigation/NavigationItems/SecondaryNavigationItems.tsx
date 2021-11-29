@@ -4,11 +4,13 @@ import Image from 'next/image';
 import localforage from 'localforage';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
+import { useNotication } from '../../../context/notificationContext';
 import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
 import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
 
 export default function SecondaryNavigationItems() {
   const { userData } = useAuth();
+  const { unseen } = useNotication();
   const router = useRouter();
   const [isUser, setIsUser] = useState(true);
 
@@ -33,10 +35,17 @@ export default function SecondaryNavigationItems() {
             isActive={router.pathname === '/notification'}
             toolTip="Notification"
           >
-            <NotificationIcon
-              isActive={router.pathname === '/notification'}
-              size={36}
-            />
+            <div>
+              <NotificationIcon
+                isActive={router.pathname === '/notification'}
+                size={36}
+              />
+              {unseen > 0 ? (
+                <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-green-600">
+                  <span className="text-gray-50 text-sm">{unseen}</span>
+                </div>
+              ) : null}
+            </div>
           </NavigationItem>
           <NavigationItem
             href={`/profile/${userData.username}`}

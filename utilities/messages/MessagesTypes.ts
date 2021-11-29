@@ -22,4 +22,6 @@ export interface MessageRoomType {
   lastMessage: string;
   type: 'direct';
   docId: string;
+  unseen: any;
+  noOfUnseen?: number;
 }

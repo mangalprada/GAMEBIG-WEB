@@ -9,6 +9,7 @@ import Layout from '../hoc/Layout/Layout';
 import { AuthProvider } from '../context/authContext';
 import { UIProvider } from '@/context/uiContext';
 import { NotificationProvider } from '@/context/notificationContext';
+import { MessagesProvider } from '@/context/messageContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -35,9 +36,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <UIProvider>
       <AuthProvider>
         <NotificationProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <MessagesProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MessagesProvider>
         </NotificationProvider>
       </AuthProvider>
     </UIProvider>

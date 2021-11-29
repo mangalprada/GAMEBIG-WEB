@@ -1,3 +1,4 @@
+import { useAuth } from '@/context/authContext';
 import { getDecoratedTime } from '@/utilities/functions/dateConvert';
 import Image from 'next/image';
 
@@ -7,8 +8,10 @@ type Props = {
   receiverUsername: string;
   receiverUid: string;
   lastMessage?: string;
+  unseen: any;
   updatedAt: any;
   onClick: (user: any) => void;
+  noOfUnseen: number;
 };
 
 const MessageRoom = ({
@@ -19,12 +22,20 @@ const MessageRoom = ({
   lastMessage,
   updatedAt,
   onClick,
+  noOfUnseen,
 }: Props) => {
   const name =
     receiverName && receiverName.length > 18
       ? `${receiverName.slice(0, 18)}...`
       : receiverName;
-  const time = getDecoratedTime(updatedAt.toDate().toISOString());
+  const getTime = () => {
+    try {
+      return getDecoratedTime(updatedAt.toDate().toISOString());
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  };
 
   return (
     <div
@@ -53,11 +64,22 @@ const MessageRoom = ({
       <div className="flex flex-col w-full pr-2">
         <div className="flex justify-between items-center">
           <span className="text-lg  font-semibold">{name}</span>
-          <span className="text-sm text-gray-400 text-right">{time}</span>
+          <span className="text-sm text-gray-400 text-right">{getTime()}</span>
         </div>
-        {lastMessage && (
-          <h1 className="text-base font-medium text-gray-500">{lastMessage}</h1>
-        )}
+        <div className="flex justify-between items-center">
+          {lastMessage && (
+            <h1 className="text-base font-medium text-gray-500">
+              {lastMessage}
+            </h1>
+          )}
+          {noOfUnseen > 0 && (
+            <div className="flex justify-center items-center rounded-full h-6 w-6 bg-green-600">
+              <span className="text-gray-50 text-sm font-bold font-sans">
+                {noOfUnseen}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

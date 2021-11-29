@@ -5,23 +5,38 @@ import { updateFcmToken } from '@/libs/user';
 import { useAuth } from './authContext';
 import { Notification } from '@/utilities/notification/type';
 
-const notificationContext = createContext({ notices: [] as Notification[] });
+const notificationContext = createContext({
+  notices: [] as Notification[],
+  unseen: 0,
+});
 
 function useProviderNotification() {
   const { userData } = useAuth();
   const [notices, setNotices] = useState<Notification[]>([]);
+  const [unseen, setUnseen] = useState<number>(0);
 
   const fetchNotices = () => {
-    db.collection('users')
-      .doc(userData.uid)
-      .collection('notifications')
-      .onSnapshot((snapshots) => {
-        const tempNotices: Notification[] = [];
-        snapshots.forEach((doc) => {
-          tempNotices.push(doc.data() as Notification);
+    try {
+      db.collection('users')
+        .doc(userData.uid)
+        .collection('notifications')
+        .onSnapshot((snapshots) => {
+          const tempNotices: Notification[] = [];
+          let tempUnseen = 0;
+          snapshots.forEach((doc) => {
+            const notice = doc.data() as Notification;
+            const { isSeen } = notice;
+            if (!isSeen) {
+              tempUnseen += 1;
+            }
+            tempNotices.push({ ...notice, docId: doc.id });
+          });
+          setNotices(tempNotices);
+          setUnseen(tempUnseen);
         });
-        setNotices(tempNotices);
-      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -31,14 +46,11 @@ function useProviderNotification() {
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('./firebase-messaging-sw.js')
-        .then(function (registration) {
-          console.log('Registration successful, scope is:', registration.scope);
-        })
-        .catch(function (err) {
-          console.log('Service worker registration failed, error:', err);
-        });
+      try {
+        navigator.serviceWorker.register('./firebase-messaging-sw.js');
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, []);
 
@@ -77,7 +89,7 @@ function useProviderNotification() {
       console.log('error in fcm setup', err);
     }
   }, [userData.fcmToken, userData.uid]);
-  return { notices };
+  return { notices, unseen };
 }
 
 type Props = {

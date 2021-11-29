@@ -1,7 +1,7 @@
 export interface Notification {
-  docId?: string;
+  docId: string;
   message: string;
   data?: string;
   type: string;
-  isRead: boolean;
+  isSeen: boolean;
 }

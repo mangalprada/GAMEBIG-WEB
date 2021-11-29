@@ -16,7 +16,7 @@ export const notifyUser = async ({ data, uid, message, type }: Props) => {
         data: data || null,
         message,
         type,
-        isRead: false,
+        isSeen: false,
       });
   } catch (err) {
     console.error('notifyUser', err);

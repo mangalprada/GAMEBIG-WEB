@@ -64,5 +64,3 @@ const MessageRoom = ({
 };
 
 export default MessageRoom;
-
-//todo: show time of last message

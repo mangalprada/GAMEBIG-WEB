@@ -1,17 +1,35 @@
-import React, { useEffect, useState, useContext, createContext } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import localforage from 'localforage';
 import firebase, { db } from '../firebase/firebaseClient';
 import { updateFcmToken } from '@/libs/user';
+import { useAuth } from './authContext';
+import { Notification } from '@/utilities/notification/type';
 
-type LocalUser = {
-  uid: string;
-  username: string;
-} | null;
-
-const notificationContext = createContext({ notices: [] });
+const notificationContext = createContext({ notices: [] as Notification[] });
 
 function useProviderNotification() {
-  const [notices, setNotices] = useState<any>([]);
+  const { userData } = useAuth();
+  const [notices, setNotices] = useState<Notification[]>([]);
+
+  const fetchNotices = () => {
+    db.collection('users')
+      .doc(userData.uid)
+      .collection('notifications')
+      .get()
+      .then((snapshots) => {
+        const tempNotices: Notification[] = [];
+        snapshots.forEach((doc) => {
+          tempNotices.push(doc.data() as Notification);
+        });
+        setNotices(tempNotices);
+      });
+  };
+
+  useEffect(() => {
+    if (userData.uid) fetchNotices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData.uid]);
+
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -34,33 +52,32 @@ function useProviderNotification() {
             vapidKey: process.env.FIREBASE_MESSAGING_VAPID_KEY,
           })
           .then(async (token) => {
-            const currentToken = await localforage.getItem('fcmToken');
-            const user: LocalUser = await localforage.getItem('user');
-            if (token !== currentToken) {
+            const oldToken = await localforage.getItem('fcmToken');
+            if (token !== oldToken) {
               localforage.setItem('fcmToken', token);
-              if (user) updateFcmToken(user.uid, token);
+            }
+            if (userData.fcmToken !== token) {
+              updateFcmToken(userData.uid, token);
             }
           })
           .catch((err) => {
-            console.log('error', err);
+            console.log('error getting fcm token', err);
           });
       getToken();
-      navigator.serviceWorker.addEventListener('message', (message) => {
+      navigator.serviceWorker.addEventListener('message', async (message) => {
         const data = message.data['firebase-messaging-msg-data'];
+        console.log({ data });
+
         if (data) {
-          let notices = [];
-          let stringifiedNotices = localStorage.getItem('notices');
-          if (stringifiedNotices) {
-            notices = JSON.parse(stringifiedNotices);
-          }
-          notices.unshift(data);
-          localStorage.setItem('notices', JSON.stringify(notices));
+          const oldNotices: any = await localforage.getItem('notices');
+          const notices = oldNotices ? [data, ...oldNotices] : [data];
+          localforage.setItem('notices', notices);
         }
       });
     } catch (err) {
-      console.log('error', err);
+      console.log('error in fcm setup', err);
     }
-  }, []);
+  }, [userData.fcmToken, userData.uid]);
   return { notices };
 }
 
@@ -75,4 +92,8 @@ export const NotificationProvider = ({ children }: Props) => {
       {children}
     </notificationContext.Provider>
   );
+};
+
+export const useNotication = () => {
+  return useContext(notificationContext);
 };

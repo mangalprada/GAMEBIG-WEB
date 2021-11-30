@@ -142,8 +142,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: { userData, savedGames },
     };
   } catch (err) {
-    // context.res.writeHead(302, { Location: '/auth' });
-    // context.res.end();
+    context.res.writeHead(302, { Location: '/auth' });
+    context.res.end();
     console.log('Error getting server side props:', err);
     return { props: {} as never };
   }

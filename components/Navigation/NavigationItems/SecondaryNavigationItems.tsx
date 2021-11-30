@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import localforage from 'localforage';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
 import { useNotication } from '../../../context/notificationContext';

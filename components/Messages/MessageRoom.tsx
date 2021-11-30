@@ -1,6 +1,6 @@
-import { useAuth } from '@/context/authContext';
 import { getDecoratedTime } from '@/utilities/functions/dateConvert';
 import Image from 'next/image';
+import ProfileIcon from '../UI/Icons/NavIcons/ProfileIcon';
 
 type Props = {
   receiverPhotoURL: string;
@@ -62,9 +62,7 @@ const MessageRoom = ({
             className="rounded-full"
           />
         ) : (
-          <span className="text-center tracking-wide text-gray-200 font-medium">
-            No Pic
-          </span>
+          <ProfileIcon isActive={false} size={36} />
         )}
       </div>
       <div className="flex flex-col w-full pr-2">

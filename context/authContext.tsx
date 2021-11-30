@@ -55,6 +55,7 @@ function useProviderAuth() {
         const temp = {
           name: displayName,
           uid,
+          photoURL,
         } as UserData;
         setUserData(temp);
         setAuthPageNumber(2);

@@ -130,7 +130,7 @@ function BottomNavigationBar() {
                     size={30}
                   />
                   {unseen > 0 ? (
-                    <div className="fixed mt-[-1.4rem] ml-[1.2rem] rounded-full h-5 w-5 bg-green-600 px-0.5">
+                    <div className="fixed mt-[-1.4rem] ml-[1.2rem] rounded-full h-5 w-5 bg-red-500 px-0.5">
                       <span className="text-gray-50 text-sm font-semibold m-auto">
                         {unseen}
                       </span>

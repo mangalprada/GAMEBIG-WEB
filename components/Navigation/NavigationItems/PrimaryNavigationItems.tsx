@@ -66,7 +66,7 @@ export default function PrimaryNavigationItems() {
         <div>
           <MessageIcon isActive={router.pathname === '/messages'} size={33} />
           {unseen > 0 ? (
-            <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-green-600">
+            <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">
               <span className="text-white text-sm">{unseen}</span>
             </div>
           ) : null}

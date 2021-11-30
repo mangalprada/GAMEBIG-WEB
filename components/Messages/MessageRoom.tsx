@@ -53,13 +53,19 @@ const MessageRoom = ({
       }
     >
       <div className="relative h-12 w-14 ">
-        <Image
-          src={receiverPhotoURL}
-          alt="Picture of a friend"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-full"
-        />
+        {receiverPhotoURL ? (
+          <Image
+            src={receiverPhotoURL}
+            alt="Picture of a friend"
+            layout="fill"
+            objectFit="cover"
+            className="rounded-full"
+          />
+        ) : (
+          <span className="text-center tracking-wide text-gray-200 font-medium">
+            No Pic
+          </span>
+        )}
       </div>
       <div className="flex flex-col w-full pr-2">
         <div className="flex justify-between items-center">
@@ -73,7 +79,7 @@ const MessageRoom = ({
             </h1>
           )}
           {noOfUnseen > 0 && (
-            <div className="flex justify-center items-center rounded-full h-6 w-6 bg-green-600">
+            <div className="flex justify-center items-center rounded-full h-6 w-6 bg-indigo-600">
               <span className="text-gray-50 text-sm font-bold font-sans">
                 {noOfUnseen}
               </span>

@@ -19,10 +19,11 @@ export default function Home() {
   return (
     <Aux>
       <Head>
-        <title>Authentication</title>
+        <title>SignIn/SignUp</title>
         <meta
           name="description"
           content="Join GameBig today by signing up. Participate in exciting gaming events."
+          key="desc"
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />

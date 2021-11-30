@@ -44,20 +44,33 @@ export default function Event({ pageId, eventData }: Props) {
     }
   }, [eventData.id, uid]);
 
-  const unregisterHandler = () => {
-    db.collection('events')
-      .doc(eventData.id)
-      .collection('teams')
-      .doc(teamId)
-      .delete();
-    router.push('/');
-  };
+  // const unregisterHandler = () => {
+  //   db.collection('events')
+  //     .doc(eventData.id)
+  //     .collection('teams')
+  //     .doc(teamId)
+  //     .delete();
+  //   router.push('/');
+  // };
 
   return (
     <Aux>
       <Head>
         <title>Event</title>
-        <meta name="description" content="Details and Registeration" />
+        <meta
+          name="description"
+          content="Details and Registration"
+          key="desc"
+        />
+
+        {/* OG meta */}
+        <meta property="og:title" content="Event" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content="Check this event on GameBig and register now!"
+        />
+
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import EventCard from '../components/Event/EventCard/EventCard';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { fetchAllEventData } from '../libs/getAllEvents';
 import { EventData } from '../utilities/eventItem/types';
 import MultiSelect from '@/components/UI/Select/MultiSelect';
-import { MODES, ModesOnly, SCREAMS, ScreamsOnly } from '../assets/data/Utils';
 import { GAMES, GameCodesOnly } from 'assets/data/Games';
 import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
@@ -17,20 +16,14 @@ interface Props {
   events: EventData[];
 }
 
-export default function Home({ events: eventsFromProps }: Props) {
+const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
   const [events, setEvents] = useState(eventsFromProps);
   const [selectedGames, setSelectedGames] = useState<any>([]);
-  const [selectedModes, setSelectedModes] = useState<any>([]);
-  const [selectedTiers, setSelectedTiers] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFilter = async () => {
     const games = selectedGames.length === 0 ? GameCodesOnly : selectedGames;
-    const modes = selectedModes.length === 0 ? ModesOnly : selectedModes;
-    const tiers = selectedTiers.length === 0 ? ScreamsOnly : selectedTiers;
     const query = db.collection('events').where('gameCode', 'in', games);
-    // .where('mode', 'in', modes)
-    // .where('tier', 'in', tiers);
     let eventData = [] as EventData[];
     try {
       const querySnapshot = await query.get();
@@ -85,8 +78,22 @@ export default function Home({ events: eventsFromProps }: Props) {
         <title>Home</title>
         <meta
           name="description"
-          content="Upcoming Esports Events in COD, BGMI and FreeFire. Interested players can register instantly for custom rooms and events."
+          content={
+            'Upcoming Esports Events in COD, BGMI and FreeFire. ' +
+            'Interested players can register instantly for custom rooms and events.'
+          }
+          key="desc"
         />
+
+        {/* OG meta */}
+        <meta property="og:title" content="Welcome to GameBig" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:description"
+          content="Join GameBig to connect and play with awsome gamers, just like you!"
+        />
+        <meta property="og-url" content="https://www.gamebig.in" />
+
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
@@ -127,38 +134,6 @@ export default function Home({ events: eventsFromProps }: Props) {
               }}
               items={GAMES}
             />
-            {/* <MultiSelect
-                label="Mode"
-                name="mode"
-                propToShow="name"
-                values={selectedModes}
-                handleChange={(item) => {
-                  if (selectedModes.includes(item.name)) {
-                    setSelectedModes(
-                      selectedModes.filter((i: string) => i !== item.name)
-                    );
-                  } else {
-                    setSelectedModes([...selectedModes, item.name]);
-                  }
-                }}
-                items={MODES}
-              />
-              <MultiSelect
-                label="Tier"
-                name="tier"
-                values={selectedTiers}
-                propToShow="name"
-                handleChange={(item) => {
-                  if (selectedTiers.includes(item.name)) {
-                    setSelectedTiers(
-                      selectedTiers.filter((i: string) => i !== item.name)
-                    );
-                  } else {
-                    setSelectedTiers([...selectedTiers, item.name]);
-                  }
-                }}
-                items={SCREAMS}
-              /> */}
           </div>
           <section className="flex justify-end w-3/4 md:w-2/3 mx-auto">
             <FixedButton name="Apply" onClick={handleFilter} />
@@ -167,7 +142,9 @@ export default function Home({ events: eventsFromProps }: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const events = await fetchAllEventData();

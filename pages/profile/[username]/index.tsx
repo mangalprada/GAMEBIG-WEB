@@ -68,7 +68,11 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
     <div>
       <Head>
         <title>Profile</title>
-        <meta name="description" content={`${userData.name}'s Profile`} key="desc" />
+        <meta
+          name="description"
+          content={`${userData.name}'s Profile`}
+          key="desc"
+        />
 
         {/* OG meta */}
         <meta property="og:title" content="Profile" />
@@ -138,8 +142,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: { userData, savedGames },
     };
   } catch (err) {
-    context.res.writeHead(302, { Location: '/auth' });
-    context.res.end();
+    // context.res.writeHead(302, { Location: '/auth' });
+    // context.res.end();
     console.log('Error getting server side props:', err);
     return { props: {} as never };
   }

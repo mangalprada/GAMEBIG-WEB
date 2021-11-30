@@ -35,13 +35,7 @@ const People = ({ users }: Props) => {
           }
         >
           {users.map((user) => (
-            <ProfileCard
-              name={user.name}
-              username={user.username}
-              photoURL={user.photoURL}
-              uid={user.uid}
-              key={user.uid}
-            />
+            <ProfileCard user={user} key={user.uid} />
           ))}
         </div>
       </Aux>

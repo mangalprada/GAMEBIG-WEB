@@ -6,45 +6,46 @@ import { useUI } from '@/context/uiContext';
 import { follow, isFollowing } from '../../libs/follow';
 import FollowButton from '../UI/Buttons/FollowButton';
 import ProfileIcon from '../UI/Icons/NavIcons/ProfileIcon';
+import { UserData } from '@/utilities/types';
 
 type Props = {
-  photoURL: string | undefined | null;
-  name: string | undefined;
-  username: string;
-  uid: string;
+  user: UserData;
 };
 
-const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
+const ProfileCard: FC<Props> = ({ user }) => {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
   const router = useRouter();
   const [following, setFollowing] = useState<boolean>(false);
 
-  const fullName = name && name.length > 15 ? name.slice(0, 15) + '...' : name;
+  const fullName =
+    user.name && user.name.length > 15
+      ? user.name.slice(0, 15) + '...'
+      : user.name;
 
   useEffect(() => {
     const checkFollowing = async () => {
-      const val = await isFollowing(userData.uid, uid);
+      const val = await isFollowing(userData.uid, user.uid);
       setFollowing(val);
     };
     if (userData.uid) {
       checkFollowing();
     }
-  }, [uid, userData.uid]);
+  }, [user.uid, userData.uid]);
 
   function handleFollow() {
     follow({
       follower: {
-        name: userData.name as string,
+        name: userData.name,
         photoURL: userData.photoURL ? userData.photoURL : null,
         username: userData.username,
         uid: userData.uid,
       },
       followee: {
-        photoURL: photoURL ? photoURL : null,
-        username,
-        name: name as string,
-        uid: uid as string,
+        photoURL: user.photoURL ? user.photoURL : null,
+        username: user.username,
+        name: user.name,
+        uid: user.uid,
       },
     });
     openSnackBar({
@@ -56,7 +57,7 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
   }
 
   function onProfileCardClick() {
-    router.push(`/profile/${username}`);
+    router.push(`/profile/${user.username}`);
   }
 
   return (
@@ -67,10 +68,10 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
       }
     >
       {/** Profile Pic */}
-      {photoURL ? (
+      {user.photoURL ? (
         <section className="mb-3 h-20 w-20 md:h-40 md:w-40 relative mx-auto">
           <Image
-            src={photoURL}
+            src={user.photoURL}
             alt="Profile Picture"
             layout="fill"
             objectFit="contain"
@@ -98,12 +99,12 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
           className={
             'text-gray-200 hover:underline sm:text-lg text-sm font-semibold'
           }
-          title={name}
+          title={user.name}
         >
-          {name ? fullName : 'NA'}
+          {user.name ? fullName : 'NA'}
         </span>
         <span className="text-gray-400 text-xs sm:text-base font-medium">
-          @{username}
+          @{user.username}
         </span>
       </section>
 

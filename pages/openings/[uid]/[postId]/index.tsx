@@ -78,10 +78,12 @@ export default function Home() {
             >
               {joinees.map((joinee) => (
                 <ProfileCard
-                  name={joinee.name}
-                  photoURL={joinee.photoURL}
-                  uid={joinee.uid}
-                  username={joinee.username}
+                  user={{
+                    name: joinee.name,
+                    uid: joinee.uid,
+                    photoURL: joinee.photoURL || '',
+                    username: joinee.username,
+                  }}
                   key={joinee.uid}
                 />
               ))}

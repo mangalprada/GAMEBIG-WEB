@@ -73,7 +73,9 @@ const MessageRoom = ({
         <div className="flex justify-between items-center">
           {lastMessage && (
             <h1 className="text-base font-medium text-gray-500">
-              {lastMessage}
+              {lastMessage.length > 15
+                ? `${lastMessage.slice(0, 15)}...`
+                : lastMessage}
             </h1>
           )}
           {noOfUnseen > 0 && (

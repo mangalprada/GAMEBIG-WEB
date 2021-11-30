@@ -8,7 +8,7 @@ import FollowButton from '../UI/Buttons/FollowButton';
 import ProfileIcon from '../UI/Icons/NavIcons/ProfileIcon';
 
 type Props = {
-  photoURL: string | undefined;
+  photoURL: string | undefined | null;
   name: string | undefined;
   username: string;
   uid: string;
@@ -36,12 +36,12 @@ const ProfileCard: FC<Props> = ({ photoURL, username, uid, name }) => {
     follow({
       follower: {
         name: userData.name as string,
-        photoURL: userData.photoURL as string,
+        photoURL: userData.photoURL ? userData.photoURL : null,
         username: userData.username,
         uid: userData.uid,
       },
       followee: {
-        photoURL: photoURL as string,
+        photoURL: photoURL ? photoURL : null,
         username,
         name: name as string,
         uid: uid as string,

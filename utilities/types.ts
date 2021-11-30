@@ -11,7 +11,7 @@ export interface BasicUserType {
   uid: string;
   username: string;
   name?: string;
-  photoURL?: string | undefined;
+  photoURL?: string | undefined | null;
 }
 
 export interface UserData {
@@ -50,7 +50,7 @@ export interface GamerData {
   kills?: string | undefined;
   about?: string | undefined;
   name?: string | undefined;
-  photoURL?: string | undefined;
+  photoURL?: string | undefined | null;
 }
 export interface TeamType {
   teamName: string;

@@ -50,15 +50,19 @@ export default function Post({ data }: Props) {
         'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans px-5 py-5 ' +
         'bg-gray-900 rounded-lg my-2'
       }
-      onClick={handleCardClick}
     >
-      <div className="flex items-center justify-between px-3 mb-5 rounded-lg border-2 border-gray-800 ">
+      <div
+        className={
+          'flex items-center justify-between px-3 mb-5 py-1 ' +
+          'rounded-lg border-2 border-gray-800 '
+        }
+      >
         <section
           className="flex gap-3 items-center justify-start "
           onClick={(e) => openProfile(e)}
         >
           {data.photoURL ? (
-            <div className="relative h-10 w-10 md:h-14 md:w-14 cursor-pointer">
+            <div className="relative h-10 w-10 md:h-12 md:w-12 cursor-pointer">
               <Image
                 src={data.photoURL}
                 alt="Picture"
@@ -100,6 +104,7 @@ export default function Post({ data }: Props) {
           'grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 mt-8 gap-5 ' +
           'cursor-pointer bg-black/30 hover:bg-black/50 px-6 py-3 rounded-md'
         }
+        onClick={handleCardClick}
       >
         <section className="flex flex-col">
           <span className="font-semibold text-gray-500 text-sm">Game</span>
@@ -113,6 +118,24 @@ export default function Post({ data }: Props) {
             {data.mode}
           </span>
         </section>
+        {data.perspective ? (
+          <section className="flex flex-col">
+            <span className="font-semibold text-gray-500 text-sm">
+              Perspective
+            </span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.perspective}
+            </span>
+          </section>
+        ) : null}
+        {data.tier ? (
+          <section className="flex flex-col">
+            <span className="font-semibold text-gray-500 text-sm">Tier</span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.tier}
+            </span>
+          </section>
+        ) : null}
         <section className="flex flex-col">
           <span className="font-semibold text-gray-500 text-sm">K/D</span>
           <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
@@ -135,7 +158,7 @@ export default function Post({ data }: Props) {
         </section>
         <section className="flex flex-col">
           <span className="font-semibold text-gray-500 text-sm">
-            Experience(in Years)
+            Experience
           </span>
           <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
             {data.experience}
@@ -154,6 +177,16 @@ export default function Post({ data }: Props) {
             <span className="font-semibold text-gray-500 text-sm">Purpose</span>
             <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
               {data.purpose}
+            </span>
+          </section>
+        ) : null}
+        {data.timeAvailability ? (
+          <section className="flex col-span-2 flex-col">
+            <span className="font-semibold text-gray-500 text-sm">
+              Time Avl.
+            </span>
+            <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
+              {data.timeAvailability}
             </span>
           </section>
         ) : null}

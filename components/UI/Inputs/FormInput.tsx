@@ -1,3 +1,4 @@
+import { FormikErrors } from 'formik';
 import { FC, ChangeEvent } from 'react';
 
 type Props = {
@@ -13,7 +14,12 @@ type Props = {
   };
   isDisabled?: boolean;
   error?: boolean;
-  errorMessage?: string | undefined;
+  errorMessage?:
+    | string
+    | string[]
+    | undefined
+    | FormikErrors<any>
+    | FormikErrors<any>[];
 };
 
 const FormInput: FC<Props> = ({

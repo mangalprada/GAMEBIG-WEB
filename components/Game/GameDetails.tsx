@@ -11,6 +11,8 @@ import { saveGamerData } from '@/libs/gamerData';
 import router from 'next/router';
 import { useAuth } from '@/context/authContext';
 import { useUI } from '@/context/uiContext';
+import { addGamesforms } from '@/utilities/AddGameForm';
+import SelectDropDown from '../UI/Select/SelectDropDown';
 
 type Props = {
   updatePage: (page: number) => void;
@@ -27,16 +29,6 @@ const GameDetails: FC<Props> = ({
   gameData,
   closeModal,
 }) => {
-  const initialValues = {
-    inGameId: '',
-    inGameName: '',
-    kd: '',
-    highestTier: '',
-    damage: '',
-    kills: '',
-    about: '',
-  };
-
   const {
     userData: { username, uid },
   } = useAuth();
@@ -44,7 +36,7 @@ const GameDetails: FC<Props> = ({
   const { openSnackBar } = useUI();
 
   const formik = useFormik({
-    initialValues: { ...initialValues, ...gameData },
+    initialValues: { ...addGamesforms[gameCode].initialValues, ...gameData },
     onSubmit: (values) => {
       saveGamerData(values, gameCode, uid);
     },
@@ -65,6 +57,50 @@ const GameDetails: FC<Props> = ({
       message: 'Game data saved successfully!',
     });
   }
+
+  const formInputComponents = addGamesforms[gameCode].forms.map(
+    (input: Record<string, any>, index: number) => {
+      switch (input.formType) {
+        case 'formInput':
+          return (
+            <section key={index.toString()}>
+              <FormInput
+                labelName={input.labelName}
+                name={input.name}
+                value={formik.values[input.name]}
+                onChangeHandler={formik.handleChange}
+                placeHolder={input.placeholder}
+              />
+            </section>
+          );
+        case 'textArea':
+          return (
+            <section key={index.toString()} className="sm:col-span-2">
+              <TextArea
+                labelName={input.labelName}
+                placeHolder={input.placeholder}
+                name={input.name}
+                value={formik.values[input.name]}
+                onChangeHandler={formik.handleChange}
+              />
+            </section>
+          );
+        case 'dropDown':
+          return (
+            <section key={index.toString()}>
+              <SelectDropDown
+                label={input.labelName}
+                menuItems={input.dropDownOptions}
+                name={input.name}
+                handleChange={(item) => formik.setFieldValue(input.name, item)}
+              />
+            </section>
+          );
+        default:
+          return <></>;
+      }
+    }
+  );
 
   return (
     <div className="relative w-11/12 mx-auto mb-10">
@@ -92,58 +128,7 @@ const GameDetails: FC<Props> = ({
           Fill the details below and let others know how cool you are 😎
         </p>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:gap-x-10 gap-x-5">
-          <FormInput
-            labelName="In Game ID [REQUIRED]"
-            name="inGameId"
-            value={formik.values.inGameId}
-            onChangeHandler={formik.handleChange}
-          />
-          <FormInput
-            labelName="In Game Name [REQUIRED]"
-            name="inGameName"
-            value={formik.values.inGameName}
-            onChangeHandler={formik.handleChange}
-          />
-          <FormInput
-            labelName="K/D [OPTIONAL]"
-            name="kd"
-            placeHolder="3.2"
-            value={formik.values.kd}
-            onChangeHandler={formik.handleChange}
-          />
-          <FormInput
-            labelName="Highest Tier Reached [OPTIONAL]"
-            name="highestTier"
-            value={formik.values.highestTier}
-            onChangeHandler={formik.handleChange}
-          />
-          <FormInput
-            labelName="Highest Damage [OPTIONAL]"
-            name="damage"
-            placeHolder="1234"
-            value={formik.values.damage}
-            onChangeHandler={formik.handleChange}
-          />
-          <FormInput
-            labelName="Highest Kills [OPTIONAL]"
-            name="kills"
-            placeHolder="10"
-            value={formik.values.kills}
-            onChangeHandler={formik.handleChange}
-          />
-          <div className="sm:col-span-2">
-            <TextArea
-              labelName="Your achievements / speciality"
-              placeHolder={
-                'e.g -\n' +
-                "I'm a Sniperer with decent mid-combat skills and excellent in throwables." +
-                '\nOwn 2019 PUBGM global championship squad mode, by playing with Awsome Esports.'
-              }
-              name="about"
-              value={formik.values.about}
-              onChangeHandler={formik.handleChange}
-            />
-          </div>
+          {formInputComponents}
         </section>
       </div>
 

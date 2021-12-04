@@ -6,6 +6,8 @@ export type TeamUpPost = {
   photoURL: string | undefined;
   gameCode: string | undefined;
   mode: string | undefined;
+  perspective?: string | undefined;
+  tier?: string | undefined;
   kd: string | undefined;
   averageDamage: string | undefined;
   age: string | undefined;

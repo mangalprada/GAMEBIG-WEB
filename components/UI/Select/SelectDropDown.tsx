@@ -52,7 +52,7 @@ export default function SelectDropDown({
     </li>
   ));
   return (
-    <div className="relative w-1/2">
+    <div className="relative">
       <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
         {label}
       </label>

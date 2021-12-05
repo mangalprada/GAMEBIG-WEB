@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import PageHeader from '../../../../components/Page/PageHeader/PageHeader';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
@@ -9,6 +10,9 @@ import { GetServerSideProps } from 'next';
 import { fetchPageData } from '../../../../libs/fetchPageData';
 import { fetchEventsDataByPageId } from '../../../../libs/getAllEvents';
 import { EventData } from '../../../../utilities/eventItem/types';
+import CreateEventForm from '../../../../components/Event/CreateEvent/CreateEventForm';
+import Modal from '@/components/UI/Modal/Modal';
+import SelectGame from '@/components/Game/SelectGame';
 
 interface Props {
   pageData: PageFormData | undefined;
@@ -16,6 +20,19 @@ interface Props {
 }
 
 export default function Events({ pageData, events }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const [gameCode, setGameCode] = useState('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setPageNumber(1);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
   const hostedEvents = events.map((eventItem: EventData) => (
     <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
   ));
@@ -48,13 +65,29 @@ export default function Events({ pageData, events }: Props) {
         <>
           <PageHeader data={pageData} />
           {pageData.id && pageData.category === 'organizer' ? (
-            <CreateEventButton pageId={pageData.id} />
+            <CreateEventButton onClick={openModal} />
           ) : null}
           {events.length === 0 ? emptyEventsComponent : hostedEvents}
         </>
       ) : (
         <div>Network Error</div>
       )}
+      <Modal isOpen={isModalOpen} closeModal={closeModal}>
+        <div>
+          {
+            {
+              1: (
+                <SelectGame
+                  updatePage={(pageNumber) => setPageNumber(pageNumber)}
+                  setGame={setGameCode}
+                  gameCode={gameCode}
+                />
+              ),
+              2: <CreateEventForm onCancel={closeModal} gameCode={gameCode} />,
+            }[pageNumber]
+          }
+        </div>
+      </Modal>
     </Aux>
   );
 }

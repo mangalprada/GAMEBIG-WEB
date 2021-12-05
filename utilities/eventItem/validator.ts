@@ -5,7 +5,7 @@ export const validationSchema = yup.object({
   mode: yup.string(),
   type: yup.string(),
   tier: yup.string(),
-  noOfSlots: yup.number(),
+  noOfSlots: yup.number().moreThan(1),
   startTime: yup.date(),
   description: yup.string(),
   // .required('Write a small description about this match'),

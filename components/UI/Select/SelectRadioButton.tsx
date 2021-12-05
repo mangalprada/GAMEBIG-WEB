@@ -3,8 +3,8 @@ interface Props {
   name: string;
   label: string;
   value: string;
-  items: { id: string; name: string }[];
-  handleChange: (item: { id: string; name: string }) => void;
+  items: string[];
+  handleChange: (item: string) => void;
 }
 
 export default function SelectRadioButton({
@@ -16,16 +16,16 @@ export default function SelectRadioButton({
 }: Props) {
   const listItems = items.map((item) => (
     <li
-      key={item.id}
+      key={item}
       className={
         'flex justify-between w-full md:w-1/2 p-3.5 my-2 ml-0 rounded-md cursor-pointer ' +
         'text-base text-gray-300 font-sans font-semibold ' +
-        (item.name === value ? 'bg-green-500' : 'bg-gray-700')
+        (item === value ? 'bg-green-500' : 'bg-gray-700')
       }
       onMouseDown={() => handleChange(item)}
     >
-      {item.name}
-      {item.name === value ? <CheckCircle /> : null}
+      {item}
+      {item === value ? <CheckCircle /> : null}
     </li>
   ));
 

@@ -1,56 +1,88 @@
-import { useState } from 'react';
-import router from 'next/router';
 import { useFormik } from 'formik';
 import TimeDatePicker from '@/components/UI/Picker/TimeDatePicker';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { GAMES } from '../../../assets/data/Games';
-import { MODES, SCREAMS } from '../../../assets/data/Utils';
-import SelectDropDown from '@/components/UI/Select/SelectDropDown';
 import SelectRadioButton from '@/components/UI/Select/SelectRadioButton';
 import SliderSelect from '@/components/UI/Slider/SliderSelect';
+import { HostEventForm } from '@/utilities/HostEventForm';
 import { addNewEvent } from '@/libs/createEvent';
 import { useAuth } from '@/context/authContext';
-import FixedButton from '@/components/UI/Buttons/FixedButton';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import TextArea from '@/components/UI/Inputs/TextArea';
 import { validationSchema } from '@/utilities/eventItem/validator';
 import { EventFormData } from '@/utilities/eventItem/types';
 
-const INITIAL_STATE: EventFormData = {
-  gameCode: 'bgmi-m',
-  mode: 'Squad',
-  type: 'Custom Room',
-  tier: 'T3',
-  noOfSlots: 25,
-  startTime: new Date(),
-  description: '',
-  prize: '',
-};
-
-export default function CreateEventForm() {
+export default function CreateEventForm({
+  onCancel,
+  gameCode,
+}: {
+  onCancel: () => void;
+  gameCode: string;
+}) {
   const {
     userData: { linkedPageId, linkedPageName },
   } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const formik = useFormik({
-    initialValues: INITIAL_STATE,
+    initialValues: HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
-      setIsModalOpen(true);
       if (linkedPageId && linkedPageName) {
-        const tournId = await addNewEvent(linkedPageId, linkedPageName, value);
-        if (tournId) {
-          router.push(`/page/${linkedPageId}/events`);
-        } else {
-          router.push('/404');
-        }
+        const tournId = await addNewEvent(linkedPageId, linkedPageName, {
+          ...value,
+          gameCode,
+        });
+        onCancel();
       }
-      setIsModalOpen(false);
       resetForm();
     },
   });
+
+  const formInputComponents = HostEventForm[formik.values.gameCode].form.map(
+    (input: Record<string, any>, index: number) => {
+      switch (input.formType) {
+        case 'radio':
+          return (
+            <section key={index.toString()}>
+              <SelectRadioButton
+                label={input.labelName}
+                items={input.options}
+                value={formik.values[input.name]}
+                name={input.name}
+                handleChange={(item) => {
+                  formik.setFieldValue(input.name, item);
+                  if (input.name === 'mode') {
+                    formik.setFieldValue('noOfSlots', 1);
+                  }
+                }}
+              />
+            </section>
+          );
+        case 'slider':
+          return (
+            <section key={index.toString()}>
+              <SliderSelect
+                label={input.labelName}
+                name={input.name}
+                value={formik.values[input.name]}
+                min={input.min}
+                max={
+                  formik.values.mode === 'Solo'
+                    ? input.max * 4
+                    : formik.values.mode === 'Duo'
+                    ? input.max * 2
+                    : input.max
+                }
+                onSlide={(e) =>
+                  formik.setFieldValue(input.name, e.target.value)
+                }
+              />
+            </section>
+          );
+        default:
+          return <></>;
+      }
+    }
+  );
 
   return (
     <Aux>
@@ -70,23 +102,10 @@ export default function CreateEventForm() {
           <h6 className="text-white text-2xl font-semibold mt-5 opacity-60">
             Create Custom Room
           </h6>
-          <FixedButton
-            name="Cancel"
-            isDangerous={true}
-            onClick={() => router.back()}
-          />
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-              <SelectDropDown
-                label="Game Name"
-                handleChange={(item) => {
-                  formik.setFieldValue('gameCode', item.id);
-                }}
-                menuItems={GAMES}
-                propToShow="name"
-              />
               <TimeDatePicker
                 name="startTime"
                 error={false}
@@ -95,34 +114,7 @@ export default function CreateEventForm() {
                   formik.setFieldValue('startTime', date);
                 }}
               />
-              <SelectRadioButton
-                label="Game Mode"
-                name="mode"
-                value={formik.values.mode}
-                handleChange={(item) => {
-                  formik.setFieldValue('mode', item.name);
-                }}
-                items={MODES}
-              />
-              <SelectRadioButton
-                label="Tier"
-                name="tier"
-                value={formik.values.tier}
-                handleChange={(item) => {
-                  formik.setFieldValue('tier', item.name);
-                }}
-                items={SCREAMS}
-              />
-              <SliderSelect
-                label="No of Slots"
-                name="noOfSlots"
-                value={formik.values.noOfSlots}
-                min={2}
-                max={formik.values.mode === 'Solo' ? 100 : 25}
-                onSlide={(e) =>
-                  formik.setFieldValue('noOfSlots', e.target.value)
-                }
-              />
+              {formInputComponents}
               <FormInput
                 labelName="Prize / Reward (Optional)"
                 name="prize"

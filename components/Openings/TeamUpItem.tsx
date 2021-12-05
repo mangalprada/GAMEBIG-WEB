@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { games } from '@/utilities/GameList';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
@@ -6,6 +6,8 @@ import { db } from 'firebase/firebaseClient';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import FixedButton from '../UI/Buttons/FixedButton';
+import { checkIfApplied } from '@/libs/teamupQueries';
+import { useUI } from '@/context/uiContext';
 
 type Props = {
   data: TeamUpPost;
@@ -15,7 +17,18 @@ export default function Post({ data }: Props) {
   const {
     userData: { uid, username, name, photoURL },
   } = useAuth();
+  const { openSnackBar } = useUI();
+
   const router = useRouter();
+
+  const [isApplied, setIsApplied] = useState(false);
+
+  useEffect(() => {
+    (async function (userId, docId) {
+      const hasAlreadyApplied = await checkIfApplied(userId, docId);
+      if (hasAlreadyApplied) setIsApplied(true);
+    })(uid, data.docId);
+  }, [uid, data.docId]);
 
   const openProfile = (e: MouseEvent) => {
     e.stopPropagation();
@@ -38,6 +51,12 @@ export default function Post({ data }: Props) {
           .collection('joinees')
           .doc(uid)
           .set({ uid, username, name, photoURL });
+        setIsApplied(true);
+        openSnackBar({
+          label: '',
+          message: 'You have successfully applied!',
+          type: 'success',
+        });
       }
     } catch (err) {
       console.log(err);
@@ -87,9 +106,20 @@ export default function Post({ data }: Props) {
           </section>
         </section>
         {data.uid !== uid ? (
-          <div onClick={(e) => e && createJoinee(e)}>
-            <FixedButton name="Apply" />
-          </div>
+          isApplied ? (
+            <div
+              className={
+                'my-2 text-lg font-semibold text-green-500 px-3 py-1.5 ' +
+                'bg-green-900 rounded-md cursor-default'
+              }
+            >
+              Applied
+            </div>
+          ) : (
+            <div onClick={(e) => e && createJoinee(e)}>
+              <FixedButton name="Apply" />
+            </div>
+          )
         ) : null}
       </div>
 

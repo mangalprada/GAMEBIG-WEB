@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import TeamUpItem from '../../components/Openings/TeamUpItem';
 import Modal from '@/components/UI/Modal/Modal';
-import CreatePostForm from '@/components/Openings/CreateTeamUpPostForm';
+import CreateTeamUpPostForm from '@/components/Openings/CreateTeamUpPostForm';
 import { useAuth } from '@/context/authContext';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
@@ -88,7 +88,7 @@ const JoinPage = ({ joinPosts }: { joinPosts: TeamUpPost[] }) => {
                   />
                 ),
                 2: (
-                  <CreatePostForm
+                  <CreateTeamUpPostForm
                     gameCode={gameCode}
                     closeModal={handleClose}
                   />

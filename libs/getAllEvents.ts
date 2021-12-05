@@ -39,7 +39,9 @@ export const fetchAllEventData = async () => {
 export const fetchEventsDataByPageId = async (pageId: string) => {
   let eventDatas = [] as EventData[];
   const eventRef = firebaseAdmin.firestore().collection('events');
-  const query = eventRef.where('linkedPageId', '==', pageId);
+  const query = eventRef
+    .where('linkedPageId', '==', pageId)
+    .orderBy('startTime', 'asc');
   try {
     const querySnapshot = await query.get();
     querySnapshot.forEach((doc) => {

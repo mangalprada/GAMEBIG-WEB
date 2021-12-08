@@ -20,9 +20,16 @@ export default function PrimaryNavigationItems() {
       <NavigationItem
         href="/"
         isActive={router.pathname === '/'}
+        toolTip="Openings"
+      >
+        <JoinIcon isActive={router.pathname === '/'} size={33} />
+      </NavigationItem>
+      <NavigationItem
+        href="/events"
+        isActive={router.pathname === '/events'}
         toolTip="Events"
       >
-        <TrophyIcon isActive={router.pathname === '/'} size={33} />
+        <TrophyIcon isActive={router.pathname === '/events'} size={33} />
       </NavigationItem>
       <NavigationItem
         href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
@@ -51,13 +58,7 @@ export default function PrimaryNavigationItems() {
       >
         <FriendsIcon isActive={router.pathname === '/people'} size={36} />
       </NavigationItem>
-      <NavigationItem
-        href="/openings"
-        isActive={router.pathname === '/openings'}
-        toolTip="Openings"
-      >
-        <JoinIcon isActive={router.pathname === '/openings'} size={33} />
-      </NavigationItem>
+
       <NavigationItem
         href="/messages"
         isActive={router.pathname === '/messages'}

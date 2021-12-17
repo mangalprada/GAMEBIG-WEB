@@ -41,7 +41,7 @@ export const fetchParticipatedTeams = async (eventId: string) => {
   const participatedTeamsRef = db
     .collection('events')
     .doc(eventId)
-    .collection('teams');
+    .collection('participants');
   try {
     const docSnapshots = await participatedTeamsRef.get();
     docSnapshots.forEach((doc) => {

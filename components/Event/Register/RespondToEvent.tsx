@@ -44,7 +44,7 @@ const RespondToEvent: FC<Props> = ({
   const unregisterHandler = () => {
     db.collection('events')
       .doc(eventData.id)
-      .collection('teams')
+      .collection('participants')
       .doc(teamId)
       .delete();
     router.push('/');

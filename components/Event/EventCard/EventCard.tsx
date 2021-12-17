@@ -38,7 +38,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
     if (data.id && userData.uid) {
       db.collection('events')
         .doc(data.id)
-        .collection('teams')
+        .collection('participants')
         .where('uids', 'array-contains', userData.uid)
         .get()
         .then((querySnapshot) => {

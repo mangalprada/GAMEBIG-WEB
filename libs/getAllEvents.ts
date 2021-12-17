@@ -72,15 +72,12 @@ export const fetchEventsDataByUid = async (uid: string) => {
   let eventDatas = [] as EventData[];
   const eventRef = firebaseAdmin
     .firestore()
-    .collection('users')
-    .doc(uid)
-    .collection('events');
+    .collectionGroup('participants')
+    .where('uids', 'array-contains', uid);
   try {
     const querySnapshot = await eventRef.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log(data);
-
       const eventData = {
         id: doc.id,
         gameCode: data.gameCode,

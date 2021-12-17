@@ -21,7 +21,7 @@ export const follow = ({
     });
   db.collection('users')
     .doc(follower.uid)
-    .collection('following')
+    .collection('followees')
     .doc(followee.uid)
     .set(followee)
     .then(() => {
@@ -36,7 +36,7 @@ export const isFollowing = async (myUid: string, otherUid: string) => {
   const userDoc = await db
     .collection('users')
     .doc(myUid)
-    .collection('following')
+    .collection('followees')
     .doc(otherUid)
     .get();
   if (userDoc.exists) return true;

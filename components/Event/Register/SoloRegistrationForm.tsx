@@ -29,7 +29,7 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
     await db
       .collection('events')
       .doc(eventData.id)
-      .collection('teams')
+      .collection('participants')
       .add({
         gamers,
         uids: [uid],
@@ -37,18 +37,6 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
       .then(() => {
         setIsRegistered(true);
         console.log('Team added');
-      })
-      .catch((error) => {
-        console.log('Error adding documents: ', error);
-      });
-    await db
-      .collection('users')
-      .doc(uid)
-      .collection('events')
-      .doc(eventData.id)
-      .set(eventData)
-      .then(() => {
-        console.log('Registrtion Done');
       })
       .catch((error) => {
         console.log('Error adding documents: ', error);

@@ -30,7 +30,7 @@ export default function Event({ pageId, eventData }: Props) {
     if (eventData.id && uid) {
       db.collection('events')
         .doc(eventData.id)
-        .collection('teams')
+        .collection('participants')
         .where('uids', 'array-contains', uid)
         .get()
         .then((querySnapshot) => {
@@ -47,7 +47,7 @@ export default function Event({ pageId, eventData }: Props) {
   // const unregisterHandler = () => {
   //   db.collection('events')
   //     .doc(eventData.id)
-  //     .collection('teams')
+  //     .collection('participants')
   //     .doc(teamId)
   //     .delete();
   //   router.push('/');

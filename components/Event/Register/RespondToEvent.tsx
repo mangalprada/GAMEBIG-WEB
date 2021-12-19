@@ -47,7 +47,7 @@ const RespondToEvent: FC<Props> = ({
       .collection('participants')
       .doc(teamId)
       .delete();
-    router.push('/');
+    router.push('/openings');
   };
 
   const teamsArr = useCallback(async () => {
@@ -107,7 +107,7 @@ const RespondToEvent: FC<Props> = ({
             ${eventData.linkedPageName}
             shares them.`}
           </span>
-          {/* <span
+          <span
             onClick={unregisterHandler}
             className={
               'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
@@ -115,7 +115,7 @@ const RespondToEvent: FC<Props> = ({
             }
           >
             UNREGISTER
-          </span> */}
+          </span>
         </div>
       )}
     </div>

@@ -44,7 +44,7 @@ function useProviderAuth() {
     if (uid && displayName && photoURL) {
       const tempUser = await getUserData(uid);
       if (tempUser.uid) {
-        if (router.pathname === '/auth') router.push('/');
+        if (router.pathname === '/auth') router.push('/openings');
         setAuthPageNumber(1);
         setUserData(tempUser);
         localforage.setItem('user', {
@@ -59,7 +59,7 @@ function useProviderAuth() {
         } as UserData;
         setUserData(temp);
         setAuthPageNumber(2);
-        router.push('/auth');
+        router.push('/');
       }
     }
   };

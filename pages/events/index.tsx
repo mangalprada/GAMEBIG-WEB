@@ -75,7 +75,7 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <title>Events</title>
         <meta
           name="description"
           content={

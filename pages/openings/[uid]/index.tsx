@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 import Head from 'next/head';
-import TeamUpItem from '../../components/Openings/TeamUpItem';
+import TeamUpItem from '@/components/Openings/TeamUpItem';
 import { db } from 'firebase/firebaseClient';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
-import FixedButton from '@/components/UI/Buttons/FixedButton';
-import TextButton from '@/components/UI/Buttons/TextButton';
 
 export default function MyPosts() {
   const [posts, setPosts] = useState<TeamUpPost[]>([]);

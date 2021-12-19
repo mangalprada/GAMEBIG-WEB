@@ -18,8 +18,8 @@ export default function PrimaryNavigationItems() {
   return (
     <ul className="hidden md:flex items-end lg:space-x-10 lg:mr-20">
       <NavigationItem
-        href="/"
-        isActive={router.pathname === '/'}
+        href="/openings"
+        isActive={router.pathname === '/openings'}
         toolTip="Openings"
       >
         <JoinIcon isActive={router.pathname === '/'} size={33} />

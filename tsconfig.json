@@ -19,7 +19,8 @@
       "@/components/*": ["components/*"],
       "@/libs/*": ["libs/*"],
       "@/context/*": ["context/*"],
-      "@/utilities/*": ["utilities/*"]
+      "@/utilities/*": ["utilities/*"],
+      "@public/*": ["public/*"]
     },
     "pretty": true,
     "resolveJsonModule": true,

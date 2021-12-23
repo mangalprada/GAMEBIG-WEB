@@ -9,7 +9,7 @@ export default function PageIntro() {
 
   const createPageHandler = () => {
     if (userData.uid === undefined || userData.uid === '') {
-      router.push('/auth');
+      router.push('/');
     } else {
       router.push('/page/create');
     }

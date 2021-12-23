@@ -118,7 +118,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       });
     return { props: { joinPosts } };
   } catch (err) {
-    context.res.writeHead(302, { Location: '/auth' });
+    context.res.writeHead(302, { Location: '/' });
     context.res.end();
     console.log('Error getting server side props:', err);
     return { props: null };

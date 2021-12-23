@@ -23,7 +23,7 @@ export default function SecondaryNavigationItems() {
   }, [userData]);
 
   const handleButtonClick = async () => {
-    await router.push('/auth');
+    await router.push('/');
   };
 
   return (

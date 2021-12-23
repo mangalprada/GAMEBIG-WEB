@@ -77,7 +77,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         events = await fetchEventsDataByUid(userData.uid);
       });
   } catch (err) {
-    context.res.writeHead(302, { Location: '/auth' });
+    context.res.writeHead(302, { Location: '/' });
     context.res.end();
     console.log('Error getting server side props:', err);
   }

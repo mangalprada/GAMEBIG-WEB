@@ -100,7 +100,7 @@ export default function Event({ pageId, eventData }: Props) {
                 'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
               }
               type="button"
-              onClick={() => router.push('/auth')}
+              onClick={() => router.push('/')}
             >
               Sign in / Sign up to Register
             </button>

@@ -14,6 +14,7 @@ const Home = ({ posts }: any) => {
   const closeModal = () => {
     setOpen(false);
   };
+  console.log(posts);
 
   const openModal = () => {
     setOpen(true);
@@ -29,7 +30,7 @@ const Home = ({ posts }: any) => {
       <Aux>
         <CreatePost />
         <div className="w-11/12 md:w-1/2 mx-auto flex flex-col mt-1">
-          {posts > 0
+          {posts
             ? posts.message.map((item: PostType, index: number) => (
                 <div key={index}>
                   <Post
@@ -64,6 +65,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       method: 'GET',
     });
     data = await response.json();
+    console.log(data);
   } catch (err) {
     console.log(err);
   }

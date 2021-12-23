@@ -87,7 +87,7 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
           <div className="text-sm text-gray-50">{likes}</div>
         </div>
         {/* <div className="flex items-center	gap-3">
-          <ShareIcon size={24} />
+          <ShareIcon size={24}  />
           <div className="text-sm text-gray-50">10</div>
         </div> */}
       </div>

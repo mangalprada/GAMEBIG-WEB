@@ -36,12 +36,13 @@ const Games: NextPage<PageProps> = ({ userData, posts }) => {
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="w-11/12 md:w-1/2 mx-auto flex flex-col mt-1">
-          {posts &&
-            posts.message.map((item: any, index: any) => (
-              <div key={index}>
-                <Post post={item} />
-              </div>
-            ))}
+          {posts
+            ? posts.message.map((item: any, index: any) => (
+                <div key={index}>
+                  <Post post={item} />
+                </div>
+              ))
+            : null}
         </div>
       </Aux>
     </div>

@@ -29,17 +29,18 @@ const Home = ({ posts }: any) => {
       <Aux>
         <CreatePost />
         <div className="w-11/12 md:w-1/2 mx-auto flex flex-col mt-1">
-          {posts.message.length > 0 &&
-            posts.message.map((item: PostType, index: number) => (
-              <div key={index}>
-                <Post
-                  post={item}
-                  setSelectedPost={setSelectedPost}
-                  openModal={openModal}
-                  isModalOpen={open}
-                />
-              </div>
-            ))}
+          {posts > 0
+            ? posts.message.map((item: PostType, index: number) => (
+                <div key={index}>
+                  <Post
+                    post={item}
+                    setSelectedPost={setSelectedPost}
+                    openModal={openModal}
+                    isModalOpen={open}
+                  />
+                </div>
+              ))
+            : null}
         </div>
         <Modal isOpen={open} closeModal={closeModal}>
           <PostDetails

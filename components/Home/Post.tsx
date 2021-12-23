@@ -25,11 +25,11 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
   const isLikedByUser = likedBy.includes(user.uid);
   const [isLiked, setIsLiked] = useState(isLikedByUser);
   const [likes, setlikes] = useState(noOfLikes);
-
+  let { BASE_URL } = process.env;
   async function likehandler(event: MouseEvent) {
     event.stopPropagation();
     try {
-      axios.get(`/api/likePost`, {
+      axios.get(`${BASE_URL}/api/likePost`, {
         params: { postId: post._id, likedBy: userData.uid },
       });
       setIsLiked(true);
@@ -42,7 +42,7 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
   async function unLikehandler(event: MouseEvent) {
     event.stopPropagation();
     try {
-      axios.get(`/api/likePost`, {
+      axios.get(`${BASE_URL}/api/likePost`, {
         params: { postId: post._id, unLikedBy: userData.uid },
       });
       setIsLiked(false);

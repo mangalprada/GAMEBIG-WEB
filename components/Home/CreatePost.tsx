@@ -21,10 +21,12 @@ const CreatePost = () => {
       likedBy: [],
       sharedBy: [],
     };
-    let response = await fetch('/api/posts', {
+    let { BASE_URL } = process.env;
+    let response = await fetch(`${BASE_URL}/api/posts`, {
       method: 'POST',
       body: JSON.stringify(postData),
     });
+    console.log(response);
     setContent('');
   }
 

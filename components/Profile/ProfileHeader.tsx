@@ -8,11 +8,26 @@ type Props = {
 };
 
 const ProfileHeader: FC<Props> = ({ userData }: Props) => {
+  const followeesCount =
+    userData.followeesCount && userData.followeesCount > 0
+      ? ` (${userData.followeesCount})`
+      : '';
+
+  const followersCount =
+    userData.followersCount && userData.followersCount > 0
+      ? ` (${userData.followersCount})`
+      : '';
+
   const tabs = [
     {
-      label: 'Games',
+      label: 'Posts',
       href: `/profile/${userData.username}`,
       pathName: '/profile/[username]',
+    },
+    {
+      label: 'Games',
+      href: `/profile/${userData.username}/games`,
+      pathName: '/profile/[username]/games',
     },
     {
       label: 'Events',
@@ -24,6 +39,16 @@ const ProfileHeader: FC<Props> = ({ userData }: Props) => {
       label: 'Teams',
       href: `/profile/${userData.username}/teams`,
       pathName: '/profile/[username]/teams',
+    },
+    {
+      label: 'Following' + followeesCount,
+      href: `/profile/${userData.username}/following`,
+      pathName: '/profile/[username]/following',
+    },
+    {
+      label: 'Followers' + followersCount,
+      href: `/profile/${userData.username}/followers`,
+      pathName: '/profile/[username]/followers',
     },
   ];
   return (

@@ -15,7 +15,7 @@ import RedditIcon from '../UI/Icons/SocialIcons/RedditIcon';
 import { useAuth } from '../../context/authContext';
 import ProfileVisitorAction from './ProfileVisitorAction';
 import { getDecoratedDate } from '@/utilities/functions/dateConvert';
-import MoreActions from './MoreActions';
+import MoreActions from './MoreActionsOnProfile';
 
 type Props = {
   userData: UserData;

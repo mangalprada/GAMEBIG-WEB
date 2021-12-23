@@ -41,26 +41,26 @@ function useProviderAuth() {
     const token = await user.getIdToken();
     nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;
-    if (uid && displayName && photoURL) {
-      const tempUser = await getUserData(uid);
-      if (tempUser.uid) {
-        if (router.pathname === '/auth') router.push('/openings');
-        setAuthPageNumber(1);
-        setUserData(tempUser);
-        localforage.setItem('user', {
-          uid: tempUser.uid,
-          username: tempUser.username,
-        });
-      } else {
-        const temp = {
-          name: displayName,
-          uid,
-          photoURL,
-        } as UserData;
-        setUserData(temp);
-        setAuthPageNumber(2);
-        router.push('/');
+    const tempUser = await getUserData(uid);
+    if (tempUser.uid) {
+      if (router.pathname === '/' || router.pathname === '/about') {
+        router.push('/home');
       }
+      setAuthPageNumber(1);
+      setUserData(tempUser);
+      localforage.setItem('user', {
+        uid: tempUser.uid,
+        username: tempUser.username,
+      });
+    } else {
+      const temp = {
+        name: displayName,
+        uid,
+        photoURL,
+      } as UserData;
+      setUserData(temp);
+      setAuthPageNumber(2);
+      router.push('/');
     }
   };
 

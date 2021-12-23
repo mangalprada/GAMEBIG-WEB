@@ -23,6 +23,7 @@ function useProviderMessages() {
       try {
         db.collection('messageRooms')
           .where('uids', 'array-contains', userData.uid)
+          .orderBy('updatedAt', 'desc')
           .onSnapshot((snapshot) => {
             let tempUnseen = 0;
             const tempMessageRooms: MessageRoomType[] = [];

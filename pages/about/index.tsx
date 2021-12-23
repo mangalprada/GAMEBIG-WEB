@@ -10,7 +10,7 @@ const AboutPage: NextPage = () => {
   return (
     <div className="flex flex-col bg-black fixed w-screen inset-0 z-50 overflow-auto">
       <Head>
-        <title>Gamebig</title>
+        <title>About GameBig</title>
         <meta
           name="description"
           content={

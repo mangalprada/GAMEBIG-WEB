@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Facebook from '../UI/Icons/SocialIcons/FacebookIcon';
 import GoogleIcon from '../UI/Icons/SocialIcons/GoogleIcon';
 import { useAuth } from '@/context/authContext';
 
 const LandingComponent: FC = () => {
   const { signInByFacebook, signInByGoogle } = useAuth();
-
+  const router = useRouter();
   return (
     <div className="bg-black relative">
       <div className="container mx-auto px-6 md:px-12 relative z-10 flex items-center py-24 xl:py-40">
@@ -47,6 +47,14 @@ const LandingComponent: FC = () => {
               <div className="rounded-full hover:bg-gray-800 p-6 mx-2 cursor-pointer">
                 <GoogleIcon size={50} onClick={signInByGoogle} />
               </div>
+            </div>
+            <div
+              className="flex justify-center bg-gray-800 py-1.5 px-4 rounded-md cursor-pointer"
+              onClick={() => router.push('/home')}
+            >
+              <span className="text-xl text-gray-500 font-sans font-semibold">
+                Continue Without Signing In
+              </span>
             </div>
           </div>
         </div>

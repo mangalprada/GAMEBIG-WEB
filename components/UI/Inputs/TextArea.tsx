@@ -35,7 +35,7 @@ const TextArea: FC<Props> = ({
               'placeholder-gray-300 placeholder-opacity-40 ' +
               'ease-linear transition-all duration-150 ' +
               'bg-gray-700 text-gray-50 ' +
-              'focus:outline-none focus:ring focus:ring-indigo-500 '
+              'focus:outline-none focus:ring focus:ring-indigo-500 h-20'
             }
             rows={4}
             placeholder={placeHolder}

@@ -35,6 +35,8 @@ export interface UserData {
   linkedPageName?: string | null;
   fcmToken?: string | null;
   games?: string[];
+  followersCount?: number;
+  followeesCount?: number;
 }
 
 export interface GamerData {

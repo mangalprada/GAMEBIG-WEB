@@ -3,14 +3,25 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BasicUserType } from '@/utilities/types';
 
-const HorizontalProfile = ({ user }: { user: BasicUserType }) => {
+const HorizontalProfile = ({
+  user,
+  isTransparent,
+}: {
+  user: BasicUserType;
+  isTransparent?: boolean;
+}) => {
   const router = useRouter();
 
   const openProfile = (username: string) => {
     router.push(`/profile/${username}`);
   };
   return (
-    <div className="m-2 py-1.5 px-2 md:py-1 md:px-4 rounded-md bg-gray-800">
+    <div
+      className={
+        'm-2 py-1.5 px-2 md:py-1 md:px-4 rounded-md ' +
+        (isTransparent ? '' : 'bg-gray-800')
+      }
+    >
       <section
         className="flex gap-3 items-center justify-start "
         onClick={() => openProfile(user.username)}
@@ -21,7 +32,7 @@ const HorizontalProfile = ({ user }: { user: BasicUserType }) => {
               src={user.photoURL}
               alt="Picture of a friend"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="rounded-full"
             />
           </div>

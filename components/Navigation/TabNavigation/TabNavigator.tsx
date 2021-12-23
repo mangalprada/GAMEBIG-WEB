@@ -9,7 +9,7 @@ const TabNavigator: FC<Props> = ({ tabs }: Props) => {
   const router = useRouter();
 
   return (
-    <nav className="xl:w-1/2 md:w-5/6 mx-auto px-4 md:px-0">
+    <nav className="xl:w-1/2 md:w-5/6 mx-auto px-4 md:px-0 overflow-auto">
       <ul className="flex flex-row">
         {tabs.map((tab, index) => (
           <TabNavItem

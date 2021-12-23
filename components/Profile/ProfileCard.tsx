@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../context/authContext';
 import { useUI } from '@/context/uiContext';
-import { follow, isFollowing } from '../../libs/follow';
+import { follow, isFollowing, unfollow } from '../../libs/follow';
 import FollowButton from '../UI/Buttons/FollowButton';
 import ProfileIcon from '../UI/Icons/NavIcons/ProfileIcon';
-import { UserData } from '@/utilities/types';
+import { BasicUserType, UserData } from '@/utilities/types';
 
 type Props = {
-  user: UserData;
+  user: UserData | BasicUserType;
 };
 
 const ProfileCard: FC<Props> = ({ user }) => {
@@ -34,26 +34,30 @@ const ProfileCard: FC<Props> = ({ user }) => {
   }, [user.uid, userData.uid]);
 
   function handleFollow() {
-    follow({
-      follower: {
-        name: userData.name,
-        photoURL: userData.photoURL ? userData.photoURL : null,
-        username: userData.username,
-        uid: userData.uid,
-      },
-      followee: {
-        photoURL: user.photoURL ? user.photoURL : null,
-        username: user.username,
-        name: user.name,
-        uid: user.uid,
-      },
-    });
+    const follower = {
+      name: userData.name,
+      photoURL: userData.photoURL ? userData.photoURL : null,
+      username: userData.username,
+      uid: userData.uid,
+    };
+    const followee = {
+      photoURL: user.photoURL ? user.photoURL : null,
+      username: user.username,
+      name: user.name,
+      uid: user.uid,
+    };
+    follow(follower, followee);
     openSnackBar({
       message: `You are Following ${name}`,
       type: 'success',
       label: '',
     });
     setFollowing(true);
+  }
+
+  function handleUnFollow() {
+    unfollow(userData.uid, user.uid);
+    setFollowing(false);
   }
 
   function onProfileCardClick() {
@@ -110,15 +114,23 @@ const ProfileCard: FC<Props> = ({ user }) => {
 
       {/** Follow Button */}
       {following ? (
-        <div
-          className={
-            'flex justify-center items-center mx-auto mt-3 w-3/4 ' +
-            'bg-green-500/30 hover:bg-green-300/20 cursor-default ' +
-            'rounded-md py-1'
-          }
-        >
-          <span className={'font-sans text-green-100 text-lg font-semibold'}>
-            Following
+        <div>
+          <div
+            className={
+              'flex justify-center items-center mx-auto mt-3 w-3/4 ' +
+              'bg-green-500/30 hover:bg-green-300/20 cursor-default ' +
+              'rounded-md py-1'
+            }
+          >
+            <span className={'font-sans text-green-100 text-lg font-semibold'}>
+              Following
+            </span>
+          </div>
+          <span
+            className={'font-sans text-green-100 text-xs font-semibold'}
+            onClick={handleUnFollow}
+          >
+            Unfollow
           </span>
         </div>
       ) : (

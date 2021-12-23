@@ -13,7 +13,7 @@ type Props = {
   data: TeamUpPost;
 };
 
-export default function Post({ data }: Props) {
+export default function TeamUpItem({ data }: Props) {
   const {
     userData: { uid, username, name, photoURL },
   } = useAuth();

@@ -24,6 +24,7 @@ moduleExports = withPWA({
       'play-lh.googleusercontent.com',
       'graph.facebook.com',
       'firebasestorage.googleapis.com',
+      'images.unsplash.com',
     ],
   },
   env: {
@@ -40,6 +41,9 @@ moduleExports = withPWA({
     ALGOLIA_SEARCH_ONLY_API_KEY: process.env.ALGOLIA_SEARCH_ONLY_API_KEY,
     SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
+    BASE_URL: process.env.BASE_URL,
+    MONGODB_URI: process.env.MONGODB_URI,
+    DB_NAME: process.env.DB_NAME,
   },
 });
 

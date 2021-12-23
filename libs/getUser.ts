@@ -1,5 +1,4 @@
 import { firebaseAdmin } from '../firebase/firebaseAdmin';
-import { UserData } from '../utilities/types';
 
 const getUser = async (username: string) => {
   const user: any[] = [];

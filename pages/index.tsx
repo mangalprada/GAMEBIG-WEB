@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <Aux>
       <Head>
-        <title>SignIn/SignUp</title>
+        <title>GameBig</title>
         <meta
           name="description"
           content="Join GameBig today by signing up. Participate in exciting gaming events."

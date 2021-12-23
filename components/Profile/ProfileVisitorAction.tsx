@@ -38,20 +38,19 @@ const ProfileVisitorAction = ({
         <span
           className="text-white font-normal  text-lg py-2 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
           onClick={() => {
-            follow({
-              follower: {
-                name: userData.name as string,
-                photoURL: userData.photoURL as string,
-                username: userData.username,
-                uid: userData.uid,
-              },
-              followee: {
-                photoURL: profilePagePhotoURL,
-                username: profilePageUsername,
-                name: profilePageName,
-                uid: profilePageUid,
-              },
-            });
+            const follower = {
+              name: userData.name as string,
+              photoURL: userData.photoURL as string,
+              username: userData.username,
+              uid: userData.uid,
+            };
+            const followee = {
+              photoURL: profilePagePhotoURL,
+              username: profilePageUsername,
+              name: profilePageName,
+              uid: profilePageUid,
+            };
+            follow(follower, followee);
             openSnackBar({
               message: `You are Following ${profilePageUsername}`,
               type: 'success',

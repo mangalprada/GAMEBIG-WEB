@@ -24,7 +24,7 @@ const NewDatePicker = ({
       <input
         className={
           'border-0 px-3 py-3 font-sans cursor-pointer ' +
-          'rounded text-lg font-medium shadow w-full md:w-1/2 ' +
+          'rounded text-lg font-medium shadow w-full ' +
           'placeholder-gray-300 placeholder-opacity-40 ' +
           'ease-linear transition-all duration-150 bg-gray-700 text-gray-50 ' +
           (error

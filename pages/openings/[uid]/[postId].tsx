@@ -8,7 +8,8 @@ import TeamUpItem from '@/components/Openings/TeamUpItem';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import { BasicUserType } from '@/utilities/types';
 import TextButton from '@/components/UI/Buttons/TextButton';
-import ProfileCard from '@/components/Profile/ProfileCard';
+import HorizontalProfile from '@/components/Profile/HorizontalProfile';
+import FixedButton from '@/components/UI/Buttons/FixedButton';
 
 export default function Home() {
   const {
@@ -53,6 +54,14 @@ export default function Home() {
     }
   }, [postId, uid, uidFromQuery]);
 
+  function message(joinee: BasicUserType) {
+    const stringifiedData: string = JSON.stringify(joinee);
+    router.push({
+      pathname: `/messages`,
+      query: { receiver: stringifiedData },
+    });
+  }
+
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
       <Head>
@@ -68,22 +77,19 @@ export default function Home() {
         <div>{teamupPost ? <TeamUpItem data={teamupPost} /> : null}</div>
         <div>
           {joinees.length > 0 ? (
-            <div
-              className={
-                'xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 grid grid-cols-2 sm:grid-cols-3 ' +
-                'gap-3 sm:gap-5 mt-3 mx-auto'
-              }
-            >
+            <div className="xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 mx-auto">
               {joinees.map((joinee) => (
-                <ProfileCard
-                  user={{
-                    name: joinee.name,
-                    uid: joinee.uid,
-                    photoURL: joinee.photoURL || '',
-                    username: joinee.username,
-                  }}
+                <div
                   key={joinee.uid}
-                />
+                  className="w-full py-1 bg-gray-800 rounded-md flex justify-between pr-8"
+                >
+                  <HorizontalProfile user={joinee} />
+                  <FixedButton
+                    name="Message"
+                    type="button"
+                    onClick={() => message(joinee)}
+                  />
+                </div>
               ))}
             </div>
           ) : (

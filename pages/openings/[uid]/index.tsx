@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 import Head from 'next/head';
 import TeamUpItem from '@/components/Openings/TeamUpItem';
@@ -11,7 +10,6 @@ export default function MyPosts() {
   const {
     userData: { uid },
   } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     const getPosts = async () => {

@@ -6,6 +6,7 @@ import { useAuth } from '../../../context/authContext';
 import { useNotication } from '../../../context/notificationContext';
 import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
 import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
+import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 
 export default function SecondaryNavigationItems() {
   const { userData } = useAuth();
@@ -29,6 +30,23 @@ export default function SecondaryNavigationItems() {
     <ul className="flex items-end lg:space-x-1">
       {isUser ? (
         <>
+          <NavigationItem
+            href="/messages"
+            isActive={router.pathname === '/messages'}
+            toolTip="Messages"
+          >
+            <div>
+              <MessageIcon
+                isActive={router.pathname === '/messages'}
+                size={30}
+              />
+              {unseen > 0 ? (
+                <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">
+                  <span className="text-white text-sm">{unseen}</span>
+                </div>
+              ) : null}
+            </div>
+          </NavigationItem>
           <NavigationItem
             href="/notification"
             isActive={router.pathname === '/notification'}

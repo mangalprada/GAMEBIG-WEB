@@ -31,7 +31,7 @@ const CreatePost = () => {
   }
 
   return (
-    <div className="w-11/12 md:w-1/2 flex flex-col mx-auto">
+    <div className="w-11/12 md:w-1/2 flex flex-col mx-auto my-4">
       <TextArea
         labelName="Create Post"
         name="post"

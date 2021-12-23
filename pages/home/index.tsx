@@ -14,7 +14,6 @@ const Home = ({ posts }: any) => {
   const closeModal = () => {
     setOpen(false);
   };
-  console.log(posts);
 
   const openModal = () => {
     setOpen(true);
@@ -65,7 +64,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       method: 'GET',
     });
     data = await response.json();
-    console.log(data);
   } catch (err) {
     console.log(err);
   }

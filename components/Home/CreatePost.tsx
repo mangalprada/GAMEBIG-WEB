@@ -1,14 +1,21 @@
-import { ChangeEvent, useState } from 'react';
-import TextArea from '../UI/Inputs/TextArea';
-import EditorJS from '@editorjs/editorjs';
+import { useState } from 'react';
+import { Descendant } from 'slate';
 import { useAuth } from '@/context/authContext';
 import { PostType } from '@/utilities/post/PostType';
+import Editor from '../UI/Inputs/Editor';
+
+const initialValue: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  } as Descendant,
+];
 
 const CreatePost = () => {
   const {
     userData: { uid, username, photoURL, name },
   } = useAuth();
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState<Descendant[]>(initialValue);
 
   async function savePost() {
     const postData: PostType = {
@@ -26,25 +33,15 @@ const CreatePost = () => {
       method: 'POST',
       body: JSON.stringify(postData),
     });
-    console.log(response);
-    setContent('');
+    setContent(initialValue);
   }
 
   return (
-    <div className="w-11/12 md:w-1/2 flex flex-col mx-auto my-4">
-      <TextArea
-        labelName="Create Post"
-        name="post"
-        onChangeHandler={(e: ChangeEvent) => {
-          const target = e.target as HTMLInputElement;
-          setContent(target.value);
-        }}
-        value={content}
-        placeHolder="What's on your mind?"
-      />
-      <div className="flex justify-end mr-2">
+    <div className="w-11/12 md:w-1/2 flex flex-col mx-auto my-5">
+      <Editor value={content} isreadOnly={false} onChange={setContent} />
+      <div className="flex justify-end mr-2 mt-1.5">
         <div className="rounded-md bg-indigo-600 px-4 py-1" onClick={savePost}>
-          <span className="text-xl text-white font-sans cursor-pointer">
+          <span className="text-xl text-white font-sans cursor-pointer font-semibold">
             Post
           </span>
         </div>

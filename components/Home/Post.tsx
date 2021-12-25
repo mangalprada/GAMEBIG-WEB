@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import Image from 'next/image';
-import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import FilledHeartIcon from '../UI/Icons/Post/FilledHeart';
 import EmptyHeartIcon from '../UI/Icons/Post/EmptyHeart';
 import CommentsIcon from '../UI/Icons/Post/Comments';
-import ShareIcon from '../UI/Icons/Others/ShareIcon';
 import HorizontalProfile from '../Profile/HorizontalProfile';
 import { useAuth } from '@/context/authContext';
 import { PostType } from '@/utilities/post/PostType';
 import MoreActions from './MoreActionsOnPost';
+import Editor from '../UI/Inputs/Editor';
 
 const axios = require('axios').default;
 
@@ -81,9 +79,7 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
           ) : null}
         </div>
       </div>
-      <span className="text-lg text-gray-50 font-sans my-4 mx-8">
-        {content}
-      </span>
+      <Editor value={content} isreadOnly />
       <div className=" h-16  flex items-center justify-around	">
         <div className="flex items-center	gap-3	" onClick={showModal}>
           <CommentsIcon size={24} />
@@ -97,10 +93,6 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
           )}
           <div className="text-sm text-gray-50">{likes}</div>
         </div>
-        {/* <div className="flex items-center	gap-3">
-          <ShareIcon size={24}  />
-          <div className="text-sm text-gray-50">10</div>
-        </div> */}
       </div>
     </div>
   );

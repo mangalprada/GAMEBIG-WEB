@@ -21,13 +21,11 @@ const Modal: FC<Props> = ({ children, isOpen, closeModal }: Props) => {
       >
         {closeModal ? (
           <div className="flex flex-row-reverse mr-5 mt-3">
-            <div className="px-3 py-2 bg-slate-700 rounded-md">
-              <span
-                className="text-gray-50 font-sans text-base cursor-pointer"
-                onClick={closeModal}
-              >
-                Close
-              </span>
+            <div
+              className="px-3 py-2 bg-slate-700 rounded-md cursor-pointer"
+              onClick={closeModal}
+            >
+              <span className="text-gray-50 font-sans text-base ">Close</span>
             </div>
           </div>
         ) : null}

@@ -38,7 +38,7 @@ export default function SecondaryNavigationItems() {
             <div>
               <MessageIcon
                 isActive={router.pathname === '/messages'}
-                size={30}
+                size={36}
               />
               {unseen > 0 ? (
                 <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">

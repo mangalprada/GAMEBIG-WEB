@@ -29,6 +29,12 @@
     "strict": true,
     "target": "es2018"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_offline.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/_offline.js",
+    "components/UI/Inputs/Editor.jsx"
+  ],
   "exclude": ["node_modules"]
 }

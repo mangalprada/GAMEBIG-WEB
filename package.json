@@ -32,6 +32,9 @@
     "react-firebase-hooks": "^3.0.4",
     "react-image-crop": "^9.0.5",
     "react-lottie": "^1.2.3",
+    "slate": "^0.72.0",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.72.1",
     "swr": "^1.1.2-beta.0",
     "yup": "^0.32.9"
   },

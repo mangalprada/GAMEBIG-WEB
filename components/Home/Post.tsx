@@ -58,11 +58,11 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
     }
   }
 
-  function editComment() {
+  function editPost() {
     console.log('edit comment');
   }
 
-  function deleteComment() {
+  function deletePost() {
     console.log('delete comment');
   }
 
@@ -75,7 +75,7 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
         <HorizontalProfile user={user} isTransparent />
         <div className="rounded-full h-3.5 flex	items-center justify-center">
           {userData && userData.uid === user.uid ? (
-            <MoreActions editItem={editComment} deleteItem={deleteComment} />
+            <MoreActions editItem={editPost} deleteItem={deletePost} />
           ) : null}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { EventData } from '@/utilities/eventItem/types';
 import { useState, Dispatch, SetStateAction } from 'react';
-import { db } from '../../../firebase/firebaseClient';
+import firebase, { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerRegistrationForm from './GamerRegistrationForm';
@@ -41,11 +41,18 @@ export default function GamerDetails({
     });
     if (gamersArray.length === teamSize) {
       saveGamerDetails(gamersArray, uids);
+      updateSlots();
       setGamers({});
       setIsRegistered(true);
       onCancel();
     }
   };
+
+  function updateSlots() {
+    db.collection('events')
+      .doc(eventId)
+      .update({ noOfSlots: firebase.firestore.FieldValue.increment(-1) });
+  }
 
   const saveGamerDetails = async (gamersArray: GamerData[], uids: string[]) => {
     try {

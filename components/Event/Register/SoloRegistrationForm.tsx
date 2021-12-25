@@ -1,7 +1,7 @@
 import { EventData } from '@/utilities/eventItem/types';
 import { useState } from 'react';
 import { useAuth } from '../../../context/authContext';
-import { db } from '../../../firebase/firebaseClient';
+import firebase, { db } from '../../../firebase/firebaseClient';
 import { GamerData, TeamType } from '../../../utilities/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import GamerRegistrationForm from './GamerRegistrationForm';
@@ -36,12 +36,19 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
       })
       .then(() => {
         setIsRegistered(true);
+        updateSlots();
         console.log('Team added');
       })
       .catch((error) => {
         console.log('Error adding documents: ', error);
       });
   };
+
+  function updateSlots() {
+    db.collection('events')
+      .doc(eventData.id)
+      .update({ noOfSlots: firebase.firestore.FieldValue.increment(-1) });
+  }
 
   return (
     <div className="px-6 flex flex-col mx-auto font-sans md:w-1/2 text-gray-300 font-semibold mt-10">

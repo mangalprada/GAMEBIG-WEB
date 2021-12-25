@@ -33,20 +33,23 @@ const LandingComponent: FC = () => {
               </span>
             </div>
 
-            <div className="flex flex-row justify-center my-2">
-              {/**Facebook Button */}
-              <div className="rounded-full hover:bg-gray-800 py-2 px-2.5 mx-2 cursor-pointer">
-                <Facebook size={80} onClick={signInByFacebook} />
-              </div>
-
-              <span className="text-gray-400 text-lg font-sans my-auto">
-                or
+            <div
+              className="flex justify-center bg-gray-700 items-center rounded-md py-3 my-4 cursor-pointer"
+              onClick={signInByGoogle}
+            >
+              <span className="text-xl md:text-2xl text-gray-100 font-sans font-semibold mr-4">
+                Google
               </span>
-
-              {/**Google Button */}
-              <div className="rounded-full hover:bg-gray-800 p-6 mx-2 cursor-pointer">
-                <GoogleIcon size={50} onClick={signInByGoogle} />
-              </div>
+              <GoogleIcon size={28} />
+            </div>
+            <div
+              className="flex justify-center bg-gray-700 items-center rounded-md py-1 mb-4 px-4 cursor-pointer"
+              onClick={signInByFacebook}
+            >
+              <span className="text-xl md:text-2xl text-gray-100 font-sans font-semibold mx-4">
+                Facebook
+              </span>
+              <Facebook size={48} />
             </div>
             <div
               className="flex justify-center bg-gray-800 py-1.5 px-4 rounded-md cursor-pointer"

@@ -12,7 +12,7 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
     userData: { uid, username, photoURL, name },
   } = useAuth();
   const [content, setContent] = useState('');
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
 
   useEffect(() => {
     async function getComments() {
@@ -46,9 +46,17 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
         body: JSON.stringify(commentData),
       });
       setContent('');
+      setComments([...comments, commentData]);
     } catch (err) {
       console.log(err);
     }
+  }
+
+  function removeComment(commentId: string) {
+    let newComments = comments.filter(
+      (comment: CommentType) => comment._id !== commentId
+    );
+    setComments(newComments);
   }
 
   return (
@@ -77,7 +85,7 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
       </div>
       <div className="flex flex-col mt-3">
         {comments.map((item: CommentType, index: number) => (
-          <Comment key={index} comment={item} />
+          <Comment key={index} comment={item} removeComment={removeComment} />
         ))}
       </div>
     </div>

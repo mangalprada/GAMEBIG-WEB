@@ -8,6 +8,7 @@ import ShareIcon from '../UI/Icons/Others/ShareIcon';
 import HorizontalProfile from '../Profile/HorizontalProfile';
 import { useAuth } from '@/context/authContext';
 import { PostType } from '@/utilities/post/PostType';
+import MoreActions from './MoreActionsOnPost';
 
 const axios = require('axios').default;
 
@@ -59,6 +60,14 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
     }
   }
 
+  function editComment() {
+    console.log('edit comment');
+  }
+
+  function deleteComment() {
+    console.log('delete comment');
+  }
+
   return (
     <div
       className="w-full flex flex-col mx-auto bg-gray-900 rounded-md m-1 px-4 py-1 "
@@ -67,7 +76,9 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
       <div className="flex items-center	justify-between">
         <HorizontalProfile user={user} isTransparent />
         <div className="rounded-full h-3.5 flex	items-center justify-center">
-          <MoreIcon size={24} />
+          {userData && userData.uid === user.uid ? (
+            <MoreActions editItem={editComment} deleteItem={deleteComment} />
+          ) : null}
         </div>
       </div>
       <span className="text-lg text-gray-50 font-sans my-4 mx-8">

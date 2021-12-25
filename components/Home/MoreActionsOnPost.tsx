@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { MouseEvent, useState } from 'react';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import CloseIcon from '../UI/Icons/SnackbarIcons/CloseIcon';
-import { useAuth } from '@/context/authContext';
 
-const MoreActions = () => {
-  const { userData: user, signout } = useAuth();
+type Props = {
+  editItem: () => void;
+  deleteItem: () => void;
+};
+
+const MoreActions = ({ editItem, deleteItem }: Props) => {
   const [showMore, setShowMore] = useState(false);
-  const toggleShowMore = () => {
+  const toggleShowMore = (e: MouseEvent) => {
+    e.stopPropagation();
     setShowMore(!showMore);
-  };
-  const router = useRouter();
-  const goToSetting = () => {
-    router.push(`/profile/${user.username}/settings`);
   };
 
   return (
@@ -20,8 +19,8 @@ const MoreActions = () => {
       {showMore ? (
         <div
           className={
-            'flex flex-col bg-gray-900 text-white py-4 px-5 rounded-lg ' +
-            'space-y-1 font-semibold tracking-wide'
+            'flex flex-col bg-gray-700 text-white py-4 px-5 rounded-lg ' +
+            ' font-semibold tracking-wide'
           }
         >
           <span
@@ -32,17 +31,23 @@ const MoreActions = () => {
           </span>
           <span
             className="cursor-pointer hover:text-blue-400"
-            onClick={goToSetting}
+            onClick={editItem}
           >
-            Settings
+            Edit
           </span>
-          <span className="cursor-pointer hover:text-red-400" onClick={signout}>
-            Signout
+          <span
+            className="cursor-pointer hover:text-red-400"
+            onClick={deleteItem}
+          >
+            Delete
           </span>
         </div>
       ) : (
-        <div className="p-3 cursor-pointer" onClick={toggleShowMore}>
-          <MoreIcon size={36} />
+        <div
+          className="p-3 cursor-pointer"
+          onClick={(e: MouseEvent) => toggleShowMore(e)}
+        >
+          <MoreIcon size={24} />
         </div>
       )}
     </div>

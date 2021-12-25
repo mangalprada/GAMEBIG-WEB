@@ -69,7 +69,7 @@ export async function updateCommentOnPost(
     let { db } = await connectToDatabase();
 
     // update the published status of the post
-    await db.collection('posts').updateOne(
+    await db.collection('commentsOnPost').updateOne(
       {
         _id: new ObjectId(req.body),
       },
@@ -91,18 +91,19 @@ export async function updateCommentOnPost(
 }
 
 export async function deleteCommentOnPost(
-  req: { body: any },
+  req: any,
   res: { json: (arg0: { message: string; success: boolean }) => any }
 ) {
   try {
+    const { commentId } = req.query;
     // Connecting to the database
     let { db } = await connectToDatabase();
 
     // Deleting the post
-    await db.collection('posts').deleteOne({
-      _id: new ObjectId(req.body),
+    const x = await db.collection('commentsOnPost').deleteOne({
+      _id: new ObjectId(commentId),
     });
-
+    console.log(x);
     // returning a message
     return res.json({
       message: 'Post deleted successfully',

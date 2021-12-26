@@ -7,8 +7,11 @@ import Post from '@/components/Home/Post';
 import Modal from '@/components/UI/Modal/Modal';
 import PostDetails from '@/components/Home/PostDetails';
 import { PostType } from '@/utilities/post/PostType';
+import { useAuth } from '@/context/authContext';
 
 const Home = ({ posts }: any) => {
+  const { userData } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
   const closeModal = () => {
@@ -26,8 +29,8 @@ const Home = ({ posts }: any) => {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <Aux>
-        <CreatePost />
+      <div>
+        {userData.uid ? <CreatePost /> : null}
         <div className="w-11/12 md:w-1/2 mx-auto flex flex-col mt-1">
           {posts
             ? posts.message.map((item: PostType, index: number) => (
@@ -49,7 +52,7 @@ const Home = ({ posts }: any) => {
             closeModal={closeModal}
           />
         </Modal>
-      </Aux>
+      </div>
     </div>
   );
 };

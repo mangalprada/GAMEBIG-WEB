@@ -18,9 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     function storePathValues() {
       const storage = globalThis?.sessionStorage;
       if (!storage) return;
+      const currentPath = globalThis.location.pathname;
       const prevPath = storage.getItem('currentPath');
-      if (prevPath) storage.setItem('prevPath', prevPath);
-      storage.setItem('currentPath', globalThis.location.pathname);
+      if (prevPath && (currentPath === '/' || currentPath === '/about')) {
+        storage.setItem('prevPath', prevPath);
+      }
+      storage.setItem('currentPath', currentPath);
     }
     storePathValues();
   }, [router.asPath]);

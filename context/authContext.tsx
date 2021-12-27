@@ -46,7 +46,7 @@ function useProviderAuth() {
       if (router.pathname === '/' || router.pathname === '/about') {
         const storage = globalThis?.sessionStorage;
         const prevPath = storage.getItem('prevPath');
-        if (prevPath) {
+        if (prevPath && prevPath !== '/') {
           router.push(prevPath);
         } else {
           router.push('/events');

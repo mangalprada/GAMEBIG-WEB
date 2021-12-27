@@ -48,7 +48,7 @@ const RespondToEvent: FC<Props> = ({
       .collection('participants')
       .doc(teamId)
       .delete();
-    router.push('/home');
+    router.push('/events');
   };
 
   const teamsArr = useCallback(async () => {

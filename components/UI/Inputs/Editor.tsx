@@ -6,15 +6,15 @@ import { withHistory } from 'slate-history';
 type Props = {
   value: Descendant[];
   onChange?: (value: Descendant[]) => void;
-  isreadOnly: boolean;
+  isReadOnly: boolean;
 };
 
-const Editor = ({ value, isreadOnly, onChange }: Props) => {
+const Editor = ({ value, isReadOnly, onChange }: Props) => {
   const [editor] = useState(
     useMemo(() => withHistory(withReact(createEditor() as ReactEditor)), [])
   );
   return (
-    <div className="p-4 bg-gray-800 rounded-md">
+    <div className={'p-4  rounded-md ' + (isReadOnly ? '' : 'bg-gray-800')}>
       <Slate
         editor={editor}
         value={value}
@@ -23,7 +23,7 @@ const Editor = ({ value, isreadOnly, onChange }: Props) => {
         }}
       >
         <Editable
-          readOnly={isreadOnly}
+          readOnly={isReadOnly}
           placeholder="What's on your mind..."
           style={{ color: '#fff', fontSize: '1rem', fontWeight: 600 }}
         />

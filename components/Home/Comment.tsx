@@ -1,36 +1,54 @@
 import Image from 'next/image';
+import { useState } from 'react';
 import axios from 'axios';
 import MoreIcon from '../UI/Icons/ProfileIcons/MoreIcon';
 import { useRouter } from 'next/router';
 import { CommentType } from '@/utilities/comment/commentTypes';
 import MoreActions from './MoreActionsOnPost';
 import { useAuth } from '@/context/authContext';
+import Editor from '../UI/Inputs/Editor';
 let { BASE_URL } = process.env;
 
 const Comment = ({
   comment,
   removeComment,
+  postId,
 }: {
   comment: CommentType;
   removeComment: (id: string) => void;
+  postId: string;
 }) => {
   const { userData } = useAuth();
-  const { content, user, _id } = comment;
+  const [isReadOnly, setIsReadOnly] = useState(true);
+  const [content, setContent] = useState(comment.content);
+  const { user, _id } = comment;
   const router = useRouter();
   const openProfile = (username: string) => {
     router.push(`/profile/${username}`);
   };
 
-  function editComment() {
-    console.log('edit comment');
+  function makeCommentEditable() {
+    setIsReadOnly(false);
   }
 
   function deleteComment() {
     try {
       axios.delete(`${BASE_URL}/api/commentOnPost`, {
-        params: { commentId: _id },
+        params: { commentId: _id, postId },
       });
       removeComment(_id);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function updateComment() {
+    //TODO
+    try {
+      axios.put(`${BASE_URL}/api/commentOnPost`, {
+        params: { _id, postId },
+      });
+      setIsReadOnly(true);
     } catch (err) {
       console.log(err);
     }
@@ -65,13 +83,26 @@ const Comment = ({
         </section>
         <div className="mr-4">
           {userData && userData.uid === user.uid ? (
-            <MoreActions editItem={editComment} deleteItem={deleteComment} />
+            <MoreActions
+              editItem={makeCommentEditable}
+              deleteItem={deleteComment}
+            />
           ) : null}
         </div>
       </div>
-      <span className="text-sm md:text-base text-white font-sans cursor-pointer ml-6">
-        {content}
-      </span>
+      <Editor value={content} isReadOnly={isReadOnly} onChange={setContent} />
+      {isReadOnly ? null : (
+        <div className="flex justify-end mr-2 mt-2">
+          <div
+            className="rounded-md bg-indigo-600 py-1 px-4"
+            onClick={updateComment}
+          >
+            <span className="text-lg text-white font-sans cursor-pointer">
+              Save
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

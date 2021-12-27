@@ -15,9 +15,16 @@ type Props = {
   setSelectedPost?: (post: PostType) => void;
   openModal?: () => void;
   isModalOpen?: boolean;
+  onDelete: (id: string) => void;
 };
 
-const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
+const Post = ({
+  post,
+  setSelectedPost,
+  openModal,
+  isModalOpen,
+  onDelete,
+}: Props) => {
   const { userData } = useAuth();
   const { content, user, noOfLikes, noOfComments, likedBy } = post;
 
@@ -59,11 +66,20 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
   }
 
   function editPost() {
+    //TODO
     console.log('edit comment');
   }
 
   function deletePost() {
-    console.log('delete comment');
+    //TODO
+    try {
+      axios.delete(`${BASE_URL}/api/posts`, {
+        params: { _id: post._id },
+      });
+      onDelete(post._id);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -74,12 +90,12 @@ const Post = ({ post, setSelectedPost, openModal, isModalOpen }: Props) => {
       <div className="flex items-center	justify-between">
         <HorizontalProfile user={user} isTransparent />
         <div className="rounded-full h-3.5 flex	items-center justify-center">
-          {userData && userData.uid === user.uid ? (
+          {false ? (
             <MoreActions editItem={editPost} deleteItem={deletePost} />
           ) : null}
         </div>
       </div>
-      <Editor value={content} isreadOnly />
+      <Editor value={content} isReadOnly />
       <div className=" h-16  flex items-center justify-around	">
         <div className="flex items-center	gap-3	" onClick={showModal}>
           <CommentsIcon size={24} />

@@ -13,7 +13,7 @@ const MoreActions = ({ editItem, deleteItem }: Props) => {
     e.stopPropagation();
     setShowMore(!showMore);
   };
-
+  //TODO : Close on Click outside, remove close Icon
   return (
     <div className="absolute mt-2 mr-3">
       {showMore ? (
@@ -37,7 +37,10 @@ const MoreActions = ({ editItem, deleteItem }: Props) => {
           </span>
           <span
             className="cursor-pointer hover:text-red-400"
-            onClick={deleteItem}
+            onClick={(e: MouseEvent) => {
+              e.stopPropagation();
+              deleteItem();
+            }}
           >
             Delete
           </span>

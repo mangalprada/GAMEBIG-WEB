@@ -53,7 +53,7 @@ const LandingComponent: FC = () => {
             </div>
             <div
               className="flex justify-center bg-gray-800 py-1.5 px-4 rounded-md cursor-pointer"
-              onClick={() => router.push('/home')}
+              onClick={() => router.push('/events')}
             >
               <span className="text-xl text-gray-400 font-sans font-semibold">
                 Continue Without Signing In

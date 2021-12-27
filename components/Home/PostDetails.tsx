@@ -1,17 +1,24 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Post from './Post';
 import Comment from './Comment';
-import TextArea from '../UI/Inputs/TextArea';
+import { Descendant } from 'slate';
 import { useAuth } from '@/context/authContext';
 import { CommentType } from '@/utilities/comment/commentTypes';
+import Editor from '../UI/Inputs/Editor';
 
 let { BASE_URL } = process.env;
+const initialValue: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  } as Descendant,
+];
 
 const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
   const {
     userData: { uid, username, photoURL, name },
   } = useAuth();
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState<Descendant[]>(initialValue);
   const [comments, setComments] = useState<CommentType[]>([]);
 
   useEffect(() => {
@@ -45,7 +52,7 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
         method: 'POST',
         body: JSON.stringify(commentData),
       });
-      setContent('');
+      setContent(initialValue);
       setComments([...comments, commentData]);
     } catch (err) {
       console.log(err);
@@ -61,18 +68,14 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
 
   return (
     <div className="w-11/12 md:w-2/3 mx-auto mb-8">
-      <Post post={post} isModalOpen={isModalOpen} />
-      <div>
-        <TextArea
-          labelName="Comment"
-          name="comment"
-          onChangeHandler={(e: ChangeEvent) => {
-            const target = e.target as HTMLInputElement;
-            setContent(target.value);
-          }}
-          value={content}
-        />
-        <div className="flex justify-end mr-2">
+      <Post
+        post={post}
+        isModalOpen={isModalOpen}
+        onDelete={(id) => closeModal()}
+      />
+      <div className="bg-gray-900 p-2 rounded-md">
+        <Editor value={content} isReadOnly={false} onChange={setContent} />
+        <div className="flex justify-end mr-2 mt-2">
           <div
             className="rounded-md bg-indigo-600 py-1 px-4"
             onClick={saveComment}
@@ -85,7 +88,12 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
       </div>
       <div className="flex flex-col mt-3">
         {comments.map((item: CommentType, index: number) => (
-          <Comment key={index} comment={item} removeComment={removeComment} />
+          <Comment
+            key={index}
+            comment={item}
+            removeComment={removeComment}
+            postId={post._id}
+          />
         ))}
       </div>
     </div>

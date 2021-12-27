@@ -58,7 +58,6 @@ export async function getPostsByUid(
 ) {
   try {
     const { uid } = req.query;
-    console.log(uid);
 
     // connect to the database
     let { db } = await connectToDatabase();
@@ -113,17 +112,19 @@ export async function updatePost(
 }
 
 export async function deletePost(
-  req: { body: any },
+  req: any,
   res: { json: (arg0: { message: string; success: boolean }) => any }
 ) {
   try {
+    const { _id } = req.query;
     // Connecting to the database
     let { db } = await connectToDatabase();
 
     // Deleting the post
     await db.collection('posts').deleteOne({
-      _id: new ObjectId(req.body),
+      _id: new ObjectId(_id),
     });
+    db.collection('commentsOnPost').deleteMany({ postId: _id });
 
     // returning a message
     return res.json({

@@ -49,7 +49,7 @@ function useProviderAuth() {
         if (prevPath) {
           router.push(prevPath);
         } else {
-          router.push('/home');
+          router.push('/events');
         }
       }
       setAuthPageNumber(1);

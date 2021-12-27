@@ -16,7 +16,7 @@ function AddGames({ uid }: { uid: string }) {
   };
 
   const handleFinish = () => {
-    router.push('/home');
+    router.push('/events');
     updateAuthPageNumber(1);
   };
 

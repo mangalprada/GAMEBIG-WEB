@@ -25,47 +25,6 @@ function BottomNavigationBar() {
         }
       >
         <div className="flex w-full justify-evenly space-x-1">
-          {/** Home */}
-          <Link href="/home" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
-              <span className="flex justify-center items-center">
-                <HomeIcon isActive={router.pathname === '/home'} size={32} />
-              </span>
-              <span
-                className={
-                  'text-xs text-gray-400 -mt-0.5 -ml-1.5 flex flex-1 justify-center ' +
-                  (router.pathname === '/home'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
-                }
-              >
-                Home
-              </span>
-            </a>
-          </Link>
-
-          {/** Teamup */}
-          <Link href="/openings" passHref>
-            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
-              <span className="flex justify-center items-center">
-                <JoinIcon
-                  isActive={router.pathname === '/openings'}
-                  size={32}
-                />
-              </span>
-              <span
-                className={
-                  'text-xs text-gray-400 -mt-0.5 -ml-1.5 flex flex-1 justify-center ' +
-                  (router.pathname === '/openings'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
-                }
-              >
-                Openings
-              </span>
-            </a>
-          </Link>
-
           {/** Events */}
           <Link href="/events" passHref>
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
@@ -84,6 +43,27 @@ function BottomNavigationBar() {
                 }
               >
                 Events
+              </span>
+            </a>
+          </Link>
+          {/** Teamup */}
+          <Link href="/openings" passHref>
+            <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
+              <span className="flex justify-center items-center">
+                <JoinIcon
+                  isActive={router.pathname === '/openings'}
+                  size={32}
+                />
+              </span>
+              <span
+                className={
+                  'text-xs text-gray-400 -mt-0.5 -ml-1.5 flex flex-1 justify-center ' +
+                  (router.pathname === '/openings'
+                    ? 'text-indigo-600 font-medium'
+                    : 'text-gray-600')
+                }
+              >
+                Openings
               </span>
             </a>
           </Link>

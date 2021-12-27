@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import Aux from 'hoc/Auxiliary/Auxiliary';
 import CreatePost from '@/components/Home/CreatePost';
 import Post from '@/components/Home/Post';
 import Modal from '@/components/UI/Modal/Modal';
@@ -9,9 +8,10 @@ import PostDetails from '@/components/Home/PostDetails';
 import { PostType } from '@/utilities/post/PostType';
 import { useAuth } from '@/context/authContext';
 
-const Home = ({ posts }: any) => {
+//TODO: feed from people I follow, on what they post, comment, like and share
+const Home = ({ postList }: any) => {
   const { userData } = useAuth();
-
+  const [posts, setPosts] = useState(postList);
   const [open, setOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
   const closeModal = () => {
@@ -21,6 +21,11 @@ const Home = ({ posts }: any) => {
   const openModal = () => {
     setOpen(true);
   };
+
+  function removePost(postId: string) {
+    let newComments = posts.filter((post: PostType) => post._id !== postId);
+    setPosts(newComments);
+  }
 
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
@@ -41,6 +46,7 @@ const Home = ({ posts }: any) => {
                     setSelectedPost={setSelectedPost}
                     openModal={openModal}
                     isModalOpen={open}
+                    onDelete={removePost}
                   />
                 </div>
               ))
@@ -74,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      posts: data,
+      postList: data,
     },
   };
 };

@@ -61,20 +61,22 @@ export async function getCommentsOnPost(
 }
 
 export async function updateCommentOnPost(
-  req: { body: any },
+  req: any,
   res: { json: (arg0: { message: string; success: boolean }) => any }
 ) {
   try {
+    const { _id, content } = req.query;
     // connect to the database
     let { db } = await connectToDatabase();
 
     // update the published status of the post
     await db.collection('commentsOnPost').updateOne(
       {
-        _id: new ObjectId(req.body),
+        _id,
       },
-      { $set: { published: true } }
+      { $set: { content } }
     );
+    console.log({ _id, content }, req.query);
 
     // return a message
     return res.json({
@@ -95,15 +97,20 @@ export async function deleteCommentOnPost(
   res: { json: (arg0: { message: string; success: boolean }) => any }
 ) {
   try {
-    const { commentId } = req.query;
+    const { commentId, postId } = req.query;
     // Connecting to the database
     let { db } = await connectToDatabase();
 
     // Deleting the post
-    const x = await db.collection('commentsOnPost').deleteOne({
+    await db.collection('commentsOnPost').deleteOne({
       _id: new ObjectId(commentId),
     });
-    console.log(x);
+    await db.collection('posts').updateOne(
+      {
+        _id: ObjectId(postId),
+      },
+      { $inc: { noOfComments: -1 } }
+    );
     // returning a message
     return res.json({
       message: 'Post deleted successfully',

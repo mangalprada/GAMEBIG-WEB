@@ -22,19 +22,6 @@ export default function Home() {
   const [data, setData] = useState(inititalValues);
   const router = useRouter();
 
-  useEffect(() => {
-    if (uid) {
-      if (router.pathname === '/' || router.pathname === '/about') {
-        const storage = globalThis?.sessionStorage;
-        const prevPath = storage.getItem('prevPath');
-        if (prevPath) {
-          router.push(prevPath);
-        } else {
-          router.push('/home');
-        }
-      }
-    }
-  }, [uid]);
   return (
     <Aux>
       <Head>

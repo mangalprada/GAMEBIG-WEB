@@ -18,11 +18,11 @@ export default function PrimaryNavigationItems() {
   return (
     <ul className="hidden md:flex items-end lg:space-x-10 lg:mr-20">
       <NavigationItem
-        href="/home"
-        isActive={router.pathname === '/home'}
-        toolTip="Home"
+        href="/events"
+        isActive={router.pathname === '/events'}
+        toolTip="Events"
       >
-        <HomeIcon isActive={router.pathname === '/home'} size={33} />
+        <TrophyIcon isActive={router.pathname === '/events'} size={33} />
       </NavigationItem>
       <NavigationItem
         href="/openings"
@@ -31,13 +31,7 @@ export default function PrimaryNavigationItems() {
       >
         <JoinIcon isActive={router.pathname === '/openings'} size={33} />
       </NavigationItem>
-      <NavigationItem
-        href="/events"
-        isActive={router.pathname === '/events'}
-        toolTip="Events"
-      >
-        <TrophyIcon isActive={router.pathname === '/events'} size={33} />
-      </NavigationItem>
+
       <NavigationItem
         href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
         isActive={

@@ -53,6 +53,7 @@ export const fetchParticipatedTeams = async (eventId: string) => {
             uids: data.uids,
             inGameLead: data.inGameLead,
             teamName: data.teamName,
+            phoneNumber: data.phoneNumber,
             docId: doc.id,
           });
       }

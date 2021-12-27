@@ -80,17 +80,22 @@ const RespondToEvent: FC<Props> = ({
       ) : (
         <div
           className={
-            'py-10 px-4 flex flex-col gap-4 font-sans text-green-400 ' +
+            'py-10 px-4 flex flex-col gap-4 font-sans text-green-600 ' +
             'font-semibold text-xl text-center sm:text-left'
           }
         >
-          <span>You have registered for this event!</span>
-          <span>
+          <span className=" text-center">
+            You have registered for this event
+          </span>
+          <span className="text-center">
+            A slot is confirmed for your Team!
+          </span>
+          {/* <span>
             {`Room Id and Password will be available here when 
             ${eventData.linkedPageName}
             shares them.`}
-          </span>
-          <span
+          </span> */}
+          {/* <span
             onClick={unregisterHandler}
             className={
               'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
@@ -98,7 +103,7 @@ const RespondToEvent: FC<Props> = ({
             }
           >
             UNREGISTER
-          </span>
+          </span> */}
         </div>
       )}
     </div>

@@ -36,7 +36,7 @@ export default function TeamUpItem({ data }: Props) {
   };
 
   const handleCardClick = () => {
-    if (data.uid && data.docId) {
+    if (data.uid && data.docId && data.uid === uid) {
       router.push(`/openings/${data.uid}/${data.docId}`);
     }
   };

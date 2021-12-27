@@ -8,7 +8,11 @@ import SelectDropDown from '../../UI/Select/SelectDropDown';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import Modal from '@/components/UI/Modal/Modal';
 import { useUI } from '@/context/uiContext';
+import * as yup from 'yup';
 import { EventData } from '@/utilities/eventItem/types';
+import FormInput from '@/components/UI/Inputs/FormInput';
+import { useFormik } from 'formik';
+import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 
 interface Props {
   teamSize: number;
@@ -17,120 +21,78 @@ interface Props {
   setTeamId: Dispatch<SetStateAction<string>>;
 }
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const validationSchema = yup.object({
+  teamName: yup.string().required('Team Name is required'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Only add your 10 digit mobile number')
+    .length(10, 'Phone number must be 10 digits long')
+    .required('Phone Number can not be empty'),
+});
+
 export default function BasicEventRegistrationForm({
   eventData,
   teamSize,
   setIsRegistered,
   setTeamId,
 }: Props) {
-  const { userData } = useAuth();
-  const { openSnackBar } = useUI();
-
-  const [teams, setTeams] = useState<TeamType[]>([]);
-  const [modalItem, setModalItem] = useState<number>(1);
-  const [selectedTeam, setSelectedTeam] = useState<TeamType>();
-  const [disableRegister, setDisableRegister] = useState<boolean>(true);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const getTeams = () => {
-      const teams: Array<TeamType> = [];
-      if (userData.uid) {
-        db.collection('teams')
-          .where('uids', 'array-contains-any', [userData.uid])
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const team = doc.data() as TeamType;
-              teams.push({ ...team, docId: doc.id });
-            });
-          })
-          .catch((error) => {
-            console.log('Error getting documents: ', error);
-          });
-      }
-      return teams;
-    };
-
-    const teams: TeamType[] = getTeams();
-    setTeams(teams);
-  }, [userData.uid]);
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
-  const openModal = () => {
-    setOpen(true);
-  };
+  const {
+    userData: { uid },
+  } = useAuth();
+  const formik = useFormik({
+    initialValues: { phoneNumber: '', teamName: '' },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const { teamName, phoneNumber } = values;
+      await db
+        .collection('events')
+        .doc(eventData.id)
+        .collection('participants')
+        .add({
+          teamName,
+          phoneNumber,
+          uids: [uid],
+        });
+      setIsRegistered(true);
+    },
+  });
 
   return (
     <div
       id="register"
-      className="flex flex-col font-sans font-semibold text-gray-300 px-4"
+      className="flex flex-col font-sans font-semibold text-gray-300 px-4 mx-auto w-11/12 md:w-2/3"
     >
-      <label className="font-sans font-semibold text-2xl text-gray-300 py-5">
-        Register Now To Partcipate
+      <label className="font-sans font-semibold text-2xl text-indigo-600 py-5">
+        Book a slot To Partcipate
       </label>
-      <div className="mt-4 md:w-1/2 ">
-        <SelectDropDown
-          handleChange={(val) => {
-            if (val.gamers.length === teamSize) {
-              setDisableRegister(false);
-              setSelectedTeam(val);
-            } else {
-              setDisableRegister(true);
-              openSnackBar({
-                label: 'Oops!',
-                message: `We need ${teamSize} players, ${val.teamName} has ${val.gamers.length}.`,
-                type: 'warning',
-              });
-            }
-          }}
-          label="Select From Existing Teams"
-          menuItems={teams}
-          propToShow="teamName"
+      <form className="flex flex-col justify-center ">
+        <FormInput
+          labelName="Team Name"
+          name="teamName"
+          value={formik.values.teamName}
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.teamName)}
+          errorMessage={formik.errors.teamName}
         />
-        <FixedButton
-          isDisabled={disableRegister}
-          onClick={() => {
-            setModalItem(2);
-            openModal();
-          }}
-          name="Register"
+        <FormInput
+          labelName="Phone Number"
+          name="phoneNumber"
+          value={formik.values.phoneNumber}
+          placeHolder="10 digit e.g. - 9876543210"
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.phoneNumber)}
+          errorMessage={formik.errors.phoneNumber}
         />
-      </div>
-      <div className="px-4">
-        <span className="text-xl">OR</span>
-      </div>
-      <FixedButton
-        onClick={() => {
-          setModalItem(1);
-          openModal();
-        }}
-        name="Create Your New Team"
+      </form>
+      <ResponsiveButton
+        name="Book My Slot"
+        type="submit"
+        isDisabled={formik.isSubmitting}
+        onClick={formik.handleSubmit}
       />
-      <Modal isOpen={open} closeModal={closeModal}>
-        <div>
-          {
-            {
-              1: <CreateTeam teamSize={teamSize} onCancel={closeModal} />,
-              2: (
-                <GamerDetails
-                  setTeamId={setTeamId}
-                  teamSize={teamSize}
-                  eventId={eventData.id}
-                  eventData={eventData}
-                  onCancel={closeModal}
-                  team={selectedTeam}
-                  gameCode={eventData.gameCode}
-                  setIsRegistered={setIsRegistered}
-                />
-              ),
-            }[modalItem]
-          }
-        </div>
-      </Modal>
     </div>
   );
 }

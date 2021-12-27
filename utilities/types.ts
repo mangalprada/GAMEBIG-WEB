@@ -56,6 +56,7 @@ export interface GamerData {
 }
 export interface TeamType {
   teamName: string;
+  phoneNumber?: string;
   gamers: BasicUserType[];
   invitedGamers?: BasicUserType[];
   inGameLead?: string;

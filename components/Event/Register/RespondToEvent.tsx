@@ -11,6 +11,7 @@ import SendNotification from '../Notification/SendNotification';
 import ParticipantList from '../ParticipantList/ParticipantList';
 import RegisterEventForm from './RegisterEventForm';
 import SoloRegistrationForm from './SoloRegistrationForm';
+import BasicEventRegistrationForm from './BasicEventRegistrationForm';
 import { EventData } from '@/utilities/eventItem/types';
 import { db } from 'firebase/firebaseClient';
 import router from 'next/router';
@@ -63,37 +64,19 @@ const RespondToEvent: FC<Props> = ({
     <div>
       {isPageOwner ? (
         <div>
-          <SendNotification eventData={eventData} />
-          <EventResultForm eventId={eventData.id} participants={participants} />
+          {/* <SendNotification eventData={eventData} /> */}
+          {/* <EventResultForm eventId={eventData.id} participants={participants} /> */}
           <ParticipantList participants={participants} />
         </div>
       ) : null}
 
       {!isRegistered ? (
-        {
-          Squad: (
-            <RegisterEventForm
-              eventData={eventData}
-              teamSize={4}
-              setTeamId={setTeamId}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-          Duo: (
-            <RegisterEventForm
-              eventData={eventData}
-              teamSize={2}
-              setTeamId={setTeamId}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-          Solo: (
-            <SoloRegistrationForm
-              eventData={eventData}
-              setIsRegistered={setIsRegistered}
-            />
-          ),
-        }[eventData.mode]
+        <BasicEventRegistrationForm
+          eventData={eventData}
+          teamSize={4}
+          setTeamId={setTeamId}
+          setIsRegistered={setIsRegistered}
+        />
       ) : (
         <div
           className={

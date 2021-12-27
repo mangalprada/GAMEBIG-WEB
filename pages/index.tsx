@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useAuth } from '../context/authContext';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import AuthComponent from '../components/Auth/AuthComponent';
@@ -14,8 +15,26 @@ const inititalValues: UserData = {
 };
 
 export default function Home() {
-  const { authPageNumber } = useAuth();
+  const {
+    authPageNumber,
+    userData: { uid },
+  } = useAuth();
   const [data, setData] = useState(inititalValues);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (uid) {
+      if (router.pathname === '/' || router.pathname === '/about') {
+        const storage = globalThis?.sessionStorage;
+        const prevPath = storage.getItem('prevPath');
+        if (prevPath) {
+          router.push(prevPath);
+        } else {
+          router.push('/home');
+        }
+      }
+    }
+  }, [uid]);
   return (
     <Aux>
       <Head>

@@ -69,8 +69,8 @@ export default function RegisterEventForm({
       id="register"
       className="flex flex-col font-sans font-semibold text-gray-300 px-4"
     >
-      <label className="font-sans font-se text-xl text-gray-300 py-5">
-        Register For Event
+      <label className="font-sans font-semibold text-2xl text-gray-300 py-5">
+        Register Now To Partcipate
       </label>
       <div className="mt-4 md:w-1/2 ">
         <SelectDropDown

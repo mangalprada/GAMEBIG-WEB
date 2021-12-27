@@ -44,7 +44,13 @@ function useProviderAuth() {
     const tempUser = await getUserData(uid);
     if (tempUser.uid) {
       if (router.pathname === '/' || router.pathname === '/about') {
-        router.push('/home');
+        const storage = globalThis?.sessionStorage;
+        const prevPath = storage.getItem('prevPath');
+        if (prevPath) {
+          router.push(prevPath);
+        } else {
+          router.push('/home');
+        }
       }
       setAuthPageNumber(1);
       setUserData(tempUser);

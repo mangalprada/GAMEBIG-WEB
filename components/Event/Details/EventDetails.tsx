@@ -53,7 +53,7 @@ export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
       </div>
 
       <div className="flex flex-row space-x-5 mx-3">
-        <EventCardAvatar content={data?.linkedPageName[0]} />
+        <EventCardAvatar content={data?.linkedPageName?.charAt(0)} />
         <h1 className="text-indigo-600 text-xl font-semibold flex my-auto">
           {data?.linkedPageName}
         </h1>
@@ -64,7 +64,7 @@ export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
         <section>
           <h2 className="font-semibold text-gray-500">Game</h2>
           <span className="text-gray-200 font-semibold tracking-wide">
-            {games[data.gameCode].shortName}
+            {games[data.gameCode]?.shortName}
           </span>
         </section>
         {/** Game Mode */}

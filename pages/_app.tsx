@@ -15,6 +15,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
+    function storePathValues() {
+      const storage = globalThis?.sessionStorage;
+      if (!storage) return;
+      const prevPath = storage.getItem('currentPath');
+      if (prevPath) storage.setItem('prevPath', prevPath);
+      storage.setItem('currentPath', globalThis.location.pathname);
+    }
+    storePathValues();
+  }, [router.asPath]);
+
+  useEffect(() => {
     const handleStart = (url: string) => {
       NProgress.start();
     };

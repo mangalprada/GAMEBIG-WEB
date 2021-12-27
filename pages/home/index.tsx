@@ -21,6 +21,7 @@ const Home = ({ posts }: any) => {
   const openModal = () => {
     setOpen(true);
   };
+
   return (
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
       <Head>

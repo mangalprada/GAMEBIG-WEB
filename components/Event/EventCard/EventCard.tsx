@@ -100,7 +100,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         <EventCardRowItem
           content={`${games[data.gameCode]?.shortName} - ${data.mode}`}
           label="Game"
-          image={games[data.gameCode].imageSource}
+          image={games[data.gameCode]?.imageSource}
         >
           <EsportsIcon styles={'fill-current text-purple-700'} />
         </EventCardRowItem>

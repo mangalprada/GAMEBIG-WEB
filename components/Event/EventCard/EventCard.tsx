@@ -98,7 +98,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         onClick={onForwardAction}
       >
         <EventCardRowItem
-          content={`${games[data.gameCode].shortName} - ${data.mode}`}
+          content={`${games[data.gameCode]?.shortName} - ${data.mode}`}
           label="Game"
           image={games[data.gameCode].imageSource}
         >

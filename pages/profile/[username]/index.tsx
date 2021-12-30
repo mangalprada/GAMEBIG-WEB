@@ -52,7 +52,7 @@ export default function Events({ events, userData }: Props) {
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="mt-10">
-          {events.length === 0 ? emptyEventsComponent : allParticipatedEvents}
+          {events.length > 0 ? allParticipatedEvents : emptyEventsComponent}
         </div>
       </Aux>
     </div>
@@ -64,7 +64,7 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let events;
+  let events: EventData[] = [];
   let userData: UserData = {} as UserData;
   try {
     const cookies = nookies.get(context);
@@ -74,7 +74,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       .then(async (user) => {
         const { username } = context.params as IParams;
         userData = await getUser(username);
-        events = (await fetchEventsDataByUid(userData.uid)) as EventData[];
+        events = await fetchEventsDataByUid(userData.uid);
       });
     console.log(events);
   } catch (err) {

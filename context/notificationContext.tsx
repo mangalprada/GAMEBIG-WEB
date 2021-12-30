@@ -47,7 +47,9 @@ function useProviderNotification() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       try {
-        navigator.serviceWorker.register('./firebase-messaging-sw.js');
+        navigator.serviceWorker.register('firebase-messaging-sw.js', {
+          scope: '/',
+        });
       } catch (err) {
         console.log(err);
       }

@@ -60,6 +60,7 @@ export default function BasicEventRegistrationForm({
         .collection('events')
         .doc(eventData.id)
         .update({
+          noOfSlots: firebase.firestore.FieldValue.increment(-1),
           participantUids: firebase.firestore.FieldValue.arrayUnion(uid),
         });
       setIsRegistered(true);

@@ -76,6 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         userData = await getUser(username);
         events = await fetchEventsDataByUid(userData.uid);
       });
+    console.log(events);
   } catch (err) {
     context.res.writeHead(302, { Location: '/' });
     context.res.end();

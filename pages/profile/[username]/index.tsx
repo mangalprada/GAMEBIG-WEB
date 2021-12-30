@@ -64,7 +64,7 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let events: EventData[] = [];
+  let events;
   let userData: UserData = {} as UserData;
   try {
     const cookies = nookies.get(context);
@@ -74,7 +74,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       .then(async (user) => {
         const { username } = context.params as IParams;
         userData = await getUser(username);
-        events = await fetchEventsDataByUid(userData.uid);
+        events = (await fetchEventsDataByUid(userData.uid)) as EventData[];
       });
     console.log(events);
   } catch (err) {

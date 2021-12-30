@@ -86,7 +86,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         {/** Share Event */}
         <ShareEventLink
           link={`https://gamebig.in/page/${data.linkedPageId}/events/${data.id}`}
-          game={games[data.gameCode].shortName}
+          game={games[data.gameCode]?.shortName}
         />
       </div>
 

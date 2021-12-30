@@ -85,8 +85,8 @@ export const fetchEventsDataByUid = async (uid: string) => {
         noOfSlots: data.noOfSlots,
         description: data.description,
         prize: data.prize,
-        startTime: data.startTime,
-        createdAt: data.createdAt,
+        startTime: data.startTime.toDate().toISOString(),
+        createdAt: data.createdAt.toDate().toISOString(),
         linkedPageId: data.linkedPageId,
         linkedPageName: data.linkedPageName,
       };

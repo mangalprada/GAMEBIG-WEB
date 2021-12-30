@@ -103,8 +103,8 @@ export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
             Registration open till
           </h2>
           <span className="text-gray-200 font-semibold tracking-wide">
+            {getDecoratedTime(data.startTime, -30)},{' '}
             {getDecoratedDate(data.startTime)}
-            {getDecoratedTime(data.startTime)}
           </span>
         </section>
         <section>

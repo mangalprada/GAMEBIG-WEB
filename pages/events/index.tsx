@@ -98,7 +98,12 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
-        <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end mt-4 mb-5">
+        <div className="md:w-2/3 xl:w-1/2 mx-2 md:mx-auto flex justify-evenly mt-4 mb-2 bg-indigo-900/60 rounded-md py-1 ">
+          <span className="text-gray-300 font-semibold font-sans text-lg md:text-2xl mx-4">
+            Upcoming Custom Room Matches
+          </span>
+        </div>
+        <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end">
           <section
             className={
               'bg-gray-900 hover:bg-gray-900/60 flex justify-evenly items-center ' +

@@ -10,11 +10,11 @@ const TeamUpFAQ: FC = () => {
       <section
         className={
           'flex justify-between items-center px-4 py-2 rounded-md ' +
-          'bg-indigo-900/20 hover:bg-indigo-800/60 cursor-pointer'
+          'bg-indigo-900/60 hover:bg-indigo-800/70 cursor-pointer'
         }
         onClick={() => setIsModalOpen(true)}
       >
-        <span className="text-lg font-medium text-gray-400">
+        <span className="text-lg font-medium text-gray-300">
           Find your perfect Teammate!
         </span>
         <span>

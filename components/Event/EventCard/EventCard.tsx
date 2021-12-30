@@ -139,9 +139,10 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
           <HourglassIcon styles={'fill-current text-red-300'} />
           <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
-            {`Registration open till 
-          ${getDecoratedDate(data.startTime)}, 
-          ${getDecoratedTime(data.startTime, -30)}`}
+            {`Registration open till      
+          ${getDecoratedTime(data.startTime, -30)}, ${getDecoratedDate(
+              data.startTime
+            )}`}
           </span>
         </section>
       </div>
@@ -167,7 +168,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
                 }
               />
             ) : (
-              <FixedButton name="REGISTER" onClick={onForwardAction} />
+              <FixedButton name="PARTICIPATE NOW" onClick={onForwardAction} />
             )}
           </>
         )}

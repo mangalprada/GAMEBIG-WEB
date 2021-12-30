@@ -66,7 +66,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       {/** Header */}
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
-          <EventCardAvatar content={data?.linkedPageName?.charAt(0)} />
+          <EventCardAvatar content={data.linkedPageName[0]} />
           <div>
             <span className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3">
               {data.linkedPageName}
@@ -86,7 +86,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         {/** Share Event */}
         <ShareEventLink
           link={`https://gamebig.in/page/${data.linkedPageId}/events/${data.id}`}
-          game={games[data.gameCode]?.shortName}
+          game={games[data.gameCode].shortName}
         />
       </div>
 
@@ -98,9 +98,9 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         onClick={onForwardAction}
       >
         <EventCardRowItem
-          content={`${games[data.gameCode]?.shortName} - ${data.mode}`}
+          content={`${games[data.gameCode].shortName} - ${data.mode}`}
           label="Game"
-          image={games[data.gameCode]?.imageSource}
+          image={games[data.gameCode].imageSource}
         >
           <EsportsIcon styles={'fill-current text-purple-700'} />
         </EventCardRowItem>

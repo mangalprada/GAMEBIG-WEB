@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { db } from '../../../firebase/firebaseClient';
+import firebase, { db } from '../../../firebase/firebaseClient';
 import { TeamType } from '../../../utilities/types';
 import { useAuth } from '../../../context/authContext';
 import CreateTeam from '../../Team/createTeam';
@@ -55,6 +55,12 @@ export default function BasicEventRegistrationForm({
           teamName,
           phoneNumber,
           uids: [uid],
+        });
+      await db
+        .collection('events')
+        .doc(eventData.id)
+        .update({
+          participantUids: firebase.firestore.FieldValue.arrayUnion(uid),
         });
       setIsRegistered(true);
     },

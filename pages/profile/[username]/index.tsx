@@ -52,7 +52,7 @@ export default function Events({ events, userData }: Props) {
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="mt-10">
-          {/* //Todo {events.length > 0 ? allParticipatedEvents : emptyEventsComponent} */}
+          {events.length > 0 ? allParticipatedEvents : emptyEventsComponent}
         </div>
       </Aux>
     </div>

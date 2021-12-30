@@ -70,12 +70,10 @@ export const fetchEventsDataByPageId = async (pageId: string) => {
 
 export const fetchEventsDataByUid = async (uid: string) => {
   let eventDatas = [] as EventData[];
-  const eventRef = firebaseAdmin
-    .firestore()
-    .collectionGroup('participants')
-    .where('uids', 'array-contains', uid);
+  const eventRef = firebaseAdmin.firestore().collection('events');
+  const query = eventRef.where('participantUids', 'array-contains', uid);
   try {
-    const querySnapshot = await eventRef.get();
+    const querySnapshot = await query.get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const eventData = {

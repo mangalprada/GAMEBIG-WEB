@@ -15,9 +15,14 @@ import { useUI } from '@/context/uiContext';
 interface Props {
   data: EventData;
   isPageOwner: boolean;
+  openEditModal: () => void;
 }
 
-export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
+export default function DetailsAsParticipant({
+  data,
+  isPageOwner,
+  openEditModal,
+}: Props) {
   const { userData } = useAuth();
   const { openSnackBar } = useUI();
 
@@ -52,11 +57,16 @@ export default function DetailsAsParticipant({ data, isPageOwner }: Props) {
         <TextButton name="Go Back" type="fail" onClick={() => router.back()} />
       </div>
 
-      <div className="flex flex-row space-x-5 mx-3">
-        <EventCardAvatar content={data?.linkedPageName?.charAt(0)} />
-        <h1 className="text-indigo-600 text-xl font-semibold flex my-auto">
-          {data?.linkedPageName}
-        </h1>
+      <div className="flex flex-row justify-between space-x-5 mx-3">
+        <div className="flex flex-row items-center space-x-5 mx-3">
+          <EventCardAvatar content={data?.linkedPageName?.charAt(0)} />
+          <h1 className="text-indigo-600 text-xl font-semibold flex my-auto">
+            {data?.linkedPageName}
+          </h1>
+        </div>
+        {isPageOwner ? (
+          <TextButton name="EDIT" type="normal" onClick={openEditModal} />
+        ) : null}
       </div>
 
       <div className="grid grid-cols-2 mx-5 mt-8 gap-3">

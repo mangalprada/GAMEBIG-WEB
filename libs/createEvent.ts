@@ -12,11 +12,18 @@ export const addNewEvent = async (
       ...data,
       linkedPageId: pageId,
       linkedPageName: pageName,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     eventId = eventRef.id;
   } catch (err) {
     console.log('Error adding new Event', err);
   }
   return eventId;
+};
+
+export const updateEvent = async (eventId: string, data: any) => {
+  try {
+    await db.collection('events').doc(eventId).update(data);
+  } catch (err) {
+    console.log('Error adding new Event', err);
+  }
 };

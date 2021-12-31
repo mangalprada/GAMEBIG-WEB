@@ -11,6 +11,8 @@ import { EventData } from '../../../../../utilities/eventItem/types';
 import EventResults from '@/components/Event/Result/EventResults';
 import { db } from '../../../../../firebase/firebaseClient';
 import RespondToEvent from '@/components/Event/Register/RespondToEvent';
+import Modal from '@/components/UI/Modal/Modal';
+import CreateEvent from '@/components/Event/CreateEvent/CreateEventForm';
 
 interface Props {
   pageId: string;
@@ -23,6 +25,15 @@ export default function Event({ pageId, eventData }: Props) {
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
+  const [open, setOpen] = useState(false);
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  const openModal = () => {
+    setOpen(true);
+  };
 
   let isPageOwner = linkedPageId === pageId ? true : false;
 
@@ -81,7 +92,11 @@ export default function Event({ pageId, eventData }: Props) {
           'bg-gradient-to-b from-gray-900 to-black md:px-10'
         }
       >
-        <EventDetails isPageOwner={isPageOwner} data={eventData} />
+        <EventDetails
+          isPageOwner={isPageOwner}
+          data={eventData}
+          openEditModal={openModal}
+        />
         {/* <EventResults eventId={eventData.id} /> */}
         {uid ? (
           <RespondToEvent
@@ -106,6 +121,13 @@ export default function Event({ pageId, eventData }: Props) {
             </button>
           </section>
         )}
+        <Modal isOpen={open} closeModal={closeModal}>
+          <CreateEvent
+            gameCode={eventData.gameCode}
+            onCancel={closeModal}
+            oldValues={eventData}
+          />
+        </Modal>
       </main>
     </Aux>
   );

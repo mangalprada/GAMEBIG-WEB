@@ -19,7 +19,6 @@ export interface EventData {
   startTime: string;
   description: string;
   prize: string;
-  createdAt: string;
   linkedPageId: string;
   linkedPageName: string;
   roomId?: string;

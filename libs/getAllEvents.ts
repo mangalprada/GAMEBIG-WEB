@@ -22,7 +22,6 @@ export const fetchAllEventData = async () => {
         description: data.description,
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
-        createdAt: data.createdAt.toDate().toISOString(),
         linkedPageId: data.linkedPageId,
         linkedPageName: data.linkedPageName,
         roomId: data.roomId ? data.roomId : '',
@@ -56,7 +55,6 @@ export const fetchEventsDataByPageId = async (pageId: string) => {
         description: data.description,
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
-        createdAt: data.createdAt.toDate().toISOString(),
         linkedPageId: data.linkedPageId,
         linkedPageName: data.linkedPageName,
       };
@@ -74,6 +72,7 @@ export const fetchEventsDataByUid = async (uid: string) => {
   const query = eventRef.where('participantUids', 'array-contains', uid);
   try {
     const querySnapshot = await query.get();
+
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       const eventData = {
@@ -86,7 +85,6 @@ export const fetchEventsDataByUid = async (uid: string) => {
         description: data.description,
         prize: data.prize,
         startTime: data.startTime.toDate().toISOString(),
-        createdAt: data.createdAt.toDate().toISOString(),
         linkedPageId: data.linkedPageId,
         linkedPageName: data.linkedPageName,
       };

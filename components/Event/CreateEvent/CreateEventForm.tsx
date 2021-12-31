@@ -4,35 +4,42 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import SelectRadioButton from '@/components/UI/Select/SelectRadioButton';
 import SliderSelect from '@/components/UI/Slider/SliderSelect';
 import { HostEventForm } from '@/utilities/HostEventForm';
-import { addNewEvent } from '@/libs/createEvent';
+import { addNewEvent, updateEvent } from '@/libs/createEvent';
 import { useAuth } from '@/context/authContext';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import TextArea from '@/components/UI/Inputs/TextArea';
 import { validationSchema } from '@/utilities/eventItem/validator';
-import { EventFormData } from '@/utilities/eventItem/types';
+import { EventData, EventFormData } from '@/utilities/eventItem/types';
 
 export default function CreateEventForm({
   onCancel,
   gameCode,
+  oldValues,
 }: {
   onCancel: () => void;
   gameCode: string;
+  oldValues?: EventData;
 }) {
   const {
     userData: { linkedPageId, linkedPageName },
   } = useAuth();
+
   const formik = useFormik({
-    initialValues: HostEventForm[gameCode].initialValues,
+    initialValues: oldValues || HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
-      if (linkedPageId && linkedPageName) {
-        const tournId = await addNewEvent(linkedPageId, linkedPageName, {
-          ...value,
-          gameCode,
-        });
-        onCancel();
+      if (oldValues) {
+        updateEvent(oldValues.id, value);
+      } else {
+        if (linkedPageId && linkedPageName) {
+          const tournId = await addNewEvent(linkedPageId, linkedPageName, {
+            ...value,
+            gameCode,
+          });
+        }
       }
+      onCancel();
       resetForm();
     },
   });
@@ -110,6 +117,7 @@ export default function CreateEventForm({
                 name="startTime"
                 error={false}
                 label="Date and Time"
+                initialTime={formik.values.startTime}
                 changeHandler={(date: Date) => {
                   formik.setFieldValue('startTime', date);
                 }}

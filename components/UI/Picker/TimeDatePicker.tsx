@@ -11,13 +11,17 @@ const NewDatePicker = ({
   error,
   label,
   changeHandler,
+  initialTime,
 }: {
   error: boolean;
   label: string;
   name: string;
   changeHandler: (date: Date) => void;
+  initialTime?: Date;
 }) => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(
+    new Date(initialTime as Date) || new Date()
+  );
 
   const CustomInput = forwardRef<HTMLInputElement, Props>(
     ({ value, onClick }, ref) => (

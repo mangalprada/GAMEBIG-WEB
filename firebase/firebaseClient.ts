@@ -16,9 +16,9 @@ const config = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
-if (!firebase.apps.length && typeof window !== 'undefined') {
+if (!firebase.apps.length) {
   firebase.initializeApp(config);
-  firebase.analytics();
+  if (typeof window !== 'undefined') firebase.analytics();
 }
 
 export default firebase;

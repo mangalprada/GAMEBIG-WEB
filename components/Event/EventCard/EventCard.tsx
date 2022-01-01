@@ -125,8 +125,9 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         </EventCardRowItem>
 
         <EventCardRowItem
-          content={`${data.prize ? data.prize + ' ₹' : 'No Prize'}`}
+          content={`${data.prize ? '₹ ' + data.prize : 'No Prize'}`}
           label="Prize"
+          highlight={Boolean(data.prize)}
         >
           <MoneyIcon styles={'fill-current text-green-600'} />
         </EventCardRowItem>

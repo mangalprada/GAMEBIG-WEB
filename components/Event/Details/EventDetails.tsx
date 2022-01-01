@@ -96,7 +96,7 @@ export default function DetailsAsParticipant({
         <section>
           <h2 className="font-semibold text-gray-500">Prize</h2>
           <span className="text-gray-200 font-semibold tracking-wide">
-            {data.prize ? data.prize + ' ₹' : 'No Prize'}
+            {data.prize ? '₹ ' + data.prize : 'No Prize'}
           </span>
         </section>
         {/** Match Start Time */}

@@ -6,6 +6,7 @@ type Props = {
   content: string;
   children: ReactNode;
   image: string;
+  highlight?: boolean;
 };
 
 const EventCardRowItem: FC<Partial<Props>> = ({
@@ -13,9 +14,15 @@ const EventCardRowItem: FC<Partial<Props>> = ({
   content,
   children,
   image,
+  highlight,
 }) => {
   return (
-    <div className="flex flex-col sm:w-2/3 w-4/5 font-sans">
+    <div
+      className={
+        'flex flex-col sm:w-2/3 w-4/5 font-sans pl-2 rounded-md ' +
+        (highlight ? ' bg-red-500/20' : '')
+      }
+    >
       <section className="flex flex-row items-center">
         {children}
         <span className="text-gray-500 text-base font-medium px-2.5 tracking-wide">

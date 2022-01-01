@@ -73,7 +73,7 @@ function BasicForm({ setData }: Props) {
       </div>
       <form className="flex flex-col justify-center ">
         <FormInput
-          labelName="username*"
+          labelName="username"
           name="username"
           value={formik.values.username}
           onChangeHandler={formik.handleChange}
@@ -81,7 +81,7 @@ function BasicForm({ setData }: Props) {
           errorMessage={formik.errors.username}
         />
         <FormInput
-          labelName="Full Name*"
+          labelName="Full Name"
           name="name"
           value={formik.values.name}
           onChangeHandler={formik.handleChange}
@@ -90,7 +90,7 @@ function BasicForm({ setData }: Props) {
         />
       </form>
       <FormInput
-        labelName="Phone Number"
+        labelName="Phone Number(Optional)"
         name="phoneNumber"
         value={formik.values.phoneNumber}
         placeHolder="10 digit e.g. - 9876543210"

@@ -4,6 +4,7 @@ import 'firebase/firestore';
 import 'firebase/messaging';
 import 'firebase/storage';
 import 'firebase/functions';
+import 'firebase/analytics';
 
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -17,9 +18,11 @@ const config = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
+  firebase.analytics();
 }
 
 export default firebase;
+
 export const db = firebase.firestore();
 export const functions = firebase.app().functions('asia-east2');
 export const storage = firebase.storage();

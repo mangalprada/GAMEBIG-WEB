@@ -9,6 +9,7 @@ import { useUI } from '@/context/uiContext';
 import { isUsernameTaken, createUser } from '@/libs/user';
 import EditAvatar from '../UI/Avatar/EditAvatar';
 import { db } from 'firebase/firebaseClient';
+import { Mixpanel } from '../../mixpanel/Mixpanel';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -56,6 +57,7 @@ function BasicForm({ setData }: Props) {
           uid: userData.uid,
           username: values.username,
         });
+        Mixpanel.track('SIGN UP');
       }
       setSubmitting(false);
     },

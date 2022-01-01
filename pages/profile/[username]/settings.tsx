@@ -4,15 +4,9 @@ const settings = () => {
   const deleteUser = () => {
     const user = firebase.auth().currentUser;
     if (user) {
-      user
-        .delete()
-        .then(() => {
-          // User deleted.
-        })
-        .catch((error) => {
-          // An error ocurred
-          // ...
-        });
+      user.delete().catch((error) => {
+        console.log(error);
+      });
     }
   };
 

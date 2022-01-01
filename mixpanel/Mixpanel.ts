@@ -1,7 +1,7 @@
 import mixpanel, { Dict } from 'mixpanel-browser';
 
 const token = process.env.MIXPANEL_TOKEN;
-if (token) mixpanel.init(token);
+if (token) mixpanel.init(token, { ignore_dnt: true, track_pageview: true });
 
 const env_check = process.env.NODE_ENV === 'production';
 
@@ -12,7 +12,7 @@ const actions = {
   alias: (id: string) => {
     if (env_check) mixpanel.alias(id);
   },
-  track: (name: string, props: Dict | undefined) => {
+  track: (name: string, props?: Dict | undefined) => {
     if (env_check) mixpanel.track(name, props);
   },
   people: {

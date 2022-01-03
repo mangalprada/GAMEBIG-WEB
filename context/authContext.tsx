@@ -11,7 +11,6 @@ const authContext = createContext({
   setUserData: (data: UserData) => {},
   authPageNumber: 1,
   updateAuthPageNumber: (pageNumber: number) => {},
-  refetchUserData: () => {},
   signout: (): Promise<void> => {
     return Promise.resolve();
   },
@@ -68,11 +67,6 @@ function useProviderAuth() {
       setAuthPageNumber(2);
       router.push('/');
     }
-  };
-
-  const refetchUserData = async () => {
-    const data = await getUserData(userData.uid);
-    if (data.linkedPageId) setUserData(data);
   };
 
   const signInWithProvider = async (provider: firebase.auth.AuthProvider) => {
@@ -137,7 +131,6 @@ function useProviderAuth() {
     setUserData,
     authPageNumber,
     updateAuthPageNumber,
-    refetchUserData,
     signout,
     signInByFacebook,
     signInByGoogle,

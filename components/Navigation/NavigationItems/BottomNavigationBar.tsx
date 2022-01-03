@@ -11,9 +11,9 @@ import { useMessages } from '@/context/messageContext';
 
 function BottomNavigationBar() {
   const {
-    userData: { linkedPageId },
+    userData: { linkedPageIds },
   } = useAuth();
-  const { unseen } = useMessages();
+  const pageId = linkedPageIds ? linkedPageIds[0] : null;
   const router = useRouter();
   return (
     <div className="md:hidden w-full h-12 font-sans">
@@ -69,10 +69,7 @@ function BottomNavigationBar() {
           </Link>
 
           {/** Page */}
-          <Link
-            href={linkedPageId ? `/page/${linkedPageId}/events` : `/page`}
-            passHref
-          >
+          <Link href={pageId ? `/page/${pageId}/events` : `/page`} passHref>
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <PageIcon

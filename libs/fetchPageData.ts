@@ -11,6 +11,7 @@ export const fetchPageData = async (pageId: string) => {
       if (data) {
         pageData = {
           id: pageId,
+          admins: data.admins,
           name: data.name,
           category: data.category,
           about: data.about,

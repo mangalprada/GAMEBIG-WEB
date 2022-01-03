@@ -28,10 +28,6 @@ export default function DetailsAsParticipant({
 
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [message, setMessage] = useState({
-    label: '',
-    message: '',
-  });
 
   useEffect(() => {
     if (data.id && userData.uid) {
@@ -63,7 +59,10 @@ export default function DetailsAsParticipant({
 
       <div className="flex flex-row justify-between space-x-5 mx-3">
         <div className="flex flex-row items-center space-x-5 mx-3">
-          <EventCardAvatar content={data?.linkedPageName?.charAt(0)} />
+          <EventCardAvatar
+            content={data?.linkedPageName?.charAt(0)}
+            onclick={openLinkedPage}
+          />
           <h1
             className="text-indigo-600 text-xl font-semibold flex my-auto hover:underline cursor-pointer"
             onClick={openLinkedPage}

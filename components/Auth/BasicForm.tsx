@@ -8,7 +8,6 @@ import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
 import { isUsernameTaken, createUser } from '@/libs/user';
 import EditAvatar from '../UI/Avatar/EditAvatar';
-import { db } from 'firebase/firebaseClient';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;

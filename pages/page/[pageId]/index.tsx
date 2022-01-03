@@ -12,8 +12,6 @@ interface Props {
 }
 
 export default function PageAdmin({ pageData }: Props) {
-  const id = 1;
-
   return (
     <Aux>
       <Head>

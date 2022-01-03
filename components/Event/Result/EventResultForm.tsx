@@ -13,9 +13,16 @@ interface Props {
 }
 
 const positions = [
-  { name: 'First', id: 1 },
-  { name: 'Second', id: 2 },
-  { name: 'Third', id: 3 },
+  { name: 'Rank 1', id: 1 },
+  { name: 'Rank 2', id: 2 },
+  { name: 'Rank 3', id: 3 },
+  { name: 'Rank 4', id: 4 },
+  { name: 'Rank 5', id: 5 },
+  { name: 'Rank 6', id: 6 },
+  { name: 'Rank 7', id: 7 },
+  { name: 'Rank 8', id: 8 },
+  { name: 'Rank 9', id: 9 },
+  { name: 'Rank 10', id: 10 },
 ];
 
 const INITIAL_STATE = {

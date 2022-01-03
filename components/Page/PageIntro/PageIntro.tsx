@@ -25,7 +25,7 @@ export default function PageIntro() {
     >
       <section className="text-center">
         <span className="text-2xl md:text-4xl py-6 text-indigo-600">
-          Create a Page for your Clan or Esports Organization
+          Create a Page for your Esports Organization
         </span>
       </section>
 
@@ -43,9 +43,6 @@ export default function PageIntro() {
           FAQ
         </h3>
         <PageFAQ />
-        <span className="text-sm text-red-900 tracking-wider mt-1 flex justify-start w-11/12 mx-auto">
-          **Page for clan is under development**
-        </span>
       </section>
     </div>
   );

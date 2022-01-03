@@ -5,7 +5,6 @@ import SelectRadioButton from '@/components/UI/Select/SelectRadioButton';
 import SliderSelect from '@/components/UI/Slider/SliderSelect';
 import { HostEventForm } from '@/utilities/HostEventForm';
 import { addNewEvent, updateEvent } from '@/libs/createEvent';
-import { useAuth } from '@/context/authContext';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import TextArea from '@/components/UI/Inputs/TextArea';
@@ -16,15 +15,15 @@ export default function CreateEventForm({
   onCancel,
   gameCode,
   oldValues,
+  pageId,
+  pageName,
 }: {
   onCancel: () => void;
   gameCode: string;
   oldValues?: EventData;
+  pageId?: string;
+  pageName?: string;
 }) {
-  const {
-    userData: { linkedPageId, linkedPageName },
-  } = useAuth();
-
   const formik = useFormik({
     initialValues: oldValues || HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
@@ -32,8 +31,8 @@ export default function CreateEventForm({
       if (oldValues) {
         updateEvent(oldValues.id, value);
       } else {
-        if (linkedPageId && linkedPageName) {
-          const tournId = await addNewEvent(linkedPageId, linkedPageName, {
+        if (pageId && pageName) {
+          addNewEvent(pageId, pageName, {
             ...value,
             gameCode,
           });

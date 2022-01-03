@@ -26,6 +26,7 @@ type Props = {
   setIsRegistered: (val: boolean) => void;
   teamId: string;
   setTeamId: Dispatch<SetStateAction<string>>;
+  isPageOwner: boolean;
 };
 
 const RespondToEvent: FC<Props> = ({
@@ -35,12 +36,9 @@ const RespondToEvent: FC<Props> = ({
   setIsRegistered,
   teamId,
   setTeamId,
+  isPageOwner,
 }) => {
-  const {
-    userData: { linkedPageId, uid },
-  } = useAuth();
   const [participants, setParticipants] = useState<TeamType[]>([]);
-  let isPageOwner = linkedPageId === pageId ? true : false;
 
   const unregisterHandler = () => {
     db.collection('events')

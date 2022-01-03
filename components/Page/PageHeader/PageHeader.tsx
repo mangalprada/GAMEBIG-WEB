@@ -13,10 +13,10 @@ type Props = {
 };
 
 const PageHeader: FC<Props> = ({ data }: Props) => {
-  const {
-    userData: { linkedPageId },
-  } = useAuth();
   const router = useRouter();
+  const {
+    userData: { uid },
+  } = useAuth();
 
   const TABS = [
     {
@@ -68,7 +68,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             </div>
           </div>
         </div>
-        {linkedPageId === data.id ? (
+        {data.admins.includes(uid) ? (
           <TextButton
             name="EDIT"
             onClick={() => router.push(`/page/${data.id}/edit`)}

@@ -71,13 +71,10 @@ const PageFAQ: FC = () => {
             type="1"
           >
             <li>
-              1. Give your organization&apos;s / clan&apos;s details and we will
-              create a page for you.
+              1. Give your organization&apos;s details and we will create a page
+              for you.
             </li>
-            <li>
-              2. Start organizing events or reach out to your fans by creating
-              posts.
-            </li>
+            <li>2. Then you can start organizing events.</li>
           </ol>
         </Accordion.Content>
       </Accordion.Item>

@@ -11,7 +11,7 @@ export const validationSchema = yup.object({
   name: yup.string().required('Name is Required'),
   category: yup.string().required('For is Required'),
   about: yup.string(),
-  location: yup.string().notRequired(),
+  location: yup.string(),
   email: yup
     .string()
     .email('Enter a valid email')
@@ -21,12 +21,12 @@ export const validationSchema = yup.object({
     .length(10, 'Mobile number must be 10 digits long')
     .required('Mobile number is required')
     .matches(phoneRegExp, 'Mobile number is not valid'),
-  website: yup.string().url('Enter a valid URL').notRequired(),
-  youtube: yup.string().url('Enter a valid URL').notRequired(),
-  twitch: yup.string().url('Enter a valid URL').notRequired(),
-  facebook: yup.string().url('Enter a valid URL').notRequired(),
-  instagram: yup.string().url('Enter a valid URL').notRequired(),
-  twitter: yup.string().url('Enter a valid URL').notRequired(),
-  reddit: yup.string().url('Enter a valid URL').notRequired(),
-  discord: yup.string().url('Enter a valid URL').notRequired(),
+  website: yup.string().url('Enter a valid URL'),
+  youtube: yup.string().url('Enter a valid URL'),
+  twitch: yup.string().url('Enter a valid URL'),
+  facebook: yup.string().url('Enter a valid URL'),
+  instagram: yup.string().url('Enter a valid URL'),
+  twitter: yup.string().url('Enter a valid URL'),
+  reddit: yup.string().url('Enter a valid URL'),
+  discord: yup.string().url('Enter a valid URL'),
 });

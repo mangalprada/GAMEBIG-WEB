@@ -8,7 +8,6 @@ import { useAuth } from '@/context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchEventDataById } from '../../../../../libs/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
-import EventResults from '@/components/Event/Result/EventResults';
 import { db } from '../../../../../firebase/firebaseClient';
 import RespondToEvent from '@/components/Event/Register/RespondToEvent';
 import Modal from '@/components/UI/Modal/Modal';
@@ -21,7 +20,7 @@ interface Props {
 
 export default function Event({ pageId, eventData }: Props) {
   const {
-    userData: { linkedPageId, uid },
+    userData: { uid, linkedPageIds },
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<string>('');
@@ -35,7 +34,8 @@ export default function Event({ pageId, eventData }: Props) {
     setOpen(true);
   };
 
-  let isPageOwner = linkedPageId === pageId ? true : false;
+  const isPageOwner =
+    linkedPageIds && linkedPageIds[0] === pageId ? true : false;
 
   useEffect(() => {
     if (eventData.id && uid) {
@@ -106,6 +106,7 @@ export default function Event({ pageId, eventData }: Props) {
             setIsRegistered={setIsRegistered}
             teamId={teamId}
             setTeamId={setTeamId}
+            isPageOwner={isPageOwner}
           />
         ) : (
           <section className="mx-auto mt-16">

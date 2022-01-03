@@ -6,12 +6,16 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { PageFormData } from '@/utilities/page/types';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';
+import { useAuth } from '@/context/authContext';
 
 type Props = {
   data: PageFormData;
 };
 
 const PageHeader: FC<Props> = ({ data }: Props) => {
+  const {
+    userData: { linkedPageId },
+  } = useAuth();
   const router = useRouter();
 
   const TABS = [
@@ -64,11 +68,13 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             </div>
           </div>
         </div>
-        <TextButton
-          name="EDIT"
-          onClick={() => router.push(`/page/${data.id}/edit`)}
-          type="normal"
-        />
+        {linkedPageId === data.id ? (
+          <TextButton
+            name="EDIT"
+            onClick={() => router.push(`/page/${data.id}/edit`)}
+            type="normal"
+          />
+        ) : null}
       </div>
       <TabNavigator tabs={TABS} />
     </Aux>

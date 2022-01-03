@@ -55,6 +55,10 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
     router.push(`/page/${data.linkedPageId}/events/${data.id}/`);
   };
 
+  function openLinkedpage() {
+    router.push(`/page/${data.linkedPageId}/`);
+  }
+
   return (
     <div
       className={
@@ -68,7 +72,10 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         <div className="flex flex-row">
           <EventCardAvatar content={data.linkedPageName[0]} />
           <div>
-            <span className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3">
+            <span
+              className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
+              onClick={openLinkedpage}
+            >
               {data.linkedPageName}
             </span>
             <section className="flex flex-row mx-2 items-center mt-0.5">

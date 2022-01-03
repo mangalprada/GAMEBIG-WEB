@@ -64,8 +64,8 @@ const RespondToEvent: FC<Props> = ({
     <div>
       {isPageOwner ? (
         <div>
-          {/* <SendNotification eventData={eventData} /> */}
-          {/* <EventResultForm eventId={eventData.id} participants={participants} /> */}
+          <SendNotification eventData={eventData} />
+          <EventResultForm eventId={eventData.id} participants={participants} />
           <ParticipantList participants={participants} />
         </div>
       ) : null}

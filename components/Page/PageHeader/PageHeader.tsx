@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import TabNavigator from '@/components/Navigation/TabNavigation/TabNavigator';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { useAuth } from '@/context/authContext';
 import { PageFormData } from '@/utilities/page/types';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';
@@ -13,20 +12,17 @@ type Props = {
 };
 
 const PageHeader: FC<Props> = ({ data }: Props) => {
-  const {
-    userData: { linkedPageId },
-  } = useAuth();
   const router = useRouter();
 
   const TABS = [
     {
       label: 'Events',
-      href: `/page/${linkedPageId}/events`,
+      href: `/page/${data.id}/events`,
       pathName: '/page/[pageId]/events',
     },
     {
       label: 'About',
-      href: `/page/${linkedPageId}`,
+      href: `/page/${data.id}`,
       pathName: '/page/[pageId]',
     },
   ];

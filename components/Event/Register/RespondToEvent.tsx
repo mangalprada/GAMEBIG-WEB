@@ -77,7 +77,7 @@ const RespondToEvent: FC<Props> = ({
             setIsRegistered={setIsRegistered}
           />
         ) : (
-          <span className=" text-center text-gray-100 font-sans text-xl">
+          <span className=" text-center text-gray-100 font-sans text-xl mt-10 mx-auto">
             This event is fully Booked. Check some other event.
           </span>
         )

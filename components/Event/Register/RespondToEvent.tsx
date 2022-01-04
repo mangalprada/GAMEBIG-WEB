@@ -77,9 +77,16 @@ const RespondToEvent: FC<Props> = ({
             setIsRegistered={setIsRegistered}
           />
         ) : (
-          <span className=" text-center text-gray-100 font-sans text-xl mt-10 mx-auto">
-            This event is fully Booked. Check some other event.
-          </span>
+          <div
+            className={
+              'py-10 px-4 flex flex-col gap-4 font-sans ' +
+              'font-semibold text-xl text-center sm:text-left'
+            }
+          >
+            <span className="text-gray-100 font-sans text-xl">
+              This event is fully Booked. Check some other event.
+            </span>
+          </div>
         )
       ) : (
         <div

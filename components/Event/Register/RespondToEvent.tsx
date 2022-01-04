@@ -68,13 +68,19 @@ const RespondToEvent: FC<Props> = ({
         </div>
       ) : null}
 
-      {!isRegistered && eventData.noOfSlots > 0 ? (
-        <BasicEventRegistrationForm
-          eventData={eventData}
-          teamSize={4}
-          setTeamId={setTeamId}
-          setIsRegistered={setIsRegistered}
-        />
+      {!isRegistered ? (
+        eventData.noOfSlots > 0 ? (
+          <BasicEventRegistrationForm
+            eventData={eventData}
+            teamSize={4}
+            setTeamId={setTeamId}
+            setIsRegistered={setIsRegistered}
+          />
+        ) : (
+          <span className=" text-center text-gray-100 font-sans text-xl">
+            This event is fully Booked. Check some other event.
+          </span>
+        )
       ) : (
         <div
           className={

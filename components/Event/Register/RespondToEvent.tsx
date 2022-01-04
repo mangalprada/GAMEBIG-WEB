@@ -77,13 +77,8 @@ const RespondToEvent: FC<Props> = ({
             setIsRegistered={setIsRegistered}
           />
         ) : (
-          <div
-            className={
-              'py-10 px-4 flex flex-col gap-4 font-sans ' +
-              'font-semibold text-xl text-center sm:text-left'
-            }
-          >
-            <span className="text-gray-100 font-sans text-xl">
+          <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
+            <span className="text-gray-100 font-sans text-xl md:text-lg">
               This event is fully Booked. Check some other event.
             </span>
           </div>

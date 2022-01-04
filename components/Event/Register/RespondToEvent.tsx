@@ -68,7 +68,7 @@ const RespondToEvent: FC<Props> = ({
         </div>
       ) : null}
 
-      {!isRegistered ? (
+      {!isRegistered && eventData.noOfSlots > 0 ? (
         <BasicEventRegistrationForm
           eventData={eventData}
           teamSize={4}

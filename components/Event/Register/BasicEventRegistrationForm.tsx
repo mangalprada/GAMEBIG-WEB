@@ -85,7 +85,7 @@ export default function BasicEventRegistrationForm({
           errorMessage={formik.errors.teamName}
         />
         <FormInput
-          labelName="Phone Number"
+          labelName="Phone Number(WhatsApp)"
           name="phoneNumber"
           value={formik.values.phoneNumber}
           placeHolder="10 digit e.g. - 9876543210"

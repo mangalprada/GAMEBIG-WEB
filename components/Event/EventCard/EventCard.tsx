@@ -142,7 +142,6 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         <EventCardRowItem
           content={`${data.entryFee ? '₹ ' + data.entryFee : 'No Fee'}`}
           label="Entry Fee"
-          highlight={Boolean(data.prize)}
         >
           <MoneyIcon styles={'fill-current text-green-600'} />
         </EventCardRowItem>

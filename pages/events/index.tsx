@@ -38,6 +38,7 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
           noOfSlots: data.noOfSlots,
           description: data.description,
           prize: data.prize,
+          entryFee: data.entryFee,
           startTime: data.startTime.toDate().toISOString(),
           createdAt: data.createdAt.toDate().toISOString(),
           linkedPageId: data.linkedPageId,

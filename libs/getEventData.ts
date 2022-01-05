@@ -22,6 +22,7 @@ export const fetchEventDataById = async (id: string) => {
           startTime: data.startTime.toDate().toISOString(),
           description: data.description,
           prize: data.prize,
+          entryFee: data.entryFee,
           linkedPageId: data.linkedPageId,
           linkedPageName: data.linkedPageName,
           roomId: data.roomId ? data.roomId : '',

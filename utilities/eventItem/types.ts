@@ -7,6 +7,7 @@ export interface EventFormData {
   startTime: Date;
   description: string;
   prize: string;
+  entryFee: number;
 }
 
 export interface EventData {
@@ -18,6 +19,7 @@ export interface EventData {
   noOfSlots: number;
   startTime: string;
   description: string;
+  entryFee: string;
   prize: string;
   linkedPageId: string;
   linkedPageName: string;

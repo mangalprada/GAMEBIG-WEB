@@ -126,6 +126,15 @@ export default function CreateEventForm({
               />
               {formInputComponents}
               <FormInput
+                labelName="Entry Fee (in Rupees)"
+                name="entryFee"
+                placeHolder="0"
+                value={formik.values.entryFee}
+                onChangeHandler={formik.handleChange}
+                error={Boolean(formik.errors.entryFee)}
+                errorMessage={formik.errors.entryFee}
+              />
+              <FormInput
                 labelName="Prize / Reward (Optional)"
                 name="prize"
                 placeHolder="100 rupees"

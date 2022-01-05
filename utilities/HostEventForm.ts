@@ -33,6 +33,7 @@ export const HostEventForm: Record<string, any> = {
       startTime: new Date(),
       description: '',
       prize: '',
+      entryFee: 0,
     },
   },
   'cod-m': {
@@ -69,6 +70,7 @@ export const HostEventForm: Record<string, any> = {
       startTime: new Date(),
       description: '',
       prize: '',
+      entryFee: 0,
     },
   },
   'gff-m': {
@@ -105,6 +107,7 @@ export const HostEventForm: Record<string, any> = {
       startTime: new Date(),
       description: '',
       prize: '',
+      entryFee: 0,
     },
   },
 };

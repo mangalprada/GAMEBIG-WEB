@@ -7,7 +7,7 @@ import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
 import TrophyIcon from '@/components/UI/Icons/EventIcons/TrophyIcon';
-import EventIcon from '@/components/UI/Icons/EventIcons/EventIcon';
+import BadgeIcon from '@/components/UI/Icons/EventIcons/BadgeIcon';
 import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
@@ -116,22 +116,35 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         </EventCardRowItem>
 
         <EventCardRowItem content={`Daily Custom - ${data.tier}`} label="Tier">
-          <TrophyIcon styles={'fill-current text-yellow-500'} />
+          <BadgeIcon styles={'fill-current text-orange-800'} />
         </EventCardRowItem>
 
-        <EventCardRowItem
+        {/* <EventCardRowItem
           content={`${getDecoratedDate(data.startTime)}`}
           label="Event Date"
         >
           <EventIcon styles={'fill-current text-indigo-400'} />
-        </EventCardRowItem>
+        </EventCardRowItem> */}
 
         <EventCardRowItem
-          content={`${getDecoratedTime(data.startTime)} - 
-            ${getDecoratedTime(data.startTime, 30)}`}
+          content={`${getDecoratedTime(data.startTime)}, ${getDecoratedDate(
+            data.startTime
+          )}`}
           label="Event Time"
         >
           <AccessTimeIcon styles={'fill-current text-blue-500'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem content={`${data.noOfSlots} available`} label="Slots">
+          <RoomEntryIcon styles={'fill-current text-cyan-900'} />
+        </EventCardRowItem>
+
+        <EventCardRowItem
+          content={`${data.entryFee ? '₹ ' + data.entryFee : 'No Fee'}`}
+          label="Entry Fee"
+          highlight={Boolean(data.prize)}
+        >
+          <MoneyIcon styles={'fill-current text-green-600'} />
         </EventCardRowItem>
 
         <EventCardRowItem
@@ -139,11 +152,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           label="Prize"
           highlight={Boolean(data.prize)}
         >
-          <MoneyIcon styles={'fill-current text-green-600'} />
-        </EventCardRowItem>
-
-        <EventCardRowItem content={`${data.noOfSlots} available`} label="Slots">
-          <RoomEntryIcon styles={'fill-current text-gray-600'} />
+          <TrophyIcon styles={'fill-current text-yellow-500'} />
         </EventCardRowItem>
 
         {/** Registration Close by */}

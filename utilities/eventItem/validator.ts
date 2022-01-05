@@ -10,6 +10,7 @@ export const validationSchema = yup.object({
   description: yup.string(),
   // .required('Write a small description about this match'),
   prize: yup.string(),
+  entryFee: yup.number(),
 });
 
 //todo

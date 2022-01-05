@@ -1,18 +1,28 @@
-import ReadOnlyTeamItem from '@/components/Team/ReadOnlyTeamItem';
-// import { TeamType } from '@/utilities/types';
-import { useEffect, useState, useCallback } from 'react';
-import { fetchParticipatedTeams } from '../../../libs/getEventData';
+import { useState, useEffect, useCallback, FC } from 'react';
+import { fetchParticipatedTeams } from '@/libs/getEventData';
+import { EventData } from '@/utilities/eventItem/types';
+import { TeamType } from '@/utilities/types';
 
-interface Props {
-  participants: any[];
-}
+type Props = {
+  eventData: EventData;
+};
 
-export default function ParticipantList({ participants }: Props) {
+export default function ParticipantList({ eventData }: Props) {
+  const [participants, setParticipants] = useState<TeamType[]>([]);
+
+  const teamsArr = useCallback(async () => {
+    const teams = await fetchParticipatedTeams(eventData.id);
+    setParticipants(teams);
+  }, [eventData.id]);
+
+  useEffect(() => {
+    teamsArr();
+  }, [teamsArr]);
   return (
-    <div className="my-6 mx-2 rounded-md bg-gray-800 ">
+    <div className="my-6 mx-2 rounded-md text-center">
       {participants.length === 0 ? (
-        <span className="text-lg font-semibold text-indigo-600">
-          No Teams registered yet
+        <span className="text-lg font-semibold text-gray-100">
+          No Teams have registered yet
         </span>
       ) : (
         <div className="pb-6">

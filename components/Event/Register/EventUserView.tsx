@@ -1,73 +1,22 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  Dispatch,
-  FC,
-  SetStateAction,
-} from 'react';
-import { useAuth } from '@/context/authContext';
-import SendNotification from '../Notification/SendNotification';
-import ParticipantList from '../ParticipantList/ParticipantList';
-import RegisterEventForm from './RegisterEventForm';
-import SoloRegistrationForm from './SoloRegistrationForm';
+import { Dispatch, FC, SetStateAction } from 'react';
 import BasicEventRegistrationForm from './BasicEventRegistrationForm';
 import { EventData } from '@/utilities/eventItem/types';
-import { db } from 'firebase/firebaseClient';
-import router from 'next/router';
-import { TeamType } from '@/utilities/types';
-import { fetchParticipatedTeams } from '@/libs/getEventData';
-import EventResultForm from '../Result/EventResultForm';
 
 type Props = {
-  pageId: string;
   eventData: EventData;
   isRegistered: boolean;
   setIsRegistered: (val: boolean) => void;
-  teamId: string;
   setTeamId: Dispatch<SetStateAction<string>>;
-  isPageOwner: boolean;
 };
 
 const RespondToEvent: FC<Props> = ({
-  pageId,
   eventData,
   isRegistered,
   setIsRegistered,
-  teamId,
   setTeamId,
-  isPageOwner,
 }) => {
-  const [participants, setParticipants] = useState<TeamType[]>([]);
-
-  const unregisterHandler = () => {
-    db.collection('events')
-      .doc(eventData.id)
-      .collection('participants')
-      .doc(teamId)
-      .delete();
-    router.push('/events');
-  };
-
-  const teamsArr = useCallback(async () => {
-    const teams = await fetchParticipatedTeams(eventData.id);
-    setParticipants(teams);
-  }, [eventData.id]);
-
-  useEffect(() => {
-    teamsArr();
-  }, [teamsArr]);
-
   return (
     <div>
-      {isPageOwner ? (
-        <div>
-          <SendNotification eventData={eventData} />
-          <EventResultForm eventId={eventData.id} participants={participants} />
-          <ParticipantList participants={participants} />
-        </div>
-      ) : null}
-
       {!isRegistered ? (
         eventData.noOfSlots > 0 ? (
           <BasicEventRegistrationForm
@@ -91,11 +40,9 @@ const RespondToEvent: FC<Props> = ({
           }
         >
           <span className=" text-center">
-            You have registered for this event
+            You have booked a slot for your Team!
           </span>
-          <span className="text-center">
-            A slot is confirmed for your Team!
-          </span>
+
           {/* <span>
             {`Room Id and Password will be available here when 
             ${eventData.linkedPageName}

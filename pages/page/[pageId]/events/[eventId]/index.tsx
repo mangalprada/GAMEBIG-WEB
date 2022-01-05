@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
@@ -9,9 +8,12 @@ import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 import { fetchEventDataById } from '../../../../../libs/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
 import { db } from '../../../../../firebase/firebaseClient';
-import RespondToEvent from '@/components/Event/Register/RespondToEvent';
 import Modal from '@/components/UI/Modal/Modal';
 import CreateEvent from '@/components/Event/CreateEvent/CreateEventForm';
+import Tabs from '@/components/Event/Details/Tabs';
+import ParticipantList from '@/components/Event/ParticipantList/ParticipantList';
+import EventUserView from '@/components/Event/Register/EventUserView';
+import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
 
 interface Props {
   pageId: string;
@@ -23,6 +25,7 @@ export default function Event({ pageId, eventData }: Props) {
     userData: { uid, linkedPageIds },
   } = useAuth();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [tabKey, setTabKey] = useState(1);
   const [teamId, setTeamId] = useState<string>('');
   const [open, setOpen] = useState(false);
 
@@ -54,6 +57,10 @@ export default function Event({ pageId, eventData }: Props) {
         });
     }
   }, [eventData.id, uid]);
+
+  const changeTab = (tab: number) => {
+    setTabKey(tab);
+  };
 
   // const unregisterHandler = () => {
   //   db.collection('events')
@@ -97,31 +104,33 @@ export default function Event({ pageId, eventData }: Props) {
           data={eventData}
           openEditModal={openModal}
         />
-        {/* <EventResults eventId={eventData.id} /> */}
-        {uid ? (
-          <RespondToEvent
-            pageId={pageId}
-            eventData={eventData}
-            isRegistered={isRegistered}
-            setIsRegistered={setIsRegistered}
-            teamId={teamId}
-            setTeamId={setTeamId}
-            isPageOwner={isPageOwner}
+        {isPageOwner ? (
+          <Tabs
+            tabs={[
+              { key: 1, label: 'Participate' },
+              { key: 2, label: 'Organize' },
+              { key: 3, label: 'See Participants' },
+            ]}
+            currentTab={tabKey}
+            changeTab={changeTab}
           />
-        ) : (
-          <section className="mx-auto mt-16">
-            <button
-              className={
-                'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +
-                'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
-              }
-              type="button"
-              onClick={() => router.push('/')}
-            >
-              Sign in / Sign up to Register
-            </button>
-          </section>
-        )}
+        ) : null}
+        <div>
+          {
+            {
+              1: (
+                <EventUserView
+                  eventData={eventData}
+                  isRegistered={isRegistered}
+                  setIsRegistered={setIsRegistered}
+                  setTeamId={setTeamId}
+                />
+              ),
+              2: <EventOrganizerView eventData={eventData} />,
+              3: <ParticipantList eventData={eventData} />,
+            }[tabKey]
+          }
+        </div>
         <Modal isOpen={open} closeModal={closeModal}>
           <CreateEvent
             gameCode={eventData.gameCode}

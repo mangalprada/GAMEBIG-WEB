@@ -107,9 +107,9 @@ export default function Event({ pageId, eventData }: Props) {
         {isPageOwner ? (
           <Tabs
             tabs={[
-              { key: 1, label: 'Participate' },
+              { key: 1, label: 'Register' },
               { key: 2, label: 'Organize' },
-              { key: 3, label: 'See Participants' },
+              { key: 3, label: 'Participants' },
             ]}
             currentTab={tabKey}
             changeTab={changeTab}

@@ -29,7 +29,10 @@ export default function CreateEventForm({
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
       if (oldValues) {
-        updateEvent(oldValues.id, value);
+        updateEvent(oldValues.id, {
+          ...value,
+          startTime: new Date(value.startTime),
+        });
       } else {
         if (pageId && pageName) {
           addNewEvent(pageId, pageName, {

@@ -47,11 +47,7 @@ export default function ParticipantList({ eventData }: Props) {
                     key={index}
                   >
                     <td className="ml-6">{index + 1}</td>
-                    <td className="ml-6">
-                      {team.teamName?.length > 10
-                        ? team.teamName.slice(0, 12) + '...'
-                        : team.teamName}
-                    </td>
+                    <td className="ml-6">{team.teamName}</td>
                     <td className="ml-6">{team.phoneNumber}</td>
                   </tr>
                 );

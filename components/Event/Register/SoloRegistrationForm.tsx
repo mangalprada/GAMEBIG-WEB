@@ -28,7 +28,7 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
   const saveGamerDetails = async () => {
     await db
       .collection('events')
-      .doc(eventData.id)
+      .doc(eventData._id)
       .collection('participants')
       .add({
         gamers,
@@ -46,7 +46,7 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
 
   function updateSlots() {
     db.collection('events')
-      .doc(eventData.id)
+      .doc(eventData._id)
       .update({ noOfSlots: firebase.firestore.FieldValue.increment(-1) });
   }
 
@@ -57,7 +57,7 @@ export default function GamerDetails({ eventData, setIsRegistered }: Props) {
       </span>
       <GamerRegistrationForm
         gamer={{ name, username, photoURL, uid }}
-        gameCode={eventData.id}
+        gameCode={eventData._id}
         updateGamer={updateGamer}
       />
       <FixedButton onClick={handleRegister} name="Register" />

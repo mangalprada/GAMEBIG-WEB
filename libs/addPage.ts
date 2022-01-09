@@ -4,7 +4,10 @@ import { PageFormData } from '../utilities/page/types';
 export const addPage = async (data: PageFormData) => {
   let pageId = null;
   try {
-    const docRef = await db.collection('pages').add(data);
+    const docRef = await db.collection('pages').add({
+      ...data,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
     pageId = docRef.id;
   } catch (err) {
     console.log(err);

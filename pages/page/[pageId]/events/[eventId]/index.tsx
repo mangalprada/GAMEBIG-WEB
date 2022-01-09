@@ -1,29 +1,25 @@
 import { useState, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { ParsedUrlQuery } from 'querystring';
+import { useRouter } from 'next/router';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
-import { fetchEventDataById } from '../../../../../libs/getEventData';
 import { EventData } from '../../../../../utilities/eventItem/types';
-import { db } from '../../../../../firebase/firebaseClient';
 import Modal from '@/components/UI/Modal/Modal';
 import CreateEvent from '@/components/Event/CreateEvent/CreateEventForm';
 import Tabs from '@/components/Event/Details/Tabs';
 import ParticipantList from '@/components/Event/ParticipantList/ParticipantList';
 import EventUserView from '@/components/Event/Register/EventUserView';
+import EventResults from '@/components/Event/Result/EventResults';
 import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
+import axios from 'axios';
 
-interface Props {
-  pageId: string;
-  eventData: EventData;
-}
-
-export default function Event({ pageId, eventData }: Props) {
+export default function Event() {
   const {
     userData: { uid, linkedPageIds },
   } = useAuth();
+  const router = useRouter();
+  const [event, setEvent] = useState<EventData>();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(1);
   const [teamId, setTeamId] = useState<string>('');
@@ -37,39 +33,48 @@ export default function Event({ pageId, eventData }: Props) {
     setOpen(true);
   };
 
-  const isPageOwner =
-    linkedPageIds && linkedPageIds[0] === pageId ? true : false;
+  const isPageOwner = () => {
+    if (linkedPageIds && typeof router.query.pageId === 'string') {
+      return linkedPageIds.includes(router.query.pageId);
+    } else {
+      return false;
+    }
+  };
 
   useEffect(() => {
-    if (eventData.id && uid) {
-      db.collection('events')
-        .doc(eventData.id)
-        .collection('participants')
-        .where('uids', 'array-contains', uid)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            if (doc.data()) {
-              setIsRegistered(true);
-              setTeamId(doc.id);
-            }
-          });
-        });
+    const checkRegistration = async () => {
+      if (event && uid) {
+        const response = await axios.get(
+          `${process.env.BASE_URL}/api/participants`,
+          {
+            params: {
+              eventId: event._id,
+              uid,
+            },
+          }
+        );
+        setIsRegistered(response.data.message);
+      }
+    };
+    checkRegistration();
+  }, [event, uid]);
+
+  useEffect(() => {
+    const { eventId } = router.query;
+    async function fetchEventById() {
+      const response = await axios.get(`${process.env.BASE_URL}/api/events`, {
+        params: { id: eventId },
+      });
+      setEvent(response.data.message);
     }
-  }, [eventData.id, uid]);
+    fetchEventById();
+  }, [router.query]);
 
   const changeTab = (tab: number) => {
     setTabKey(tab);
   };
 
-  // const unregisterHandler = () => {
-  //   db.collection('events')
-  //     .doc(eventData.id)
-  //     .collection('participants')
-  //     .doc(teamId)
-  //     .delete();
-  //   router.push('/');
-  // };
+  if (!event) return null;
 
   return (
     <Aux>
@@ -100,11 +105,14 @@ export default function Event({ pageId, eventData }: Props) {
         }
       >
         <EventDetails
-          isPageOwner={isPageOwner}
-          data={eventData}
+          isUserRegistered={isRegistered}
+          isPageOwner={isPageOwner()}
+          data={event}
           openEditModal={openModal}
         />
-        {isPageOwner ? (
+
+        {/* <EventResults eventId={event._id} /> */}
+        {isPageOwner() ? (
           <Tabs
             tabs={[
               { key: 1, label: 'Register' },
@@ -120,41 +128,25 @@ export default function Event({ pageId, eventData }: Props) {
             {
               1: (
                 <EventUserView
-                  eventData={eventData}
+                  eventData={event}
                   isRegistered={isRegistered}
                   setIsRegistered={setIsRegistered}
                   setTeamId={setTeamId}
                 />
               ),
-              2: <EventOrganizerView eventData={eventData} />,
-              3: <ParticipantList eventData={eventData} />,
+              2: <EventOrganizerView eventData={event} />,
+              3: <ParticipantList eventData={event} />,
             }[tabKey]
           }
         </div>
         <Modal isOpen={open} closeModal={closeModal}>
           <CreateEvent
-            gameCode={eventData.gameCode}
+            gameCode={event.gameCode}
             onCancel={closeModal}
-            oldValues={eventData}
+            oldValues={event}
           />
         </Modal>
       </main>
     </Aux>
   );
 }
-
-interface IParams extends ParsedUrlQuery {
-  pageId: string;
-  eventId: string;
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { pageId, eventId } = context.params as IParams;
-  const eventData = await fetchEventDataById(eventId);
-  return {
-    props: {
-      eventData,
-      pageId,
-    },
-  };
-};

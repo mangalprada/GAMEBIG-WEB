@@ -2,15 +2,15 @@ import { useState } from 'react';
 import Head from 'next/head';
 import EventCard from '../../components/Event/EventCard/EventCard';
 import { GetServerSideProps, NextPage } from 'next';
-import { fetchAllEventData } from '../../libs/getAllEvents';
 import { EventData } from '../../utilities/eventItem/types';
 import MultiSelect from '@/components/UI/Select/MultiSelect';
 import { GAMES, GameCodesOnly } from 'assets/data/Games';
 import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import FilterIcon from '@/components/UI/Icons/EventIcons/FilterIcon';
-import { db } from 'firebase/firebaseClient';
 import Feedback from '@/components/Feedback/Feedback';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
 interface Props {
   events: EventData[];
@@ -23,39 +23,15 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
 
   const handleFilter = async () => {
     const games = selectedGames.length === 0 ? GameCodesOnly : selectedGames;
-    const query = db.collection('events').where('gameCode', 'in', games);
     let eventData = [] as EventData[];
     try {
-      const querySnapshot = await query.get();
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const event = {
-          id: doc.id,
-          gameCode: data.gameCode,
-          mode: data.mode,
-          type: data.type,
-          tier: data.tier,
-          noOfSlots: data.noOfSlots,
-          description: data.description,
-          prize: data.prize,
-          entryFee: data.entryFee,
-          startTime: data.startTime.toDate().toISOString(),
-          createdAt: data.createdAt.toDate().toISOString(),
-          linkedPageId: data.linkedPageId,
-          linkedPageName: data.linkedPageName,
-        };
-        eventData.push(event);
-      });
-      setEvents(eventData);
-      console.log(eventData);
-      setIsModalOpen(false);
     } catch (err) {
       console.log('Error fetching Event Ids', err);
     }
   };
 
   const allEvents = events.map((eventItem: EventData) => (
-    <EventCard key={eventItem.id} data={eventItem} isPageOwner={false} />
+    <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
   ));
 
   const emptyEventsComponent = (
@@ -153,10 +129,11 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const events = await fetchAllEventData();
+  const response = await axios.get(`${BASE_URL}/api/events`);
+
   return {
     props: {
-      events,
+      events: response.data.message,
     },
   };
 };

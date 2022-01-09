@@ -1,8 +1,9 @@
+import axios from 'axios';
 import { SetStateAction, useState } from 'react';
-import { db, functions } from '../../../firebase/firebaseClient';
 import { EventData } from '../../../utilities/eventItem/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import NormalInput from '../../UI/Inputs/NormalInput';
+const { BASE_URL } = process.env;
 
 export default function SendNotification({
   eventData,
@@ -13,39 +14,13 @@ export default function SendNotification({
   const [password, setPassword] = useState('');
 
   const updateTournamnet = async () => {
-    db.collection('events')
-      .doc(eventData.id)
-      .update({ roomId, password })
-      .then(() => {
-        console.log('RoomId and Password successfully updated!');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axios.put(`${BASE_URL}/api/events`, {
+      _id: eventData._id,
+      data: { $set: { roomId, password } },
+    });
   };
 
-  const sendNotification = async () => {
-    const { linkedPageId, linkedPageName, startTime } = eventData;
-    const sendEventMessage = functions.httpsCallable('sendEventMessage');
-    sendEventMessage({
-      data: {
-        roomId,
-        password,
-        tournamnetId: eventData.id,
-        linkedPageId,
-        linkedPageName,
-        startTime,
-      },
-      type: 'event',
-      target: [],
-    })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log('error sending notification', error);
-      });
-  };
+  const sendNotification = async () => {};
 
   const onBtnClickHandler = () => {
     updateTournamnet();

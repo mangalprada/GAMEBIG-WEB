@@ -119,7 +119,7 @@ export default function RegisterEventForm({
                 <GamerDetails
                   setTeamId={setTeamId}
                   teamSize={teamSize}
-                  eventId={eventData.id}
+                  eventId={eventData._id}
                   eventData={eventData}
                   onCancel={closeModal}
                   team={selectedTeam}

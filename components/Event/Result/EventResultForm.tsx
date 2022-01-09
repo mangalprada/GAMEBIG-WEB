@@ -6,6 +6,7 @@ import SelectDropDown from '@/components/UI/Select/SelectDropDown';
 import { TeamType } from '@/utilities/types';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import { db } from 'firebase/firebaseClient';
+import axios from 'axios';
 
 interface Props {
   participants: TeamType[];
@@ -37,12 +38,9 @@ export const validationSchema = yup.object({
 
 const EventResultForm = ({ participants, eventId }: Props) => {
   const saveResults = async ({ position, prize, winner }: any) => {
-    await db
-      .collection('events')
-      .doc(eventId)
-      .collection('winners')
-      .doc(position.id)
-      .set({ team: winner, prize, position: position.name });
+    axios.put(`${process.env.BASE_URL}/api/events`, {
+      data: { $push: { winners: winner } },
+    });
   };
 
   const formik = useFormik({
@@ -50,8 +48,9 @@ const EventResultForm = ({ participants, eventId }: Props) => {
     validationSchema: validationSchema,
     onSubmit: async (value, { resetForm }) => {
       const { position, winner, prize } = value;
-      if (position && winner && prize) {
-        saveResults({ position, winner, prize });
+      console.log({ position, winner, prize });
+
+      if (position && winner) {
         resetForm();
       }
     },
@@ -59,6 +58,9 @@ const EventResultForm = ({ participants, eventId }: Props) => {
 
   return (
     <div>
+      <h5 className="text-xl font-medium tracking-wide text-gray-400 ml-3">
+        Announce The Winners
+      </h5>
       <div className="grid md:grid-cols-2 md:gap-4 mx-6">
         <SelectDropDown
           name="position"
@@ -92,7 +94,7 @@ const EventResultForm = ({ participants, eventId }: Props) => {
       </div>
       <div className="mx-8">
         <FixedButton
-          name="Declare Winners"
+          name="Announce"
           type="submit"
           onClick={formik.handleSubmit}
         />

@@ -43,7 +43,7 @@ const EventResultForm = ({ eventId }: Props) => {
             <span className="text-gray-300 text-lg font-sans">
               Prize: {winner.prize}
             </span>
-            <TeamItem team={winner.team} />
+            {/* <TeamItem team={winner.team} /> */}
           </div>
         ))}
       </div>

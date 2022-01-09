@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 const HeaderLogo: FC = () => {
   return (
-    <Link href="/" passHref>
-      <a href="/">
+    <Link href="/events" passHref>
+      <a href="/events">
         <div className="mt-2 md:my-2">
           <span
             className="md:text-4xl md:font-bold text-2xl font-semibold bg-clip-text text-transparent tracking-wide 

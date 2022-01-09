@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.gamebig.www.twa",
+      "sha256_cert_fingerprints": [
+        "21:0F:31:22:FA:05:92:59:30:5E:3D:EE:D0:FA:F8:01:09:DC:E5:44:74:74:3D:45:68:D7:A2:8C:7C:41:4A:DC"
+      ]
+    }
+  }
+]

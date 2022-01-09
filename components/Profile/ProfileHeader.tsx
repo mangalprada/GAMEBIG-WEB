@@ -20,14 +20,14 @@ const ProfileHeader: FC<Props> = ({ userData }: Props) => {
 
   const tabs = [
     {
-      label: 'Events',
+      label: 'Games',
       href: `/profile/${userData.username}`,
       pathName: '/profile/[username]',
     },
     {
-      label: 'Games',
-      href: `/profile/${userData.username}/games`,
-      pathName: '/profile/[username]/games',
+      label: 'Events',
+      href: `/profile/${userData.username}/events`,
+      pathName: '/profile/[username]/events',
     },
     {
       label: 'Teams',

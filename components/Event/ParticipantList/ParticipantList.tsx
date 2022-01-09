@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, FC } from 'react';
-import { fetchParticipatedTeams } from '@/libs/getEventData';
 import { EventData } from '@/utilities/eventItem/types';
 import { TeamType } from '@/utilities/types';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
 type Props = {
   eventData: EventData;
@@ -11,9 +12,11 @@ export default function ParticipantList({ eventData }: Props) {
   const [participants, setParticipants] = useState<TeamType[]>([]);
 
   const teamsArr = useCallback(async () => {
-    const teams = await fetchParticipatedTeams(eventData.id);
-    setParticipants(teams);
-  }, [eventData.id]);
+    const response = await axios.get(`${BASE_URL}/api/participants`, {
+      params: { eventId: eventData._id },
+    });
+    setParticipants(response.data.message);
+  }, [eventData._id]);
 
   useEffect(() => {
     teamsArr();

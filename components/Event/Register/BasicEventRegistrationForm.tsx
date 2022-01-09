@@ -1,18 +1,12 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import firebase, { db } from '../../../firebase/firebaseClient';
-import { TeamType } from '../../../utilities/types';
+import { Dispatch, SetStateAction } from 'react';
 import { useAuth } from '../../../context/authContext';
-import CreateTeam from '../../Team/createTeam';
-import GamerDetails from './GamerDetails';
-import SelectDropDown from '../../UI/Select/SelectDropDown';
-import FixedButton from '../../UI/Buttons/FixedButton';
-import Modal from '@/components/UI/Modal/Modal';
-import { useUI } from '@/context/uiContext';
 import * as yup from 'yup';
 import { EventData } from '@/utilities/eventItem/types';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import { useFormik } from 'formik';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
 interface Props {
   teamSize: number;
@@ -35,34 +29,30 @@ const validationSchema = yup.object({
 
 export default function BasicEventRegistrationForm({
   eventData,
-  teamSize,
   setIsRegistered,
-  setTeamId,
 }: Props) {
   const {
-    userData: { uid },
+    userData: { uid, name, photoURL, username },
   } = useAuth();
   const formik = useFormik({
     initialValues: { phoneNumber: '', teamName: '' },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const { teamName, phoneNumber } = values;
-      await db
-        .collection('events')
-        .doc(eventData.id)
-        .collection('participants')
-        .add({
+
+      axios.post(`${BASE_URL}/api/participants`, {
+        data: {
+          createdAt: new Date(),
+          eventId: eventData._id,
           teamName,
           phoneNumber,
-          uids: [uid],
-        });
-      await db
-        .collection('events')
-        .doc(eventData.id)
-        .update({
-          noOfSlots: firebase.firestore.FieldValue.increment(-1),
-          participantUids: firebase.firestore.FieldValue.arrayUnion(uid),
-        });
+          users: [{ uid, name, photoURL, username }],
+        },
+      });
+      axios.put(`${BASE_URL}/api/events`, {
+        _id: eventData._id,
+        data: { $inc: { noOfSlots: -1 } },
+      });
       setIsRegistered(true);
     },
   });

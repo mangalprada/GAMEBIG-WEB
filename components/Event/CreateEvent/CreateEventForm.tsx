@@ -4,12 +4,13 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import SelectRadioButton from '@/components/UI/Select/SelectRadioButton';
 import SliderSelect from '@/components/UI/Slider/SliderSelect';
 import { HostEventForm } from '@/utilities/HostEventForm';
-import { addNewEvent, updateEvent } from '@/libs/createEvent';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import TextArea from '@/components/UI/Inputs/TextArea';
 import { validationSchema } from '@/utilities/eventItem/validator';
 import { EventData, EventFormData } from '@/utilities/eventItem/types';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
 export default function CreateEventForm({
   onCancel,
@@ -24,21 +25,34 @@ export default function CreateEventForm({
   pageId?: string;
   pageName?: string;
 }) {
+  async function updateEvent(_id: string, data: EventFormData) {
+    await axios.put(`${BASE_URL}/api/events`, {
+      _id: _id,
+      data: { $set: data },
+    });
+  }
+
+  async function createEvent(value: EventFormData) {
+    axios.post(`${BASE_URL}/api/events`, {
+      data: {
+        ...value,
+        gameCode,
+        pageId,
+        pageName,
+        createdAt: new Date(),
+      },
+    });
+  }
   const formik = useFormik({
     initialValues: oldValues || HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
-      if (oldValues) {
-        updateEvent(oldValues.id, {
-          ...value,
-          startTime: new Date(value.startTime),
-        });
+      if (oldValues?._id) {
+        delete value._id;
+        updateEvent(oldValues._id, value);
       } else {
         if (pageId && pageName) {
-          addNewEvent(pageId, pageName, {
-            ...value,
-            gameCode,
-          });
+          createEvent(value);
         }
       }
       onCancel();
@@ -151,7 +165,11 @@ export default function CreateEventForm({
               value={formik.values.description}
               onChangeHandler={formik.handleChange}
             />
-            <ResponsiveButton name="Save" onClick={formik.handleSubmit} />
+            <ResponsiveButton
+              name="Save"
+              type="submit"
+              onClick={formik.handleSubmit}
+            />
           </form>
         </div>
       </div>

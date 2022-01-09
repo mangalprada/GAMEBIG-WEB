@@ -19,7 +19,6 @@ interface Props {
 export default function GamerDetails({
   setTeamId,
   eventId,
-  eventData,
   teamSize,
   team,
   gameCode,

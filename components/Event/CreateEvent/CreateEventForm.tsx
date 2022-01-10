@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import TimeDatePicker from '@/components/UI/Picker/TimeDatePicker';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -10,6 +11,7 @@ import TextArea from '@/components/UI/Inputs/TextArea';
 import { validationSchema } from '@/utilities/eventItem/validator';
 import { EventData, EventFormData } from '@/utilities/eventItem/types';
 import axios from 'axios';
+import SlotsGrid from './SlotsGrid';
 const { BASE_URL } = process.env;
 
 export default function CreateEventForm({
@@ -59,6 +61,23 @@ export default function CreateEventForm({
       resetForm();
     },
   });
+
+  const initialSlots = () => {
+    const slots: Record<string, any> = {};
+    for (var i = 1; i <= formik.values.noOfSlots; i++) {
+      slots[i] = 'available';
+    }
+    return slots;
+  };
+
+  const [slots, setSlots] = useState(initialSlots());
+
+  function slotSelectHandler(slot: string) {
+    const newSlots = { ...slots };
+    newSlots[slot] =
+      newSlots[slot] === 'available' ? 'reserved_by_org' : 'available';
+    setSlots(newSlots);
+  }
 
   const formInputComponents = HostEventForm[formik.values.gameCode].form.map(
     (input: Record<string, any>, index: number) => {
@@ -165,6 +184,7 @@ export default function CreateEventForm({
               value={formik.values.description}
               onChangeHandler={formik.handleChange}
             />
+            <SlotsGrid slots={slots} slotSelectHandler={slotSelectHandler} />
             <ResponsiveButton
               name="Save"
               type="submit"

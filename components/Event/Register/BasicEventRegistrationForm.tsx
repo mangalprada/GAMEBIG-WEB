@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useAuth } from '../../../context/authContext';
 import * as yup from 'yup';
 import { EventData } from '@/utilities/eventItem/types';
@@ -6,6 +6,7 @@ import FormInput from '@/components/UI/Inputs/FormInput';
 import { useFormik } from 'formik';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import axios from 'axios';
+import SlotsGrid from '../CreateEvent/SlotsGrid';
 const { BASE_URL } = process.env;
 
 interface Props {
@@ -27,6 +28,20 @@ const validationSchema = yup.object({
     .required('Phone Number can not be empty'),
 });
 
+function loadScript(src: string) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
+
 export default function BasicEventRegistrationForm({
   eventData,
   setIsRegistered,
@@ -34,6 +49,8 @@ export default function BasicEventRegistrationForm({
   const {
     userData: { uid, name, photoURL, username },
   } = useAuth();
+  const [slots, setSlots] = useState(eventData.slots);
+  const [currentSlotNumber, setCurrentSlotnumber] = useState<string>('');
   const formik = useFormik({
     initialValues: { phoneNumber: '', teamName: '' },
     validationSchema: validationSchema,
@@ -44,18 +61,70 @@ export default function BasicEventRegistrationForm({
         data: {
           createdAt: new Date(),
           eventId: eventData._id,
-          teamName,
+          slotNumber: currentSlotNumber,
           phoneNumber,
           users: [{ uid, name, photoURL, username }],
         },
       });
       axios.put(`${BASE_URL}/api/events`, {
         _id: eventData._id,
-        data: { $inc: { noOfSlots: -1 } },
+        data: {
+          $set: {
+            noOfSlots: eventData.noOfSlots - 1,
+            slots: { ...eventData.slots, [currentSlotNumber]: 'booked' },
+          },
+        },
       });
       setIsRegistered(true);
     },
   });
+
+  async function displayRazorpay() {
+    const res = await loadScript(
+      'https://checkout.razorpay.com/v1/checkout.js'
+    );
+
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?');
+      return;
+    }
+
+    const data = await fetch(`${BASE_URL}/api/razorpay`, {
+      method: 'POST',
+    }).then((t) => t.json());
+
+    const options = {
+      key: 'rzp_test_2TYHpxVnjqaIze',
+      currency: data.currency,
+      amount: data.amount.toString(),
+      order_id: data.id,
+      name: 'Donation',
+      description: 'Thank you for nothing. Please give us some money',
+      image: 'http://localhost:1337/logo.svg',
+      handler: function (response: any) {
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+      },
+      prefill: {
+        name,
+        email: 'sdfdsjfh2@ndsfdf.com',
+        phone_number: '9899999999',
+      },
+    };
+    const paymentObject = new (window as any).Razorpay(options);
+    paymentObject.open();
+  }
+
+  function slotSelectHandler(slot: string) {
+    const newSlots = { ...slots };
+    if (slot === currentSlotNumber || slots[slot] === 'available') {
+      newSlots[slot] =
+        newSlots[slot] === 'available' ? 'selected' : 'available';
+      setCurrentSlotnumber(slot);
+      setSlots(newSlots);
+    }
+  }
 
   return (
     <div
@@ -82,6 +151,11 @@ export default function BasicEventRegistrationForm({
           onChangeHandler={formik.handleChange}
           error={Boolean(formik.errors.phoneNumber)}
           errorMessage={formik.errors.phoneNumber}
+        />
+        <SlotsGrid
+          message="Pick your slot number"
+          slotSelectHandler={slotSelectHandler}
+          slots={slots}
         />
       </form>
       <ResponsiveButton

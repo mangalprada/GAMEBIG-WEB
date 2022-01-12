@@ -1,8 +1,9 @@
 type Props = {
+  message: string;
   slots: Record<string, string>;
   slotSelectHandler: (slot: string) => void;
 };
-const SlotsGrid = ({ slots, slotSelectHandler }: Props) => {
+const SlotsGrid = ({ slots, slotSelectHandler, message }: Props) => {
   const pickColor = (slot: string) => {
     switch (slots[slot]) {
       case 'available':
@@ -11,6 +12,8 @@ const SlotsGrid = ({ slots, slotSelectHandler }: Props) => {
         return 'bg-slate-700 text-gray-500';
       case 'reserved_by_org':
         return 'bg-neutral-800 text-gray-500';
+      case 'selected':
+        return 'bg-green-600 text-gray-50 ring ring-indigo-600';
       default:
         return '';
     }
@@ -18,10 +21,8 @@ const SlotsGrid = ({ slots, slotSelectHandler }: Props) => {
 
   return (
     <div className="text-center mt-4">
-      <span className="text-lg text-gray-50 font-bold">
-        Pick any slots if you want to reserve
-      </span>
-      <div className="grid grid-cols-5 gap-1.5 md-w-1/5 w-3/4 mx-auto mt-2">
+      <span className="text-lg text-gray-50 font-bold">{message}</span>
+      <div className="grid grid-cols-5 gap-2 md-w-1/5 w-3/4 mx-auto mt-2">
         {Object.keys(slots).map((slot, index) => {
           return (
             <div

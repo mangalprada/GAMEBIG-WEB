@@ -9,6 +9,7 @@ export interface EventFormData {
   description: string;
   prize: string;
   entryFee: number;
+  slots: Record<string, string>;
 }
 
 export interface EventData {
@@ -26,4 +27,5 @@ export interface EventData {
   pageName: string;
   roomId?: string;
   password?: string;
+  slots: Record<string, string>;
 }

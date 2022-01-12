@@ -12,6 +12,7 @@ import { validationSchema } from '@/utilities/eventItem/validator';
 import { EventData, EventFormData } from '@/utilities/eventItem/types';
 import axios from 'axios';
 import SlotsGrid from './SlotsGrid';
+import { useUI } from '@/context/uiContext';
 const { BASE_URL } = process.env;
 
 export default function CreateEventForm({
@@ -27,6 +28,7 @@ export default function CreateEventForm({
   pageId?: string;
   pageName?: string;
 }) {
+  const { openSnackBar } = useUI();
   async function updateEvent(_id: string, data: EventFormData) {
     await axios.put(`${BASE_URL}/api/events`, {
       _id: _id,
@@ -45,6 +47,9 @@ export default function CreateEventForm({
       },
     });
   }
+  const [slots, setSlots] = useState(
+    initialSlots(HostEventForm[gameCode].initialValues.noOfSlots)
+  );
   const formik = useFormik({
     initialValues: oldValues || HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
@@ -54,7 +59,7 @@ export default function CreateEventForm({
         updateEvent(oldValues._id, value);
       } else {
         if (pageId && pageName) {
-          createEvent(value);
+          createEvent({ ...value, slots });
         }
       }
       onCancel();
@@ -62,20 +67,23 @@ export default function CreateEventForm({
     },
   });
 
-  const initialSlots = () => {
+  function initialSlots(noOfSlots: number) {
     const slots: Record<string, any> = {};
-    for (var i = 1; i <= formik.values.noOfSlots; i++) {
+    for (var i = 1; i <= noOfSlots; i++) {
       slots[i] = 'available';
     }
     return slots;
-  };
-
-  const [slots, setSlots] = useState(initialSlots());
+  }
 
   function slotSelectHandler(slot: string) {
     const newSlots = { ...slots };
     newSlots[slot] =
       newSlots[slot] === 'available' ? 'reserved_by_org' : 'available';
+    if (newSlots[slot] === 'reserved_by_org') {
+      formik.setFieldValue('noOfSlots', formik.values.noOfSlots - 1);
+    } else if (newSlots[slot] === 'available') {
+      formik.setFieldValue('noOfSlots', formik.values.noOfSlots + 1);
+    }
     setSlots(newSlots);
   }
 
@@ -91,9 +99,21 @@ export default function CreateEventForm({
                 value={formik.values[input.name]}
                 name={input.name}
                 handleChange={(item) => {
+                  if (oldValues) {
+                    openSnackBar({
+                      label: 'Can not change this field',
+                      message:
+                        'For the conveinience of the participansts, this field is not editable',
+                      type: 'info',
+                    });
+                    return;
+                  }
                   formik.setFieldValue(input.name, item);
                   if (input.name === 'mode') {
-                    formik.setFieldValue('noOfSlots', 1);
+                    const noOfSlots =
+                      item === 'Solo' ? 100 : item === 'Duo' ? 50 : 25;
+                    formik.setFieldValue('noOfSlots', noOfSlots);
+                    setSlots(initialSlots(noOfSlots));
                   }
                 }}
               />
@@ -147,7 +167,7 @@ export default function CreateEventForm({
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 md:gap-12">
               <TimeDatePicker
                 name="startTime"
                 error={false}
@@ -157,6 +177,8 @@ export default function CreateEventForm({
                   formik.setFieldValue('startTime', date);
                 }}
               />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               {formInputComponents}
               <FormInput
                 labelName="Entry Fee (in Rupees)"
@@ -184,9 +206,20 @@ export default function CreateEventForm({
               value={formik.values.description}
               onChangeHandler={formik.handleChange}
             />
-            <SlotsGrid slots={slots} slotSelectHandler={slotSelectHandler} />
+            {oldValues ? null : (
+              <SlotsGrid
+                message="Pick any slots if you want to reserve"
+                slots={slots}
+                slotSelectHandler={slotSelectHandler}
+              />
+            )}
+            <span className="text-red-500 text-sm font-semibold mt-5 opacity-60">
+              {
+                "Once you create an event, you can't change the GAME MODE or SLOTS for the conveinience of the participansts."
+              }
+            </span>
             <ResponsiveButton
-              name="Save"
+              name={oldValues ? 'Update' : 'Create'}
               type="submit"
               onClick={formik.handleSubmit}
             />

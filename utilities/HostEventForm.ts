@@ -1,14 +1,14 @@
 export const HostEventForm: Record<string, any> = {
   'bgmi-m': {
     form: [
-      {
-        labelName: 'NO. of Slots',
-        name: 'noOfSlots',
-        formType: 'slider',
-        dataType: 'number',
-        max: 25,
-        min: 2,
-      },
+      // {
+      //   labelName: 'NO. of Slots',
+      //   name: 'noOfSlots',
+      //   formType: 'slider',
+      //   dataType: 'number',
+      //   max: 25,
+      //   min: 2,
+      // },
       {
         labelName: 'Game Mode',
         name: 'mode',
@@ -38,14 +38,14 @@ export const HostEventForm: Record<string, any> = {
   },
   'cod-m': {
     form: [
-      {
-        labelName: 'NO. of Slots',
-        name: 'noOfSlots',
-        formType: 'slider',
-        dataType: 'number',
-        max: 25,
-        min: 2,
-      },
+      // {
+      //   labelName: 'NO. of Slots',
+      //   name: 'noOfSlots',
+      //   formType: 'slider',
+      //   dataType: 'number',
+      //   max: 25,
+      //   min: 2,
+      // },
       {
         labelName: 'Game Mode',
         name: 'mode',
@@ -75,14 +75,14 @@ export const HostEventForm: Record<string, any> = {
   },
   'gff-m': {
     form: [
-      {
-        labelName: 'NO. of Slots',
-        name: 'noOfSlots',
-        formType: 'slider',
-        dataType: 'number',
-        max: 12,
-        min: 2,
-      },
+      // {
+      //   labelName: 'NO. of Slots',
+      //   name: 'noOfSlots',
+      //   formType: 'slider',
+      //   dataType: 'number',
+      //   max: 12,
+      //   min: 2,
+      // },
       {
         labelName: 'Game Mode',
         name: 'mode',

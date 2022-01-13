@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import axios from 'axios';
 import SlotsGrid from '../CreateEvent/SlotsGrid';
+import { useUI } from '@/context/uiContext';
+
 const { BASE_URL } = process.env;
 
 interface Props {
@@ -49,12 +51,23 @@ export default function BasicEventRegistrationForm({
   const {
     userData: { uid, name, photoURL, username },
   } = useAuth();
+
+  const { openSnackBar } = useUI();
+
   const [slots, setSlots] = useState(eventData.slots);
   const [currentSlotNumber, setCurrentSlotnumber] = useState<string>('');
   const formik = useFormik({
     initialValues: { phoneNumber: '', teamName: '' },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      if (currentSlotNumber === '') {
+        openSnackBar({
+          label: 'Select A Slot!',
+          message: 'A slot number is required to register',
+          type: 'warning',
+        });
+        return;
+      }
       const { teamName, phoneNumber } = values;
 
       axios.post(`${BASE_URL}/api/participants`, {

@@ -31,6 +31,7 @@ export async function getParticipantsByEventId(
     let participants = await db
       .collection('participants')
       .find({ eventId })
+      .sort({ slotNumber: 1 })
       .toArray();
     return res.json({
       message: JSON.parse(JSON.stringify(participants)),

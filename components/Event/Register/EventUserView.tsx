@@ -24,7 +24,7 @@ const RespondToEvent: FC<Props> = ({
 
   if (!userData.uid) {
     return (
-      <div className="mx-auto mt-16">
+      <div className="mx-auto mt-16 w-11/12 md:w-1/2">
         <button
           className={
             'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +

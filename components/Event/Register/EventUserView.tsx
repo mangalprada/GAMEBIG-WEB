@@ -42,7 +42,7 @@ const RespondToEvent: FC<Props> = ({
           }
         >
           <div className="flex mx-auto">
-            <span className=" text-center">Your slot number is</span>
+            <span className=" text-center">{"My Team's slot number is"}</span>
             <div className="flex flex-col items-center justify-center rounded-md cursor-pointer bg-green-500 w-8 h-8 ml-2">
               <span className="text-lg  font-bold">{bookedSlotNumber}</span>
             </div>

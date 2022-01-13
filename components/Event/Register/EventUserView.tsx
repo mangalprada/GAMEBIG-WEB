@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import BasicEventRegistrationForm from './BasicEventRegistrationForm';
 import { EventData } from '@/utilities/eventItem/types';
+import { useAuth } from '@/context/authContext';
 
 type Props = {
   eventData: EventData;
@@ -17,6 +18,15 @@ const RespondToEvent: FC<Props> = ({
   setTeamId,
   bookedSlotNumber,
 }) => {
+  const { userData } = useAuth();
+
+  if (!userData.uid) {
+    return (
+      <span className="text-gray-100 font-sans text-xl md:text-lg">
+        Sign in to register for this event
+      </span>
+    );
+  }
   return (
     <div>
       {!isRegistered ? (

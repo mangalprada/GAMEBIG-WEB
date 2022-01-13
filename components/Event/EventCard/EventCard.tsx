@@ -48,8 +48,10 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
             },
           }
         );
-        setIsRegistered(response.data.message.length > 0);
-        setSlotNumber(response.data.message[0].slotNumber);
+        if (response.data.message.length > 0) {
+          setIsRegistered(true);
+          setSlotNumber(response.data.message[0].slotNumber);
+        }
       }
     };
     checkRegistration();

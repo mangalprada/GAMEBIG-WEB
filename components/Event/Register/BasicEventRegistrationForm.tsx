@@ -76,6 +76,7 @@ export default function BasicEventRegistrationForm({
           eventId: eventData._id,
           slotNumber: currentSlotNumber,
           phoneNumber,
+          teamName,
           users: [{ uid, name, photoURL, username }],
         },
       });

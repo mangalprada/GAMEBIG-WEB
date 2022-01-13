@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import BasicEventRegistrationForm from './BasicEventRegistrationForm';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
+import { useRouter } from 'next/router';
 
 type Props = {
   eventData: EventData;
@@ -19,12 +20,22 @@ const RespondToEvent: FC<Props> = ({
   bookedSlotNumber,
 }) => {
   const { userData } = useAuth();
+  const router = useRouter();
 
   if (!userData.uid) {
     return (
-      <span className="text-gray-100 font-sans text-xl md:text-lg">
-        Sign in to register for this event
-      </span>
+      <div className="mx-auto mt-16">
+        <button
+          className={
+            'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +
+            'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
+          }
+          type="button"
+          onClick={() => router.push('/')}
+        >
+          Sign in / Sign up to Register
+        </button>
+      </div>
     );
   }
   return (

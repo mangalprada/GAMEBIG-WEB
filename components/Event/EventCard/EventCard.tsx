@@ -34,6 +34,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
   const { userData } = useAuth();
 
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [slotNumber, setSlotNumber] = useState<number>(0);
 
   useEffect(() => {
     const checkRegistration = async () => {
@@ -47,7 +48,8 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
             },
           }
         );
-        setIsRegistered(response.data.message);
+        setIsRegistered(response.data.message.length > 0);
+        setSlotNumber(response.data.message[0].slotNumber);
       }
     };
     checkRegistration();
@@ -179,7 +181,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           <>
             {isRegistered ? (
               <TextButton
-                name="REGISTERED"
+                name={`Slot ${slotNumber} Booked`}
                 type="success"
                 onClick={() =>
                   router.push(

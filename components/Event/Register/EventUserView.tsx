@@ -7,6 +7,7 @@ type Props = {
   isRegistered: boolean;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
+  bookedSlotNumber?: number;
 };
 
 const RespondToEvent: FC<Props> = ({
@@ -14,6 +15,7 @@ const RespondToEvent: FC<Props> = ({
   isRegistered,
   setIsRegistered,
   setTeamId,
+  bookedSlotNumber,
 }) => {
   return (
     <div>
@@ -35,13 +37,16 @@ const RespondToEvent: FC<Props> = ({
       ) : (
         <div
           className={
-            'py-10 px-4 flex flex-col gap-4 font-sans text-green-600 ' +
+            'py-10 px-4 flex flex-col gap-4 font-sans text-gray-50 ' +
             'font-semibold text-xl text-center sm:text-left'
           }
         >
-          <span className=" text-center">
-            You have booked a slot for your Team!
-          </span>
+          <div className="flex mx-auto">
+            <span className=" text-center">Your slot number is</span>
+            <div className="flex flex-col items-center justify-center rounded-md cursor-pointer bg-green-500 w-8 h-8 ml-2">
+              <span className="text-lg  font-bold">{bookedSlotNumber}</span>
+            </div>
+          </div>
 
           {/* <span>
             {`Room Id and Password will be available here when 

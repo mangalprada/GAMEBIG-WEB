@@ -93,7 +93,7 @@ export async function deleteParticipant(
   }
 }
 
-export async function isUserRegistered(
+export async function getParicipantByUidInEvent(
   req: any,
   res: { json: (arg0: { message: any; success: boolean }) => any }
 ) {
@@ -106,7 +106,7 @@ export async function isUserRegistered(
       .toArray();
 
     return res.json({
-      message: JSON.parse(JSON.stringify(response.length > 0)),
+      message: JSON.parse(JSON.stringify(response)),
       success: true,
     });
   } catch (error) {

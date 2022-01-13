@@ -10,7 +10,6 @@ import CreateEvent from '@/components/Event/CreateEvent/CreateEventForm';
 import Tabs from '@/components/Event/Details/Tabs';
 import ParticipantList from '@/components/Event/ParticipantList/ParticipantList';
 import EventUserView from '@/components/Event/Register/EventUserView';
-import EventResults from '@/components/Event/Result/EventResults';
 import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
 import axios from 'axios';
 
@@ -21,6 +20,7 @@ export default function Event() {
   const router = useRouter();
   const [event, setEvent] = useState<EventData>();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [bookedSlotNumber, setBookedSlotNumber] = useState<number>(0);
   const [tabKey, setTabKey] = useState(1);
   const [teamId, setTeamId] = useState<string>('');
   const [open, setOpen] = useState(false);
@@ -53,7 +53,8 @@ export default function Event() {
             },
           }
         );
-        setIsRegistered(response.data.message);
+        setIsRegistered(response.data.message.length > 0);
+        setBookedSlotNumber(response.data.message[0].slotNumber);
       }
     };
     checkRegistration();
@@ -132,6 +133,7 @@ export default function Event() {
                   isRegistered={isRegistered}
                   setIsRegistered={setIsRegistered}
                   setTeamId={setTeamId}
+                  bookedSlotNumber={bookedSlotNumber}
                 />
               ),
               2: <EventOrganizerView eventData={event} />,

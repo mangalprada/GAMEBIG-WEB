@@ -3,7 +3,7 @@ import {
   addParticipant,
   deleteParticipant,
   updateParticipant,
-  isUserRegistered,
+  getParicipantByUidInEvent,
 } from '../../libs/participants';
 
 export default async function handler(req: any, res: any) {
@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
     case 'GET': {
       const { uid } = req.query;
       if (uid) {
-        return isUserRegistered(req, res);
+        return getParicipantByUidInEvent(req, res);
       } else {
         return getParticipantsByEventId(req, res);
       }

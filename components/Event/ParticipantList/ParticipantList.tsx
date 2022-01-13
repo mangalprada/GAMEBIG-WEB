@@ -37,7 +37,7 @@ export default function ParticipantList({ eventData }: Props) {
           <table className="table-auto border-collapse w-full text-gray-50">
             <thead className="text-center">
               <tr className="rounded-lg text-sm md:text-lg font-semibold text-indigo-500">
-                <th>Serial No.</th>
+                <th>Slot No.</th>
                 <th>Team Name</th>
                 <th>Phone Number</th>
               </tr>
@@ -49,7 +49,7 @@ export default function ParticipantList({ eventData }: Props) {
                     className="bg-gray-700 table-row h-10 border-b-2 border-gray-600 rounded-md space-y-1"
                     key={index}
                   >
-                    <td className="ml-6">{index + 1}</td>
+                    <td className="ml-6">{team.slotNumber}</td>
                     <td className="ml-6">{team.teamName}</td>
                     <td className="ml-6">{team.phoneNumber}</td>
                   </tr>

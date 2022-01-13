@@ -54,6 +54,7 @@ export interface GamerData {
   photoURL?: string | undefined | null;
 }
 export interface TeamType {
+  slotNumber?: number;
   teamName: string;
   phoneNumber?: string;
   gamers: BasicUserType[];

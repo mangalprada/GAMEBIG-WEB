@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import EventDetails from '@/components/Event/Details/EventDetails';
@@ -13,12 +15,17 @@ import EventUserView from '@/components/Event/Register/EventUserView';
 import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
 import axios from 'axios';
 
-export default function Event() {
+export default function Event({
+  event,
+  pageId,
+}: {
+  event: EventData;
+  pageId: string;
+}) {
   const {
     userData: { uid, linkedPageIds },
   } = useAuth();
   const router = useRouter();
-  const [event, setEvent] = useState<EventData>();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [bookedSlotNumber, setBookedSlotNumber] = useState<number>(0);
   const [tabKey, setTabKey] = useState(1);
@@ -34,8 +41,8 @@ export default function Event() {
   };
 
   const isPageOwner = () => {
-    if (linkedPageIds && typeof router.query.pageId === 'string') {
-      return linkedPageIds.includes(router.query.pageId);
+    if (linkedPageIds && pageId) {
+      return linkedPageIds.includes(pageId);
     } else {
       return false;
     }
@@ -59,17 +66,6 @@ export default function Event() {
     };
     checkRegistration();
   }, [event, uid]);
-
-  useEffect(() => {
-    const { eventId } = router.query;
-    async function fetchEventById() {
-      const response = await axios.get(`${process.env.BASE_URL}/api/events`, {
-        params: { id: eventId },
-      });
-      setEvent(response.data.message);
-    }
-    fetchEventById();
-  }, [router.query]);
 
   const changeTab = (tab: number) => {
     setTabKey(tab);
@@ -152,3 +148,21 @@ export default function Event() {
     </Aux>
   );
 }
+
+interface IParams extends ParsedUrlQuery {
+  pageId: string;
+  eventId: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { pageId, eventId } = context.params as IParams;
+  const eventData = await axios.get(`${process.env.BASE_URL}/api/events`, {
+    params: { id: eventId },
+  });
+  return {
+    props: {
+      event: eventData.data.message,
+      pageId,
+    },
+  };
+};

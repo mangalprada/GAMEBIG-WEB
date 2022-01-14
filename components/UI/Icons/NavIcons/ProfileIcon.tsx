@@ -10,7 +10,7 @@ export default function Icon({ size, isActive }: Props) {
       width={size}
       viewBox="0 0 24 24"
       className={
-        'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-600')
+        'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-500')
       }
     >
       <path d="M0 0h24v24H0V0z" fill="none" />

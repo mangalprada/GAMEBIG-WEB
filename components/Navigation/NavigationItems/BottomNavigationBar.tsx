@@ -36,10 +36,10 @@ function BottomNavigationBar() {
               </span>
               <span
                 className={
-                  'text-xs -mt-0.5 flex flex-1 justify-center ' +
+                  'text-xs -mt-0.5 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/events'
                     ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
+                    : 'text-gray-500')
                 }
               >
                 Events
@@ -57,10 +57,10 @@ function BottomNavigationBar() {
               </span>
               <span
                 className={
-                  'text-xs text-gray-400 -mt-0.5 -ml-1.5 flex flex-1 justify-center ' +
+                  'text-xs -mt-0.5 -ml-1.5 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/openings'
                     ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
+                    : 'text-gray-500')
                 }
               >
                 Openings
@@ -84,13 +84,13 @@ function BottomNavigationBar() {
               </span>
               <span
                 className={
-                  'text-xs text-gray-400 -mt-0.5 flex flex-1 justify-center ' +
+                  'text-xs -mt-0.5 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/page/[pageId]/events' ||
                   router.pathname === '/page/[pageId]' ||
                   router.pathname === '/page' ||
                   router.pathname === '/page/create'
                     ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
+                    : 'text-gray-500')
                 }
               >
                 Page
@@ -109,10 +109,10 @@ function BottomNavigationBar() {
               </span>
               <span
                 className={
-                  'text-xs text-gray-400 -mt-1 flex flex-1 justify-center ' +
+                  'text-xs -mt-1 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/people'
                     ? 'text-indigo-600 font-medium'
-                    : 'text-gray-600')
+                    : 'text-gray-500')
                 }
               >
                 People

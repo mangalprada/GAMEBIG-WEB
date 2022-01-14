@@ -41,10 +41,10 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
         'flex flex-col justify-center items-center'
       }
     >
-      <span className="md:text-2xl text-xl text-gray-400 font-medium text-center">
-        <p>Looks like there are no events yet.</p>
+      <span className="md:text-2xl text-xl text-gray-300 font-medium text-center">
+        <p>More Events Comming Soon 🥳🎉 </p>
         <br />
-        <p>Come after some time. Thank you for visiting.</p>
+        <p>Please check after sometime. Thank you for visiting 😊🙏</p>
       </span>
     </div>
   );

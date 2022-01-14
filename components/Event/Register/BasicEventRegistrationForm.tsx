@@ -132,10 +132,12 @@ export default function BasicEventRegistrationForm({
 
   function slotSelectHandler(slot: string) {
     const newSlots = { ...slots };
-    if (slot === currentSlotNumber || slots[slot] === 'available') {
+    if (slots[slot] === 'available') {
       newSlots[slot] =
         newSlots[slot] === 'available' ? 'selected' : 'available';
-      newSlots[currentSlotNumber] = 'available';
+      if (slot !== currentSlotNumber) {
+        newSlots[currentSlotNumber] = 'selected' ? 'available' : 'selected';
+      }
       setCurrentSlotnumber(slot);
       setSlots(newSlots);
     }

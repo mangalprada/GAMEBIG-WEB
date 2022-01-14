@@ -135,6 +135,7 @@ export default function BasicEventRegistrationForm({
     if (slot === currentSlotNumber || slots[slot] === 'available') {
       newSlots[slot] =
         newSlots[slot] === 'available' ? 'selected' : 'available';
+      newSlots[currentSlotNumber] = 'available';
       setCurrentSlotnumber(slot);
       setSlots(newSlots);
     }

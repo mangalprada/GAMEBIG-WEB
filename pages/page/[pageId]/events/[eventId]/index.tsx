@@ -60,8 +60,10 @@ export default function Event({
             },
           }
         );
-        setIsRegistered(response.data.message.length > 0);
-        setBookedSlotNumber(response.data.message[0].slotNumber);
+        if (response.data.message.length > 0) {
+          setIsRegistered(true);
+          setBookedSlotNumber(response.data.message[0].slotNumber);
+        }
       }
     };
     checkRegistration();

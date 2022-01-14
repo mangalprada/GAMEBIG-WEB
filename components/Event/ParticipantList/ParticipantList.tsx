@@ -51,7 +51,16 @@ export default function ParticipantList({ eventData }: Props) {
                   >
                     <td className="ml-6">{team.slotNumber}</td>
                     <td className="ml-6">{team.teamName}</td>
-                    <td className="ml-6">{team.phoneNumber}</td>
+                    <td
+                      onClick={() => {
+                        window.open(
+                          `https://api.whatsapp.com/send?phone=${team.phoneNumber}`
+                        );
+                      }}
+                      className="ml-6"
+                    >
+                      {team.phoneNumber}
+                    </td>
                   </tr>
                 );
               })}

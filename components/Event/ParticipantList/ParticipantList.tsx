@@ -57,7 +57,7 @@ export default function ParticipantList({ eventData }: Props) {
                           `https://api.whatsapp.com/send?phone=${team.phoneNumber}`
                         );
                       }}
-                      className="ml-6"
+                      className="ml-6 underline"
                     >
                       {team.phoneNumber}
                     </td>

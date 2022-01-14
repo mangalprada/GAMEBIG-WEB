@@ -119,9 +119,9 @@ export default function DetailsAsParticipant({
       </div>
 
       {isPageOwner || isUserRegistered ? (
-        <div>
+        <div className="flex gap-8 bg-gray-800 mx-auto p-4 rounded-md my-4">
           {data.roomId && (
-            <div>
+            <div className="text-indigo-500 text-xl">
               <span>
                 Room Id :
                 <span
@@ -142,7 +142,7 @@ export default function DetailsAsParticipant({
             </div>
           )}
           {data.password && (
-            <div>
+            <div className="text-indigo-500 text-xl">
               <span>
                 Password :
                 <span

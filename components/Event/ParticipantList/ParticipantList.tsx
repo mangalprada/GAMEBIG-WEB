@@ -54,7 +54,7 @@ export default function ParticipantList({ eventData }: Props) {
                     <td
                       onClick={() => {
                         window.open(
-                          `https://api.whatsapp.com/send?phone=${team.phoneNumber}`
+                          `https://api.whatsapp.com/send?phone=+91${team.phoneNumber}`
                         );
                       }}
                       className="ml-6 underline"

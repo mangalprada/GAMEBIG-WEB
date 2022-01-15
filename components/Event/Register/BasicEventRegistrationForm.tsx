@@ -16,6 +16,7 @@ interface Props {
   eventData: EventData;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
+  setBookedSlotNumber: Dispatch<SetStateAction<string>>;
 }
 
 const phoneRegExp =
@@ -47,6 +48,7 @@ function loadScript(src: string) {
 export default function BasicEventRegistrationForm({
   eventData,
   setIsRegistered,
+  setBookedSlotNumber,
 }: Props) {
   const {
     userData: { uid, name, photoURL, username },
@@ -57,7 +59,12 @@ export default function BasicEventRegistrationForm({
   const [slots, setSlots] = useState(eventData.slots);
   const [currentSlotNumber, setCurrentSlotnumber] = useState<string>('');
   const formik = useFormik({
-    initialValues: { phoneNumber: '', teamName: '' },
+    initialValues: {
+      phoneNumber: '',
+      teamName: '',
+      inGameName: '',
+      inGameId: '',
+    },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       if (currentSlotNumber === '') {
@@ -68,7 +75,7 @@ export default function BasicEventRegistrationForm({
         });
         return;
       }
-      const { teamName, phoneNumber } = values;
+      const { teamName, phoneNumber, inGameId, inGameName } = values;
 
       axios.post(`${BASE_URL}/api/participants`, {
         data: {
@@ -77,6 +84,7 @@ export default function BasicEventRegistrationForm({
           slotNumber: currentSlotNumber,
           phoneNumber,
           teamName,
+          gamerDetails: [{ inGameId, inGameName }],
           users: [{ uid, name, photoURL, username }],
         },
       });
@@ -89,6 +97,7 @@ export default function BasicEventRegistrationForm({
           },
         },
       });
+      setBookedSlotNumber(currentSlotNumber);
       setIsRegistered(true);
     },
   });
@@ -168,6 +177,22 @@ export default function BasicEventRegistrationForm({
           onChangeHandler={formik.handleChange}
           error={Boolean(formik.errors.phoneNumber)}
           errorMessage={formik.errors.phoneNumber}
+        />
+        <FormInput
+          labelName="In Game Name (IGL)"
+          name="inGameName"
+          value={formik.values.inGameName}
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.inGameName)}
+          errorMessage={formik.errors.inGameName}
+        />
+        <FormInput
+          labelName="In Game ID (IGL)"
+          name="inGameId"
+          value={formik.values.inGameId}
+          onChangeHandler={formik.handleChange}
+          error={Boolean(formik.errors.inGameId)}
+          errorMessage={formik.errors.inGameId}
         />
         <SlotsGrid
           message="Pick your slot number"

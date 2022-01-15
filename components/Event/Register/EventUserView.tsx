@@ -9,7 +9,8 @@ type Props = {
   isRegistered: boolean;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
-  bookedSlotNumber?: number;
+  bookedSlotNumber?: string;
+  setBookedSlotNumber: Dispatch<SetStateAction<string>>;
 };
 
 const RespondToEvent: FC<Props> = ({
@@ -18,6 +19,7 @@ const RespondToEvent: FC<Props> = ({
   setIsRegistered,
   setTeamId,
   bookedSlotNumber,
+  setBookedSlotNumber,
 }) => {
   const { userData } = useAuth();
   const router = useRouter();
@@ -47,6 +49,7 @@ const RespondToEvent: FC<Props> = ({
             teamSize={4}
             setTeamId={setTeamId}
             setIsRegistered={setIsRegistered}
+            setBookedSlotNumber={setBookedSlotNumber}
           />
         ) : (
           <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">

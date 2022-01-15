@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
-import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
-import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';

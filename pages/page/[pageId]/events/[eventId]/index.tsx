@@ -27,7 +27,7 @@ export default function Event({
   } = useAuth();
   const router = useRouter();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [bookedSlotNumber, setBookedSlotNumber] = useState<number>(0);
+  const [bookedSlotNumber, setBookedSlotNumber] = useState<string>('');
   const [tabKey, setTabKey] = useState(1);
   const [teamId, setTeamId] = useState<string>('');
   const [open, setOpen] = useState(false);
@@ -132,6 +132,7 @@ export default function Event({
                   setIsRegistered={setIsRegistered}
                   setTeamId={setTeamId}
                   bookedSlotNumber={bookedSlotNumber}
+                  setBookedSlotNumber={setBookedSlotNumber}
                 />
               ),
               2: <EventOrganizerView eventData={event} />,

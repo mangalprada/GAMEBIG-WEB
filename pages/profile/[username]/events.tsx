@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import nookies from 'nookies';
@@ -7,21 +8,39 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import getUser from '../../../libs/getUser';
-import { EventData } from '../../../utilities/eventItem/types';
-import EventCard from '../../../components/Event/EventCard/EventCard';
+import EventCardForProfile from '../../../components/Event/EventCard/EventCardForProfile';
 import TextButton from '@/components/UI/Buttons/TextButton';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import axios from 'axios';
 
 interface Props {
-  events: EventData[];
   userData: UserData;
 }
 
-export default function Events({ events, userData }: Props) {
-  // const allParticipatedEvents = events.map((eventItem: EventData) => (
-  //   <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
-  // ));
+export default function Events({ userData }: Props) {
+  const router = useRouter();
+  const [paricipations, setParticipations] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchEventById() {
+      const response = await axios.get(
+        `${process.env.BASE_URL}/api/participants/fetchParticipatedEvents`,
+        {
+          params: { uid: userData.uid },
+        }
+      );
+      setParticipations(response.data.message);
+    }
+    fetchEventById();
+  }, [userData.uid]);
+
+  const allParticipatedEvents = paricipations.map((item: any) => (
+    <EventCardForProfile
+      key={item.eventItem}
+      eventId={item.eventItem}
+      slotNumber={item.slotNumber}
+    />
+  ));
 
   const emptyEventsComponent = (
     <div
@@ -52,7 +71,9 @@ export default function Events({ events, userData }: Props) {
       <Aux>
         <ProfileHeader userData={userData} />
         <div className="mt-10">
-          {/* {events.length > 0 ? allParticipatedEvents : emptyEventsComponent} */}
+          {paricipations.length > 0
+            ? allParticipatedEvents
+            : emptyEventsComponent}
         </div>
       </Aux>
     </div>
@@ -64,19 +85,7 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let events: EventData[] = [];
   let userData: UserData = {} as UserData;
-  const fetchParticipatedEvents = async (uid: string) => {
-    const res = await axios.get(
-      `${process.env.BASE_URL}/api/events/fetchParticipatedEvents`,
-      {
-        params: {
-          uid,
-        },
-      }
-    );
-    return res.data.message;
-  };
   try {
     const cookies = nookies.get(context);
     await firebaseAdmin
@@ -85,9 +94,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       .then(async (user) => {
         const { username } = context.params as IParams;
         userData = await getUser(username);
-        events = await fetchParticipatedEvents(userData.uid);
       });
-    console.log(events);
   } catch (err) {
     context.res.writeHead(302, { Location: '/' });
     context.res.end();
@@ -95,6 +102,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { userData, events },
+    props: { userData },
   };
 }

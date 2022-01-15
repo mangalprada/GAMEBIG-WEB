@@ -4,7 +4,7 @@ import {
   deleteParticipant,
   updateParticipant,
   getParicipantByUidInEvent,
-} from '../../libs/participants';
+} from '../../../libs/participants';
 
 export default async function handler(req: any, res: any) {
   // switch the methods

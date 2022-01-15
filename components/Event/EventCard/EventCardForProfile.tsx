@@ -24,46 +24,35 @@ import ShareEventLink from '@/components/UI/Share/ShareEventLink';
 import axios from 'axios';
 
 type Props = {
-  data: EventData;
-  isPageOwner: boolean;
+  eventId: string;
+  slotNumber: string;
 };
 
-const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
+const EventCard: FC<Props> = ({ eventId, slotNumber }: Props) => {
   const router = useRouter();
 
-  const { userData } = useAuth();
-
-  const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [slotNumber, setSlotNumber] = useState<number>(0);
+  const [event, setEvent] = useState<EventData>();
 
   useEffect(() => {
-    const checkRegistration = async () => {
-      if (data._id && userData.uid) {
-        const response = await axios.get(
-          `${process.env.BASE_URL}/api/participants`,
-          {
-            params: {
-              eventId: data._id,
-              uid: userData.uid,
-            },
-          }
-        );
-        if (response.data.message.length > 0) {
-          setIsRegistered(true);
-          setSlotNumber(response.data.message[0].slotNumber);
-        }
-      }
-    };
-    checkRegistration();
-  }, [data._id, userData.uid]);
+    async function fetchEventById() {
+      const eventData = await axios.get(`${process.env.BASE_URL}/api/events`, {
+        params: { id: eventId },
+      });
+      setEvent(eventData.data.message[0]);
+    }
+    fetchEventById();
+  }, [eventId]);
 
   const onForwardAction = () => {
-    router.push(`/page/${data.pageId}/events/${data._id}/`);
+    if (event) router.push(`/page/${event.pageId}/events/${event._id}/`);
   };
 
   function openLinkedpage() {
-    router.push(`/page/${data.pageId}/`);
+    if (event) router.push(`/page/${event.pageId}/`);
   }
+
+  if (!event) return null;
+
   return (
     <div
       className={
@@ -76,7 +65,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
           <EventCardAvatar
-            content={data.pageName[0]}
+            content={event.pageName[0]}
             onclick={openLinkedpage}
           />
           <div>
@@ -84,7 +73,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
               className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
               onClick={openLinkedpage}
             >
-              {data.pageName}
+              {event.pageName}
             </span>
             <section className="flex flex-row mx-2 items-center mt-0.5">
               <LocationIcon
@@ -100,8 +89,8 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
 
         {/** Share Event */}
         <ShareEventLink
-          link={`https://gamebig.in/page/${data.pageId}/events/${data._id}`}
-          game={games[data.gameCode].shortName}
+          link={`https://gamebig.in/page/${event.pageId}/events/${event._id}`}
+          game={games[event.gameCode].shortName}
         />
       </div>
 
@@ -113,89 +102,70 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         onClick={onForwardAction}
       >
         <EventCardRowItem
-          content={`${games[data.gameCode].shortName} - ${data.mode}`}
+          content={`${games[event.gameCode].shortName} - ${event.mode}`}
           label="Game"
-          image={games[data.gameCode].imageSource}
+          image={games[event.gameCode].imageSource}
         >
           <EsportsIcon styles={'fill-current text-purple-700'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`Daily Custom - ${data.tier}`} label="Tier">
+        <EventCardRowItem content={`Daily Custom - ${event.tier}`} label="Tier">
           <BadgeIcon styles={'fill-current text-orange-800'} />
         </EventCardRowItem>
 
         {/* <EventCardRowItem
-          content={`${getDecoratedDate(data.startTime)}`}
+          content={`${getDecoratedDate(event.startTime)}`}
           label="Event Date"
         >
           <EventIcon styles={'fill-current text-indigo-400'} />
         </EventCardRowItem> */}
 
         <EventCardRowItem
-          content={`${getDecoratedTime(data.startTime)}, ${getDecoratedDate(
-            data.startTime
+          content={`${getDecoratedTime(event.startTime)}, ${getDecoratedDate(
+            event.startTime
           )}`}
           label="Event Time"
         >
           <AccessTimeIcon styles={'fill-current text-blue-500'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`${data.noOfSlots} available`} label="Slots">
+        <EventCardRowItem
+          content={`${event.noOfSlots} available`}
+          label="Slots"
+        >
           <RoomEntryIcon styles={'fill-current text-cyan-900'} />
         </EventCardRowItem>
 
         <EventCardRowItem
-          content={data.entryFee > 0 ? `₹ ${data.entryFee}` : 'No Fee'}
+          content={event.entryFee > 0 ? `₹ ${event.entryFee}` : 'No Fee'}
           label="Entry Fee"
         >
           <MoneyIcon styles={'fill-current text-green-600'} />
         </EventCardRowItem>
 
         <EventCardRowItem
-          content={`${data.prize ? '₹ ' + data.prize : 'No Prize'}`}
+          content={`${event.prize ? '₹ ' + event.prize : 'No Prize'}`}
           label="Prize"
-          highlight={Boolean(data.prize)}
+          highlight={Boolean(event.prize)}
         >
           <TrophyIcon styles={'fill-current text-yellow-500'} />
         </EventCardRowItem>
-
-        {/** Registration Close by */}
-        <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
-          <HourglassIcon styles={'fill-current text-red-300'} />
-          <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
-            {`Registration open till      
-          ${getDecoratedTime(data.startTime, -30)}, ${getDecoratedDate(
-              data.startTime
-            )}`}
-          </span>
-        </section>
       </div>
       <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
         <TextButton
           name="DETAILS"
           type="normal"
           onClick={() =>
-            router.push(`/page/${data.pageId}/events/${data._id}/`)
+            router.push(`/page/${event.pageId}/events/${event._id}/`)
           }
         />
-
-        {isPageOwner ? null : (
-          <>
-            {isRegistered ? (
-              <TextButton
-                name={`Slot #${slotNumber} Booked`}
-                type="success"
-                onClick={() =>
-                  router.push(
-                    `/page/${data.pageId}/events/${data._id}/#register`
-                  )
-                }
-              />
-            ) : (
-              <FixedButton name="PARTICIPATE NOW" onClick={onForwardAction} />
-            )}
-          </>
-        )}
+        <TextButton
+          name={`Slot #${slotNumber} Booked`}
+          type="success"
+          onClick={() =>
+            router.push(`/page/${event.pageId}/events/${eventId}/#register`)
+          }
+        />
       </div>
     </div>
   );

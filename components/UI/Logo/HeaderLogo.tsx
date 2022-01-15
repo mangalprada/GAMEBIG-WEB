@@ -13,9 +13,6 @@ const HeaderLogo: FC = () => {
           >
             GAMEBIG
           </span>
-          <span className="text-gray-600 text-xs font-medium font-sans tracking-wide ml-1">
-            BETA
-          </span>
         </div>
       </a>
     </Link>

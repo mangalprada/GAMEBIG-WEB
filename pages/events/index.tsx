@@ -10,6 +10,8 @@ import FixedButton from '@/components/UI/Buttons/FixedButton';
 import FilterIcon from '@/components/UI/Icons/EventIcons/FilterIcon';
 import Feedback from '@/components/Feedback/Feedback';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/context/authContext';
 const { BASE_URL } = process.env;
 
 interface Props {
@@ -17,9 +19,19 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
+  const {
+    userData: { linkedPageIds },
+  } = useAuth();
+  const pageId = linkedPageIds ? linkedPageIds[0] : null;
   const [events, setEvents] = useState(eventsFromProps);
   const [selectedGames, setSelectedGames] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  function goToPage() {
+    const path = pageId ? `/page/${pageId}/events` : `/page`;
+    router.push(path);
+  }
 
   const handleFilter = async () => {
     const games = selectedGames.length === 0 ? GameCodesOnly : selectedGames;
@@ -75,8 +87,11 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
-        <div className="md:w-2/3 xl:w-1/2 mx-2 md:mx-auto flex justify-evenly mt-4 mb-2 bg-indigo-900/60 rounded-md py-1 ">
-          <span className="text-gray-300 font-semibold font-sans text-lg md:text-2xl mx-4">
+        <div
+          className="md:w-2/3 xl:w-1/2 mx-2 md:mx-auto flex justify-evenly  rounded-b-md
+         bg-gradient-to-t from-slate-700 to-cyan-900  py-1 mb-2 "
+        >
+          <span className="text-gray-300 font-semibold font-sans text-lg md:text-xl mx-4">
             Upcoming Custom Room Matches
           </span>
         </div>
@@ -95,6 +110,15 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
           </section>
         </div>
         {events.length === 0 ? emptyEventsComponent : allEvents}
+        <div
+          onClick={goToPage}
+          className=" w-10/12 md:w-2/3 xl:w-1/2 md:mx-auto flex justify-evenly mt-4 mb-2 rounded-md 
+           py-1 bg-indigo-600 mx-auto cursor-pointer"
+        >
+          <span className="font-semibold font-sans text-lg md:text-2xl mx-4 text-white text-center">
+            Click to Create and Organize Your Own Events 🥳
+          </span>
+        </div>
         <Feedback />
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div

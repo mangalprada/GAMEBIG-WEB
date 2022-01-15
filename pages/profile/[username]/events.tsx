@@ -87,21 +87,18 @@ interface IParams extends ParsedUrlQuery {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   let userData: UserData = {} as UserData;
   try {
-    const cookies = nookies.get(context);
-    await firebaseAdmin
-      .auth()
-      .verifyIdToken(cookies.token)
-      .then(async (user) => {
-        const { username } = context.params as IParams;
-        userData = await getUser(username);
-      });
+    const { username } = context.query;
+    if (typeof username == 'string') {
+      userData = await getUser(username);
+    }
+
+    return {
+      props: { userData },
+    };
   } catch (err) {
     context.res.writeHead(302, { Location: '/' });
     context.res.end();
     console.log('Error getting server side props:', err);
+    return { props: {} as never };
   }
-
-  return {
-    props: { userData },
-  };
 }

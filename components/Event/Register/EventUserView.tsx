@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import BasicEventRegistrationForm from './BasicEventRegistrationForm';
+import UserBookingDetails from './UserBookingDetails';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/router';
@@ -9,8 +10,8 @@ type Props = {
   isRegistered: boolean;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
-  bookedSlotNumber?: string;
-  setBookedSlotNumber: Dispatch<SetStateAction<string>>;
+  bookingDetails: any;
+  setBookingdetails: Dispatch<SetStateAction<any>>;
 };
 
 const RespondToEvent: FC<Props> = ({
@@ -18,8 +19,8 @@ const RespondToEvent: FC<Props> = ({
   isRegistered,
   setIsRegistered,
   setTeamId,
-  bookedSlotNumber,
-  setBookedSlotNumber,
+  bookingDetails,
+  setBookingdetails,
 }) => {
   const { userData } = useAuth();
   const router = useRouter();
@@ -49,7 +50,7 @@ const RespondToEvent: FC<Props> = ({
             teamSize={4}
             setTeamId={setTeamId}
             setIsRegistered={setIsRegistered}
-            setBookedSlotNumber={setBookedSlotNumber}
+            setBookingdetails={setBookingdetails}
           />
         ) : (
           <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
@@ -59,24 +60,8 @@ const RespondToEvent: FC<Props> = ({
           </div>
         )
       ) : (
-        <div
-          className={
-            'py-10 px-4 flex flex-col gap-4 font-sans text-gray-50 ' +
-            'font-semibold text-xl text-center sm:text-left'
-          }
-        >
-          <div className="flex mx-auto">
-            <span className=" text-center">{"My Team's slot number is"}</span>
-            <div className="flex flex-col items-center justify-center rounded-md cursor-pointer bg-green-500 w-8 h-8 ml-2">
-              <span className="text-lg  font-bold">{bookedSlotNumber}</span>
-            </div>
-          </div>
-
-          {/* <span>
-            {`Room Id and Password will be available here when 
-            ${eventData.linkedPageName}
-            shares them.`}
-          </span> */}
+        <div>
+          <UserBookingDetails bookingDetails={bookingDetails} />
           {/* <span
             onClick={unregisterHandler}
             className={

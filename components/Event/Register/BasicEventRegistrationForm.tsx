@@ -16,7 +16,7 @@ interface Props {
   eventData: EventData;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
-  setBookedSlotNumber: Dispatch<SetStateAction<string>>;
+  setBookingdetails: Dispatch<SetStateAction<any>>;
 }
 
 const phoneRegExp =
@@ -48,7 +48,7 @@ function loadScript(src: string) {
 export default function BasicEventRegistrationForm({
   eventData,
   setIsRegistered,
-  setBookedSlotNumber,
+  setBookingdetails,
 }: Props) {
   const {
     userData: { uid, name, photoURL, username },
@@ -76,17 +76,17 @@ export default function BasicEventRegistrationForm({
         return;
       }
       const { teamName, phoneNumber, inGameId, inGameName } = values;
-
+      const data = {
+        createdAt: new Date(),
+        eventId: eventData._id,
+        slotNumber: currentSlotNumber,
+        phoneNumber,
+        teamName,
+        gamerDetails: [{ inGameId, inGameName }],
+        users: [{ uid, name, photoURL, username }],
+      };
       axios.post(`${BASE_URL}/api/participants`, {
-        data: {
-          createdAt: new Date(),
-          eventId: eventData._id,
-          slotNumber: currentSlotNumber,
-          phoneNumber,
-          teamName,
-          gamerDetails: [{ inGameId, inGameName }],
-          users: [{ uid, name, photoURL, username }],
-        },
+        data,
       });
       axios.put(`${BASE_URL}/api/events`, {
         _id: eventData._id,
@@ -97,7 +97,7 @@ export default function BasicEventRegistrationForm({
           },
         },
       });
-      setBookedSlotNumber(currentSlotNumber);
+      setBookingdetails(data);
       setIsRegistered(true);
     },
   });

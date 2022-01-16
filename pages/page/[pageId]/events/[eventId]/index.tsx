@@ -28,7 +28,7 @@ export default function Event({
   } = useAuth();
   const router = useRouter();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [bookedSlotNumber, setBookedSlotNumber] = useState<string>('');
+  const [bookingDetails, setBookingdetails] = useState<any>(null);
   const [tabKey, setTabKey] = useState(1);
   const [teamId, setTeamId] = useState<string>('');
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ export default function Event({
   };
 
   useEffect(() => {
-    const checkRegistration = async () => {
+    const checkBooking = async () => {
       if (event && uid) {
         const response = await axios.get(
           `${process.env.BASE_URL}/api/participants`,
@@ -63,11 +63,11 @@ export default function Event({
         );
         if (response.data.message.length > 0) {
           setIsRegistered(true);
-          setBookedSlotNumber(response.data.message[0].slotNumber);
+          setBookingdetails(response.data.message[0]);
         }
       }
     };
-    checkRegistration();
+    checkBooking();
   }, [event, uid]);
 
   const changeTab = (tab: number) => {
@@ -138,8 +138,8 @@ export default function Event({
                   isRegistered={isRegistered}
                   setIsRegistered={setIsRegistered}
                   setTeamId={setTeamId}
-                  bookedSlotNumber={bookedSlotNumber}
-                  setBookedSlotNumber={setBookedSlotNumber}
+                  bookingDetails={bookingDetails}
+                  setBookingdetails={setBookingdetails}
                 />
               ),
               2: <EventOrganizerView eventData={event} />,

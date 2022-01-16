@@ -30,7 +30,7 @@ export default function SendNotification({
   };
 
   return (
-    <div className="w-11/12 md:w-2/3 my-10 mx-auto">
+    <div className="py-10 px-4 mx-auto bg-slate-900">
       <h5 className="text-xl font-medium tracking-wide text-gray-400 ml-3">
         Send Room ID and Password
       </h5>

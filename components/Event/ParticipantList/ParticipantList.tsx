@@ -51,11 +51,6 @@ export default function ParticipantList({ eventData }: Props) {
         </span>
       ) : (
         <div className="pb-6">
-          <div className="text-center mb-2 md:mb-4">
-            <span className="text-xl md:text-2xl text-center font-medium text-gray-400">
-              Registered Teams
-            </span>
-          </div>
           <table className="table-auto border-collapse w-full text-gray-50">
             <thead className="text-center">
               <tr className="rounded-lg text-sm md:text-lg font-semibold text-indigo-500">

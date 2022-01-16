@@ -32,7 +32,7 @@ export default function DetailsAsParticipant({
   }
 
   return (
-    <div className="font-sans">
+    <div className="font-sans mb-10">
       {/**Back Button */}
       <div className="flex justify-start">
         <TextButton name="Go Back" type="fail" onClick={() => router.back()} />
@@ -117,52 +117,44 @@ export default function DetailsAsParticipant({
           </span>
         </section>
       </div>
-
       {isPageOwner || isUserRegistered ? (
-        <div className="flex gap-8 bg-gray-800 mx-auto p-4 rounded-md my-4">
-          {data.roomId && (
-            <div className="text-indigo-500 text-xl">
-              <span>
-                Room Id :
-                <span
-                  onClick={() => {
-                    if (data.roomId) {
-                      navigator.clipboard.writeText(data.roomId);
-                      openSnackBar({
-                        label: 'Copied!',
-                        message: 'Room ID copied to clipboard',
-                        type: 'warning',
-                      });
-                    }
-                  }}
-                >
-                  {data.roomId}
-                </span>
-              </span>
-            </div>
-          )}
-          {data.password && (
-            <div className="text-indigo-500 text-xl">
-              <span>
-                Password :
-                <span
-                  onClick={() => {
-                    if (data.password) {
-                      navigator.clipboard.writeText(data.password);
-                      openSnackBar({
-                        label: 'Copied!',
-                        message: 'Password copied to clipboard',
-                        type: 'warning',
-                      });
-                      setShowInfo(true);
-                    }
-                  }}
-                >
-                  {data.password}
-                </span>
-              </span>
-            </div>
-          )}
+        <div className="grid grid-cols-2 mx-5 mt-8 gap-3">
+          <section>
+            <h2 className="font-semibold text-gray-500">Room Id</h2>
+            <span
+              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-700 px-4 py-0.5 rounded-md"
+              onClick={() => {
+                if (data.roomId) {
+                  navigator.clipboard.writeText(data.roomId);
+                  openSnackBar({
+                    label: 'Copied!',
+                    message: 'Room ID copied to clipboard',
+                    type: 'warning',
+                  });
+                }
+              }}
+            >
+              {data.roomId || 'Will be available before the match starts'}
+            </span>
+          </section>
+          <section>
+            <h2 className="font-semibold text-gray-500">Password</h2>
+            <span
+              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-700 px-4 py-0.5 rounded-md"
+              onClick={() => {
+                if (data.roomId) {
+                  navigator.clipboard.writeText(data.roomId);
+                  openSnackBar({
+                    label: 'Copied!',
+                    message: 'Password copied to clipboard',
+                    type: 'warning',
+                  });
+                }
+              }}
+            >
+              {data.password || 'Will be available before the match starts'}
+            </span>
+          </section>
         </div>
       ) : null}
     </div>

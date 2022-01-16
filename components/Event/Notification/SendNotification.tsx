@@ -30,7 +30,7 @@ export default function SendNotification({
   };
 
   return (
-    <div className="max-w-md my-10">
+    <div className="w-11/12 md:w-2/3 my-10 mx-auto">
       <h5 className="text-xl font-medium tracking-wide text-gray-400 ml-3">
         Send Room ID and Password
       </h5>
@@ -52,7 +52,7 @@ export default function SendNotification({
           }
         />
       </div>
-      <div className="flex justify-start ml-4 relative -mt-8">
+      <div className="flex justify-end mr-4 relative -mt-8">
         <FixedButton name="Send" onClick={onBtnClickHandler} />
       </div>
     </div>

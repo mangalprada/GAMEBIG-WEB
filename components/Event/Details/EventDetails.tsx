@@ -35,7 +35,11 @@ export default function DetailsAsParticipant({
     <div className="font-sans mb-10">
       {/**Back Button */}
       <div className="flex justify-start">
-        <TextButton name="Go Back" type="fail" onClick={() => router.back()} />
+        <TextButton
+          name="Go Back"
+          type="normal"
+          onClick={() => router.back()}
+        />
       </div>
 
       <div className="flex flex-row justify-between space-x-5 mx-3">
@@ -122,7 +126,7 @@ export default function DetailsAsParticipant({
           <section>
             <h2 className="font-semibold text-gray-500">Room Id</h2>
             <span
-              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-700 px-4 py-0.5 rounded-md"
+              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-800 px-4 py-0.5 rounded-md"
               onClick={() => {
                 if (data.roomId) {
                   navigator.clipboard.writeText(data.roomId);
@@ -140,7 +144,7 @@ export default function DetailsAsParticipant({
           <section>
             <h2 className="font-semibold text-gray-500">Password</h2>
             <span
-              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-700 px-4 py-0.5 rounded-md"
+              className="text-gray-200 text-center font-semibold tracking-wide bg-slate-800 px-4 py-0.5 rounded-md"
               onClick={() => {
                 if (data.roomId) {
                   navigator.clipboard.writeText(data.roomId);

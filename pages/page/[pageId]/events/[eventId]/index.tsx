@@ -14,6 +14,7 @@ import ParticipantList from '@/components/Event/ParticipantList/ParticipantList'
 import EventUserView from '@/components/Event/Register/EventUserView';
 import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
 import axios from 'axios';
+import Help from '@/components/Event/Details/Help';
 
 export default function Event({
   event,
@@ -75,6 +76,17 @@ export default function Event({
 
   if (!event) return null;
 
+  const TabsForOrganizer = [
+    { key: 1, label: 'Register' },
+    { key: 2, label: 'Organize' },
+    { key: 3, label: 'Participants' },
+  ];
+
+  const TabsForOthers = [
+    { key: 1, label: 'Register' },
+    { key: 4, label: 'Need Help' },
+  ];
+
   return (
     <Aux>
       <Head>
@@ -111,17 +123,12 @@ export default function Event({
         />
 
         {/* <EventResults eventId={event._id} /> */}
-        {isPageOwner() ? (
-          <Tabs
-            tabs={[
-              { key: 1, label: 'Register' },
-              { key: 2, label: 'Organize' },
-              { key: 3, label: 'Participants' },
-            ]}
-            currentTab={tabKey}
-            changeTab={changeTab}
-          />
-        ) : null}
+        <Tabs
+          tabs={isPageOwner() ? TabsForOrganizer : TabsForOthers}
+          currentTab={tabKey}
+          changeTab={changeTab}
+        />
+
         <div>
           {
             {
@@ -137,6 +144,7 @@ export default function Event({
               ),
               2: <EventOrganizerView eventData={event} />,
               3: <ParticipantList eventData={event} />,
+              4: <Help pageId={event.pageId} />,
             }[tabKey]
           }
         </div>

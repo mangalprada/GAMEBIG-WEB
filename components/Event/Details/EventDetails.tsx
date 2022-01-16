@@ -25,8 +25,6 @@ export default function DetailsAsParticipant({
   isUserRegistered,
 }: Props) {
   const { openSnackBar } = useUI();
-  const [showInfo, setShowInfo] = useState(false);
-
   function openLinkedPage() {
     router.push(`/page/${data.pageId}/`);
   }

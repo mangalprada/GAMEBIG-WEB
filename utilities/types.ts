@@ -63,4 +63,5 @@ export interface TeamType {
   uids: string[];
   invitedUids?: string[];
   docId?: string;
+  gamerDetails: any;
 }

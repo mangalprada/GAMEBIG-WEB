@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import useSWR from 'swr';
 import EventCard from '../../components/Event/EventCard/EventCard';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { EventData } from '../../utilities/eventItem/types';
 import MultiSelect from '@/components/UI/Select/MultiSelect';
 import { GAMES, GameCodesOnly } from 'assets/data/Games';
@@ -14,16 +15,18 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 const { BASE_URL } = process.env;
 
-interface Props {
-  events: EventData[];
+async function getEvents() {
+  const response = await axios.get(`${BASE_URL}/api/events`);
+  return response.data.message;
 }
 
-const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
+const Home: NextPage = () => {
   const {
     userData: { linkedPageIds },
   } = useAuth();
+  const { data: events } = useSWR('`${BASE_URL}/api/events`', getEvents);
+
   const pageId = linkedPageIds ? linkedPageIds[0] : null;
-  const [events, setEvents] = useState(eventsFromProps);
   const [selectedGames, setSelectedGames] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -42,9 +45,11 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
     }
   };
 
-  const allEvents = events.map((eventItem: EventData) => (
-    <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
-  ));
+  const allEvents = events
+    ? events.map((eventItem: EventData) => (
+        <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
+      ))
+    : null;
 
   const emptyEventsComponent = (
     <div
@@ -60,6 +65,8 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
       </span>
     </div>
   );
+
+  if (!events) null;
 
   return (
     <div>
@@ -109,7 +116,7 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
             <FilterIcon size={32} />
           </section>
         </div>
-        {events.length === 0 ? emptyEventsComponent : allEvents}
+        {events && events.length === 0 ? emptyEventsComponent : allEvents}
         <div
           onClick={goToPage}
           className=" w-10/12 md:w-2/3 xl:w-1/2 md:mx-auto flex justify-evenly mt-4 mb-2 rounded-md 
@@ -151,13 +158,3 @@ const Home: NextPage<Props> = ({ events: eventsFromProps }: Props) => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get(`${BASE_URL}/api/events`);
-
-  return {
-    props: {
-      events: response.data.message,
-    },
-  };
-};

@@ -124,24 +124,3 @@ const JoinPage = () => {
 };
 
 export default JoinPage;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const joinPosts: TeamUpPost[] = [];
-  try {
-    await firebaseAdmin
-      .firestore()
-      .collection('teamOpening')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          joinPosts.push({ ...(doc.data() as TeamUpPost), docId: doc.id });
-        });
-      });
-    return { props: { joinPosts } };
-  } catch (err) {
-    context.res.writeHead(302, { Location: '/' });
-    context.res.end();
-    console.log('Error getting server side props:', err);
-    return { props: null };
-  }
-}

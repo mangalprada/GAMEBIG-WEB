@@ -3,7 +3,7 @@ import BasicEventRegistrationForm from './BasicEventRegistrationForm';
 import UserBookingDetails from './UserBookingDetails';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
-import { useRouter } from 'next/router';
+import PromptToAuth from '@/components/Auth/PromptToAuth';
 
 type Props = {
   eventData: EventData;
@@ -23,24 +23,10 @@ const RespondToEvent: FC<Props> = ({
   setBookingdetails,
 }) => {
   const { userData } = useAuth();
-  const router = useRouter();
 
-  if (!userData.uid) {
-    return (
-      <div className="mx-auto mt-16 w-11/12 md:w-1/2">
-        <button
-          className={
-            'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +
-            'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
-          }
-          type="button"
-          onClick={() => router.push('/')}
-        >
-          Sign in / Sign up to Register
-        </button>
-      </div>
-    );
-  }
+  if (!userData.uid)
+    return <PromptToAuth message="Sign in or Sign up to Register" />;
+
   return (
     <div>
       {!isRegistered ? (
@@ -60,18 +46,7 @@ const RespondToEvent: FC<Props> = ({
           </div>
         )
       ) : (
-        <div>
-          <UserBookingDetails bookingDetails={bookingDetails} />
-          {/* <span
-            onClick={unregisterHandler}
-            className={
-              'text-gray-500 px-3 py-2 w-max text-lg rounded-md ' +
-              'cursor-pointer hover:bg-red-400 hover:text-white active:bg-red-600'
-            }
-          >
-            UNREGISTER
-          </span> */}
-        </div>
+        <UserBookingDetails bookingDetails={bookingDetails} />
       )}
     </div>
   );

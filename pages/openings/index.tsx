@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import TeamUpItem from '../../components/Openings/TeamUpItem';
@@ -11,13 +12,31 @@ import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
 import SelectGame from '@/components/Game/SelectGame';
+import { db } from 'firebase/firebaseClient';
 
-const JoinPage = ({ joinPosts }: { joinPosts: TeamUpPost[] }) => {
+async function getOpenings() {
+  const joinPosts: TeamUpPost[] = [];
+  try {
+    await db
+      .collection('teamOpening')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          joinPosts.push({ ...(doc.data() as TeamUpPost), docId: doc.id });
+        });
+      });
+  } catch (err) {
+    console.log('Error getting server side props:', err);
+  }
+  return joinPosts;
+}
+
+const JoinPage = () => {
   const {
     userData: { uid },
   } = useAuth();
   const router = useRouter();
-
+  const { data: joinPosts } = useSWR('teamOpenings', getOpenings);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [gameCode, setGameCode] = useState('');
@@ -72,9 +91,11 @@ const JoinPage = ({ joinPosts }: { joinPosts: TeamUpPost[] }) => {
           </span>
         </div>
         <div>
-          {joinPosts.map((joinPost) => (
-            <TeamUpItem data={joinPost} key={joinPost.docId} />
-          ))}
+          {joinPosts
+            ? joinPosts.map((joinPost) => (
+                <TeamUpItem data={joinPost} key={joinPost.docId} />
+              ))
+            : null}
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>
           <>

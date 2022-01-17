@@ -1,17 +1,15 @@
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-import { ParsedUrlQuery } from 'querystring';
+import useSWR from 'swr';
 import PageHeader from '../../../components/Page/PageHeader/PageHeader';
 import AboutPage from '../../../components/Page/AboutPage/AboutPage';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { fetchPageData } from '../../../libs/fetchPageData';
-import { PageFormData } from '../../../utilities/page/types';
+import { useRouter } from 'next/router';
 
-interface Props {
-  pageData: PageFormData | undefined;
-}
-
-export default function PageAdmin({ pageData }: Props) {
+export default function PageAdmin() {
+  const router = useRouter();
+  const { pageId } = router.query;
+  const { data: pageData } = useSWR(pageId, fetchPageData);
   return (
     <Aux>
       <Head>
@@ -24,23 +22,8 @@ export default function PageAdmin({ pageData }: Props) {
           <AboutPage data={pageData} />
         </>
       ) : (
-        <div>Network Error</div>
+        <div></div>
       )}
     </Aux>
   );
 }
-
-interface IParams extends ParsedUrlQuery {
-  pageId: string;
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { pageId } = context.params as IParams;
-  let pageData = undefined;
-  pageData = await fetchPageData(pageId);
-  return {
-    props: {
-      pageData,
-    },
-  };
-};

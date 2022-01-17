@@ -34,6 +34,18 @@ const ProfileCard: FC<Props> = ({ user }) => {
   }, [user.uid, userData.uid]);
 
   function handleFollow() {
+    if (!userData.uid) {
+      router.push('/');
+      return;
+    }
+    if (userData.uid === user.uid) {
+      openSnackBar({
+        label: 'Opps!',
+        message: 'You can not follow yourself',
+        type: 'warning',
+      });
+      return;
+    }
     const follower = {
       name: userData.name,
       photoURL: userData.photoURL ? userData.photoURL : null,

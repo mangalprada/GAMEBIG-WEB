@@ -115,28 +115,32 @@ const Games: NextPage = () => {
           <div>{Games}</div>
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>
-          <>
-            {
-              {
-                1: (
-                  <SelectGame
-                    updatePage={(pageNumber) => setPageNumber(pageNumber)}
-                    setGame={setGameCode}
-                    gameCode={gameCode}
-                  />
-                ),
-                2: (
-                  <GameDetails
-                    updatePage={(pageNumber) => setPageNumber(pageNumber)}
-                    gameCode={gameCode}
-                    setGame={setGameCode}
-                    gameData={savedGames[gameCode]}
-                    closeModal={handleClose}
-                  />
-                ),
-              }[pageNumber]
-            }
-          </>
+          <div>
+            {savedGames ? (
+              <div>
+                {
+                  {
+                    1: (
+                      <SelectGame
+                        updatePage={(pageNumber) => setPageNumber(pageNumber)}
+                        setGame={setGameCode}
+                        gameCode={gameCode}
+                      />
+                    ),
+                    2: (
+                      <GameDetails
+                        updatePage={(pageNumber) => setPageNumber(pageNumber)}
+                        gameCode={gameCode}
+                        setGame={setGameCode}
+                        gameData={savedGames[gameCode]}
+                        closeModal={handleClose}
+                      />
+                    ),
+                  }[pageNumber]
+                }
+              </div>
+            ) : null}
+          </div>
         </Modal>
       </Aux>
     </div>

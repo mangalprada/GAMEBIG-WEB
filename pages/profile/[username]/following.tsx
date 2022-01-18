@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData, BasicUserType } from '../../../utilities/types';
+import { BasicUserType } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import { db } from 'firebase/firebaseClient';
 import ProfileCard from '@/components/Profile/ProfileCard';

@@ -38,6 +38,10 @@ const ProfileVisitorAction = ({
         <span
           className="text-white font-normal  text-lg py-2 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
           onClick={() => {
+            if (!userData.uid) {
+              router.push('/');
+              return;
+            }
             const follower = {
               name: userData.name as string,
               photoURL: userData.photoURL as string,
@@ -65,6 +69,10 @@ const ProfileVisitorAction = ({
       <span
         className="text-white font-normal  text-lg py-2 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
         onClick={() => {
+          if (!userData.uid) {
+            router.push('/');
+            return;
+          }
           const stringifiedData: string = JSON.stringify({
             username: profilePageUsername,
             name: profilePageName,

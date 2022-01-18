@@ -16,23 +16,22 @@ export default function Page() {
   const router = useRouter();
   const { pageId } = router.query;
   const { data: pageData } = useSWR(
-    `${BASE_URL}/api/events/?pageId=${pageId}`,
+    `${BASE_URL}/api/page/?pageId=${pageId}`,
     getPageData
   );
+
+  if (!pageData) return null;
+
   return (
     <Aux>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      {pageData ? (
-        <>
-          <PageHeader data={pageData} />
-          <AboutPage data={pageData} />
-        </>
-      ) : (
-        <div></div>
-      )}
+      <div>
+        <PageHeader data={pageData} />
+        <AboutPage data={pageData} />
+      </div>
     </Aux>
   );
 }

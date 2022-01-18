@@ -51,10 +51,7 @@ export async function getEvents(
   }
 }
 
-export async function getEventsByPageId(
-  req: any,
-  res: { json: (arg0: { message: any; success: boolean }) => any }
-) {
+export async function getEventsByPageId(req: any, res: any) {
   try {
     const { pageId } = req.query;
 
@@ -68,13 +65,13 @@ export async function getEventsByPageId(
       .toArray();
     // return the events
     return res.json({
-      message: JSON.parse(JSON.stringify(events)),
+      events: JSON.parse(JSON.stringify(events)),
       success: true,
     });
   } catch (error) {
     // return the error
     return res.json({
-      message: new Error(error as string).message,
+      events: new Error(error as string).message,
       success: false,
     });
   }

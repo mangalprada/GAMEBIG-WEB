@@ -1,41 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import PageHeader from '../../../../components/Page/PageHeader/PageHeader';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 import EventCard from '../../../../components/Event/EventCard/EventCard';
 import CreateEventButton from '../../../../components/Event/CreateEvent/CreateEventButton';
-import { PageFormData } from '../../../../utilities/page/types';
-import { ParsedUrlQuery } from 'querystring';
-import { GetServerSideProps } from 'next';
-import { fetchPageData } from '../../../../libs/fetchPageData';
 import { EventData } from '../../../../utilities/eventItem/types';
 import CreateEventForm from '../../../../components/Event/CreateEvent/CreateEventForm';
 import Modal from '@/components/UI/Modal/Modal';
 import SelectGame from '@/components/Game/SelectGame';
 import { useAuth } from '@/context/authContext';
 import axios from 'axios';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+const { BASE_URL } = process.env;
 
-interface Props {
-  pageData: PageFormData;
+async function getPageData(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.pageData;
 }
 
-export default function Events({ pageData }: Props) {
+async function getEventsByPageId(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.events;
+}
+
+export default function Events() {
   const { userData } = useAuth();
-  const [events, setEvents] = useState<EventData[]>([]);
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [gameCode, setGameCode] = useState('');
 
-  useEffect(() => {
-    async function fetchEventsBypageId() {
-      const response = await axios.get(`${process.env.BASE_URL}/api/events`, {
-        params: { pageId: pageData.id },
-      });
-      setEvents(response.data.message);
-    }
+  const { pageId } = router.query;
 
-    fetchEventsBypageId();
-  }, [pageData.id]);
+  const { data: pageData } = useSWR(
+    `${BASE_URL}/api/page/?pageId=${pageId}`,
+    getPageData
+  );
+
+  const { data: events } = useSWR(
+    `${BASE_URL}/api/events/?pageId=${pageId}`,
+    getEventsByPageId
+  );
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -45,9 +51,11 @@ export default function Events({ pageData }: Props) {
     setIsModalOpen(true);
   };
 
-  const hostedEvents = events.map((eventItem: EventData) => (
-    <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
-  ));
+  const hostedEvents = events
+    ? events.map((eventItem: EventData) => (
+        <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
+      ))
+    : null;
 
   const emptyEventsComponent = (
     <div
@@ -73,56 +81,47 @@ export default function Events({ pageData }: Props) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      {pageData ? (
-        <>
-          <PageHeader data={pageData} />
-          {pageData.admins.includes(userData.uid) &&
-          pageData.category === 'organizer' ? (
-            <CreateEventButton onClick={openModal} />
-          ) : null}
-          {events.length === 0 ? emptyEventsComponent : hostedEvents}
-        </>
-      ) : (
-        <div>Network Error</div>
-      )}
+      <div>
+        {pageData ? (
+          <div>
+            <PageHeader data={pageData} />
+            {pageData.admins.includes(userData.uid) &&
+            pageData.category === 'organizer' ? (
+              <CreateEventButton onClick={openModal} />
+            ) : null}
+            {events && events.length === 0
+              ? emptyEventsComponent
+              : hostedEvents}
+          </div>
+        ) : null}
+      </div>
       <Modal isOpen={isModalOpen} closeModal={closeModal}>
         <div>
-          {
-            {
-              1: (
-                <SelectGame
-                  updatePage={(pageNumber) => setPageNumber(pageNumber)}
-                  setGame={setGameCode}
-                  gameCode={gameCode}
-                />
-              ),
-              2: (
-                <CreateEventForm
-                  onCancel={closeModal}
-                  gameCode={gameCode}
-                  pageId={pageData?.id}
-                  pageName={pageData.name}
-                />
-              ),
-            }[pageNumber]
-          }
+          {pageData ? (
+            <div>
+              {
+                {
+                  1: (
+                    <SelectGame
+                      updatePage={(pageNumber) => setPageNumber(pageNumber)}
+                      setGame={setGameCode}
+                      gameCode={gameCode}
+                    />
+                  ),
+                  2: (
+                    <CreateEventForm
+                      onCancel={closeModal}
+                      gameCode={gameCode}
+                      pageId={pageData?.id}
+                      pageName={pageData.name}
+                    />
+                  ),
+                }[pageNumber]
+              }
+            </div>
+          ) : null}
         </div>
       </Modal>
     </Aux>
   );
 }
-
-interface IParams extends ParsedUrlQuery {
-  pageId: string;
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { pageId } = context.params as IParams;
-  let pageData = undefined;
-  pageData = await fetchPageData(pageId);
-  return {
-    props: {
-      pageData,
-    },
-  };
-};

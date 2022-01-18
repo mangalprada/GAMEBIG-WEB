@@ -6,35 +6,31 @@ export default async function handler(req: any, res: any) {
   try {
     let pageData: PageFormData | undefined = undefined;
     const pageRef = firebaseAdmin.firestore().collection('pages').doc(pageId);
-    try {
-      const pageDoc = await pageRef.get();
-      if (pageDoc.exists) {
-        const data = pageDoc.data();
-        if (data) {
-          pageData = {
-            id: pageId,
-            admins: data.admins,
-            name: data.name,
-            category: data.category,
-            about: data.about,
-            location: data.location,
-            email: data.email,
-            phone: data.phone,
-            website: data.website,
-            youtube: data.youtube,
-            discord: data.discord,
-            twitch: data.twitch,
-            facebook: data.facebook,
-            instagram: data.instagram,
-            twitter: data.twitter,
-            reddit: data.reddit,
-          };
-        }
-      }
-    } catch (err) {
-      console.log('Error getting Page data', err);
-    }
 
+    const pageDoc = await pageRef.get();
+    if (pageDoc.exists) {
+      const data = pageDoc.data();
+      if (data) {
+        pageData = {
+          id: pageId,
+          admins: data.admins,
+          name: data.name,
+          category: data.category,
+          about: data.about,
+          location: data.location,
+          email: data.email,
+          phone: data.phone,
+          website: data.website,
+          youtube: data.youtube,
+          discord: data.discord,
+          twitch: data.twitch,
+          facebook: data.facebook,
+          instagram: data.instagram,
+          twitter: data.twitter,
+          reddit: data.reddit,
+        };
+      }
+    }
     return res.json({
       pageData,
       success: true,

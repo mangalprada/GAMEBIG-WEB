@@ -5,12 +5,20 @@ import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
+import useSWR from 'swr';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
-type Props = {
-  users: UserData[];
+const fetcher = async (url: string) => {
+  const response = await axios.get(url);
+  return response.data.users;
 };
 
-const People = ({ users }: Props) => {
+const People = () => {
+  const { data: users } = useSWR(`${BASE_URL}/api/people`, fetcher);
+
+  if (!users) return null;
+
   return (
     <div>
       <Head>
@@ -34,7 +42,7 @@ const People = ({ users }: Props) => {
             'gap-3 sm:gap-5 mt-3 mx-auto'
           }
         >
-          {users.map((user) => (
+          {users.map((user: UserData) => (
             <ProfileCard user={user} key={user.uid} />
           ))}
         </div>
@@ -44,44 +52,3 @@ const People = ({ users }: Props) => {
 };
 
 export default People;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let users: any[] = [];
-  let uid = '';
-
-  const cookies = nookies.get(context);
-  try {
-    await firebaseAdmin
-      .auth()
-      .verifyIdToken(cookies.token)
-      .then(async (user) => {
-        if (user) uid = user.uid;
-      });
-  } catch (error) {
-    console.log(error);
-  }
-
-  await firebaseAdmin
-    .firestore()
-    .collection('users')
-    .where('uid', '!=', uid)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data) {
-          users.push({
-            ...data,
-            dob: data.dob ? data.dob.toDate().toISOString() : null,
-            docId: doc.id,
-          });
-        }
-      });
-    })
-    .catch((error) => {
-      console.log('Error getting documents: ', error);
-    });
-  return {
-    props: { users },
-  };
-}

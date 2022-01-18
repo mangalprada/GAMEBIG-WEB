@@ -15,8 +15,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 const { BASE_URL } = process.env;
 
-async function getEvents() {
-  const response = await axios.get(`${BASE_URL}/api/events`);
+async function getEvents(arg: string) {
+  const response = await axios.get(arg);
   return response.data.message;
 }
 
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   const {
     userData: { linkedPageIds },
   } = useAuth();
-  const { data: events } = useSWR('`${BASE_URL}/api/events`', getEvents);
+  const { data: events } = useSWR(`${BASE_URL}/api/events`, getEvents);
 
   const pageId = linkedPageIds ? linkedPageIds[0] : null;
   const [selectedGames, setSelectedGames] = useState<any>([]);

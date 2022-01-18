@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
@@ -26,7 +25,6 @@ export default function Event({
   const {
     userData: { uid, linkedPageIds },
   } = useAuth();
-  const router = useRouter();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [bookingDetails, setBookingdetails] = useState<any>(null);
   const [tabKey, setTabKey] = useState(1);

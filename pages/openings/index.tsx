@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { GetServerSidePropsContext } from 'next';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -8,27 +7,15 @@ import Modal from '@/components/UI/Modal/Modal';
 import CreateTeamUpPostForm from '@/components/Openings/CreateTeamUpPostForm';
 import { useAuth } from '@/context/authContext';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
-import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
 import SelectGame from '@/components/Game/SelectGame';
-import { db } from 'firebase/firebaseClient';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
-async function getOpenings() {
-  const joinPosts: TeamUpPost[] = [];
-  try {
-    await db
-      .collection('teamOpening')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          joinPosts.push({ ...(doc.data() as TeamUpPost), docId: doc.id });
-        });
-      });
-  } catch (err) {
-    console.log('Error getting server side props:', err);
-  }
-  return joinPosts;
+async function getOpenings(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.joinPosts;
 }
 
 const JoinPage = () => {
@@ -36,7 +23,10 @@ const JoinPage = () => {
     userData: { uid },
   } = useAuth();
   const router = useRouter();
-  const { data: joinPosts } = useSWR('teamOpenings', getOpenings);
+  const { data: joinPosts } = useSWR(
+    `${BASE_URL}/api/teamOpenings`,
+    getOpenings
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [gameCode, setGameCode] = useState('');
@@ -92,7 +82,7 @@ const JoinPage = () => {
         </div>
         <div>
           {joinPosts
-            ? joinPosts.map((joinPost) => (
+            ? joinPosts.map((joinPost: TeamUpPost) => (
                 <TeamUpItem data={joinPost} key={joinPost.docId} />
               ))
             : null}

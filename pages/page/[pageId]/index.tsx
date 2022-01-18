@@ -3,13 +3,22 @@ import useSWR from 'swr';
 import PageHeader from '../../../components/Page/PageHeader/PageHeader';
 import AboutPage from '../../../components/Page/AboutPage/AboutPage';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { fetchPageData } from '../../../libs/fetchPageData';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
-export default function PageAdmin() {
+async function getPageData(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.pageData;
+}
+
+export default function Page() {
   const router = useRouter();
   const { pageId } = router.query;
-  const { data: pageData } = useSWR(pageId, fetchPageData);
+  const { data: pageData } = useSWR(
+    `${BASE_URL}/api/events/?pageId=${pageId}`,
+    getPageData
+  );
   return (
     <Aux>
       <Head>

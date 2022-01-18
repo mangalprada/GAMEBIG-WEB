@@ -61,6 +61,8 @@ export default function Events() {
     </div>
   );
 
+  if (!userData) return null;
+
   return (
     <div>
       <Head>

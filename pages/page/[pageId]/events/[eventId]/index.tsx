@@ -80,7 +80,7 @@ export default function Event() {
     setTabKey(tab);
   };
 
-  if (!event) return <LurkingCat height={400} width={400} />;
+  if (!event) return <LurkingCat height={300} width={300} />;
 
   const TabsForOrganizer = [
     { key: 1, label: 'Register' },

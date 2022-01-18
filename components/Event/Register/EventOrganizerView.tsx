@@ -21,7 +21,7 @@ const RespondToEvent: FC<Props> = ({ eventData }) => {
   }, [eventData._id]);
 
   useEffect(() => {
-    teamsArr();
+    // teamsArr();
   }, [teamsArr]);
 
   return (

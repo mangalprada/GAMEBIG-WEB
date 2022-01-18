@@ -1,26 +1,26 @@
-import { useState, useEffect, useCallback, FC } from 'react';
+import axios from 'axios';
+import useSWR from 'swr';
 import { EventData } from '@/utilities/eventItem/types';
 import { TeamType } from '@/utilities/types';
-import axios from 'axios';
+
 const { BASE_URL } = process.env;
 
 type Props = {
   eventData: EventData;
 };
 
+async function getData(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.data as TeamType[];
+}
+
 export default function ParticipantList({ eventData }: Props) {
-  const [participants, setParticipants] = useState<TeamType[]>([]);
+  const { data: participants } = useSWR(
+    `${BASE_URL}/api/participants/?eventId=${eventData._id}`,
+    getData
+  );
 
-  const teamsArr = useCallback(async () => {
-    const response = await axios.get(`${BASE_URL}/api/participants`, {
-      params: { eventId: eventData._id },
-    });
-    setParticipants(response.data.message);
-  }, [eventData._id]);
-
-  useEffect(() => {
-    teamsArr();
-  }, [teamsArr]);
+  if (!participants) return null;
 
   const IGL = ({ team }: { team: TeamType }) => (
     <div className="flex flex-col justify-center">

@@ -1,28 +1,30 @@
 import AboutPage from '@/components/Page/AboutPage/AboutPage';
-import { fetchPageData } from '../../../libs/fetchPageData';
-import { useEffect, useState } from 'react';
-import { PageFormData } from '@/utilities/page/types';
 import { useUI } from '@/context/uiContext';
 import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
 import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
+import useSWR from 'swr';
+import axios from 'axios';
+const { BASE_URL } = process.env;
 
 const youtube = 'https://www.youtube.com/channel/UC8pKkOctRKu8dynpUMmi43Q';
 const facebook = 'https://www.facebook.com/GameBigHQ';
 const instagram = 'https://www.instagram.com/gamebig.in/';
 
+async function getPageData(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.pageData;
+}
+
 const Help = ({ pageId }: { pageId: string }) => {
   const { openSnackBar } = useUI();
-  const [pageData, setPageData] = useState<PageFormData>();
-  useEffect(() => {
-    const getPageData = async () => {
-      const data = await fetchPageData(pageId);
-      setPageData(data);
-    };
-    getPageData();
-  }, [pageId]);
+  const { data: pageData } = useSWR(
+    `${BASE_URL}/api/page/?pageId=${pageId}`,
+    getPageData
+  );
 
   if (!pageData) return null;
+
   return (
     <div>
       <AboutPage data={pageData} />

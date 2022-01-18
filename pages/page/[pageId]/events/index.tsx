@@ -14,14 +14,9 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 const { BASE_URL } = process.env;
 
-async function getPageData(arg: string) {
+async function getData(arg: string) {
   const response = await axios.get(arg);
-  return response.data.pageData;
-}
-
-async function getEventsByPageId(arg: string) {
-  const response = await axios.get(arg);
-  return response.data.events;
+  return response.data.data;
 }
 
 export default function Events() {
@@ -35,12 +30,12 @@ export default function Events() {
 
   const { data: pageData } = useSWR(
     `${BASE_URL}/api/page/?pageId=${pageId}`,
-    getPageData
+    getData
   );
 
   const { data: events } = useSWR(
     `${BASE_URL}/api/events/?pageId=${pageId}`,
-    getEventsByPageId
+    getData
   );
 
   const closeModal = () => {

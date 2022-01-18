@@ -21,10 +21,7 @@ export async function addParticipant(
   }
 }
 
-export async function getParticipantsByEventId(
-  req: any,
-  res: { json: (arg0: { message: any; success: boolean }) => any }
-) {
+export async function getParticipantsByEventId(req: any, res: any) {
   try {
     let { db } = await connectToDatabase();
     const { eventId } = req.query;
@@ -34,12 +31,12 @@ export async function getParticipantsByEventId(
       .sort({ slotNumber: 1 })
       .toArray();
     return res.json({
-      message: JSON.parse(JSON.stringify(participants)),
+      data: JSON.parse(JSON.stringify(participants)),
       success: true,
     });
   } catch (error) {
     return res.json({
-      message: new Error(error as string).message,
+      data: new Error(error as string).message,
       success: false,
     });
   }

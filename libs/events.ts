@@ -65,13 +65,13 @@ export async function getEventsByPageId(req: any, res: any) {
       .toArray();
     // return the events
     return res.json({
-      events: JSON.parse(JSON.stringify(events)),
+      data: JSON.parse(JSON.stringify(events)),
       success: true,
     });
   } catch (error) {
     // return the error
     return res.json({
-      events: new Error(error as string).message,
+      data: new Error(error as string).message,
       success: false,
     });
   }

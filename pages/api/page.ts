@@ -32,12 +32,12 @@ export default async function handler(req: any, res: any) {
       }
     }
     return res.json({
-      pageData,
+      data: pageData,
       success: true,
     });
   } catch (error) {
     return res.json({
-      message: new Error(error as string).message,
+      data: new Error(error as string).message,
       success: false,
     });
   }

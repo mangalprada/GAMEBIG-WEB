@@ -10,6 +10,7 @@ import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import TeamUpFAQ from '@/components/Openings/TeamUpFAQ';
 import SelectGame from '@/components/Game/SelectGame';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import axios from 'axios';
 const { BASE_URL } = process.env;
 
@@ -81,11 +82,13 @@ const JoinPage = () => {
           </span>
         </div>
         <div>
-          {joinPosts
-            ? joinPosts.map((joinPost: TeamUpPost) => (
-                <TeamUpItem data={joinPost} key={joinPost.docId} />
-              ))
-            : null}
+          {joinPosts ? (
+            joinPosts.map((joinPost: TeamUpPost) => (
+              <TeamUpItem data={joinPost} key={joinPost.docId} />
+            ))
+          ) : (
+            <LurkingCat height={300} width={300} />
+          )}
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>
           <>

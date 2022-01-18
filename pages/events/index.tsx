@@ -10,6 +10,7 @@ import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import FilterIcon from '@/components/UI/Icons/EventIcons/FilterIcon';
 import Feedback from '@/components/Feedback/Feedback';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
@@ -66,7 +67,7 @@ const Home: NextPage = () => {
     </div>
   );
 
-  if (!events) null;
+  if (!events) return <LurkingCat height={300} width={300} />;
 
   return (
     <div>

@@ -1,9 +1,11 @@
+import useSWR from 'swr';
+import axios from 'axios';
 import Head from 'next/head';
 import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
-import useSWR from 'swr';
-import axios from 'axios';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
+
 const { BASE_URL } = process.env;
 
 const fetcher = async (url: string) => {
@@ -14,7 +16,7 @@ const fetcher = async (url: string) => {
 const People = () => {
   const { data: users } = useSWR(`${BASE_URL}/api/people`, fetcher);
 
-  if (!users) return null;
+  if (!users) return <LurkingCat height={300} width={300} />;
 
   return (
     <div>

@@ -12,8 +12,6 @@ export default async function handler(req: any, res: any) {
     case 'GET': {
       const { uid } = req.query;
       if (uid) {
-        console.log(uid);
-
         return getPostsByUid(req, res);
       } else {
         return getPosts(req, res);

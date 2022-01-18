@@ -3,7 +3,7 @@ import Head from 'next/head';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
-import { EventData } from '../../../../../utilities/eventItem/types';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import Modal from '@/components/UI/Modal/Modal';
 import CreateEvent from '@/components/Event/CreateEvent/CreateEventForm';
 import Tabs from '@/components/Event/Details/Tabs';
@@ -80,7 +80,7 @@ export default function Event() {
     setTabKey(tab);
   };
 
-  if (!event) return null;
+  if (!event) return <LurkingCat height={400} width={400} />;
 
   const TabsForOrganizer = [
     { key: 1, label: 'Register' },

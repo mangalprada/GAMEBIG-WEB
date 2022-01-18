@@ -10,11 +10,16 @@ export default async function handler(req: any, res: any) {
   // switch the methods
   switch (req.method) {
     case 'GET': {
-      const { uid } = req.query;
+      const { uid, eventId } = req.query;
       if (uid) {
         return getParicipantByUidInEvent(req, res);
-      } else {
+      } else if (eventId) {
         return getParticipantsByEventId(req, res);
+      } else {
+        return res.json({
+          message: 'Missing query params',
+          success: false,
+        });
       }
     }
 

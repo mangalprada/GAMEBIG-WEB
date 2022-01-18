@@ -1,10 +1,7 @@
 import Head from 'next/head';
-import { GetServerSidePropsContext } from 'next';
-import nookies from 'nookies';
 import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { UserData } from '../../utilities/types';
-import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import useSWR from 'swr';
 import axios from 'axios';
 const { BASE_URL } = process.env;

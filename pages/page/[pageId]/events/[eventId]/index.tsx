@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { GetServerSideProps } from 'next';
-import { ParsedUrlQuery } from 'querystring';
 import Head from 'next/head';
 import EventDetails from '@/components/Event/Details/EventDetails';
 import { useAuth } from '@/context/authContext';
@@ -14,17 +12,27 @@ import EventUserView from '@/components/Event/Register/EventUserView';
 import EventOrganizerView from '@/components/Event/Register/EventOrganizerView';
 import axios from 'axios';
 import Help from '@/components/Event/Details/Help';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+const { BASE_URL } = process.env;
 
-export default function Event({
-  event,
-  pageId,
-}: {
-  event: EventData;
-  pageId: string;
-}) {
+async function fetcher(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.data;
+}
+
+export default function Event() {
+  const router = useRouter();
+  const { pageId, eventId } = router.query;
   const {
     userData: { uid, linkedPageIds },
   } = useAuth();
+
+  const { data: event } = useSWR(
+    `${BASE_URL}/api/events/?id=${eventId}`,
+    fetcher
+  );
+
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [bookingDetails, setBookingdetails] = useState<any>(null);
   const [tabKey, setTabKey] = useState(1);
@@ -41,7 +49,7 @@ export default function Event({
 
   const isPageOwner = () => {
     if (linkedPageIds && pageId) {
-      return linkedPageIds.includes(pageId);
+      return linkedPageIds.includes(pageId as string);
     } else {
       return false;
     }
@@ -157,21 +165,3 @@ export default function Event({
     </Aux>
   );
 }
-
-interface IParams extends ParsedUrlQuery {
-  pageId: string;
-  eventId: string;
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { pageId, eventId } = context.params as IParams;
-  const eventData = await axios.get(`${process.env.BASE_URL}/api/events`, {
-    params: { id: eventId },
-  });
-  return {
-    props: {
-      event: eventData.data.message,
-      pageId,
-    },
-  };
-};

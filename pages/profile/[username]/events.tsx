@@ -1,22 +1,25 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { ParsedUrlQuery } from 'querystring';
-import { GetServerSidePropsContext } from 'next';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../libs/getUser';
 import EventCardForProfile from '../../../components/Event/EventCard/EventCardForProfile';
 import TextButton from '@/components/UI/Buttons/TextButton';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import axios from 'axios';
+import useSWR from 'swr';
+const { BASE_URL } = process.env;
 
-interface Props {
-  userData: UserData;
-}
+const fetcher = async (url: string) => {
+  const res = await axios.get(url);
+  return res.data.data;
+};
 
-export default function Events({ userData }: Props) {
+export default function Events() {
   const router = useRouter();
+  const { data: userData } = useSWR(
+    `${BASE_URL}/api/user/?username=${router.query.username}`,
+    fetcher
+  );
   const [paricipations, setParticipations] = useState<any[]>([]);
 
   useEffect(() => {
@@ -29,8 +32,8 @@ export default function Events({ userData }: Props) {
       );
       setParticipations(response.data.message);
     }
-    fetchEventById();
-  }, [userData.uid]);
+    if (userData) fetchEventById();
+  }, [userData]);
 
   const allParticipatedEvents = paricipations.map((item: any) => (
     <EventCardForProfile
@@ -76,27 +79,4 @@ export default function Events({ userData }: Props) {
       </Aux>
     </div>
   );
-}
-
-interface IParams extends ParsedUrlQuery {
-  username: string;
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let userData: UserData = {} as UserData;
-  try {
-    const { username } = context.query;
-    if (typeof username == 'string') {
-      userData = await getUser(username);
-    }
-
-    return {
-      props: { userData },
-    };
-  } catch (err) {
-    context.res.writeHead(302, { Location: '/' });
-    context.res.end();
-    console.log('Error getting server side props:', err);
-    return { props: {} as never };
-  }
 }

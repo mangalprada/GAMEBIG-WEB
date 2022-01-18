@@ -6,22 +6,30 @@ import { UserData, TeamType } from '../../../utilities/types';
 import TeamIntro from '../../../components/Team/TeamIntro';
 import TeamItem from '../../../components/Team/TeamItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../libs/getUser';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import { useAuth } from '../../../context/authContext';
 import Modal from '@/components/UI/Modal/Modal';
 import { fetchTeams } from '@/libs/fetchTeams';
 import { fetchInvitingTeams } from '@/libs/fetchInvitingteams';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+const { BASE_URL } = process.env;
 
-export default function Home({
-  userData: userDataFromServer,
-}: {
-  userData: UserData;
-}) {
+const fetcher = async (url: string) => {
+  const res = await axios.get(url);
+  return res.data.data;
+};
+
+export default function Home() {
   const {
     userData: { uid },
   } = useAuth();
-
+  const router = useRouter();
+  const { data: userDataFromServer } = useSWR(
+    `${BASE_URL}/api/user/?username=${router.query.username}`,
+    fetcher
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [currentTeams, setCurrentTeams] = useState<TeamType[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<TeamType | undefined>(
@@ -42,8 +50,8 @@ export default function Home({
         setCurrentTeams(teams);
       }
     };
-    getTeamData();
-  }, [uid, userDataFromServer.uid]);
+    if (userDataFromServer) getTeamData();
+  }, [uid, userDataFromServer]);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -70,6 +78,8 @@ export default function Home({
     });
     setCurrentTeams(temp);
   };
+
+  if (!userDataFromServer) return null;
 
   const noTeamsComponent = (
     <div
@@ -152,14 +162,4 @@ export default function Home({
       </Modal>
     </Aux>
   );
-}
-
-export async function getServerSideProps(context: {
-  params: { username: string };
-}) {
-  const { username } = context.params;
-  const userData = await getUser(username);
-  return {
-    props: { userData },
-  };
 }

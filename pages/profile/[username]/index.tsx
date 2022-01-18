@@ -1,32 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import nookies from 'nookies';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useAuth } from '../../../context/authContext';
-import { firebaseAdmin } from '../../../firebase/firebaseAdmin';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData, GamerData } from '../../../utilities/types';
 import GameItem from '../../../components/Profile/GameItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../libs/getUser';
-import { getGamerData } from '../../../libs/gamerData';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
+import { UserData, GamerData } from '../../../utilities/types';
+import { getGamerData } from '../../../libs/gamerData';
 import Modal from '@/components/UI/Modal/Modal';
 import SelectGame from '@/components/Game/SelectGame';
 import GameDetails from '@/components/Game/GameDetails';
+import axios from 'axios';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+const { BASE_URL } = process.env;
 
-type PageProps = {
-  userData: UserData;
-  savedGames: Record<string, GamerData>;
+const fetcher = async (url: string) => {
+  const res = await axios.get(url);
+  return res.data.data;
 };
 
-const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
+const Games: NextPage = () => {
   const { userData: user } = useAuth();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-
   const [gameCode, setGameCode] = useState('');
+  const [savedGames, setSavedgames] = useState<any>();
+  const router = useRouter();
+  const { data: userData } = useSWR(
+    `${BASE_URL}/api/user/?username=${router.query.username}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    async function getSavedGames() {
+      const games = await getGamerData(userData.uid);
+      setSavedgames(games);
+    }
+    if (userData) getSavedGames();
+  }, [userData]);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -34,20 +47,7 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
     setGameCode('');
   };
 
-  const usersGames = Object.keys(savedGames).map((key) => {
-    return [...Array(savedGames[key].gameCode)].map((_, index) => {
-      return (
-        <GameItem
-          game={savedGames[key]}
-          key={index}
-          username={userData.username}
-          setIsModalOpen={setIsModalOpen}
-          setGameCode={setGameCode}
-          setPageNumber={setPageNumber}
-        />
-      );
-    });
-  });
+  if (!userData) return null;
 
   const noGamesComponent = (
     <div
@@ -63,6 +63,23 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
       </span>
     </div>
   );
+
+  const Games = savedGames
+    ? Object.keys(savedGames).map((key) => {
+        return [...Array(savedGames[key].gameCode)].map((_, index) => {
+          return (
+            <GameItem
+              game={savedGames[key]}
+              key={index}
+              username={userData.username}
+              setIsModalOpen={setIsModalOpen}
+              setGameCode={setGameCode}
+              setPageNumber={setPageNumber}
+            />
+          );
+        });
+      })
+    : null;
 
   return (
     <div>
@@ -95,7 +112,7 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
               />
             ) : null}
           </div>
-          <div>{usersGames.length === 0 ? noGamesComponent : usersGames}</div>
+          <div>{Games}</div>
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>
           <>
@@ -127,24 +144,3 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
 };
 
 export default Games;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let savedGames: Record<string, GamerData> = {};
-  let userData: UserData = {} as UserData;
-  try {
-    const { username } = context.query;
-    if (typeof username == 'string') {
-      userData = await getUser(username);
-      savedGames = await getGamerData(userData.uid);
-    }
-
-    return {
-      props: { userData, savedGames },
-    };
-  } catch (err) {
-    context.res.writeHead(302, { Location: '/' });
-    context.res.end();
-    console.log('Error getting server side props:', err);
-    return { props: {} as never };
-  }
-}

@@ -1,20 +1,27 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { UserData, GamerData, BasicUserType } from '../../../utilities/types';
+import { BasicUserType } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../libs/getUser';
-import { getGamerData } from '../../../libs/gamerData';
 import { db } from 'firebase/firebaseClient';
 import ProfileCard from '@/components/Profile/ProfileCard';
+import axios from 'axios';
+import useSWR from 'swr';
+import { useRouter } from 'next/router';
+const { BASE_URL } = process.env;
 
-type PageProps = {
-  userData: UserData;
-  savedGames: Record<string, GamerData>;
+const fetcher = async (url: string) => {
+  const res = await axios.get(url);
+  return res.data.data;
 };
 
-const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
+const Games: NextPage = () => {
+  const router = useRouter();
+  const { data: userData } = useSWR(
+    `${BASE_URL}/api/user/?username=${router.query.username}`,
+    fetcher
+  );
   const [followers, setFollowers] = useState<BasicUserType[]>([]);
   useEffect(() => {
     function getFollowees() {
@@ -39,8 +46,10 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
           console.log('Error getting documents: ', error);
         });
     }
-    getFollowees();
-  }, [userData.uid]);
+    if (userData) getFollowees();
+  }, [userData]);
+
+  if (!userData) return null;
 
   return (
     <div>
@@ -88,24 +97,3 @@ const Games: NextPage<PageProps> = ({ userData, savedGames }) => {
 };
 
 export default Games;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let savedGames: Record<string, GamerData> = {};
-  let userData: UserData = {} as UserData;
-  try {
-    const { username } = context.query;
-    if (typeof username == 'string') {
-      userData = await getUser(username);
-      savedGames = await getGamerData(userData.uid);
-    }
-
-    return {
-      props: { userData, savedGames },
-    };
-  } catch (err) {
-    context.res.writeHead(302, { Location: '/' });
-    context.res.end();
-    console.log('Error getting server side props:', err);
-    return { props: {} as never };
-  }
-}

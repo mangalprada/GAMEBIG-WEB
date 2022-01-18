@@ -4,7 +4,6 @@ import { useAuth } from '../../../context/authContext';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { UserData, GamerData } from '../../../utilities/types';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
-import getUser from '../../../libs/getUser';
 import Post from '@/components/Home/Post';
 
 type PageProps = {
@@ -57,7 +56,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const { username } = context.query;
     if (typeof username == 'string') {
-      userData = await getUser(username);
+      // userData = await getUser(username);
       let { BASE_URL } = process.env;
       let response = await fetch(`${BASE_URL}/api/posts/?uid=${userData.uid}`, {
         method: 'GET',

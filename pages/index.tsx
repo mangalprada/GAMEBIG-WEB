@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useAuth } from '../context/authContext';
 import Aux from '../hoc/Auxiliary/Auxiliary';
 import AuthComponent from '../components/Auth/AuthComponent';
@@ -20,7 +19,6 @@ export default function Home() {
     userData: { uid },
   } = useAuth();
   const [data, setData] = useState(inititalValues);
-  const router = useRouter();
 
   return (
     <Aux>

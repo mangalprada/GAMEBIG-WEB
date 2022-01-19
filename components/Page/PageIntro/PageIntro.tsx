@@ -25,7 +25,7 @@ export default function PageIntro() {
     >
       <section className="text-center">
         <span className="text-2xl md:text-4xl py-6 text-indigo-600">
-          Create a Page for your Esports Organization
+          Create Your Esports Organization
         </span>
       </section>
 

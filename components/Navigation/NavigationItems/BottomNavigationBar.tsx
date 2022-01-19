@@ -93,7 +93,7 @@ function BottomNavigationBar() {
                     : 'text-gray-500')
                 }
               >
-                Page
+                Org
               </span>
             </a>
           </Link>

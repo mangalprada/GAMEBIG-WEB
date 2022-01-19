@@ -24,7 +24,7 @@ const PageFAQ: FC = () => {
               'py-3 text-xl text-gray-400 text-left font-semibold tracking-wide'
             }
           >
-            What is page and who is it for?
+            What is Organization and who is it for?
           </span>
         </Accordion.Trigger>
         <Accordion.Content
@@ -38,8 +38,8 @@ const PageFAQ: FC = () => {
               'border-l-4 border-gray-500'
             }
           >
-            Pages are places where event organizers can organize events and
-            clans can connect with their fans and build their community.
+            Anyone who wants to organize Esports events, the easiest and fastest
+            way.
           </span>
         </Accordion.Content>
       </Accordion.Item>
@@ -70,11 +70,8 @@ const PageFAQ: FC = () => {
             }
             type="1"
           >
-            <li>
-              1. Give your organization&apos;s details and we will create a page
-              for you.
-            </li>
-            <li>2. Then you can start organizing events.</li>
+            <li>1. Fill your organization&apos;s details.</li>
+            <li>2. And, start organizing events.</li>
           </ol>
         </Accordion.Content>
       </Accordion.Item>

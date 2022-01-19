@@ -85,7 +85,7 @@ function CreatePageForm({ pageData }: Props) {
           </h6>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInput
-              labelName="Page Name*"
+              labelName="Organization Name*"
               name="name"
               value={formik.values.name}
               placeHolder="Awsome Esports"

@@ -63,7 +63,7 @@ function BottomNavigationBar() {
                     : 'text-gray-500')
                 }
               >
-                Openings
+                Team Up
               </span>
             </a>
           </Link>

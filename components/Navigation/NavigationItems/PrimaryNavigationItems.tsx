@@ -26,7 +26,7 @@ export default function PrimaryNavigationItems() {
       <NavigationItem
         href="/openings"
         isActive={router.pathname === '/openings'}
-        toolTip="Openings"
+        toolTip="Team Up"
       >
         <JoinIcon isActive={router.pathname === '/openings'} size={33} />
       </NavigationItem>

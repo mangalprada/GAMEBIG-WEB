@@ -6,13 +6,13 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import GameItem from '../../../components/Profile/GameItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
-import { UserData, GamerData } from '../../../utilities/types';
 import { getGamerData } from '../../../libs/gamerData';
 import Modal from '@/components/UI/Modal/Modal';
 import SelectGame from '@/components/Game/SelectGame';
 import GameDetails from '@/components/Game/GameDetails';
 import axios from 'axios';
 import useSWR from 'swr';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import { useRouter } from 'next/router';
 const { BASE_URL } = process.env;
 
@@ -47,7 +47,7 @@ const Games: NextPage = () => {
     setGameCode('');
   };
 
-  if (!userData) return null;
+  if (!userData) return <LurkingCat height={300} width={300} />;
 
   const noGamesComponent = (
     <div

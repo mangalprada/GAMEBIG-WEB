@@ -12,6 +12,7 @@ import { useAuth } from '@/context/authContext';
 import axios from 'axios';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 const { BASE_URL } = process.env;
 
 async function getData(arg: string) {
@@ -46,11 +47,13 @@ export default function Events() {
     setIsModalOpen(true);
   };
 
-  const hostedEvents = events
-    ? events.map((eventItem: EventData) => (
-        <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
-      ))
-    : null;
+  const hostedEvents = events ? (
+    events.map((eventItem: EventData) => (
+      <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
+    ))
+  ) : (
+    <LurkingCat height={300} width={300} />
+  );
 
   const emptyEventsComponent = (
     <div
@@ -65,6 +68,8 @@ export default function Events() {
     </div>
   );
 
+  if (!pageData) return <LurkingCat height={180} width={180} />;
+
   return (
     <Aux>
       <Head>
@@ -77,18 +82,12 @@ export default function Events() {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <div>
-        {pageData ? (
-          <div>
-            <PageHeader data={pageData} />
-            {pageData.admins.includes(userData.uid) &&
-            pageData.category === 'organizer' ? (
-              <CreateEventButton onClick={openModal} />
-            ) : null}
-            {events && events.length === 0
-              ? emptyEventsComponent
-              : hostedEvents}
-          </div>
+        <PageHeader data={pageData} />
+        {pageData.admins.includes(userData.uid) &&
+        pageData.category === 'organizer' ? (
+          <CreateEventButton onClick={openModal} />
         ) : null}
+        {events && events.length === 0 ? emptyEventsComponent : hostedEvents}
       </div>
       <Modal isOpen={isModalOpen} closeModal={closeModal}>
         <div>

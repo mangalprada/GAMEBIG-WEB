@@ -68,7 +68,7 @@ const JoinPage = () => {
             }
             onClick={goToMyPosts}
           >
-            My Listings
+            My Invites
           </span>
           <span
             className={
@@ -78,7 +78,7 @@ const JoinPage = () => {
             }
             onClick={() => setIsModalOpen(true)}
           >
-            Ask For Teammates
+            Invite Teammates
           </span>
         </div>
         <div>

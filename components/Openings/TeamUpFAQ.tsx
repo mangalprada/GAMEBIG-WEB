@@ -50,8 +50,7 @@ const TeamUpFAQ: FC = () => {
           <br />
           <br />
           <span className="text-lg text-red-400">
-            Are you getting frustrated, because of random players in match
-            making 😫?
+            Are you frustrated with random match making in games😫?
           </span>
           <span className="text-lg text-red-400">
             Can&apos;t find a player whose synergy matches yours 😢?
@@ -63,7 +62,7 @@ const TeamUpFAQ: FC = () => {
           <br />
           <ol className="list-decimal mx-5 tracking-wide text-indigo-200">
             <li className="text-lg">
-              Click on <strong>Find Teammate</strong> and add all the
+              Click on <strong>Invite Teammates</strong> and add all the
               requirements you want to have in your teammate.
             </li>
             <li className="text-lg">Others will see and apply for the role.</li>

@@ -17,4 +17,6 @@ export type TeamUpPost = {
   timeAvailability: string | undefined;
   language: string | undefined;
   description: string | undefined;
+  noOfJoinees: number | undefined;
+  joineeUids: string[] | undefined;
 };

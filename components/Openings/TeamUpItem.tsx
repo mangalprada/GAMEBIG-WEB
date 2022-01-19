@@ -2,11 +2,10 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
 import { games } from '@/utilities/GameList';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
-import { db } from 'firebase/firebaseClient';
+import firebase, { db } from 'firebase/firebaseClient';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import FixedButton from '../UI/Buttons/FixedButton';
-import { checkIfApplied } from '@/libs/teamupQueries';
 import { useUI } from '@/context/uiContext';
 
 type Props = {
@@ -21,14 +20,16 @@ export default function TeamUpItem({ data }: Props) {
 
   const router = useRouter();
 
-  const [isApplied, setIsApplied] = useState(false);
+  const [haveRequested, setHaveRequested] = useState(false);
 
   useEffect(() => {
-    (async function (userId, docId) {
-      const hasAlreadyApplied = await checkIfApplied(userId, docId);
-      if (hasAlreadyApplied) setIsApplied(true);
-    })(uid, data.docId);
-  }, [uid, data.docId]);
+    const haveRequested = () => {
+      let requested = false;
+      if (data.joineeUids) requested = data.joineeUids.includes(uid);
+      setHaveRequested(requested);
+    };
+    haveRequested();
+  }, [data.joineeUids, uid]);
 
   const openProfile = (e: MouseEvent) => {
     e.stopPropagation();
@@ -51,10 +52,17 @@ export default function TeamUpItem({ data }: Props) {
           .collection('joinees')
           .doc(uid)
           .set({ uid, username, name, photoURL });
-        setIsApplied(true);
+        setHaveRequested(true);
+        await db
+          .collection('teamOpening')
+          .doc(data.docId)
+          .update({
+            noOfJoinees: firebase.firestore.FieldValue.increment(1),
+            joineeUids: firebase.firestore.FieldValue.arrayUnion(uid),
+          });
         openSnackBar({
           label: '',
-          message: 'You have successfully applied!',
+          message: 'Your Requested to Join is sent!',
           type: 'success',
         });
       }
@@ -72,8 +80,8 @@ export default function TeamUpItem({ data }: Props) {
     >
       <div
         className={
-          'flex items-center justify-between px-3 mb-5 py-1 ' +
-          'rounded-lg border-2 border-gray-800 '
+          'flex items-center justify-between px-3 py-1 ' +
+          'rounded-lg border-2 border-gray-800'
         }
       >
         <section
@@ -106,20 +114,29 @@ export default function TeamUpItem({ data }: Props) {
           </section>
         </section>
         {data.uid !== uid ? (
-          isApplied ? (
+          haveRequested ? (
             <div
               className={
                 'my-2 text-lg font-semibold text-green-500 px-3 py-1.5 ' +
                 'bg-green-900 rounded-md cursor-default'
               }
             >
-              Applied
+              Requested
             </div>
           ) : (
             <div onClick={(e) => e && createJoinee(e)}>
-              <FixedButton name="Apply" />
+              <FixedButton name="Request To Join" />
             </div>
           )
+        ) : null}
+      </div>
+
+      <div className="flex justify-end mb-4 mt-1 mr-4">
+        {data.noOfJoinees ? (
+          <span className="text-gray-400 text-sm font-medium tracking-wide p">
+            {`${data.noOfJoinees} Request`}
+            {data.noOfJoinees > 1 ? 's' : ''}
+          </span>
         ) : null}
       </div>
 

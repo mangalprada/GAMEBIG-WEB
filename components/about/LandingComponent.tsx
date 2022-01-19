@@ -17,19 +17,13 @@ const LandingComponent: FC = () => {
               'leading-tight tracking-wide mt-4'
             }
           >
-            Win Big with GameBig!
+            Fastest And Easiest Way To Organize and Participate In Esports
+            Matches 😎
           </h1>
-
-          <div className="max-w-md">
-            <p className="font-sans text-indigo-500 font-semibold tracking-wide mt-6 text-lg">
-              Connect with gamers, participate in tournaments and build your
-              career in ESports
-            </p>
-          </div>
           <div className="max-w-md mt-10">
             <div className="flex justify-center">
-              <span className="text-2xl text-gray-100 font-sans">
-                Get started by signing in with
+              <span className="text-xl text-gray-300 font-semibold font-sans">
+                Continue with
               </span>
             </div>
 
@@ -37,7 +31,7 @@ const LandingComponent: FC = () => {
               className="flex justify-center bg-gray-700 items-center rounded-md py-3 my-4 cursor-pointer"
               onClick={signInByGoogle}
             >
-              <span className="text-xl md:text-2xl text-gray-100 font-sans font-semibold mr-4">
+              <span className="text-xl md:text-2xl text-gray-50 font-sans font-semibold mr-4">
                 Google
               </span>
               <GoogleIcon size={28} />
@@ -46,7 +40,7 @@ const LandingComponent: FC = () => {
               className="flex justify-center bg-gray-700 items-center rounded-md py-1 mb-4 px-4 cursor-pointer"
               onClick={signInByFacebook}
             >
-              <span className="text-xl md:text-2xl text-gray-100 font-sans font-semibold mx-4">
+              <span className="text-xl md:text-2xl text-gray-50 font-sans font-semibold mx-4">
                 Facebook
               </span>
               <Facebook size={48} />
@@ -55,7 +49,7 @@ const LandingComponent: FC = () => {
               className="flex justify-center bg-gray-800 py-1.5 px-4 rounded-md cursor-pointer"
               onClick={() => router.push('/events')}
             >
-              <span className="text-xl text-gray-400 font-sans font-semibold">
+              <span className="text-xl text-gray-500 font-sans font-semibold">
                 Continue Without Signing In
               </span>
             </div>

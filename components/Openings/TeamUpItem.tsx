@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAuth } from '@/context/authContext';
-import { games } from '@/utilities/GameList';
+import { games, gameTiers } from '@/utilities/GameList';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import firebase, { db } from 'firebase/firebaseClient';
 import Image from 'next/image';
@@ -69,6 +69,17 @@ export default function TeamUpItem({ data }: Props) {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const getGameTier = (tierValue: string) => {
+    let tiername = '';
+    if (data.gameCode) {
+      const tier = gameTiers[data.gameCode].find(
+        (o: any) => o.value === tierValue
+      );
+      if (tier) tiername = tier.name;
+    }
+    return tiername;
   };
 
   return (
@@ -179,7 +190,7 @@ export default function TeamUpItem({ data }: Props) {
           <section className="flex flex-col">
             <span className="font-semibold text-gray-500 text-sm">Tier</span>
             <span className="text-gray-100 tracking-wide text-lg font-medium pt-1 pl-0.5">
-              {data.tier}
+              {getGameTier(data.tier)}
             </span>
           </section>
         ) : null}

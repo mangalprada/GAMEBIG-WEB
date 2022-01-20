@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Image from 'next/image';
@@ -7,7 +7,6 @@ import { GamerData } from '../../utilities/types';
 import FixedButton from '../UI/Buttons/FixedButton';
 import NormalInput from '../UI/Inputs/NormalInput';
 import { useUI } from '@/context/uiContext';
-import { useAuth } from '@/context/authContext';
 
 const validationSchema = yup.object({
   inGameName: yup.string().required('In Game Name is required'),

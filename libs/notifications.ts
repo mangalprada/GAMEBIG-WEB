@@ -1,4 +1,4 @@
-import { db } from 'firebase/firebaseClient';
+import firebase, { db } from 'firebase/firebaseClient';
 
 type Props = {
   data?: any;
@@ -17,6 +17,7 @@ export const notifyUser = async ({ data, uid, message, type }: Props) => {
         message,
         type,
         isSeen: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
   } catch (err) {
     console.error('notifyUser', err);

@@ -29,3 +29,34 @@ export const games = {
     gameCode: string;
   }
 >;
+
+export const gameTiers = {
+  'bgmi-m': [
+    { value: 10, name: 'Bronze' },
+    { value: 20, name: 'Silver' },
+    { value: 30, name: 'Gold' },
+    { value: 40, name: 'Platinum' },
+    { value: 50, name: 'Diamond' },
+    { value: 60, name: 'Crown' },
+    { value: 70, name: 'Ace' },
+    { value: 80, name: 'Ace Master' },
+    { value: 90, name: 'Conqueror' },
+  ],
+  'cod-m': [
+    { value: 10, name: 'Rookie' },
+    { name: 'Veteran', value: 20 },
+    { name: 'Elite', value: 30 },
+    { name: 'Pro', value: 40 },
+    { name: 'Master', value: 50 },
+    { name: 'Grand Master', value: 60 },
+    { name: 'Legendary', value: 70 },
+  ],
+  'gff-m': [
+    { name: 'Bronze', value: 10 },
+    { name: 'Silver', value: 20 },
+    { name: 'Platinum', value: 30 },
+    { name: 'Diamond', value: 40 },
+    { name: 'Heroic', value: 50 },
+    { name: 'Grand Master', value: 60 },
+  ],
+} as Record<string, any>;

@@ -81,7 +81,10 @@ const CreateTeamUpPostForm: FC<Props> = ({ closeModal, gameCode }) => {
                 label={input.label}
                 menuItems={input.dropDownOptions}
                 name={input.name}
-                handleChange={(item) => formik.setFieldValue(input.name, item)}
+                propToShow={input.propToShow}
+                handleChange={(item) =>
+                  formik.setFieldValue(input.name, item.value || item)
+                }
               />
               {Boolean(formik.errors[input.name]) ? (
                 <span className="text-sm text-red-500 font-semibold tracking-wide ml-2">

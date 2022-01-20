@@ -103,7 +103,7 @@ const Home: NextPage = () => {
             Upcoming Custom Room Matches
           </span>
         </div>
-        <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end">
+        {/* <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end">
           <section
             className={
               'bg-gray-900 hover:bg-gray-900/60 flex justify-evenly items-center ' +
@@ -116,17 +116,17 @@ const Home: NextPage = () => {
             <span className=" text-lg text-gray-300">Filter</span>
             <FilterIcon size={32} />
           </section>
-        </div>
-        {events && events.length === 0 ? emptyEventsComponent : allEvents}
+        </div> */}
         <div
           onClick={goToPage}
           className=" w-10/12 md:w-2/3 xl:w-1/2 md:mx-auto flex justify-evenly mt-4 mb-2 rounded-md 
            py-1 bg-indigo-600 mx-auto cursor-pointer"
         >
           <span className="font-semibold font-sans text-lg md:text-2xl mx-4 text-white text-center">
-            Click to Create and Organize Your Own Events 🥳
+            Create and Organize Your Own Matches 🎮
           </span>
         </div>
+        {events && events.length === 0 ? emptyEventsComponent : allEvents}
         <Feedback />
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div

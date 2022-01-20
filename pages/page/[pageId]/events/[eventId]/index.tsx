@@ -158,7 +158,10 @@ export default function Event() {
           <CreateEvent
             gameCode={event.gameCode}
             onCancel={closeModal}
-            oldValues={event}
+            oldValues={{
+              ...event,
+              description: JSON.parse(event?.description),
+            }}
           />
         </Modal>
       </main>

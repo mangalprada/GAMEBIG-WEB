@@ -117,6 +117,7 @@ const Home: NextPage = () => {
             <FilterIcon size={32} />
           </section>
         </div> */}
+        {events && events.length === 0 ? emptyEventsComponent : allEvents}
         <div
           onClick={goToPage}
           className=" w-10/12 md:w-2/3 xl:w-1/2 md:mx-auto flex justify-evenly mt-4 mb-2 rounded-md 
@@ -126,7 +127,6 @@ const Home: NextPage = () => {
             Create and Organize Your Own Matches 🎮
           </span>
         </div>
-        {events && events.length === 0 ? emptyEventsComponent : allEvents}
         <Feedback />
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div

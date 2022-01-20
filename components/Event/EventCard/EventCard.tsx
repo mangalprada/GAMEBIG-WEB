@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { db } from '../../../firebase/firebaseClient';
 import { EventData } from '../../../utilities/eventItem/types';
 import HourglassIcon from '@/components/UI/Icons/EventIcons/HourglassIcon';
 import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';

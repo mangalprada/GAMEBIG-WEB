@@ -1,3 +1,5 @@
+import { Descendant } from 'slate';
+
 export const HostEventForm: Record<string, any> = {
   'bgmi-m': {
     form: [
@@ -31,7 +33,12 @@ export const HostEventForm: Record<string, any> = {
       tier: 'T3',
       noOfSlots: 25,
       startTime: new Date(),
-      description: '',
+      description: [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        } as Descendant,
+      ],
       prize: '',
       entryFee: 0,
     },
@@ -68,7 +75,12 @@ export const HostEventForm: Record<string, any> = {
       tier: 'T3',
       noOfSlots: 25,
       startTime: new Date(),
-      description: '',
+      description: [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        } as Descendant,
+      ],
       prize: '',
       entryFee: 0,
     },
@@ -105,7 +117,12 @@ export const HostEventForm: Record<string, any> = {
       tier: 'T3',
       noOfSlots: 12,
       startTime: new Date(),
-      description: '',
+      description: [
+        {
+          type: 'paragraph',
+          children: [{ text: '' }],
+        } as Descendant,
+      ],
       prize: '',
       entryFee: 0,
     },

@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import router from 'next/router';
-import { useAuth } from '../../../context/authContext';
 import { EventData } from '../../../utilities/eventItem/types';
 import {
   getDecoratedDate,
@@ -10,6 +8,7 @@ import { games } from '../../../utilities/GameList';
 import TextButton from '../../UI/Buttons/TextButton';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
 import { useUI } from '@/context/uiContext';
+import Editor from '@/components/UI/Inputs/Editor';
 
 interface Props {
   data: EventData;
@@ -115,7 +114,7 @@ export default function DetailsAsParticipant({
         <section className="col-span-2">
           <h2 className="font-semibold text-gray-500">Details/ Rules</h2>
           <span className="text-gray-200 font-semibold tracking-wide">
-            {data.description}
+            <Editor value={JSON.parse(data.description)} isReadOnly />
           </span>
         </section>
       </div>

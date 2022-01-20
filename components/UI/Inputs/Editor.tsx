@@ -7,9 +7,10 @@ type Props = {
   value: Descendant[];
   onChange?: (value: Descendant[]) => void;
   isReadOnly: boolean;
+  placeHolderText?: string;
 };
 
-const Editor = ({ value, isReadOnly, onChange }: Props) => {
+const Editor = ({ value, isReadOnly, onChange, placeHolderText }: Props) => {
   const [editor] = useState(
     useMemo(() => withHistory(withReact(createEditor() as ReactEditor)), [])
   );
@@ -24,7 +25,7 @@ const Editor = ({ value, isReadOnly, onChange }: Props) => {
       >
         <Editable
           readOnly={isReadOnly}
-          placeholder="What's on your mind..."
+          placeholder={placeHolderText || "What's on your mind..."}
           style={{ color: '#fff', fontSize: '1rem', fontWeight: 600 }}
         />
       </Slate>

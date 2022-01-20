@@ -7,9 +7,9 @@ import SliderSelect from '@/components/UI/Slider/SliderSelect';
 import { HostEventForm } from '@/utilities/HostEventForm';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import FormInput from '@/components/UI/Inputs/FormInput';
-import TextArea from '@/components/UI/Inputs/TextArea';
 import { validationSchema } from '@/utilities/eventItem/validator';
 import { EventData, EventFormData } from '@/utilities/eventItem/types';
+import Editor from '../../UI/Inputs/Editor';
 import axios from 'axios';
 import SlotsGrid from './SlotsGrid';
 import { useUI } from '@/context/uiContext';
@@ -54,12 +54,20 @@ export default function CreateEventForm({
     initialValues: oldValues || HostEventForm[gameCode].initialValues,
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
+      const { description } = value;
       if (oldValues?._id) {
         delete value._id;
-        updateEvent(oldValues._id, value);
+        updateEvent(oldValues._id, {
+          ...value,
+          description: JSON.stringify(description),
+        });
       } else {
         if (pageId && pageName) {
-          createEvent({ ...value, slots });
+          createEvent({
+            ...value,
+            slots,
+            description: JSON.stringify(description),
+          });
         }
       }
       onCancel();
@@ -199,13 +207,19 @@ export default function CreateEventForm({
                 errorMessage={formik.errors.prize}
               />
             </div>
-            <TextArea
-              name="description"
-              labelName="Rules for Matches"
-              placeHolder="Describe your Rules and Point distribution here"
-              value={formik.values.description}
-              onChangeHandler={formik.handleChange}
-            />
+            <div>
+              <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
+                Description
+              </label>
+              <Editor
+                value={formik.values.description}
+                isReadOnly={false}
+                onChange={(value) => {
+                  formik.setFieldValue('description', value);
+                }}
+                placeHolderText="Describe your Rules, point and Prize distribution here"
+              />
+            </div>
             {oldValues ? null : (
               <SlotsGrid
                 message="Pick any slots if you want to reserve"

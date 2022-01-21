@@ -89,7 +89,7 @@ const MobileMessageContainer: FC<Props> = ({
     <div className="fixed h-screen bg-black inset-0 w-full flex flex-col px-3 pt-2 z-50">
       {/**Header */}
       <div
-        className="flex gap-6 items-center justify-start px-4 bg-gray-900 
+        className="flex gap-6 items-center justify-start px-4 bg-slate-900 
           rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800"
       >
         <BackArrow
@@ -126,7 +126,7 @@ const MobileMessageContainer: FC<Props> = ({
       {/** Message View */}
       <div
         className={
-          'flex flex-col bg-gray-900 rounded-b-lg h-[75vh] border-2 ' +
+          'flex flex-col bg-slate-900 rounded-b-lg h-[75vh] border-2 ' +
           'border-gray-800 overflow-y-scroll px-2'
         }
       >

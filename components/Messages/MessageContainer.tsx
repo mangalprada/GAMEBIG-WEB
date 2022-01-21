@@ -75,7 +75,7 @@ export default function MessageContainer({
     <div className="h-[100vh] relative w-3/5 flex flex-col px-3">
       {/** Header */}
       <div
-        className="flex gap-6 items-center justify-start px-4 bg-gray-900 
+        className="flex gap-6 items-center justify-start px-4 bg-slate-900 
           rounded-t-lg py-2 border-t-2 border-r-2 border-l-2 border-gray-800"
       >
         {receivingUser.photoURL ? (
@@ -109,7 +109,7 @@ export default function MessageContainer({
       {/** Message Viewer */}
       <div
         className={
-          'flex flex-col bg-gray-900 rounded-b-lg h-4/6 border-2 ' +
+          'flex flex-col bg-slate-900 rounded-b-lg h-4/6 border-2 ' +
           'border-gray-800 overflow-y-scroll px-4'
         }
       >

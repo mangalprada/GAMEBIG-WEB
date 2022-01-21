@@ -135,7 +135,7 @@ const EditAvatar = ({ onUpload }: Props) => {
         <ProfileAvatar photoURL={userData.photoURL} />
         <div className="fixed mt-[-5.6rem] ml-6">
           {loading ? (
-            <div className="bg-gray-900 rounded">
+            <div className="bg-slate-900 rounded">
               <span className="text-lg font-sans font-bold text-indigo-600 mx-1 my-0.5">
                 {progress + ' % done'}
               </span>

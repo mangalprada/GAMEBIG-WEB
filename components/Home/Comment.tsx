@@ -55,7 +55,7 @@ const Comment = ({
   }
 
   return (
-    <div className="bg-gray-900 rounded-md pb-3 px-2 py-1.5">
+    <div className="bg-slate-900 rounded-md pb-3 px-2 py-1.5">
       <div className=" px-2 md:py-1 md:px-4 rounded-md flex justify-between">
         <section
           className="flex gap-3 items-center justify-start "

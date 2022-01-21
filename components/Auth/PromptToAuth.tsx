@@ -8,7 +8,7 @@ const PromptToAuth = ({ message }: { message: string }) => {
       <button
         className={
           'w-full rounded-md px-8 py-2 text-xl text-gray-300 font-semibold ' +
-          'bg-gray-800/80 hover:bg-gray-900 active:bg-gray-900/50'
+          'bg-gray-800/80 hover:bg-slate-900 active:bg-slate-900/50'
         }
         type="button"
         onClick={() => router.push('/')}

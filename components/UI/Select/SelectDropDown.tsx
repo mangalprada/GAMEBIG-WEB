@@ -80,7 +80,7 @@ export default function SelectDropDown({
           <ul
             className={
               'mt-2 z-40 w-full py-2 rounded-md h-auto max-h-52 overflow-y-auto ' +
-              'font-sans font-semibold text-base text-gray-300 bg-gray-900 absolute '
+              'font-sans font-semibold text-base text-gray-300 bg-slate-900 absolute '
             }
           >
             {menuItems.length > 0 ? (

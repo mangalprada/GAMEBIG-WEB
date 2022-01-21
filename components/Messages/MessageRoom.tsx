@@ -49,7 +49,7 @@ const MessageRoom = ({
       }
       className={
         'flex items-center text-gray-300 font-sans cursor-pointer ' +
-        'bg-gray-900 hover:bg-gray-900/70 w-full gap-3 px-3 py-3.5 mx-1 mb-1 rounded-md'
+        'bg-slate-900 hover:bg-slate-900/70 w-full gap-3 px-3 py-3.5 mx-1 mb-1 rounded-md'
       }
     >
       <div className="relative h-12 w-14 ">

@@ -70,7 +70,7 @@ export default function CreateTeam({
   };
 
   return (
-    <div className="flex flex-col bg-gray-900 rounded-lg">
+    <div className="flex flex-col bg-slate-900 rounded-lg">
       <div className="text-gray-300 font-sans font-semibold flex flex-col w-full items-center">
         <span className="text-2xl my-4">Create Your Team</span>
         <div className="md:w-1/2 w-11/12">

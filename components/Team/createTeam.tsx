@@ -13,7 +13,7 @@ export default function CreateTeam({ teamData, onCancel }: PropsType) {
   const [part, setPart] = useState<number>(0);
   const [teamId, setTeamId] = useState<string>('');
   return (
-    <div className="bg-gray-900 rounded-lg w-full">
+    <div className="bg-slate-900 rounded-lg w-full">
       {
         {
           0: (

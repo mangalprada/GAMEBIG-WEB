@@ -20,7 +20,7 @@ const MoreActions = () => {
       {showMore ? (
         <div
           className={
-            'flex flex-col bg-gray-900 text-white py-4 px-5 rounded-lg ' +
+            'flex flex-col bg-slate-900 text-white py-4 px-5 rounded-lg ' +
             'space-y-1 font-semibold tracking-wide'
           }
         >

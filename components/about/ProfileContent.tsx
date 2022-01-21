@@ -12,7 +12,7 @@ const ProfileContent: FC = () => {
   return (
     <div
       className={
-        'w-full h-[75vh] bg-gray-900/50 rounded-xl mb-10 xl:mb-20 ' +
+        'w-full h-[75vh] bg-slate-900/50 rounded-xl mb-10 xl:mb-20 ' +
         'backdrop-blur-3xl shadow-xl shadow-gray-800/50 ' +
         'flex sm:flex-row flex-col'
       }

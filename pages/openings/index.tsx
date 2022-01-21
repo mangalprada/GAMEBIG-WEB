@@ -56,7 +56,7 @@ const JoinPage = () => {
         </div>
         <div
           className={
-            'flex justify-between rounded-lg bg-gray-900 h-14 ' +
+            'flex justify-between rounded-lg bg-slate-900 h-14 ' +
             'md:w-2/3 xl:w-1/2 sm:mx-auto mx-3 mt-4 mb-3 px-8 py-2 relative'
           }
         >

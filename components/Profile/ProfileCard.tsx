@@ -79,7 +79,7 @@ const ProfileCard: FC<Props> = ({ user }) => {
   return (
     <div
       className={
-        'bg-gray-900 py-4 rounded-lg shadow-lg text-center ' +
+        'bg-slate-900 py-4 rounded-lg shadow-lg text-center ' +
         'md:hover:-translate-y-0.5'
       }
     >

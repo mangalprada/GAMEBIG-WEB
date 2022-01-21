@@ -29,7 +29,7 @@ export default function NavigationItem({
             'pt-1.5 pb-2 px-1.5 md:px-5 flex flex-col justify-center text-center ' +
             (isActive
               ? ''
-              : 'hover:bg-gray-900 rounded-t-lg transition duration-300')
+              : 'hover:bg-slate-900 rounded-t-lg transition duration-300')
           }
         >
           <a href={href}>{children}</a>

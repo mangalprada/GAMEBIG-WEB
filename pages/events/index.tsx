@@ -106,7 +106,7 @@ const Home: NextPage = () => {
         {/* <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end">
           <section
             className={
-              'bg-gray-900 hover:bg-gray-900/60 flex justify-evenly items-center ' +
+              'bg-slate-900 hover:bg-slate-900/60 flex justify-evenly items-center ' +
               'cursor-pointer w-28 h-auto rounded-md py-1 mx-4 md:mx-0'
             }
             onClick={() => {

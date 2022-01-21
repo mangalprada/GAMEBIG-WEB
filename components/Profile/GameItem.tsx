@@ -53,7 +53,7 @@ export default function GameItem({
     <div
       className={
         'grid md:grid-cols-2 grid-cols-1 w-full font-sans text-gray-300 ' +
-        'bg-gray-900 rounded-lg my-2 py-10 px-4 gap-8'
+        'bg-slate-900 rounded-lg my-2 py-10 px-4 gap-8'
       }
     >
       <div className="flex flex-col justify-evenly space-y-4">

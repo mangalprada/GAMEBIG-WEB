@@ -45,7 +45,7 @@ export default function Home() {
             <div
               className={
                 'flex justify-between rounded-sm py-2 px-3 my-0.5 ' +
-                (notice.isSeen ? 'bg-gray-900 ' : 'bg-gray-700')
+                (notice.isSeen ? 'bg-slate-900 ' : 'bg-gray-700')
               }
               key={index}
               onClick={() => handleClick(notice.type)}

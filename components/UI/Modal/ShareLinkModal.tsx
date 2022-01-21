@@ -26,7 +26,7 @@ const ShareLinkModal: FC = () => {
       />
       <div
         className={
-          'px-auto h-[250px] w-11/12 md:w-1/3 fixed inset-0 bg-gray-900 ' +
+          'px-auto h-[250px] w-11/12 md:w-1/3 fixed inset-0 bg-slate-900 ' +
           'm-auto z-20 overflow-y-auto rounded-md'
         }
       >

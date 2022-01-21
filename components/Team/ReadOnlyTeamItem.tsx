@@ -13,7 +13,7 @@ export default function TeamItem({ team }: Props) {
     <div
       className={
         'flex flex-col my-1 px-2 py-6 justify-center text-lg ' +
-        'text-gray-300 font-sans font-semibold rounded-lg bg-gray-900 '
+        'text-gray-300 font-sans font-semibold rounded-lg bg-slate-900 '
       }
     >
       <h6 className="text-2xl text-indigo-600 mx-4 mb-2">{team.teamName}</h6>

@@ -67,7 +67,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
     <div
       className={
         'h-auto md:w-3/4 lg:w-2/3 xl:w-1/2 rounded-lg my-3 md:mx-auto mx-4 ' +
-        'bg-gray-900 transform sm:hover:scale-[1.03] lg:hover:scale-[1.02] ' +
+        'bg-slate-900 transform sm:hover:scale-[1.03] lg:hover:scale-[1.02] ' +
         'hover:-translate-y-0.5 md:hover:-translate-y-1 transition duration-500 ease-in-out'
       }
     >

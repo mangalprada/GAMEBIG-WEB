@@ -73,7 +73,7 @@ const PostDetails = ({ post, closeModal, isModalOpen }: any) => {
         isModalOpen={isModalOpen}
         onDelete={(id) => closeModal()}
       />
-      <div className="bg-gray-900 p-2 rounded-md">
+      <div className="bg-slate-900 p-2 rounded-md">
         <Editor value={content} isReadOnly={false} onChange={setContent} />
         <div className="flex justify-end mr-2 mt-2">
           <div

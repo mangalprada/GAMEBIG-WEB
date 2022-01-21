@@ -86,7 +86,7 @@ export default function TeamUpItem({ data }: Props) {
     <div
       className={
         'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans px-5 py-5 ' +
-        'bg-gray-900 rounded-lg my-2'
+        'bg-slate-900 rounded-lg my-2'
       }
     >
       <div

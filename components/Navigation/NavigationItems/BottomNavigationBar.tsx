@@ -1,13 +1,10 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import PageIcon from '../../UI/Icons/NavIcons/PageIcon';
-import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
 import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
-import HomeIcon from '../../UI/Icons/NavIcons/HomeIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
-import { useMessages } from '@/context/messageContext';
 
 function BottomNavigationBar() {
   const {
@@ -21,7 +18,7 @@ function BottomNavigationBar() {
         id="bottom-navigation"
         className={
           'block rounded-t-xl fixed inset-x-0 bottom-0 z-10 shadow ' +
-          'bg-gradient-to-t from-black via-black to-gray-800'
+          'bg-gradient-to-t from-black via-black to-slate-900'
         }
       >
         <div className="flex w-full justify-evenly space-x-1">
@@ -38,8 +35,8 @@ function BottomNavigationBar() {
                 className={
                   'text-xs -mt-0.5 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/events'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-500')
+                    ? 'text-indigo-600 '
+                    : 'text-gray-400')
                 }
               >
                 Events
@@ -59,8 +56,8 @@ function BottomNavigationBar() {
                 className={
                   'text-xs -mt-0.5 -ml-1.5 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/openings'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-500')
+                    ? 'text-indigo-600 '
+                    : 'text-gray-400')
                 }
               >
                 Team Up
@@ -89,8 +86,8 @@ function BottomNavigationBar() {
                   router.pathname === '/page/[pageId]' ||
                   router.pathname === '/page' ||
                   router.pathname === '/page/create'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-500')
+                    ? 'text-indigo-600 '
+                    : 'text-gray-400')
                 }
               >
                 Org
@@ -111,8 +108,8 @@ function BottomNavigationBar() {
                 className={
                   'text-xs -mt-1 flex flex-1 justify-center font-bold ' +
                   (router.pathname === '/people'
-                    ? 'text-indigo-600 font-medium'
-                    : 'text-gray-500')
+                    ? 'text-indigo-600 '
+                    : 'text-gray-400')
                 }
               >
                 People

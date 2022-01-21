@@ -12,7 +12,7 @@ export default function Icon({ size, isActive }: Props) {
       viewBox="0 0 24 24"
       width={size}
       className={
-        'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-500')
+        'fill-current ' + (isActive ? 'text-indigo-600' : 'text-gray-400')
       }
     >
       <rect fill="none" height="24" width="24" />

@@ -10,7 +10,7 @@ const { BASE_URL } = process.env;
 
 async function getPageData(arg: string) {
   const response = await axios.get(arg);
-  return response.data.pageData;
+  return response.data.data;
 }
 
 export default function Page() {

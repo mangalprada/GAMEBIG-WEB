@@ -139,7 +139,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           <AccessTimeIcon styles={'fill-current text-blue-500'} />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`${data.noOfSlots} available`} label="Slots">
+        <EventCardRowItem content={`${data.noOfSlots}`} label="Available Slots">
           <RoomEntryIcon styles={'fill-current text-cyan-900'} />
         </EventCardRowItem>
 

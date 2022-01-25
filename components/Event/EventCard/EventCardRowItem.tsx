@@ -41,7 +41,7 @@ const EventCardRowItem: FC<Partial<Props>> = ({
             />
           </span>
         ) : null}
-        <span className="text-gray-300 text-xs sm:text-lg font-semibold">
+        <span className="text-gray-300 text-sm sm:text-lg font-semibold">
           {content}
         </span>
       </section>

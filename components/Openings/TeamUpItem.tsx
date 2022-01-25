@@ -86,7 +86,7 @@ export default function TeamUpItem({ data }: Props) {
     <div
       className={
         'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans p-3 sm:p-5 ' +
-        'bg-slate-900 rounded-lg my-2'
+        'bg-slate-900 rounded-lg my-1.5 md:my-2'
       }
     >
       <div
@@ -96,7 +96,7 @@ export default function TeamUpItem({ data }: Props) {
         }
       >
         <section
-          className="flex gap-3 items-center justify-start "
+          className="flex gap-1.5 md:gap-3 items-center justify-start"
           onClick={(e) => openProfile(e)}
         >
           {data.photoURL ? (

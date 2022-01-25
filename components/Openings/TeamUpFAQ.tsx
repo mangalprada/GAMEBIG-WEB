@@ -9,12 +9,12 @@ const TeamUpFAQ: FC = () => {
     <div className="w-full">
       <section
         className={
-          'flex justify-between items-center px-4 py-2 rounded-md ' +
+          'flex justify-between items-center px-4  py-1 sm:py-2 rounded-md ' +
           'bg-indigo-900/60 hover:bg-indigo-800/70 cursor-pointer'
         }
         onClick={() => setIsModalOpen(true)}
       >
-        <span className="text-lg font-medium text-gray-300">
+        <span className="text-sm sm:text-lg font-medium text-gray-300">
           Find your perfect Teammate!
         </span>
         <span>
@@ -41,7 +41,7 @@ const TeamUpFAQ: FC = () => {
         <div
           className={
             'flex flex-col bg-gradient-to-r from-indigo-900/60 via-black to-black ' +
-            'w-11/12 mx-auto px-4 py-5 rounded-md mb-10 font-sans'
+            'w-11/12 mx-auto px-4 py-5 my-2 rounded-md mb-10 font-sans'
           }
         >
           <span className="text-xl text-gray-200 font-semibold tracking-wider ">

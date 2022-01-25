@@ -60,11 +60,11 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             <div className="flex flex-row md:mt-2">
               {data.location ? (
                 <LocationIcon
-                  size={25}
+                  size={22}
                   className={'fill-current text-indigo-400'}
                 />
               ) : null}
-              <span className="text-gray-400 text-lg ml-2 font-sans">
+              <span className="text-gray-400 text-sm md:text-lg ml-0.5 md:ml-2 font-sans">
                 {data.location}
               </span>
             </div>

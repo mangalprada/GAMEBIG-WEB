@@ -25,11 +25,11 @@ const EventCardRowItem: FC<Partial<Props>> = ({
     >
       <section className="flex flex-row items-center">
         {children}
-        <span className="text-gray-500 text-xs sm:text-base font-medium px-2.5 tracking-wide">
+        <span className="text-gray-500 text-xs sm:text-base font-medium px-1 md:px-2.5 tracking-wide">
           {label}
         </span>
       </section>
-      <section className="flex flex-row gap-x-2 sm:gap-x-3 items-center ml-[2.15rem]">
+      <section className="flex flex-row gap-x-2 sm:gap-x-3 items-center ml-[1.25rem] md:ml-[2.15rem]">
         {image ? (
           <span className="h-8 w-8 relative">
             <Image

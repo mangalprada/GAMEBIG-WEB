@@ -85,7 +85,7 @@ export default function TeamUpItem({ data }: Props) {
   return (
     <div
       className={
-        'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans p-2 sm:p-4 ' +
+        'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans p-3 sm:p-5 ' +
         'bg-slate-900 rounded-lg my-2'
       }
     >

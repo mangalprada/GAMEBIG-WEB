@@ -85,7 +85,7 @@ export default function TeamUpItem({ data }: Props) {
   return (
     <div
       className={
-        'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans px-5 py-5 ' +
+        'xl:w-1/2 md:w-5/6 w-11/12 mx-auto font-sans p-2 sm:p-4 ' +
         'bg-slate-900 rounded-lg my-2'
       }
     >
@@ -142,7 +142,7 @@ export default function TeamUpItem({ data }: Props) {
         ) : null}
       </div>
 
-      <div className="flex justify-end mb-4 mt-1 mr-4">
+      <div className="flex justify-end mb-2 mt-1 mr-4">
         {data.noOfJoinees ? (
           <span className="text-gray-400 text-xs sm:text-sm font-medium tracking-wide p">
             {`${data.noOfJoinees} Request`}
@@ -159,7 +159,7 @@ export default function TeamUpItem({ data }: Props) {
       {/** Requirements */}
       <div
         className={
-          'grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 mt-8 gap-2 sm:gap-5 ' +
+          'grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 mt-2 gap-2 sm:gap-5 ' +
           'cursor-pointer bg-black/30 hover:bg-black/50 px-6 py-3 rounded-md'
         }
         onClick={handleCardClick}

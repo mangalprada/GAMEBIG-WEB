@@ -99,7 +99,7 @@ const Home: NextPage = () => {
           className="md:w-2/3 xl:w-1/2 mx-2 md:mx-auto flex justify-evenly  rounded-b-md
          bg-gradient-to-t from-slate-700 to-cyan-900  py-1 mb-2 "
         >
-          <span className="text-gray-300 font-semibold font-sans text-lg md:text-xl mx-4">
+          <span className="text-gray-300 font-semibold font-sans text-sm sm:text-lg md:text-xl mx-4">
             Upcoming Custom Room Matches
           </span>
         </div>

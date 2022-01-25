@@ -80,7 +80,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           />
           <div>
             <span
-              className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
+              className="text-gray-300  text-xs sm:text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
               onClick={openLinkedpage}
             >
               {data.pageName}
@@ -90,7 +90,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
                 className={'fill-current text-indigo-500'}
                 size={15}
               />
-              <span className="text-gray-300 text-sm font-semibold font-sans ml-1">
+              <span className="text-gray-300 text-xs sm:text-sm font-semibold font-sans ml-1">
                 India
               </span>
             </section>
@@ -107,7 +107,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       {/** Event Contents */}
       <div
         className={
-          'grid sm:grid-cols-2 grid-cols-1 justify-items-center md:mx-5 gap-y-4 cursor-pointer'
+          'grid grid-cols-2 justify-items-center md:mx-5 gap-y-4 cursor-pointer'
         }
         onClick={onForwardAction}
       >
@@ -116,11 +116,15 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           label="Game"
           image={games[data.gameCode].imageSource}
         >
-          <EsportsIcon styles={'fill-current text-purple-700'} />
+          <EsportsIcon
+            styles={'fill-current text-purple-700 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         <EventCardRowItem content={`Daily Custom - ${data.tier}`} label="Tier">
-          <BadgeIcon styles={'fill-current text-orange-800'} />
+          <BadgeIcon
+            styles={'fill-current text-orange-800 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         {/* <EventCardRowItem
@@ -136,18 +140,24 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           )}`}
           label="Event Time"
         >
-          <AccessTimeIcon styles={'fill-current text-blue-500'} />
+          <AccessTimeIcon
+            styles={'fill-current text-blue-500 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         <EventCardRowItem content={`${data.noOfSlots}`} label="Available Slots">
-          <RoomEntryIcon styles={'fill-current text-cyan-900'} />
+          <RoomEntryIcon
+            styles={'fill-current text-cyan-900 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         <EventCardRowItem
           content={data.entryFee > 0 ? `₹ ${data.entryFee}` : 'No Fee'}
           label="Entry Fee"
         >
-          <MoneyIcon styles={'fill-current text-green-600'} />
+          <MoneyIcon
+            styles={'fill-current text-green-600 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         <EventCardRowItem
@@ -155,11 +165,13 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           label="Prize"
           highlight={Boolean(data.prize)}
         >
-          <TrophyIcon styles={'fill-current text-yellow-500'} />
+          <TrophyIcon
+            styles={'fill-current text-yellow-500 w-4 h-4 md:w-5 md:h-5'}
+          />
         </EventCardRowItem>
 
         {/** Registration Close by */}
-        <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
+        {/* <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
           <HourglassIcon styles={'fill-current text-red-300'} />
           <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
             {`Registration open till      
@@ -167,7 +179,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
               data.startTime
             )}`}
           </span>
-        </section>
+        </section> */}
       </div>
       <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
         <TextButton

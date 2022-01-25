@@ -28,12 +28,12 @@ function BottomNavigationBar() {
               <span className="flex justify-center items-center pt-0.5">
                 <TrophyIcon
                   isActive={router.pathname === '/events'}
-                  size={30}
+                  size={26}
                 />
               </span>
               <span
                 className={
-                  'text-xs -mt-0.5 flex flex-1 justify-center font-bold ' +
+                  'text-xs -mt-0.5 flex flex-1 justify-center font-semibold ' +
                   (router.pathname === '/events'
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
@@ -49,12 +49,12 @@ function BottomNavigationBar() {
               <span className="flex justify-center items-center">
                 <JoinIcon
                   isActive={router.pathname === '/openings'}
-                  size={32}
+                  size={26}
                 />
               </span>
               <span
                 className={
-                  'text-xs -mt-0.5 -ml-1.5 flex flex-1 justify-center font-bold ' +
+                  'text-xs -mt-0.5 -ml-1.5 flex flex-1 justify-center font-semibold ' +
                   (router.pathname === '/openings'
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
@@ -76,12 +76,12 @@ function BottomNavigationBar() {
                     router.pathname === '/page' ||
                     router.pathname === '/page/create'
                   }
-                  size={30}
+                  size={26}
                 />
               </span>
               <span
                 className={
-                  'text-xs -mt-0.5 flex flex-1 justify-center font-bold ' +
+                  'text-xs -mt-0.5 flex flex-1 justify-center font-semibold ' +
                   (router.pathname === '/page/[pageId]/events' ||
                   router.pathname === '/page/[pageId]' ||
                   router.pathname === '/page' ||
@@ -101,12 +101,12 @@ function BottomNavigationBar() {
               <span className="flex justify-center items-center pt-0.5">
                 <FriendsIcon
                   isActive={router.pathname === '/people'}
-                  size={35}
+                  size={28}
                 />
               </span>
               <span
                 className={
-                  'text-xs -mt-1 flex flex-1 justify-center font-bold ' +
+                  'text-xs -mt-1 flex flex-1 justify-center font-semibold ' +
                   (router.pathname === '/people'
                     ? 'text-indigo-600 '
                     : 'text-gray-400')

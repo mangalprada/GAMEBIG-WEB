@@ -127,7 +127,7 @@ const Home: NextPage = () => {
             Create and Organize Your Own Matches 🎮
           </span>
         </div>
-        <Feedback />
+        {/* <Feedback /> */}
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div
             className={'w-5/6 mx-auto grid grid-cols-1 sm:grid-cols-2 gap-y-4'}

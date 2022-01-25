@@ -178,7 +178,7 @@ export default function BasicEventRegistrationForm({
           error={Boolean(formik.errors.phoneNumber)}
           errorMessage={formik.errors.phoneNumber}
         />
-        <FormInput
+        {/* <FormInput
           labelName="In Game Name (IGL)"
           name="inGameName"
           value={formik.values.inGameName}
@@ -193,7 +193,7 @@ export default function BasicEventRegistrationForm({
           onChangeHandler={formik.handleChange}
           error={Boolean(formik.errors.inGameId)}
           errorMessage={formik.errors.inGameId}
-        />
+        /> */}
         <SlotsGrid
           message="Pick your slot number"
           slotSelectHandler={slotSelectHandler}

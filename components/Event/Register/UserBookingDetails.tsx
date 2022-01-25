@@ -23,7 +23,7 @@ const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
             {bookingDetails.phoneNumber}
           </span>
         </section>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <span className="text-base text-gray-400 font-sans font-semibold">
             In Game Name(IGL)
           </span>
@@ -38,7 +38,7 @@ const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
           <span className="text-xl text-gray-50 font-sans font-semibold">
             {bookingDetails.gamerDetails[0].inGameName}
           </span>
-        </div>
+        </div> */}
         <section>
           <h2 className="font-semibold text-base text-gray-500">Slot Number</h2>
           <span className="text-xl text-center font-semibold tracking-wide rounded-md text-green-500 ">

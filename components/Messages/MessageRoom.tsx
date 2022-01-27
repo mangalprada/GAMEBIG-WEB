@@ -67,7 +67,9 @@ const MessageRoom = ({
       <div className="flex flex-col w-full pr-2">
         <div className="flex justify-between items-center">
           <span className="text-lg  font-semibold">{name}</span>
-          <span className="text-sm text-gray-400 text-right">{getTime()}</span>
+          <span className="text-sm text-gray-400 text-right">
+            {updatedAt && getTime()}
+          </span>
         </div>
         <div className="flex justify-between items-center">
           {lastMessage && (

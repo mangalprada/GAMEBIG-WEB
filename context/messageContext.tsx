@@ -5,7 +5,7 @@ import { MessageRoomType } from '@/utilities/messages/MessagesTypes';
 
 const messageContext = createContext({
   messageRooms: [] as MessageRoomType[],
-  unseen: 0,
+  unseenMessageCount: 0,
   currentMessageRoom: {} as MessageRoomType,
   updateCurrentMessageRoom: (mr: MessageRoomType) => {},
 });
@@ -13,7 +13,7 @@ const messageContext = createContext({
 function useProviderMessages() {
   const { userData } = useAuth();
   const [messageRooms, setMessageRooms] = useState<MessageRoomType[]>([]);
-  const [unseen, setUnseen] = useState<number>(0);
+  const [unseenMessageCount, setUnseenmessageCount] = useState<number>(0);
   const [currentMessageRoom, setCurrentMessageRoom] = useState<MessageRoomType>(
     {} as MessageRoomType
   );
@@ -42,8 +42,10 @@ function useProviderMessages() {
                 noOfUnseen: currentRoomUnseen,
               });
             });
+            console.log({ tempUnseen, unseenMessageCount });
+
             setMessageRooms(tempMessageRooms);
-            setUnseen(tempUnseen);
+            setUnseenmessageCount(tempUnseen);
           });
       } catch (err) {
         console.log(err);
@@ -53,7 +55,12 @@ function useProviderMessages() {
   const updateCurrentMessageRoom = (mr: MessageRoomType) => {
     setCurrentMessageRoom(mr);
   };
-  return { messageRooms, unseen, currentMessageRoom, updateCurrentMessageRoom };
+  return {
+    messageRooms,
+    unseenMessageCount,
+    currentMessageRoom,
+    updateCurrentMessageRoom,
+  };
 }
 
 type Props = {

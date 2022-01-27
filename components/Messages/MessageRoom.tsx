@@ -8,7 +8,6 @@ type Props = {
   receiverUsername: string;
   receiverUid: string;
   lastMessage?: string;
-  unseen: any;
   updatedAt: any;
   onClick: (user: any) => void;
   noOfUnseen: number;

@@ -12,9 +12,11 @@ import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 export default function SecondaryNavigationItems() {
   const { userData } = useAuth();
   const { unseen } = useNotication();
-  const { unseen: unseenMessages } = useMessages();
+  const { unseenMessageCount } = useMessages();
   const router = useRouter();
   const [isUser, setIsUser] = useState(true);
+
+  console.log('unseen', unseen);
 
   useEffect(() => {
     if (userData.username) {
@@ -44,7 +46,9 @@ export default function SecondaryNavigationItems() {
               />
               {unseen > 0 ? (
                 <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">
-                  <span className="text-white text-sm">{unseenMessages}</span>
+                  <span className="text-white text-sm">
+                    {unseenMessageCount}
+                  </span>
                 </div>
               ) : null}
             </div>

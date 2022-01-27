@@ -1,16 +1,7 @@
-import {
-  ChangeEvent,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { db } from '../../firebase/firebaseClient';
 import { useAuth } from '@/context/authContext';
-import SearchInput from '@/components/UI/Inputs/SearchInput';
-import algoliaClient from '@/libs/algolia';
-import debounce from '@/libs/debounce';
 import MessageRoom from './MessageRoom';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { MessageRoomType } from '@/utilities/messages/MessagesTypes';
@@ -36,16 +27,6 @@ const MessageRoomList = ({
   const router = useRouter();
   const { userData } = useAuth();
   const { updateCurrentMessageRoom } = useMessages();
-  const [query, setQuery] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-
-  const searchUser = (query: string) => {
-    const index = algoliaClient.initIndex('messageRooms');
-    index.search(query).then(({ hits }) => {
-      console.log(hits);
-    });
-  };
 
   const openPeoplePage = () => {
     router.push('/people');
@@ -90,7 +71,6 @@ const MessageRoomList = ({
           receiverUid={room.receiver[userData.uid].uid}
           lastMessage={room.lastMessage}
           updatedAt={room.updatedAt}
-          unseen={room.unerad}
           noOfUnseen={room.noOfUnseen}
           onClick={() => {
             clickHandler(room);
@@ -105,26 +85,6 @@ const MessageRoomList = ({
   return (
     <div className="w-full md:w-1/3 h-full px-1">
       <div className="w-full h-full">
-        {/* <SearchInput
-          name="searchUser"
-          onChangeHandler={(e: ChangeEvent) => {
-            const target = e.target as HTMLInputElement;
-            setQuery(target.value);
-            const debouncedGetSearch = debounce(
-              () => searchUser(target.value),
-              500
-            );
-            if (target.value.trim() !== '') {
-              debouncedGetSearch();
-            } else {
-              setSearchResults([]);
-            }
-          }}
-          placeHolder="Search"
-          value={query}
-          error={Boolean(errorMsg)}
-          errorMessage={errorMsg}
-        /> */}
         {messageRooms.length > 0 ? (
           <div className="h-full overflow-auto pr-1">
             {messageRoomsComponent}

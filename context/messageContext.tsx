@@ -42,10 +42,10 @@ function useProviderMessages() {
                 noOfUnseen: currentRoomUnseen,
               });
             });
-            console.log({ tempUnseen, unseenMessageCount });
-
-            setMessageRooms(tempMessageRooms);
             setUnseenmessageCount(tempUnseen);
+            setMessageRooms(tempMessageRooms);
+
+            console.log({ tempUnseen, unseenMessageCount });
           });
       } catch (err) {
         console.log(err);

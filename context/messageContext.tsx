@@ -18,6 +18,10 @@ function useProviderMessages() {
     {} as MessageRoomType
   );
 
+  const updateUnseenMessageCount = async (n: number) => {
+    setUnseenmessageCount(unseenMessageCount + n);
+  };
+
   useEffect(() => {
     if (userData.uid) {
       try {
@@ -34,6 +38,7 @@ function useProviderMessages() {
               if (unseen && unseen[userData.uid]) {
                 currentRoomUnseen = unseen[userData.uid];
                 tempUnseen += currentRoomUnseen;
+                updateUnseenMessageCount(currentRoomUnseen);
               }
               tempMessageRooms.push({
                 ...messageRoom,
@@ -42,15 +47,13 @@ function useProviderMessages() {
                 noOfUnseen: currentRoomUnseen,
               });
             });
-            setUnseenmessageCount(tempUnseen);
             setMessageRooms(tempMessageRooms);
-
-            console.log({ tempUnseen, unseenMessageCount });
           });
       } catch (err) {
         console.log(err);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData.uid]);
   const updateCurrentMessageRoom = (mr: MessageRoomType) => {
     setCurrentMessageRoom(mr);

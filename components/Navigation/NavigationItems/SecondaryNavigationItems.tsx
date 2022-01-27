@@ -4,6 +4,7 @@ import Image from 'next/image';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
 import { useNotication } from '../../../context/notificationContext';
+import { useMessages } from '../../../context/messageContext';
 import NotificationIcon from '../../UI/Icons/NavIcons/NotificationIcon';
 import ProfileIcon from '../../UI/Icons/NavIcons/ProfileIcon';
 import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
@@ -11,6 +12,7 @@ import MessageIcon from '../../UI/Icons/NavIcons/MessageIcon';
 export default function SecondaryNavigationItems() {
   const { userData } = useAuth();
   const { unseen } = useNotication();
+  const { unseen: unseenMessages } = useMessages();
   const router = useRouter();
   const [isUser, setIsUser] = useState(true);
 
@@ -42,7 +44,7 @@ export default function SecondaryNavigationItems() {
               />
               {unseen > 0 ? (
                 <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">
-                  <span className="text-white text-sm">{unseen}</span>
+                  <span className="text-white text-sm">{unseenMessages}</span>
                 </div>
               ) : null}
             </div>

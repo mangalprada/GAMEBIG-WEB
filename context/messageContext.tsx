@@ -18,18 +18,14 @@ function useProviderMessages() {
     {} as MessageRoomType
   );
 
-  const updateUnseenMessageCount = async (n: number) => {
-    setUnseenmessageCount(unseenMessageCount + n);
-  };
-
   useEffect(() => {
     if (userData.uid) {
+      let tempUnseen = 0;
       try {
         db.collection('messageRooms')
           .where('uids', 'array-contains', userData.uid)
           .orderBy('updatedAt', 'desc')
           .onSnapshot((snapshot) => {
-            let tempUnseen = 0;
             const tempMessageRooms: MessageRoomType[] = [];
             snapshot.docs.map((doc) => {
               const messageRoom = doc.data() as MessageRoomType;
@@ -38,7 +34,6 @@ function useProviderMessages() {
               if (unseen && unseen[userData.uid]) {
                 currentRoomUnseen = unseen[userData.uid];
                 tempUnseen += currentRoomUnseen;
-                updateUnseenMessageCount(currentRoomUnseen);
               }
               tempMessageRooms.push({
                 ...messageRoom,
@@ -49,11 +44,11 @@ function useProviderMessages() {
             });
             setMessageRooms(tempMessageRooms);
           });
+        setUnseenmessageCount(tempUnseen);
       } catch (err) {
         console.log(err);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData.uid]);
   const updateCurrentMessageRoom = (mr: MessageRoomType) => {
     setCurrentMessageRoom(mr);

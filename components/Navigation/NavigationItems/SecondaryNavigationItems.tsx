@@ -16,8 +16,6 @@ export default function SecondaryNavigationItems() {
   const router = useRouter();
   const [isUser, setIsUser] = useState(true);
 
-  console.log('unseen', unseen);
-
   useEffect(() => {
     if (userData.username) {
       setIsUser(true);
@@ -44,7 +42,7 @@ export default function SecondaryNavigationItems() {
                 isActive={router.pathname === '/messages'}
                 size={36}
               />
-              {unseen > 0 ? (
+              {unseenMessageCount > 0 ? (
                 <div className="fixed mt-[-1.5rem] ml-[1.2rem] rounded-full h-6 w-6 bg-red-500">
                   <span className="text-white text-sm">
                     {unseenMessageCount}

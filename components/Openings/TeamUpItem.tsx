@@ -37,8 +37,14 @@ export default function TeamUpItem({ data }: Props) {
   };
 
   const handleCardClick = () => {
-    if (data.uid && data.docId) {
+    if (data.uid && data.docId && data.uid === uid) {
       router.push(`/openings/${data.uid}/${data.docId}`);
+    } else {
+      openSnackBar({
+        label: 'Only the owner of this post can view it.',
+        message: 'Invite teammates now!!',
+        type: 'info',
+      });
     }
   };
 

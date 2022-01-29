@@ -78,19 +78,24 @@ export default function Home() {
         <div>
           {joinees.length > 0 ? (
             <div className="xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 mx-auto">
-              {joinees.map((joinee) => (
-                <div
-                  key={joinee.uid}
-                  className="w-full py-1 bg-gray-800 rounded-md flex justify-between pr-8"
-                >
-                  <HorizontalProfile user={joinee} />
-                  <FixedButton
-                    name="Message"
-                    type="button"
-                    onClick={() => message(joinee)}
-                  />
-                </div>
-              ))}
+              <h2 className="font-semibold mx-auto text-xl text-gray-300 my-2">
+                Recieved Requests
+              </h2>
+              <div>
+                {joinees.map((joinee) => (
+                  <div
+                    key={joinee.uid}
+                    className="w-full py-1 bg-gray-800 rounded-md flex justify-between pr-8"
+                  >
+                    <HorizontalProfile user={joinee} />
+                    <FixedButton
+                      name="Message"
+                      type="button"
+                      onClick={() => message(joinee)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="text-center">

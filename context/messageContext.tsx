@@ -20,20 +20,20 @@ function useProviderMessages() {
 
   useEffect(() => {
     if (userData.uid) {
-      let tempUnseen = 0;
       try {
         db.collection('messageRooms')
           .where('uids', 'array-contains', userData.uid)
           .orderBy('updatedAt', 'desc')
           .onSnapshot((snapshot) => {
             const tempMessageRooms: MessageRoomType[] = [];
+            let tempUnseen = 0;
             snapshot.docs.map((doc) => {
               const messageRoom = doc.data() as MessageRoomType;
               const { unseen } = messageRoom;
               let currentRoomUnseen = 0;
               if (unseen && unseen[userData.uid]) {
                 currentRoomUnseen = unseen[userData.uid];
-                tempUnseen += currentRoomUnseen;
+                tempUnseen = tempUnseen + currentRoomUnseen;
               }
               tempMessageRooms.push({
                 ...messageRoom,
@@ -42,17 +42,19 @@ function useProviderMessages() {
                 noOfUnseen: currentRoomUnseen,
               });
             });
+            setUnseenmessageCount(tempUnseen);
             setMessageRooms(tempMessageRooms);
           });
-        setUnseenmessageCount(tempUnseen);
       } catch (err) {
         console.log(err);
       }
     }
   }, [userData.uid]);
+
   const updateCurrentMessageRoom = (mr: MessageRoomType) => {
     setCurrentMessageRoom(mr);
   };
+
   return {
     messageRooms,
     unseenMessageCount,

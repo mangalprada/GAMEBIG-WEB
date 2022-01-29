@@ -144,7 +144,7 @@ export default function TeamUpItem({ data }: Props) {
 
       <div className="flex justify-end mb-2 mt-1 mr-4">
         {data.noOfJoinees ? (
-          <span className="text-gray-400 text-xs sm:text-sm font-medium tracking-wide p">
+          <span className="text-indigo-600 text-xs sm:text-sm font-medium tracking-wide hover:underline cursor-pointer">
             {`${data.noOfJoinees} Request`}
             {data.noOfJoinees > 1 ? 's' : ''}
           </span>

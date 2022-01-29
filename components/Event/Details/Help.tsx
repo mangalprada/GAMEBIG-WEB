@@ -3,6 +3,7 @@ import { useUI } from '@/context/uiContext';
 import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
 import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import useSWR from 'swr';
 import axios from 'axios';
 const { BASE_URL } = process.env;
@@ -13,7 +14,7 @@ const instagram = 'https://www.instagram.com/gamebig.in/';
 
 async function getPageData(arg: string) {
   const response = await axios.get(arg);
-  return response.data.pageData;
+  return response.data.data;
 }
 
 const Help = ({ pageId }: { pageId: string }) => {
@@ -23,10 +24,15 @@ const Help = ({ pageId }: { pageId: string }) => {
     getPageData
   );
 
-  if (!pageData) return null;
+  if (!pageData) return <LurkingCat height={300} width={300} />;
 
   return (
     <div>
+      <div className="w-11/12 mt-6 flex justify-start">
+        <h2 className="font-semibold mx-auto text-xl text-gray-500">
+          Contact Organizer
+        </h2>
+      </div>
       <AboutPage data={pageData} />
       <div className="w-11/12 mt-6 flex justify-start">
         <h2 className="font-semibold mx-auto text-xl text-gray-500">

@@ -37,7 +37,7 @@ export default function TeamUpItem({ data }: Props) {
   };
 
   const handleCardClick = () => {
-    if (data.uid && data.docId && data.uid === uid) {
+    if (data.uid && data.docId) {
       router.push(`/openings/${data.uid}/${data.docId}`);
     }
   };
@@ -142,7 +142,10 @@ export default function TeamUpItem({ data }: Props) {
         ) : null}
       </div>
 
-      <div className="flex justify-end mb-2 mt-1 mr-4">
+      <div
+        className="flex justify-end mb-2 mt-1 mr-4"
+        onClick={handleCardClick}
+      >
         {data.noOfJoinees ? (
           <span className="text-indigo-600 text-xs sm:text-sm font-medium tracking-wide hover:underline cursor-pointer">
             {`${data.noOfJoinees} Request`}

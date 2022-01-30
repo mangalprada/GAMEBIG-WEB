@@ -32,7 +32,7 @@ export default function PrimaryNavigationItems() {
       </NavigationItem>
 
       <NavigationItem
-        href={pageId ? `/page/${pageId}/events` : `/page`}
+        href={pageId ? `/page/${pageId}` : `/page`}
         isActive={
           router.pathname === '/page/[pageId]/events' ||
           router.pathname === '/page/[pageId]' ||

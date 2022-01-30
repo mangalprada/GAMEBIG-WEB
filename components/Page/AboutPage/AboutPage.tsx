@@ -5,90 +5,81 @@ import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
 import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
 import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
+import EmailIcon from '@/components/UI/Icons/ProfileIcons/EmailIcon';
+import WebIcon from '@/components/UI/Icons/ProfileIcons/WebIcon';
+import { useUI } from '@/context/uiContext';
 
 interface Props {
   data: PageFormData;
 }
 
 export default function AboutPage({ data }: Props) {
+  const { openSnackBar } = useUI();
   return (
-    <div
-      className={
-        'w-11/12 md:w-2/3 mx-auto font-sans px-5 pt-10 ' +
-        'bg-gradient-to-b from-transparent to-gray-900 ' +
-        'rounded-b-3xl'
-      }
-    >
-      <section className="flex flex-col">
-        <span className="font-semibold text-gray-500">About us</span>
-        <span className="text-gray-100 tracking-wide pt-1">{data.about}</span>
-      </section>
-      <div className="grid md:grid-cols-2 grid-cols-1 mt-8 space-y-5">
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500">Official Email</span>
-          <span className="text-gray-100 tracking-wide pt-1">{data.email}</span>
-        </section>
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500">Contact Number</span>
-          <span className="text-gray-100 tracking-wide pt-1">{data.phone}</span>
-        </section>
-        <section className="flex flex-col">
-          <span className="font-semibold text-gray-500">Official Website</span>
-          <span className="text-gray-100 tracking-wide pt-1">
-            {data.website ? data.website : 'Not Available'}
-          </span>
-        </section>
+    <div className={'w-full mx-auto font-sans px-5 py-2'}>
+      <div className="flex flex-row items-center space-x-4 ml-1 mt-3">
+        {data.email ? (
+          <p
+            className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
+            onClick={() => {
+              navigator.clipboard.writeText(data.email);
+              openSnackBar({
+                label: 'Copied!',
+                message: 'Email ID copied to clipboard',
+                type: 'info',
+              });
+            }}
+          >
+            <EmailIcon size={18} className={'fill-current text-slate-500'} />
+            <span>{data.email}</span>
+          </p>
+        ) : null}
+        {data.website ? (
+          <p
+            className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
+            onClick={() => window.open(data.website, '_blank')}
+          >
+            <WebIcon size={18} className={'fill-current text-slate-500'} />
+            <span>{data.website.replace(/(^\w+:|^)\/\//, '')}</span>
+          </p>
+        ) : null}
       </div>
-
-      {/** Social Links */}
-      <div className="flex flex-row space-x-6 mt-5 ml-1 h-20">
+      <div className="flex flex-row items-center space-x-4 ml-1 mt-1">
         {data.youtube ? (
-          <div className="my-auto">
-            <YouTubeIcon
-              size={20}
-              onClick={() => window.open(data.youtube, '_blank')}
-            />
-          </div>
+          <YouTubeIcon
+            size={20}
+            onClick={() => window.open(data.youtube, '_blank')}
+          />
         ) : null}
         {data.discord ? (
-          <div className="my-auto">
-            <DiscordIcon
-              size={25}
-              onClick={() => window.open(data.discord, '_blank')}
-            />
-          </div>
+          <DiscordIcon
+            size={25}
+            onClick={() => window.open(data.discord, '_blank')}
+          />
         ) : null}
         {data.instagram ? (
-          <div className="my-auto">
-            <InstagramIcon
-              size={28}
-              onClick={() => window.open(data.instagram, '_blank')}
-            />
-          </div>
+          <InstagramIcon
+            size={28}
+            onClick={() => window.open(data.instagram, '_blank')}
+          />
         ) : null}
         {data.facebook ? (
-          <div className="my-auto">
-            <FacebookIcon
-              size={35}
-              onClick={() => window.open(data.facebook, '_blank')}
-            />
-          </div>
+          <FacebookIcon
+            size={35}
+            onClick={() => window.open(data.facebook, '_blank')}
+          />
         ) : null}
         {data.twitch ? (
-          <div className="my-auto">
-            <TwitchIcon
-              size={23}
-              onClick={() => window.open(data.twitch, '_blank')}
-            />
-          </div>
+          <TwitchIcon
+            size={23}
+            onClick={() => window.open(data.twitch, '_blank')}
+          />
         ) : null}
         {data.reddit ? (
-          <div className="my-auto">
-            <RedditIcon
-              size={35}
-              onClick={() => window.open(data.reddit, '_blank')}
-            />
-          </div>
+          <RedditIcon
+            size={35}
+            onClick={() => window.open(data.reddit, '_blank')}
+          />
         ) : null}
       </div>
     </div>

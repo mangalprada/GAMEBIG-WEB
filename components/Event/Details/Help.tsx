@@ -27,20 +27,18 @@ const Help = ({ pageId }: { pageId: string }) => {
   if (!pageData) return <LurkingCat height={300} width={300} />;
 
   return (
-    <div>
-      <div className="w-11/12 mt-6 flex justify-start">
-        <h2 className="font-semibold mx-auto text-xl text-gray-500">
-          Contact Organizer
-        </h2>
+    <div className="flex flex-col mt-4">
+      <h2 className="font-semibold mx-auto text-xl text-gray-500">
+        Contact Organizer
+      </h2>
+      <div className="mx-auto">
+        <AboutPage data={pageData} />
       </div>
-      <AboutPage data={pageData} />
-      <div className="w-11/12 mt-6 flex justify-start">
-        <h2 className="font-semibold mx-auto text-xl text-gray-500">
-          Contact GAMEBIG
-        </h2>
-      </div>
+      <h2 className="font-semibold mx-auto text-xl text-gray-500 mt-4">
+        Contact GAMEBIG
+      </h2>
       <div className="w-11/12 mx-auto mt-4 flex flex-col justify-center items-center">
-        <div className="w-11/12 grid grid-cols-2 gap-3 mx-auto ">
+        <div className="w-11/12 grid grid-cols-2 gap-3 mx-auto text-xs ">
           <section>
             <h2 className="font-semibold text-gray-500">
               Phone Number (WhatsApp)
@@ -52,7 +50,7 @@ const Help = ({ pageId }: { pageId: string }) => {
                 openSnackBar({
                   label: 'Copied!',
                   message: 'Phone Number copied to clipboard',
-                  type: 'warning',
+                  type: 'info',
                 });
               }}
             >
@@ -68,7 +66,7 @@ const Help = ({ pageId }: { pageId: string }) => {
                 openSnackBar({
                   label: 'Copied!',
                   message: 'Email copied to clipboard',
-                  type: 'warning',
+                  type: 'info',
                 });
               }}
             >
@@ -76,24 +74,24 @@ const Help = ({ pageId }: { pageId: string }) => {
             </span>
           </section>
         </div>
-        <div className="flex flex-row space-x-6 mt-5 ml-1 h-20">
+        <div className="flex flex-row space-x-6 h-20">
           <div className="my-auto">
             <InstagramIcon
-              size={38}
+              size={24}
               onClick={() => window.open(instagram, '_blank')}
             />
           </div>
 
           <div className="my-auto">
             <FacebookIcon
-              size={45}
+              size={28}
               onClick={() => window.open(facebook, '_blank')}
             />
           </div>
 
           <div className="my-auto">
             <YouTubeIcon
-              size={28}
+              size={18}
               onClick={() => window.open(youtube, '_blank')}
             />
           </div>

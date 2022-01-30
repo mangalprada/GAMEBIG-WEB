@@ -189,7 +189,8 @@ export default function CreateEventForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               {formInputComponents}
               <FormInput
-                labelName="Entry Fee (in Rupees)"
+                isDisabled={true}
+                labelName="Entry Fee (Comming soon)"
                 name="entryFee"
                 placeHolder="0"
                 value={formik.values.entryFee}

@@ -27,6 +27,15 @@ const RespondToEvent: FC<Props> = ({
   if (!userData.uid)
     return <PromptToAuth message="Sign in or Sign up to Register" />;
 
+  if (eventData.entryFee > 0)
+    return (
+      <div className="w-11/12 mt-6 flex justify-start">
+        <h2 className="font-semibold mx-auto text-xl text-gray-500">
+          PAID MATCHES FEATURES COMMING SOON. PLEASE CHECK BACK LATER.
+        </h2>
+      </div>
+    );
+
   return (
     <div>
       {!isRegistered ? (

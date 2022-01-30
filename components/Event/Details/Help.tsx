@@ -45,7 +45,7 @@ const Help = ({ pageId }: { pageId: string }) => {
             </h2>
             <span
               className="text-gray-200 text-center font-semibold tracking-wide rounded-md"
-              onClick={() => {
+              onMouseDown={() => {
                 navigator.clipboard.writeText('+91-7077208323');
                 openSnackBar({
                   label: 'Copied!',
@@ -61,7 +61,7 @@ const Help = ({ pageId }: { pageId: string }) => {
             <h2 className="font-semibold text-gray-500">Email</h2>
             <span
               className="text-gray-200 text-center font-semibold tracking-wide rounded-md"
-              onClick={() => {
+              onMouseDown={() => {
                 navigator.clipboard.writeText('info@gamebig.in');
                 openSnackBar({
                   label: 'Copied!',

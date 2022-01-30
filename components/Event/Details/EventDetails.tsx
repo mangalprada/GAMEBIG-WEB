@@ -124,7 +124,7 @@ export default function DetailsAsParticipant({
             <h2 className="font-semibold text-gray-500">Room Id</h2>
             <span
               className="text-gray-200 text-center font-semibold tracking-wide bg-slate-800 px-4 py-0.5 rounded-md"
-              onClick={() => {
+              onMouseDown={() => {
                 if (data.roomId) {
                   navigator.clipboard.writeText(data.roomId);
                   openSnackBar({
@@ -142,7 +142,7 @@ export default function DetailsAsParticipant({
             <h2 className="font-semibold text-gray-500">Password</h2>
             <span
               className="text-gray-200 text-center font-semibold tracking-wide bg-slate-800 px-4 py-0.5 rounded-md"
-              onClick={() => {
+              onMouseDown={() => {
                 if (data.roomId) {
                   navigator.clipboard.writeText(data.roomId);
                   openSnackBar({

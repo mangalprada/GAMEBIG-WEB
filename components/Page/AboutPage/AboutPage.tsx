@@ -21,7 +21,7 @@ export default function AboutPage({ data }: Props) {
         {data.email ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
-            onClick={() => {
+            onMouseDown={() => {
               navigator.clipboard.writeText(data.email);
               openSnackBar({
                 label: 'Copied!',

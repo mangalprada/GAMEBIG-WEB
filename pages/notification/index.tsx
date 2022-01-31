@@ -31,6 +31,13 @@ export default function Home() {
     }
   };
 
+  if (notices.length === 0)
+    return (
+      <h2 className="font-semibold mx-auto text-xl text-gray-500 mt-4">
+        No Notification !!
+      </h2>
+    );
+
   return (
     <Aux>
       <Head>

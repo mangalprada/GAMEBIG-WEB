@@ -91,6 +91,10 @@ const MessageRoomList = ({
           </div>
         ) : (
           <div className="flex justify-center">
+            <h2 className="font-semibold mx-auto text-center text-xl text-gray-500 mt-4">
+              No Messages !!
+            </h2>
+            );
             <FixedButton
               name="Find People To Message"
               onClick={openPeoplePage}

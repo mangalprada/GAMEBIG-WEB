@@ -15,7 +15,7 @@ const Modal: FC<Props> = ({ children, isOpen, closeModal }: Props) => {
       <Backdrop isOpen={isOpen} closeBackdrop={closeModal} />
       <div
         className={
-          'px-auto h-[500px] w-11/12 md:w-2/3 fixed inset-0 bg-gray-800 ' +
+          'px-auto h-[580px] w-11/12 md:w-5/6 fixed inset-0 bg-gray-800 ' +
           'm-auto z-20 overflow-y-auto rounded-md'
         }
       >

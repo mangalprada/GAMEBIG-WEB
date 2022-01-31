@@ -175,7 +175,7 @@ export default function CreateEventForm({
         </div>
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 md:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <TimeDatePicker
                 name="startTime"
                 error={false}
@@ -185,9 +185,18 @@ export default function CreateEventForm({
                   formik.setFieldValue('startTime', date);
                 }}
               />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               {formInputComponents}
+              {formik.values.type === 'Classic Tournament' ? (
+                <FormInput
+                  labelName="No. Of Slots"
+                  name="noOfSlots"
+                  placeHolder="100 rupees"
+                  value={formik.values.noOfSlots}
+                  onChangeHandler={formik.handleChange}
+                  error={Boolean(formik.errors.noOfSlots)}
+                  errorMessage={formik.errors.noOfSlots}
+                />
+              ) : null}
               <FormInput
                 isDisabled={true}
                 labelName="Entry Fee (Comming soon)"
@@ -221,13 +230,13 @@ export default function CreateEventForm({
                 placeHolderText="Describe your Rules, point and Prize distribution here"
               />
             </div>
-            {oldValues ? null : (
+            {formik.values.type === 'Custom Room' && !oldValues ? (
               <SlotsGrid
                 message="Pick any slots if you want to reserve"
                 slots={slots}
                 slotSelectHandler={slotSelectHandler}
               />
-            )}
+            ) : null}
             <span className="text-red-500 text-sm font-semibold mt-5 opacity-60">
               {
                 "Once you create an event, you can't change the GAME MODE or SLOTS for the conveinience of the participansts."
@@ -244,5 +253,3 @@ export default function CreateEventForm({
     </Aux>
   );
 }
-
-// todo: show error for textarea for description

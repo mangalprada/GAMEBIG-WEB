@@ -34,7 +34,12 @@ export async function getEvents(
     // fetch the events
     let events = await db
       .collection('events')
-      .find({ startTime: { $gte: new Date().toISOString() } })
+      .find({
+        $and: [
+          { startTime: { $gte: new Date().toISOString() } },
+          { entryFee: { $eq: 0 } },
+        ],
+      })
       .sort({ startTime: 1 })
       .toArray();
     // return the events

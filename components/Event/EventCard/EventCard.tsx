@@ -171,15 +171,19 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         </EventCardRowItem>
 
         {/** Registration Close by */}
-        {/* <section className="sm:col-span-2 col-span-1 flex flex-wrap justify-center mt-3 mx-3">
-          <HourglassIcon styles={'fill-current text-red-300'} />
-          <span className="text-gray-300 text-lg font-sans font-semibold ml-3 text-center">
+        <section className="col-span-2 flex flex-wrap justify-center mx-3">
+          <span
+            className={
+              'text-gray-300 text-sm font-sans font-medium ml-3 ' +
+              'flex flex-col justify-center text-center tracking-wide'
+            }
+          >
             {`Registration open till      
-          ${getDecoratedTime(data.startTime, -30)}, ${getDecoratedDate(
+          ${getDecoratedTime(data.startTime, -10)}, ${getDecoratedDate(
               data.startTime
             )}`}
           </span>
-        </section> */}
+        </section>
       </div>
       <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
         <TextButton

@@ -39,7 +39,7 @@ export default function PrimaryNavigationItems() {
           router.pathname === '/page' ||
           router.pathname === '/page/create'
         }
-        toolTip="Organization"
+        toolTip="Org"
       >
         <PageIcon
           isActive={

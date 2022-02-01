@@ -22,7 +22,7 @@
     "localforage": "^1.10.0",
     "mixpanel-browser": "^2.42.0",
     "mongodb": "^4.2.2",
-    "next": "^12.0.4",
+    "next": "^12.0.5",
     "next-pwa": "^5.4.4",
     "nookies": "^2.5.2",
     "nprogress": "^0.2.0",
@@ -58,5 +58,12 @@
     "postcss": "^8.4.4",
     "tailwindcss": "^3.0.1",
     "typescript": "^4.3.5"
+  },
+  "resolutions": {
+    "**/firebase-admin/**/node-forge": "1.0.0",
+    "**/node-fetch": "2.6.7",
+    "**/axios/**/follow-redirects": "1.14.7",
+    "**/nanoid": "3.1.31",
+    "**/ansi-regex": "5.0.1"
   }
 }

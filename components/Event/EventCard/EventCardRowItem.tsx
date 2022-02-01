@@ -17,12 +17,7 @@ const EventCardRowItem: FC<Partial<Props>> = ({
   highlight,
 }) => {
   return (
-    <div
-      className={
-        'flex flex-col sm:w-2/3 w-4/5 font-sans pl-2 rounded-md ' +
-        (highlight ? ' bg-red-500/20' : '')
-      }
-    >
+    <div className={'flex flex-col sm:w-2/3 w-4/5 font-sans pl-2 rounded-md '}>
       <section className="flex flex-row items-center">
         {children}
         <span className="text-gray-500 text-xs sm:text-base font-medium px-1 md:px-2.5 tracking-wide">
@@ -41,7 +36,13 @@ const EventCardRowItem: FC<Partial<Props>> = ({
             />
           </span>
         ) : null}
-        <span className="text-gray-300 text-sm sm:text-lg font-semibold">
+        <span
+          className={
+            'text-gray-300 text-sm sm:text-lg h-10 font-semibold ' +
+            'flex flex-col justify-center ' +
+            (highlight ? 'bg-emerald-900 rounded-md px-5' : '')
+          }
+        >
           {content}
         </span>
       </section>

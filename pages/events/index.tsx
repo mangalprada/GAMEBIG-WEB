@@ -9,7 +9,6 @@ import { GAMES, GameCodesOnly } from 'assets/data/Games';
 import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import FilterIcon from '@/components/UI/Icons/EventIcons/FilterIcon';
-import Feedback from '@/components/Feedback/Feedback';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -126,7 +125,6 @@ const Home: NextPage = () => {
             onClick={goToPage}
           />
         </div>
-        {/* <Feedback /> */}
         <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
           <div
             className={'w-5/6 mx-auto grid grid-cols-1 sm:grid-cols-2 gap-y-4'}

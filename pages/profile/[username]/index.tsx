@@ -5,6 +5,7 @@ import { useAuth } from '../../../context/authContext';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import GameItem from '../../../components/Profile/GameItem';
 import ProfileHeader from '../../../components/Profile/ProfileHeader';
+import Feedback from '@/components/Feedback/Feedback';
 import FixedButton from '../../../components/UI/Buttons/FixedButton';
 import { getGamerData } from '../../../libs/gamerData';
 import Modal from '@/components/UI/Modal/Modal';
@@ -112,6 +113,7 @@ const Games: NextPage = () => {
               />
             ) : null}
           </div>
+          <Feedback />
           <div>{Games}</div>
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleClose}>

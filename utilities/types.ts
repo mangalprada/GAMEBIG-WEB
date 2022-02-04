@@ -11,7 +11,15 @@ export interface BasicUserType {
   uid: string;
   username: string;
   name?: string;
-  photoURL?: string;
+  photoURL?: string | undefined | null;
+}
+
+export interface GamerType {
+  docId?: string;
+  uid: string;
+  username: string;
+  name?: string;
+  photoURL?: string | undefined | null;
   inGameName?: string;
   inGameId?: string;
 }

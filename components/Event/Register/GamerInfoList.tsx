@@ -1,9 +1,9 @@
-import { BasicUserType } from '@/utilities/types';
+import { BasicUserType, GamerType } from '@/utilities/types';
 import Image from 'next/image';
 import DeleteIcon from '@/components/UI/Icons/Others/DeleteIcon';
 
 interface Props {
-  gamers: BasicUserType[];
+  gamers: GamerType[];
   removeItem?: (username: string) => void;
 }
 

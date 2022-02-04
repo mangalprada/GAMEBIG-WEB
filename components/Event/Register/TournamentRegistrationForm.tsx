@@ -11,7 +11,7 @@ import GamersList from '@/components/Team/GamersList';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
 import axios from 'axios';
 import { useUI } from '@/context/uiContext';
-import { BasicUserType } from '@/utilities/types';
+import { BasicUserType, GamerType } from '@/utilities/types';
 import { db } from 'firebase/firebaseClient';
 import GamersInfoList from './GamerInfoList';
 
@@ -62,10 +62,8 @@ export default function CustomRoomRegistrationForm({
   const { openSnackBar } = useUI();
   const [query, setQuery] = useState('');
   const [searchResults, setSearchresults] = useState<BasicUserType[]>([]);
-  const [currentUser, setCurrentUser] = useState<BasicUserType>(
-    {} as BasicUserType
-  );
-  const [selectedUsers, setSelectedUsers] = useState<BasicUserType[]>([]);
+  const [currentUser, setCurrentUser] = useState<GamerType>({} as GamerType);
+  const [selectedUsers, setSelectedUsers] = useState<GamerType[]>([]);
 
   const formik = useFormik({
     initialValues: {
@@ -126,7 +124,7 @@ export default function CustomRoomRegistrationForm({
           querySnapshot.forEach((doc) => {
             const { inGameName, inGameId } = doc.data();
             if (inGameName && inGameId)
-              setCurrentUser({ ...user, inGameName, inGameId });
+              setCurrentUser({ ...user, inGameName, inGameId } as GamerType);
             else {
               openSnackBar({
                 message: 'Please Add In Game Details in profile',
@@ -221,7 +219,7 @@ export default function CustomRoomRegistrationForm({
             setSelectedUsers([...selectedUsers, currentUser]);
             setQuery('');
           }
-          setCurrentUser({ inGameId: '', inGameName: '' } as BasicUserType);
+          setCurrentUser({ inGameId: '', inGameName: '' } as GamerType);
         }}
       />
       <GamersInfoList

@@ -8,7 +8,7 @@ type Props = {
 
 const TextButton: FC<Props> = ({ name, type, onClick }: Props) => {
   return (
-    <div className="flex my-4 justify-center" onClick={onClick}>
+    <div className="flex my-1 md:my-4 justify-center" onClick={onClick}>
       <button
         className={
           'text-sm md:text-lg font-semibold ' +

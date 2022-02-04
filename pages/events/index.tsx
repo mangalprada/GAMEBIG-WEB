@@ -99,7 +99,7 @@ const Home: NextPage = () => {
          bg-gradient-to-b from-black via-cyan-900 to-cyan-900 py-1 mb-2 "
         >
           <span className="text-gray-300 font-semibold font-sans text-sm sm:text-lg md:text-xl mx-4">
-            Upcoming Custom Room Matches
+            Upcoming Events
           </span>
         </div>
         {/* <div className="md:w-2/3 xl:w-1/2 mx-auto flex justify-end">

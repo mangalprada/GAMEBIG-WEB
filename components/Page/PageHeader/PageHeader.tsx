@@ -101,7 +101,11 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
           {data.video ? (
             <div>
               <iframe
-                src={'https://www.youtube.com/embed/' + getVideoId(data.video)}
+                src={
+                  'https://www.youtube.com/embed/' +
+                  getVideoId(data.video) +
+                  '?autoplay=1&mute=1'
+                }
                 frameBorder="0"
                 allow="autoplay; encrypted-media"
                 allowFullScreen

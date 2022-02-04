@@ -1,4 +1,5 @@
 import React from 'react';
+import GamersInfoList from './GamerInfoList';
 
 const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
   if (!bookingDetails) return null;
@@ -23,29 +24,14 @@ const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
             {bookingDetails.phoneNumber}
           </span>
         </section>
-        {/* <div className="flex flex-col">
-          <span className="text-base text-gray-400 font-sans font-semibold">
-            In Game Name(IGL)
-          </span>
-          <span className="text-xl text-gray-50 font-sans font-semibold">
-            {bookingDetails.gamerDetails[0].inGameId}
-          </span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-base text-gray-400 font-sans font-semibold">
-            In Game ID(IGL)
-          </span>
-          <span className="text-xl text-gray-50 font-sans font-semibold">
-            {bookingDetails.gamerDetails[0].inGameName}
-          </span>
-        </div> */}
         <section>
           <h2 className="font-semibold text-base text-gray-500">Slot Number</h2>
           <span className="text-xl text-center font-semibold tracking-wide rounded-md text-green-500 ">
-            {bookingDetails.slotNumber}
+            {bookingDetails.slotNumber || 'Organizer Will Update'}
           </span>
         </section>
       </div>
+      <GamersInfoList gamers={bookingDetails.users} />
     </div>
   );
 };

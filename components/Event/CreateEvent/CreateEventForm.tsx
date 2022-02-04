@@ -63,11 +63,12 @@ export default function CreateEventForm({
         });
       } else {
         if (pageId && pageName) {
-          createEvent({
+          let event = {
             ...value,
-            slots,
             description: JSON.stringify(description),
-          });
+          };
+          if (value.type === 'Custom Room') event = { ...event, slots };
+          createEvent(event);
         }
       }
       onCancel();

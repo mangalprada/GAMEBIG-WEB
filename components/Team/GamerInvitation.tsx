@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from 'react';
-import { db } from '../../firebase/firebaseClient';
 import { BasicUserType, TeamType } from '../../utilities/types';
 import FormInput from '../UI/Inputs/FormInput';
 import FixedButton from '../UI/Buttons/FixedButton';

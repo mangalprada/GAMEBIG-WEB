@@ -45,7 +45,7 @@ function loadScript(src: string) {
   });
 }
 
-export default function BasicEventRegistrationForm({
+export default function CustomRoomRegistrationForm({
   eventData,
   setIsRegistered,
   setBookingdetails,
@@ -82,7 +82,6 @@ export default function BasicEventRegistrationForm({
         slotNumber: currentSlotNumber,
         phoneNumber,
         teamName,
-        gamerDetails: [{ inGameId, inGameName }],
         users: [{ uid, name, photoURL, username }],
       };
       axios.post(`${BASE_URL}/api/participants`, {
@@ -101,43 +100,6 @@ export default function BasicEventRegistrationForm({
       setIsRegistered(true);
     },
   });
-
-  async function displayRazorpay() {
-    const res = await loadScript(
-      'https://checkout.razorpay.com/v1/checkout.js'
-    );
-
-    if (!res) {
-      alert('Razorpay SDK failed to load. Are you online?');
-      return;
-    }
-
-    const data = await fetch(`${BASE_URL}/api/razorpay`, {
-      method: 'POST',
-    }).then((t) => t.json());
-
-    const options = {
-      key: 'rzp_test_2TYHpxVnjqaIze',
-      currency: data.currency,
-      amount: data.amount.toString(),
-      order_id: data.id,
-      name: 'Donation',
-      description: 'Thank you for nothing. Please give us some money',
-      image: 'http://localhost:1337/logo.svg',
-      handler: function (response: any) {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
-      },
-      prefill: {
-        name,
-        email: 'sdfdsjfh2@ndsfdf.com',
-        phone_number: '9899999999',
-      },
-    };
-    const paymentObject = new (window as any).Razorpay(options);
-    paymentObject.open();
-  }
 
   function slotSelectHandler(slot: string) {
     const newSlots = { ...slots };

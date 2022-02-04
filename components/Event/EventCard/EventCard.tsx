@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { EventData } from '../../../utilities/eventItem/types';
-import HourglassIcon from '@/components/UI/Icons/EventIcons/HourglassIcon';
 import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
@@ -198,7 +197,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           <>
             {isRegistered ? (
               <TextButton
-                name={`Slot #${slotNumber} Booked`}
+                name={slotNumber ? `Slot #${slotNumber} Booked` : 'Booked'}
                 type="success"
                 onClick={() =>
                   router.push(

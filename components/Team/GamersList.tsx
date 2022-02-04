@@ -8,6 +8,7 @@ interface Props {
   header: string;
   buttonText: string;
   highLightButton: boolean;
+  condition?: boolean;
 }
 
 const GamersList = ({
@@ -16,6 +17,7 @@ const GamersList = ({
   header,
   buttonText,
   highLightButton,
+  condition,
 }: Props) => {
   const { userData } = useAuth();
   if (gamers.length === 0) return null;
@@ -28,10 +30,10 @@ const GamersList = ({
           className="w-full flex items-center justify-between my-1 md:pr-4 rounded-md bg-gray-800"
         >
           <HorizontalProfile user={gamer} />
-          {gamer.uid !== userData.uid ? (
+          {condition || gamer.uid !== userData.uid ? (
             <span
               className={
-                'py-2 px-4 rounded ' +
+                'py-2 px-4 rounded cursor-pointer ' +
                 (highLightButton
                   ? 'bg-indigo-600 hover:bg-indigo-700'
                   : 'bg-gray-800 hover:bg-gray-700')

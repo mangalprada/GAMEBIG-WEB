@@ -37,6 +37,7 @@ function useProviderAuth() {
   };
 
   const handleSignIn = async (user: firebase.User) => {
+    if (!window.navigator.onLine) return;
     const token = await user.getIdToken();
     nookies.set(undefined, 'token', token, {});
     const { uid, displayName, photoURL } = user;

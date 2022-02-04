@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import BasicEventRegistrationForm from './BasicEventRegistrationForm';
+import CustomRoomRegistrationForm from './CustomRoomRegistrationForm';
+import TournamentRegistrationForm from './TournamentRegistrationForm';
 import UserBookingDetails from './UserBookingDetails';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
@@ -36,27 +37,42 @@ const RespondToEvent: FC<Props> = ({
       </div>
     );
 
+  if (isRegistered)
+    return <UserBookingDetails bookingDetails={bookingDetails} />;
+
+  if (eventData.noOfSlots === 0)
+    return (
+      <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
+        <span className="text-gray-100 font-sans text-xl md:text-lg">
+          This event is fully Booked. Check some other event.
+        </span>
+      </div>
+    );
+
   return (
     <div>
-      {!isRegistered ? (
-        eventData.noOfSlots > 0 ? (
-          <BasicEventRegistrationForm
-            eventData={eventData}
-            teamSize={4}
-            setTeamId={setTeamId}
-            setIsRegistered={setIsRegistered}
-            setBookingdetails={setBookingdetails}
-          />
-        ) : (
-          <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
-            <span className="text-gray-100 font-sans text-xl md:text-lg">
-              This event is fully Booked. Check some other event.
-            </span>
-          </div>
-        )
-      ) : (
-        <UserBookingDetails bookingDetails={bookingDetails} />
-      )}
+      {
+        {
+          'Custom Room': (
+            <CustomRoomRegistrationForm
+              eventData={eventData}
+              teamSize={4}
+              setTeamId={setTeamId}
+              setIsRegistered={setIsRegistered}
+              setBookingdetails={setBookingdetails}
+            />
+          ),
+          'Classic Tournament': (
+            <TournamentRegistrationForm
+              eventData={eventData}
+              teamSize={4}
+              setTeamId={setTeamId}
+              setIsRegistered={setIsRegistered}
+              setBookingdetails={setBookingdetails}
+            />
+          ),
+        }[eventData.type]
+      }
     </div>
   );
 };

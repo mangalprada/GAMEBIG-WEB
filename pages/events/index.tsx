@@ -8,12 +8,10 @@ import MultiSelect from '@/components/UI/Select/MultiSelect';
 import { GAMES, GameCodesOnly } from 'assets/data/Games';
 import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
-import FilterIcon from '@/components/UI/Icons/EventIcons/FilterIcon';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
-import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 const { BASE_URL } = process.env;
 

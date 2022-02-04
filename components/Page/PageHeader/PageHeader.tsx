@@ -32,6 +32,14 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
     },
   ];
 
+  function getVideoId(url: string) {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return match && match[2].length === 11 ? match[2] : null;
+  }
+
   return (
     <Aux>
       <Head>
@@ -91,13 +99,15 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             <AboutPage data={data} />
           </section>
           {data.video ? (
-            <iframe
-              src={data.video}
-              frameBorder="0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title="video"
-            />
+            <div>
+              <iframe
+                src={'https://www.youtube.com/embed/' + getVideoId(data.video)}
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                title="video"
+              />
+            </div>
           ) : null}
         </div>
       </div>

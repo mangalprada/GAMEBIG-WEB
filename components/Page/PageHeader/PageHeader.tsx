@@ -99,19 +99,18 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             <AboutPage data={data} />
           </section>
           {data.video ? (
-            <div>
-              <iframe
-                src={
-                  'https://www.youtube.com/embed/' +
-                  getVideoId(data.video) +
-                  '?autoplay=1&mute=1'
-                }
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                title="video"
-              />
-            </div>
+            <iframe
+              src={
+                'https://www.youtube.com/embed/' +
+                getVideoId(data.video) +
+                '?autoplay=1&mute=1'
+              }
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="video"
+              className="w-full h-auto md:h-auto md:w-1/2"
+            />
           ) : null}
         </div>
       </div>

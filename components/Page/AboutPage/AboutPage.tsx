@@ -7,6 +7,8 @@ import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
 import EmailIcon from '@/components/UI/Icons/ProfileIcons/EmailIcon';
 import WebIcon from '@/components/UI/Icons/ProfileIcons/WebIcon';
+import PhoneIcon from '@/components/UI/Icons/Others/PhoneIcon';
+import WhatsApp from '@/components/UI/Icons/SocialIcons/WhatsApp';
 import { useUI } from '@/context/uiContext';
 
 interface Props {
@@ -18,6 +20,22 @@ export default function AboutPage({ data }: Props) {
   return (
     <div className={'w-full mx-auto font-sans px-5 py-2'}>
       <div className="flex flex-row items-center space-x-4 ml-1 mt-3">
+        {data.phone ? (
+          <p
+            className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
+            onMouseDown={() => {
+              navigator.clipboard.writeText(data.phone);
+              openSnackBar({
+                label: 'Copied!',
+                message: 'Phone number copied to clipboard',
+                type: 'info',
+              });
+            }}
+          >
+            <PhoneIcon onClick={() => {}} size={22} />
+            <span>{data.phone}</span>
+          </p>
+        ) : null}
         {data.email ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
@@ -45,6 +63,17 @@ export default function AboutPage({ data }: Props) {
         ) : null}
       </div>
       <div className="flex flex-row items-center space-x-4 ml-1 mt-1">
+        {data.phone ? (
+          <div
+            onClick={() => {
+              window.open(
+                `https://api.whatsapp.com/send?phone=+91${data.phone}`
+              );
+            }}
+          >
+            <WhatsApp size={22} />
+          </div>
+        ) : null}
         {data.youtube ? (
           <YouTubeIcon
             size={20}

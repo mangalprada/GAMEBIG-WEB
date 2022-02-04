@@ -43,12 +43,12 @@ const GamersInfoList = ({ gamers, removeItem }: Props) => {
             </section>
           </div>
           <section className="flex flex-col">
-            <span className="text-sm text-gray-500">In Game ID</span>
-            <span className={'pb-2 px-4 text-base'}>{gamer.inGameId}</span>
+            <span className="text-xs text-gray-500">In Game ID</span>
+            <span className={'pb-2 px-4 text-sm'}>{gamer.inGameId}</span>
           </section>
           <section className="flex flex-col">
-            <span className="text-sm text-gray-500">In Game Name</span>
-            <span className={'pb-2 px-4 text-base '}>{gamer.inGameName}</span>
+            <span className="text-xs text-gray-500">In Game Name</span>
+            <span className={'pb-2 px-4 text-sm '}>{gamer.inGameName}</span>
           </section>
           {removeItem ? (
             <DeleteIcon size={22} onClick={() => removeItem(gamer.username)} />

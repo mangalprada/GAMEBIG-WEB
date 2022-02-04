@@ -31,6 +31,7 @@ const initialValues: PageFormData = {
   instagram: '',
   twitter: '',
   reddit: '',
+  video: '',
   admins: [] as string[],
 };
 
@@ -145,13 +146,22 @@ function CreatePageForm({ pageData }: Props) {
               errorMessage={formik.errors.website}
             />
             <FormInput
-              labelName="Youtube"
+              labelName="Youtube Channel"
               name="youtube"
               placeHolder="link to your YouTube channel"
               value={formik.values.youtube}
               onChangeHandler={formik.handleChange}
               error={Boolean(formik.errors.youtube)}
               errorMessage={formik.errors.youtube}
+            />
+            <FormInput
+              labelName="Video"
+              name="video"
+              placeHolder="link to a video of your organization"
+              value={formik.values.video}
+              onChangeHandler={formik.handleChange}
+              error={Boolean(formik.errors.video)}
+              errorMessage={formik.errors.video}
             />
             <FormInput
               labelName="Discord"

@@ -28,6 +28,7 @@ export default async function handler(req: any, res: any) {
           instagram: data.instagram,
           twitter: data.twitter,
           reddit: data.reddit,
+          video: data.video,
         };
       }
     }

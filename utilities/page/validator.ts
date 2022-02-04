@@ -23,6 +23,7 @@ export const validationSchema = yup.object({
     .matches(phoneRegExp, 'Mobile number is not valid'),
   website: yup.string().url('Enter a valid URL'),
   youtube: yup.string().url('Enter a valid URL'),
+  video: yup.string().url('Enter a valid URL'),
   twitch: yup.string().url('Enter a valid URL'),
   facebook: yup.string().url('Enter a valid URL'),
   instagram: yup.string().url('Enter a valid URL'),

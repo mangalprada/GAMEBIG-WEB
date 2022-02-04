@@ -14,5 +14,6 @@ export interface PageFormData {
   instagram: string;
   twitter: string;
   reddit: string;
+  video: string;
   admins: string[];
 }

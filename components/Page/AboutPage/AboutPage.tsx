@@ -18,8 +18,8 @@ interface Props {
 export default function AboutPage({ data }: Props) {
   const { openSnackBar } = useUI();
   return (
-    <div className={'w-full mx-auto font-sans px-5 py-2'}>
-      <div className="flex flex-row items-center space-x-4 ml-1 mt-3">
+    <div className={'w-full mx-auto font-sans px-5 py-2 '}>
+      <div className="flex items-center space-x-4 ml-1 mt-1 md:mt-3">
         {data.phone ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
@@ -32,7 +32,7 @@ export default function AboutPage({ data }: Props) {
               });
             }}
           >
-            <PhoneIcon onClick={() => {}} size={22} />
+            <PhoneIcon onClick={() => {}} size={20} />
             <span>{data.phone}</span>
           </p>
         ) : null}
@@ -50,15 +50,6 @@ export default function AboutPage({ data }: Props) {
           >
             <EmailIcon size={18} className={'fill-current text-slate-500'} />
             <span>{data.email}</span>
-          </p>
-        ) : null}
-        {data.website ? (
-          <p
-            className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
-            onClick={() => window.open(data.website, '_blank')}
-          >
-            <WebIcon size={18} className={'fill-current text-slate-500'} />
-            <span>{data.website.replace(/(^\w+:|^)\/\//, '')}</span>
           </p>
         ) : null}
       </div>

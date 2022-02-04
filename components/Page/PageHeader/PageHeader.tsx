@@ -80,15 +80,26 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             />
           ) : null}
         </div>
-        <section className="flex flex-col mt-3 px-8">
-          <span className="font-semibold text-xs md:text-sm text-gray-500">
-            About us
-          </span>
-          <span className="text-gray-100 tracking-wide text-xs md:text-sm">
-            {data.about}
-          </span>
-        </section>
-        <AboutPage data={data} />
+        <div className="flex flex-col md:flex-row sm:flex px-6 pb-2">
+          <section className="flex flex-col mt-3 px-4">
+            <span className="font-semibold text-xs md:text-sm text-gray-500">
+              About us
+            </span>
+            <span className="text-gray-100 tracking-wide text-xs md:text-sm">
+              {data.about}
+            </span>
+            <AboutPage data={data} />
+          </section>
+          {data.video ? (
+            <iframe
+              src={data.video}
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="video"
+            />
+          ) : null}
+        </div>
       </div>
     </Aux>
   );

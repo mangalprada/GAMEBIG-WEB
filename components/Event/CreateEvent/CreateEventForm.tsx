@@ -191,7 +191,7 @@ export default function CreateEventForm({
                 <FormInput
                   labelName="No. Of Slots"
                   name="noOfSlots"
-                  placeHolder="100 rupees"
+                  placeHolder="Enter No. Of Slots"
                   value={formik.values.noOfSlots}
                   onChangeHandler={formik.handleChange}
                   error={Boolean(formik.errors.noOfSlots)}

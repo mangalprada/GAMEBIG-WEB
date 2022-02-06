@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       opacity: ['active'],
       backgroundColor: ['active'],
+      textColor: ['visited'],
     },
   },
 };

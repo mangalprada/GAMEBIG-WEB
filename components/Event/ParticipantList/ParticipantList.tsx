@@ -48,17 +48,15 @@ export default function ParticipantList({ eventData }: Props) {
                   >
                     <td className="ml-6">{team.teamName}</td>
                     <td className="ml-6">{team.slotNumber || 'NA'}</td>
-                    <td
-                      onClick={() => {
-                        window.open(
-                          `https://api.whatsapp.com/send?phone=+91${team.phoneNumber}`
-                        );
-                      }}
-                      className="text-center ml-6 underline"
-                    >
-                      <div className="flex items-center gap-1">
+                    <td>
+                      <a
+                        className="flex items-center gap-1 text-center ml-6 underline text-gray-50"
+                        href={`https://api.whatsapp.com/send?phone=+91${team.phoneNumber}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {team.phoneNumber} <WhatsApp size={22} />
-                      </div>
+                      </a>
                     </td>
                   </tr>
                 );

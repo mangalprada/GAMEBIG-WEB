@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useAuth } from '../context/authContext';
 import Aux from '../hoc/Auxiliary/Auxiliary';
@@ -19,7 +20,10 @@ export default function Home() {
     userData: { uid },
   } = useAuth();
   const [data, setData] = useState(inititalValues);
-
+  const router = useRouter();
+  useEffect(() => {
+    if (uid) router.push('/events');
+  });
   return (
     <Aux>
       <Head>

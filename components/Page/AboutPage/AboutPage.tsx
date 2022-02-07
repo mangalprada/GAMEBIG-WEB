@@ -1,4 +1,3 @@
-import { PageFormData } from '../../../utilities/page/types';
 import TwitchIcon from '../../UI/Icons/SocialIcons/TwitchIcon';
 import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
@@ -6,25 +5,37 @@ import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
 import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
 import EmailIcon from '@/components/UI/Icons/ProfileIcons/EmailIcon';
-import WebIcon from '@/components/UI/Icons/ProfileIcons/WebIcon';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
+import useSWR from 'swr';
+import axios from 'axios';
 import PhoneIcon from '@/components/UI/Icons/Others/PhoneIcon';
 import WhatsApp from '@/components/UI/Icons/SocialIcons/WhatsApp';
 import { useUI } from '@/context/uiContext';
 
-interface Props {
-  data: PageFormData;
+const { BASE_URL } = process.env;
+
+async function getPageData(arg: string) {
+  const response = await axios.get(arg);
+  return response.data.data;
 }
 
-export default function AboutPage({ data }: Props) {
+export default function AboutPage({ pageId }: { pageId?: string }) {
   const { openSnackBar } = useUI();
+  const { data: pageData } = useSWR(
+    `${BASE_URL}/api/page/?pageId=${pageId}`,
+    getPageData
+  );
+
+  if (!pageData) return <LurkingCat height={100} width={100} />;
+
   return (
     <div className={'w-full mx-auto font-sans px-5 py-2 '}>
       <div className="flex items-center space-x-4 ml-1 mt-1 md:mt-3">
-        {data.phone ? (
+        {pageData.phone ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
             onMouseDown={() => {
-              navigator.clipboard.writeText(data.phone);
+              navigator.clipboard.writeText(pageData.phone);
               openSnackBar({
                 label: 'Copied!',
                 message: 'Phone number copied to clipboard',
@@ -33,14 +44,14 @@ export default function AboutPage({ data }: Props) {
             }}
           >
             <PhoneIcon onClick={() => {}} size={20} />
-            <span>{data.phone}</span>
+            <span>{pageData.phone}</span>
           </p>
         ) : null}
-        {data.email ? (
+        {pageData.email ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
             onMouseDown={() => {
-              navigator.clipboard.writeText(data.email);
+              navigator.clipboard.writeText(pageData.email);
               openSnackBar({
                 label: 'Copied!',
                 message: 'Email ID copied to clipboard',
@@ -49,56 +60,56 @@ export default function AboutPage({ data }: Props) {
             }}
           >
             <EmailIcon size={18} className={'fill-current text-slate-500'} />
-            <span>{data.email}</span>
+            <span>{pageData.email}</span>
           </p>
         ) : null}
       </div>
       <div className="flex flex-row items-center space-x-4 ml-1 mt-1">
-        {data.phone ? (
+        {pageData.phone ? (
           <div
             onClick={() => {
               window.open(
-                `https://api.whatsapp.com/send?phone=+91${data.phone}`
+                `https://api.whatsapp.com/send?phone=+91${pageData.phone}`
               );
             }}
           >
             <WhatsApp size={22} />
           </div>
         ) : null}
-        {data.youtube ? (
+        {pageData.youtube ? (
           <YouTubeIcon
             size={20}
-            onClick={() => window.open(data.youtube, '_blank')}
+            onClick={() => window.open(pageData.youtube, '_blank')}
           />
         ) : null}
-        {data.discord ? (
+        {pageData.discord ? (
           <DiscordIcon
             size={25}
-            onClick={() => window.open(data.discord, '_blank')}
+            onClick={() => window.open(pageData.discord, '_blank')}
           />
         ) : null}
-        {data.instagram ? (
+        {pageData.instagram ? (
           <InstagramIcon
             size={28}
-            onClick={() => window.open(data.instagram, '_blank')}
+            onClick={() => window.open(pageData.instagram, '_blank')}
           />
         ) : null}
-        {data.facebook ? (
+        {pageData.facebook ? (
           <FacebookIcon
             size={35}
-            onClick={() => window.open(data.facebook, '_blank')}
+            onClick={() => window.open(pageData.facebook, '_blank')}
           />
         ) : null}
-        {data.twitch ? (
+        {pageData.twitch ? (
           <TwitchIcon
             size={23}
-            onClick={() => window.open(data.twitch, '_blank')}
+            onClick={() => window.open(pageData.twitch, '_blank')}
           />
         ) : null}
-        {data.reddit ? (
+        {pageData.reddit ? (
           <RedditIcon
             size={35}
-            onClick={() => window.open(data.reddit, '_blank')}
+            onClick={() => window.open(pageData.reddit, '_blank')}
           />
         ) : null}
       </div>

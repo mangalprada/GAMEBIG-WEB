@@ -55,6 +55,17 @@ export default function CreateEventForm({
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
       const { description } = value;
+      if (
+        value.accessibility === 'Password Protected' &&
+        !value.bookingPassword
+      ) {
+        openSnackBar({
+          message: 'Please enter a password',
+          type: 'warning',
+          label: 'Booking Password Empty',
+        });
+        return;
+      }
       if (oldValues?._id) {
         delete value._id;
         updateEvent(oldValues._id, {
@@ -108,15 +119,6 @@ export default function CreateEventForm({
                 value={formik.values[input.name]}
                 name={input.name}
                 handleChange={(item) => {
-                  if (oldValues) {
-                    openSnackBar({
-                      label: 'Can not change this field',
-                      message:
-                        'For the conveinience of the participansts, this field is not editable',
-                      type: 'info',
-                    });
-                    return;
-                  }
                   formik.setFieldValue(input.name, item);
                   if (input.name === 'mode') {
                     const noOfSlots =
@@ -217,6 +219,26 @@ export default function CreateEventForm({
                 error={Boolean(formik.errors.prize)}
                 errorMessage={formik.errors.prize}
               />
+              <SelectRadioButton
+                label="Accessibility"
+                items={['Open', 'Password Protected']}
+                value={formik.values.accessibility}
+                name={'accessibility'}
+                handleChange={(item) => {
+                  formik.setFieldValue('accessibility', item);
+                }}
+              />
+              {formik.values.accessibility === 'Password Protected' ? (
+                <FormInput
+                  labelName="Password To Book"
+                  name="bookingPassword"
+                  placeHolder="Enter Password needed to book"
+                  value={formik.values.bookingPassword}
+                  onChangeHandler={formik.handleChange}
+                  error={Boolean(formik.errors.bookingPassword)}
+                  errorMessage={formik.errors.bookingPassword}
+                />
+              ) : null}
             </div>
             <div>
               <label className="block uppercase text-gray-500 text-sm font-bold font-sans tracking-wide mb-2">
@@ -240,7 +262,7 @@ export default function CreateEventForm({
             ) : null}
             <span className="text-red-500 text-sm font-semibold mt-5 opacity-60">
               {
-                "Once you create an event, you can't change the GAME MODE or SLOTS for the conveinience of the participansts."
+                "Once you create an event, you can't change the SLOTS for the conveinience of the participansts."
               }
             </span>
             <ResponsiveButton

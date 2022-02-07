@@ -96,7 +96,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
             <span className="text-gray-100 tracking-wide text-xs md:text-sm">
               {data.about}
             </span>
-            <AboutPage data={data} />
+            <AboutPage pageId={data.id} />
           </section>
           {data.video ? (
             <iframe

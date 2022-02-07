@@ -6,25 +6,13 @@ import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 import useSWR from 'swr';
 import axios from 'axios';
-const { BASE_URL } = process.env;
 
 const youtube = 'https://www.youtube.com/channel/UC8pKkOctRKu8dynpUMmi43Q';
 const facebook = 'https://www.facebook.com/GameBigHQ';
 const instagram = 'https://www.instagram.com/gamebig.in/';
 
-async function getPageData(arg: string) {
-  const response = await axios.get(arg);
-  return response.data.data;
-}
-
 const Help = ({ pageId }: { pageId: string }) => {
   const { openSnackBar } = useUI();
-  const { data: pageData } = useSWR(
-    `${BASE_URL}/api/page/?pageId=${pageId}`,
-    getPageData
-  );
-
-  if (!pageData) return <LurkingCat height={300} width={300} />;
 
   return (
     <div className="flex flex-col mt-4">
@@ -32,7 +20,7 @@ const Help = ({ pageId }: { pageId: string }) => {
         Contact Organizer
       </h2>
       <div className="mx-auto">
-        <AboutPage data={pageData} />
+        <AboutPage pageId={pageId} />
       </div>
       <h2 className="font-semibold mx-auto text-xl text-gray-500 mt-4">
         Contact GAMEBIG

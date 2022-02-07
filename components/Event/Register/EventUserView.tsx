@@ -1,10 +1,12 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import CustomRoomRegistrationForm from './CustomRoomRegistrationForm';
 import TournamentRegistrationForm from './TournamentRegistrationForm';
 import UserBookingDetails from './UserBookingDetails';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
 import PromptToAuth from '@/components/Auth/PromptToAuth';
+import FormInput from '@/components/UI/Inputs/FormInput';
+import AboutPage from '@/components/Page/AboutPage/AboutPage';
 
 type Props = {
   eventData: EventData;
@@ -24,6 +26,7 @@ const RespondToEvent: FC<Props> = ({
   setBookingdetails,
 }) => {
   const { userData } = useAuth();
+  const [bookingPassword, setBookingpassword] = useState<string | null>(null);
 
   if (!userData.uid)
     return <PromptToAuth message="Sign in or Sign up to Register" />;
@@ -54,32 +57,65 @@ const RespondToEvent: FC<Props> = ({
       </div>
     );
 
-  return (
-    <div>
-      {
+  if (
+    eventData.accessibility === 'Password Protected' &&
+    bookingPassword !== eventData.bookingPassword
+  ) {
+    return (
+      <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
+        <FormInput
+          labelName="Enter Password To Book"
+          name="bookingPassword"
+          placeHolder="Enter Password needed to book"
+          value={bookingPassword || ''}
+          onChangeHandler={(e: ChangeEvent) => {
+            const target = e.target as HTMLInputElement;
+            setBookingpassword(target.value);
+          }}
+        />
+        <span className="text-gray-100 font-sans text-xl md:text-lg">
+          Contact Organizer for Password
+        </span>
+        <div className="flex mx-auto">
+          <AboutPage pageId={eventData.pageId} />
+        </div>
+      </div>
+    );
+  }
+
+  if (
+    !eventData.accessibility ||
+    eventData.accessibility === 'Open' ||
+    bookingPassword === eventData.bookingPassword
+  )
+    return (
+      <div>
         {
-          'Custom Room': (
-            <CustomRoomRegistrationForm
-              eventData={eventData}
-              teamSize={4}
-              setTeamId={setTeamId}
-              setIsRegistered={setIsRegistered}
-              setBookingdetails={setBookingdetails}
-            />
-          ),
-          'Classic Tournament': (
-            <TournamentRegistrationForm
-              eventData={eventData}
-              teamSize={4}
-              setTeamId={setTeamId}
-              setIsRegistered={setIsRegistered}
-              setBookingdetails={setBookingdetails}
-            />
-          ),
-        }[eventData.type]
-      }
-    </div>
-  );
+          {
+            'Custom Room': (
+              <CustomRoomRegistrationForm
+                eventData={eventData}
+                teamSize={4}
+                setTeamId={setTeamId}
+                setIsRegistered={setIsRegistered}
+                setBookingdetails={setBookingdetails}
+              />
+            ),
+            'Classic Tournament': (
+              <TournamentRegistrationForm
+                eventData={eventData}
+                teamSize={4}
+                setTeamId={setTeamId}
+                setIsRegistered={setIsRegistered}
+                setBookingdetails={setBookingdetails}
+              />
+            ),
+          }[eventData.type]
+        }
+      </div>
+    );
+
+  return null;
 };
 
 export default RespondToEvent;

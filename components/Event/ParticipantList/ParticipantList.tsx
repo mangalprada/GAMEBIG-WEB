@@ -35,7 +35,7 @@ export default function ParticipantList({ eventData }: Props) {
             <thead className="text-center">
               <tr className="rounded-lg text-sm md:text-lg font-semibold text-indigo-500">
                 <th>Team</th>
-                <th>Slot No.</th>
+                <th>Slot</th>
                 <th>Phone</th>
               </tr>
             </thead>

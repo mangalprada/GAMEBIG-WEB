@@ -130,6 +130,30 @@ export default function CustomRoomRegistrationForm({
         });
     }
   };
+  const addPlayer = () => {
+    if (!currentUser.inGameId && !currentUser.inGameName) {
+      openSnackBar({
+        message: 'Please Add In Game Details',
+        label: 'No In Game Details Found',
+        type: 'warning',
+      });
+      return;
+    }
+    var index = selectedUsers.findIndex(
+      (x) => x.username == currentUser.username
+    );
+    if (index === -1 && query !== '') {
+      setSelectedUsers([...selectedUsers, currentUser]);
+      setQuery('');
+    } else {
+      openSnackBar({
+        message: 'Player already added',
+        label: 'Try a different username',
+        type: 'warning',
+      });
+    }
+    setCurrentUser({ inGameId: '', inGameName: '' } as GamerType);
+  };
 
   return (
     <div
@@ -203,25 +227,7 @@ export default function CustomRoomRegistrationForm({
           }}
         />
       </div>
-      <FixedButton
-        name="Add Player"
-        onClick={() => {
-          var index = selectedUsers.findIndex(
-            (x) => x.username == currentUser.username
-          );
-          if (index === -1 && query !== '') {
-            setSelectedUsers([...selectedUsers, currentUser]);
-            setQuery('');
-          } else {
-            openSnackBar({
-              message: 'Player already added',
-              label: 'Try a different username',
-              type: 'warning',
-            });
-          }
-          setCurrentUser({ inGameId: '', inGameName: '' } as GamerType);
-        }}
-      />
+      <FixedButton name="Add Player" onClick={addPlayer} />
       <span className="text-base text-gray-200 my-4">
         {`${selectedUsers.length} Players Added. `}
         {selectedUsers.length < 4

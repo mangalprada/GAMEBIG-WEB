@@ -37,20 +37,6 @@ const validationSchema = yup.object({
     .required('Phone Number can not be empty'),
 });
 
-function loadScript(src: string) {
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => {
-      resolve(true);
-    };
-    script.onerror = () => {
-      resolve(false);
-    };
-    document.body.appendChild(script);
-  });
-}
-
 export default function CustomRoomRegistrationForm({
   eventData,
   setIsRegistered,
@@ -126,6 +112,11 @@ export default function CustomRoomRegistrationForm({
             if (inGameName && inGameId)
               setCurrentUser({ ...user, inGameName, inGameId } as GamerType);
             else {
+              setCurrentUser({
+                ...user,
+                inGameName: '',
+                inGameId: '',
+              } as GamerType);
               openSnackBar({
                 message: 'Please Add In Game Details in profile',
                 label: 'No In Game Details Found',
@@ -182,6 +173,7 @@ export default function CustomRoomRegistrationForm({
             gamers={searchResults}
             handleItemClick={(user) => {
               setSearchresults([]);
+              setCurrentUser(user as GamerType);
               getDetails(eventData.gameCode, user);
               setQuery(user.username);
             }}
@@ -217,9 +209,15 @@ export default function CustomRoomRegistrationForm({
           var index = selectedUsers.findIndex(
             (x) => x.username == currentUser.username
           );
-          if (index === -1 && currentUser.username) {
+          if (index === -1 && query !== '') {
             setSelectedUsers([...selectedUsers, currentUser]);
             setQuery('');
+          } else {
+            openSnackBar({
+              message: 'Player already added',
+              label: 'Try a different username',
+              type: 'warning',
+            });
           }
           setCurrentUser({ inGameId: '', inGameName: '' } as GamerType);
         }}

@@ -62,7 +62,7 @@ const RespondToEvent: FC<Props> = ({
     bookingPassword !== eventData.bookingPassword
   ) {
     return (
-      <div className="my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center ">
+      <div className="w-10/12 md:w-2/3 mx-auto my-12 px-4 flex flex-col gap-4 font-sans font-semibold text-center">
         <FormInput
           labelName="Enter Password To Book"
           name="bookingPassword"

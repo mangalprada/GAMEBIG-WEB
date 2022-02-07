@@ -74,7 +74,7 @@ const RespondToEvent: FC<Props> = ({
           }}
         />
         <span className="text-gray-100 font-sans text-xl md:text-lg">
-          Contact Organizer for Password
+          {`Contact ${eventData.pageName} for Password`}
         </span>
         <div className="flex mx-auto">
           <AboutPage pageId={eventData.pageId} />

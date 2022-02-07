@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 import NavigationItem from './NavigationItem/NavigationItem';
 import { useAuth } from '../../../context/authContext';
 import { useNotication } from '../../../context/notificationContext';
@@ -23,10 +24,6 @@ export default function SecondaryNavigationItems() {
       setIsUser(false);
     }
   }, [userData]);
-
-  const handleButtonClick = async () => {
-    await router.push('/');
-  };
 
   return (
     <ul className="flex items-end lg:space-x-1">
@@ -103,15 +100,16 @@ export default function SecondaryNavigationItems() {
           </NavigationItem>
         </>
       ) : (
-        <div
-          className={
-            'bg-indigo-600 hover:bg-indigo-800 font-semibold ' +
-            'text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer'
-          }
-          onClick={handleButtonClick}
-        >
-          Sign&nbsp;In/ Sign&nbsp;Up
-        </div>
+        <Link href="/openings">
+          <a
+            className={
+              'bg-indigo-600 hover:bg-indigo-800 font-semibold ' +
+              'text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer'
+            }
+          >
+            Sign&nbsp;In/ Sign&nbsp;Up
+          </a>
+        </Link>
       )}
     </ul>
   );

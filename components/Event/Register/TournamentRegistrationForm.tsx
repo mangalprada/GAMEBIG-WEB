@@ -165,7 +165,9 @@ export default function CustomRoomRegistrationForm({
         error={Boolean(formik.errors.phoneNumber)}
         errorMessage={formik.errors.phoneNumber}
       />
-
+      <span className="text-xl text-gray-200 my-4">
+        Add atleast 4 players to your team
+      </span>
       <div className="rounded-lg w-full h-full text-gray-300 font-sans font-semibold flex flex-col">
         <FormInput
           labelName="USERNAME"

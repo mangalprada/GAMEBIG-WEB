@@ -157,7 +157,7 @@ export default function CustomRoomRegistrationForm({
         errorMessage={formik.errors.phoneNumber}
       />
       <span className="text-xl text-gray-200 my-4">
-        Add atleast 4 players to your team
+        Add atleast 4 players to book
       </span>
       <div className="rounded-lg w-full h-full text-gray-300 font-sans font-semibold flex flex-col">
         <FormInput
@@ -222,6 +222,12 @@ export default function CustomRoomRegistrationForm({
           setCurrentUser({ inGameId: '', inGameName: '' } as GamerType);
         }}
       />
+      <span className="text-base text-gray-200 my-4">
+        {`${selectedUsers.length} Players Added. `}
+        {selectedUsers.length < 4
+          ? `Add ${4 - selectedUsers.length} more Players`
+          : ''}
+      </span>
       <GamersInfoList
         gamers={selectedUsers}
         removeItem={(username) => {

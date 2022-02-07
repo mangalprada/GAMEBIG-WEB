@@ -66,7 +66,6 @@ function useProviderAuth() {
       } as UserData;
       setUserData(temp);
       setAuthPageNumber(2);
-      router.push('/');
     }
   };
 

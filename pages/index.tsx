@@ -17,12 +17,12 @@ const inititalValues: UserData = {
 export default function Home() {
   const {
     authPageNumber,
-    userData: { uid },
+    userData: { username },
   } = useAuth();
   const [data, setData] = useState(inititalValues);
   const router = useRouter();
   useEffect(() => {
-    if (uid) router.push('/events');
+    if (username) router.push('/events');
   });
   return (
     <Aux>

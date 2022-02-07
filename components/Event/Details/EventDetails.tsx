@@ -135,7 +135,7 @@ export default function DetailsAsParticipant({
         </span>
       </section>
       {isPageOwner || isUserRegistered ? (
-        <div className="grid md:grid-cols-2 grid-cols-1 mx-5 gap-4 ring-2 ring-green-400 rounded-md p-3">
+        <div className="grid md:grid-cols-2 grid-cols-1 mx-5 gap-4 ring-2 ring-green-400 rounded-md p-3 mb-4">
           <section>
             <h2 className="font-semibold text-gray-500">Room Id</h2>
             <span

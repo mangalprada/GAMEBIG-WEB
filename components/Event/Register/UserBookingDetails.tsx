@@ -1,8 +1,45 @@
-import React from 'react';
+import { useState } from 'react';
 import GamersInfoList from './GamerInfoList';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import Modal from '@/components/UI/Modal/Modal';
+import FixedButton from '@/components/UI/Buttons/FixedButton';
+const { BASE_URL } = process.env;
 
-const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
+const UserBookingDetails = ({
+  bookingDetails,
+  setIsRegistered,
+}: {
+  bookingDetails: any;
+  setIsRegistered: (val: boolean) => void;
+}) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const cancelBooking = () => {
+    try {
+      axios.post(`${BASE_URL}/api/cancelEventBooking`, {
+        participantId: bookingDetails._id,
+        eventId: bookingDetails.eventId,
+        slotNo: bookingDetails.slotNumber,
+      });
+      setIsRegistered(false);
+      router.push(window.location.pathname);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!bookingDetails) return null;
+
   return (
     <div
       className={
@@ -31,7 +68,30 @@ const UserBookingDetails = ({ bookingDetails }: { bookingDetails: any }) => {
           </span>
         </section>
       </div>
-      <GamersInfoList gamers={bookingDetails.users} />
+      {bookingDetails.users.length > 1 ? (
+        <GamersInfoList gamers={bookingDetails.users} />
+      ) : null}
+      <span
+        className="text-center text-xs text-gray-400 cursor-pointer mt-16"
+        onClick={openModal}
+      >
+        Cancel Booking
+      </span>
+      <Modal isOpen={open} closeModal={closeModal}>
+        <div className="flex flex-col mt-48">
+          <span className="text-center text-gray-200 text-xl md:text-2xl mb-8">
+            Are you sure?
+          </span>
+          <div className="flex mx-auto gap-2 md:">
+            <FixedButton
+              name="Yes, Cancel Booking"
+              isDangerous
+              onClick={cancelBooking}
+            />
+            <FixedButton name="No, Don't cancel" onClick={closeModal} />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

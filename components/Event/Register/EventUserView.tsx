@@ -38,7 +38,12 @@ const RespondToEvent: FC<Props> = ({
     );
 
   if (isRegistered)
-    return <UserBookingDetails bookingDetails={bookingDetails} />;
+    return (
+      <UserBookingDetails
+        bookingDetails={bookingDetails}
+        setIsRegistered={setIsRegistered}
+      />
+    );
 
   if (eventData.noOfSlots === 0)
     return (

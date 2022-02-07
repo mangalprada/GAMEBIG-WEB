@@ -157,7 +157,7 @@ function CreatePageForm({ pageData }: Props) {
             <FormInput
               labelName="Video"
               name="video"
-              placeHolder="link to a video of your organization"
+              placeHolder="YouTube video link of your organization"
               value={formik.values.video}
               onChangeHandler={formik.handleChange}
               error={Boolean(formik.errors.video)}

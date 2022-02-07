@@ -92,13 +92,13 @@ export async function getEventById(req: any, res: any) {
     // connect to the database
     let { db } = await connectToDatabase();
     // fetch the events
-    let events = await db
+    let event = await db
       .collection('events')
       .findOne({ _id: new ObjectId(id) });
 
     // return the events
     return res.json({
-      data: JSON.parse(JSON.stringify(events)),
+      data: JSON.parse(JSON.stringify(event)),
       success: true,
     });
   } catch (error) {

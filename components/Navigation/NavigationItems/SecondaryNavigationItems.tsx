@@ -100,7 +100,7 @@ export default function SecondaryNavigationItems() {
           </NavigationItem>
         </>
       ) : (
-        <Link href="/openings">
+        <Link href="/">
           <a
             className={
               'bg-indigo-600 hover:bg-indigo-800 font-semibold ' +

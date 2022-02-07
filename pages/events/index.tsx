@@ -32,7 +32,7 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   function goToPage() {
-    const path = pageId ? `/page/${pageId}/events` : `/page`;
+    const path = pageId ? `/page/${pageId}` : `/page`;
     router.push(path);
   }
 

@@ -34,6 +34,8 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [slotNumber, setSlotNumber] = useState<number>(0);
 
+  const isPastEvent = data.startTime > new Date().toISOString();
+
   useEffect(() => {
     const checkRegistration = async () => {
       if (data._id && userData.uid) {
@@ -206,7 +208,14 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
                 }
               />
             ) : (
-              <FixedButton name="PARTICIPATE NOW" onClick={onForwardAction} />
+              <>
+                {isPastEvent ? (
+                  <FixedButton
+                    name="PARTICIPATE NOW"
+                    onClick={onForwardAction}
+                  />
+                ) : null}
+              </>
             )}
           </>
         )}

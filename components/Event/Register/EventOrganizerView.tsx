@@ -1,9 +1,12 @@
-import { useState, useEffect, useCallback, FC } from 'react';
-import SendNotification from '../Notification/SendNotification';
+import { useState, useEffect, useCallback, FC, ChangeEvent } from 'react';
+import SendNotification from '../Organize/SendNotification';
+import UpdateBookingPassword from '../Organize/UpdateBookingPassword';
+import AddStreaming from '../Organize/AddStreaming';
 import { EventData } from '@/utilities/eventItem/types';
 import { TeamType } from '@/utilities/types';
-import EventResultForm from '../Result/EventResultForm';
 import axios from 'axios';
+import FormInput from '@/components/UI/Inputs/FormInput';
+import FixedButton from '@/components/UI/Buttons/FixedButton';
 const { BASE_URL } = process.env;
 
 type Props = {
@@ -12,6 +15,7 @@ type Props = {
 
 const RespondToEvent: FC<Props> = ({ eventData }) => {
   const [participants, setParticipants] = useState<TeamType[]>([]);
+  const [bookingPassword, setBookingpassword] = useState<string | null>(null);
 
   const teamsArr = useCallback(async () => {
     const response = await axios.get(`${BASE_URL}/api/participants`, {
@@ -25,9 +29,10 @@ const RespondToEvent: FC<Props> = ({ eventData }) => {
   }, [teamsArr]);
 
   return (
-    <div>
+    <div className="bg-slate-900 rounded-md w-11/12 mx-auto pb-4">
       <SendNotification eventData={eventData} />
-      {/* <EventResultForm eventId={eventData._id} participants={participants} /> */}
+      <UpdateBookingPassword eventData={eventData} />
+      <AddStreaming eventData={eventData} />
     </div>
   );
 };

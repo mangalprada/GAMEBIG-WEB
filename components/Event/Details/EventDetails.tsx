@@ -9,14 +9,12 @@ import TextButton from '../../UI/Buttons/TextButton';
 import EventCardAvatar from '../../UI/Avatar/EventCardAvatar';
 import { useUI } from '@/context/uiContext';
 import Editor from '@/components/UI/Inputs/Editor';
-import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
 import TrophyIcon from '@/components/UI/Icons/EventIcons/TrophyIcon';
 import BadgeIcon from '@/components/UI/Icons/EventIcons/BadgeIcon';
 import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
-import FixedButton from '@/components/UI/Buttons/FixedButton';
 import EventCardRowItem from '../EventCard/EventCardRowItem';
 
 interface Props {

@@ -66,7 +66,7 @@ const RespondToEvent: FC<Props> = ({
         <FormInput
           labelName="Enter Password To Book"
           name="bookingPassword"
-          placeHolder="Enter Password needed to book"
+          placeHolder=""
           value={bookingPassword || ''}
           onChangeHandler={(e: ChangeEvent) => {
             const target = e.target as HTMLInputElement;

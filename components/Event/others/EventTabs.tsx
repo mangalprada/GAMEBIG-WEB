@@ -8,7 +8,7 @@ const EventTabs = () => {
     <Link href={href} passHref>
       <span
         className={
-          'cursor-pointer py-1.5 px-10 sm:px-12 md:px-20 rounded ' +
+          'cursor-pointer py-1 px-10 sm:px-12 md:px-20 rounded ' +
           (router.pathname === href ? ' bg-cyan-900' : 'hover:bg-cyan-900/40')
         }
       >

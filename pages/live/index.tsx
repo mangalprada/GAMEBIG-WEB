@@ -21,6 +21,13 @@ async function getEvents(arg: string) {
   return response.data.message;
 }
 
+function getVideoId(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+
+  return match && match[2].length === 11 ? match[2] : null;
+}
+
 const Home: NextPage = () => {
   const {
     userData: { linkedPageIds },
@@ -49,9 +56,31 @@ const Home: NextPage = () => {
     }
   };
 
+  const EventItem = ({ event }: { event: EventData }) => {
+    if (event.streamLink) {
+      return (
+        <div className="my-1 ">
+          <iframe
+            src={
+              'https://www.youtube.com/embed/' +
+              getVideoId(event.streamLink) +
+              '?autoplay=1&mute=1'
+            }
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            title="video"
+            className="mx-auto w-11/12 h-96 md:w-1/2"
+          />
+        </div>
+      );
+    }
+    return <EventCard key={event._id} data={event} isPageOwner={false} />;
+  };
+
   const allEvents = events
     ? events.map((eventItem: EventData) => (
-        <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
+        <EventItem key={eventItem._id} event={eventItem} />
       ))
     : null;
 

@@ -109,7 +109,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
               allow="autoplay; encrypted-media"
               allowFullScreen
               title="video"
-              className="w-full h-auto md:h-auto md:w-1/2"
+              className="w-full h-auto md:w-1/2"
             />
           ) : null}
         </div>

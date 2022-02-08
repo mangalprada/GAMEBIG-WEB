@@ -25,7 +25,10 @@ const Home: NextPage = () => {
   const {
     userData: { linkedPageIds },
   } = useAuth();
-  const { data: events } = useSWR(`${BASE_URL}/api/events`, getEvents);
+  const { data: events } = useSWR(
+    `${BASE_URL}/api/events/pastEvents`,
+    getEvents
+  );
 
   const pageId = linkedPageIds ? linkedPageIds[0] : null;
   const [selectedGames, setSelectedGames] = useState<any>([]);

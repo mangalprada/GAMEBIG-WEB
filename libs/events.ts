@@ -28,9 +28,6 @@ export async function getEvents(
   req: any,
   res: { json: (arg0: { message: any; success: boolean }) => any }
 ) {
-  var d1 = new Date(),
-    d2 = new Date(d1);
-  d2.setMinutes(d1.getMinutes() - 15);
   try {
     // connect to the database
     let { db } = await connectToDatabase();
@@ -39,7 +36,7 @@ export async function getEvents(
       .collection('events')
       .find({
         $and: [
-          { startTime: { $gte: d2.toISOString() } },
+          { startTime: { $gte: new Date().toISOString() } },
           { entryFee: { $eq: 0 } },
         ],
       })

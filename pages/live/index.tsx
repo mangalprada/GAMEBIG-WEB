@@ -25,7 +25,10 @@ const Home: NextPage = () => {
   const {
     userData: { linkedPageIds },
   } = useAuth();
-  const { data: events } = useSWR(`${BASE_URL}/api/events`, getEvents);
+  const { data: events } = useSWR(
+    `${BASE_URL}/api/events/liveEvents`,
+    getEvents
+  );
 
   const pageId = linkedPageIds ? linkedPageIds[0] : null;
   const [selectedGames, setSelectedGames] = useState<any>([]);
@@ -60,9 +63,9 @@ const Home: NextPage = () => {
       }
     >
       <span className="md:text-2xl text-xl text-gray-300 font-medium text-center">
-        <p>More Events Comming Soon 🥳🎉 </p>
+        <p>Events will be live Soon 🥳🎉 </p>
         <br />
-        <p>Please check after sometime. Thank you for visiting 😊🙏</p>
+        <p>Please check Upcoming Events 😊🙏</p>
       </span>
     </div>
   );

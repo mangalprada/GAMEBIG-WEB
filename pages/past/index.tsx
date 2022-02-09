@@ -15,11 +15,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import EventTabs from '@/components/Event/others/EventTabs';
-import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
-import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
-import ShareEventLink from '@/components/UI/Share/ShareEventLink';
-import { games } from '@/utilities/GameList';
-import TextButton from '@/components/UI/Buttons/TextButton';
+import EventCardWithStream from '@/components/Event/EventCard/EventCardWithStream';
 
 const { BASE_URL } = process.env;
 
@@ -68,81 +64,7 @@ const Home: NextPage = () => {
   }
   const EventItem = ({ event }: { event: EventData }) => {
     if (event.streamLink) {
-      return (
-        <div className="my-1 w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto bg-slate-900 rounded-md border-4 md:border-8 border-slate-900">
-          <div className="flex flex-nowrap justify-between px-8 content-center py-5">
-            <div className="flex flex-row">
-              <EventCardAvatar
-                content={event.pageName[0]}
-                onclick={() => openLinkedpage(event.pageId)}
-              />
-              <div>
-                <span
-                  className="text-gray-300  text-xs sm:text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
-                  onClick={() => openLinkedpage(event.pageId)}
-                >
-                  {event.pageName}
-                </span>
-                <section className="flex flex-row mx-2 items-center mt-0.5">
-                  <LocationIcon
-                    className={'fill-current text-indigo-500'}
-                    size={15}
-                  />
-                  <span className="text-gray-300 text-xs sm:text-sm font-semibold font-sans ml-1">
-                    India
-                  </span>
-                </section>
-              </div>
-            </div>
-
-            {/** Share Event */}
-            <ShareEventLink
-              link={`https://gamebig.in/page/${event.pageId}/events/${event._id}`}
-              game={games[event.gameCode].shortName}
-            />
-          </div>
-          <iframe
-            src={
-              'https://www.youtube.com/embed/' + getVideoId(event.streamLink)
-            }
-            frameBorder="0"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="video"
-            className="mx-auto h-96 w-full"
-          />
-          <div className="flex items-center justify-between px-4">
-            <section className="flex flex-row gap-x-2 py-2 sm:gap-x-3 items-center ml-[1.25rem] md:ml-[2.15rem]">
-              {event.gameCode ? (
-                <span className="h-8 w-8 relative">
-                  <Image
-                    src={games[event.gameCode].imageSource}
-                    alt=""
-                    objectFit="contain"
-                    layout="fill"
-                    className="rounded-md"
-                  />
-                </span>
-              ) : null}
-              <span
-                className={
-                  'text-gray-300 text-sm sm:text-lg h-10 font-semibold ' +
-                  'flex flex-col justify-center '
-                }
-              >
-                {`${games[event.gameCode].shortName} - ${event.type}`}
-              </span>
-            </section>
-            <TextButton
-              name="DETAILS"
-              type="normal"
-              onClick={() =>
-                router.push(`/page/${event.pageId}/events/${event._id}/`)
-              }
-            />
-          </div>
-        </div>
-      );
+      return <EventCardWithStream event={event} />;
     }
     return <EventCard key={event._id} data={event} isPageOwner={false} />;
   };

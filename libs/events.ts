@@ -62,13 +62,20 @@ export async function getEvents(
 export async function getEventsByPageId(req: any, res: any) {
   try {
     const { pageId } = req.query;
-
+    var d1 = new Date(),
+      d2 = new Date(d1);
+    d2.setMinutes(d1.getMinutes() - 45);
     // connect to the database
     let { db } = await connectToDatabase();
     // fetch the events
     let events = await db
       .collection('events')
-      .find({ pageId: { $eq: pageId } })
+      .find({
+        $and: [
+          { pageId: { $eq: pageId } },
+          { startTime: { $gte: d2.toISOString() } },
+        ],
+      })
       .sort({ startTime: -1 })
       .toArray();
     // return the events

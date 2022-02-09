@@ -1,9 +1,6 @@
 import { connectToDatabase } from '../../../mongoDB/mongodbClient';
 
-export default async function handler(
-  req: any,
-  res: { json: (arg0: { message: any; success: boolean }) => any }
-) {
+export default async function handler(req: any, res: any) {
   const { pageId } = req.query;
   try {
     var d1 = new Date(),
@@ -25,13 +22,13 @@ export default async function handler(
       .toArray();
     // return the events
     return res.json({
-      message: JSON.parse(JSON.stringify(events)),
+      data: JSON.parse(JSON.stringify(events)),
       success: true,
     });
   } catch (error) {
     // return the error
     return res.json({
-      message: new Error(error as string).message,
+      data: new Error(error as string).message,
       success: false,
     });
   }

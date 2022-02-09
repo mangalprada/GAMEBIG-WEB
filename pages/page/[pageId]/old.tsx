@@ -3,7 +3,7 @@ import Head from 'next/head';
 import PageHeader from '../../../components/Page/PageHeader/PageHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import EventCard from '../../../components/Event/EventCard/EventCard';
-import CreateEventButton from '../../../components/Event/CreateEvent/CreateEventButton';
+import OrgButtons from '../../../components/Event/CreateEvent/OrgButtons';
 import { EventData } from '../../../utilities/eventItem/types';
 import CreateEventForm from '../../../components/Event/CreateEvent/CreateEventForm';
 import Modal from '@/components/UI/Modal/Modal';
@@ -35,7 +35,7 @@ export default function Events() {
   );
 
   const { data: events } = useSWR(
-    `${BASE_URL}/api/events/pastEventByPageId/?pageId=${pageId}`,
+    `${BASE_URL}/api/events/pastEventsByPageId/?pageId=${pageId}`,
     getData
   );
 
@@ -83,10 +83,12 @@ export default function Events() {
       </Head>
       <div>
         <PageHeader data={pageData} />
-        {pageData.admins.includes(userData.uid) &&
-        pageData.category === 'organizer' &&
-        typeof pageId === 'string' ? (
-          <CreateEventButton onClick={openModal} pageId={pageId} />
+        {pageData.category === 'organizer' && typeof pageId === 'string' ? (
+          <OrgButtons
+            onClick={openModal}
+            pageId={pageId}
+            isPageOwner={pageData.admins.includes(userData.uid)}
+          />
         ) : null}
         {events && events.length === 0 ? emptyEventsComponent : hostedEvents}
       </div>

@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 interface Props {
   onClick: () => void;
   pageId: string;
+  isPageOwner: boolean;
 }
 
-export default function CreateEvent({ onClick, pageId }: Props) {
+export default function CreateEvent({ onClick, pageId, isPageOwner }: Props) {
   const router = useRouter();
 
   const isOld = router.pathname.split('/').includes('old');
@@ -15,13 +16,15 @@ export default function CreateEvent({ onClick, pageId }: Props) {
     else router.push(`/page/${pageId}/old`);
   };
   return (
-    <div className={'flex xl:w-1/2 md:w-5/6 mx-auto justify-between px-1'}>
+    <div className={'flex w-11/12 xl:w-1/2 md:w-5/6 mx-auto justify-between'}>
       <TextButton
         name={isOld ? 'See New Events' : 'See Old Events'}
         onClick={route}
         type="normal"
       />
-      <FixedButton name="Host an Event" onClick={onClick} />
+      {isPageOwner ? (
+        <FixedButton name="Host an Event" onClick={onClick} />
+      ) : null}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { EventData } from '@/utilities/eventItem/types';
 import axios from 'axios';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
+import { useUI } from '@/context/uiContext';
 const { BASE_URL } = process.env;
 
 type Props = {
@@ -10,14 +11,20 @@ type Props = {
 };
 
 const RespondToEvent: FC<Props> = ({ eventData }) => {
+  const { openSnackBar } = useUI();
   const [streamLink, setStreamLink] = useState<string | undefined>(
     eventData.streamLink
   );
 
   const updateTournamnet = async () => {
-    axios.put(`${BASE_URL}/api/events`, {
+    await axios.put(`${BASE_URL}/api/events`, {
       _id: eventData._id,
       data: { $set: { streamLink } },
+    });
+    openSnackBar({
+      label: 'Stream Link Updated',
+      message: '',
+      type: 'success',
     });
   };
 
@@ -26,7 +33,7 @@ const RespondToEvent: FC<Props> = ({ eventData }) => {
       <FormInput
         labelName="Stream Link"
         name="bookingPassword"
-        placeHolder="Enter the link to game streaming"
+        placeHolder="Enter YouTube link to game streaming"
         value={streamLink || ''}
         onChangeHandler={(e: ChangeEvent) => {
           const target = e.target as HTMLInputElement;

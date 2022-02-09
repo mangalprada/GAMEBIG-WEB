@@ -1,5 +1,6 @@
+import { useUI } from '@/context/uiContext';
 import axios from 'axios';
-import { SetStateAction, useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { EventData } from '../../../utilities/eventItem/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import NormalInput from '../../UI/Inputs/NormalInput';
@@ -10,15 +11,21 @@ export default function SendNotification({
 }: {
   eventData: EventData;
 }) {
+  const { openSnackBar } = useUI();
   const [roomId, setRoomId] = useState<string | undefined>(eventData.roomId);
   const [password, setPassword] = useState<string | undefined>(
     eventData.password
   );
 
   const updateTournamnet = async () => {
-    axios.put(`${BASE_URL}/api/events`, {
+    await axios.put(`${BASE_URL}/api/events`, {
       _id: eventData._id,
       data: { $set: { roomId, password } },
+    });
+    openSnackBar({
+      label: 'Room ID and Password Updated',
+      message: '',
+      type: 'success',
     });
   };
 
@@ -27,8 +34,6 @@ export default function SendNotification({
   const onBtnClickHandler = () => {
     updateTournamnet();
     sendNotification();
-    setRoomId('');
-    setPassword('');
   };
 
   return (

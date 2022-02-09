@@ -76,7 +76,7 @@ export async function getEventsByPageId(req: any, res: any) {
           { startTime: { $gte: d2.toISOString() } },
         ],
       })
-      .sort({ startTime: -1 })
+      .sort({ startTime: 1 })
       .toArray();
     // return the events
     return res.json({

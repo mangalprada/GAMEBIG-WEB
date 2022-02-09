@@ -35,7 +35,7 @@ export default function Events() {
   );
 
   const { data: events } = useSWR(
-    `${BASE_URL}/api/events/?pageId=${pageId}`,
+    `${BASE_URL}/api/events/pastEventByPageId/?pageId=${pageId}`,
     getData
   );
 

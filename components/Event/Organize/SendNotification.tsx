@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useState, ChangeEvent } from 'react';
 import { EventData } from '../../../utilities/eventItem/types';
 import FixedButton from '../../UI/Buttons/FixedButton';
 import NormalInput from '../../UI/Inputs/NormalInput';
@@ -10,8 +10,10 @@ export default function SendNotification({
 }: {
   eventData: EventData;
 }) {
-  const [roomId, setRoomId] = useState('');
-  const [password, setPassword] = useState('');
+  const [roomId, setRoomId] = useState<string | undefined>(eventData.roomId);
+  const [password, setPassword] = useState<string | undefined>(
+    eventData.password
+  );
 
   const updateTournamnet = async () => {
     axios.put(`${BASE_URL}/api/events`, {
@@ -37,19 +39,21 @@ export default function SendNotification({
       <div className="grid sm:grid-cols-2 grid-cols-1 mt-5">
         <NormalInput
           name="RoomId"
-          value={roomId}
+          value={roomId || ''}
           placeHolder="Room ID"
-          onChangeHandler={(e: { target: { value: SetStateAction<string> } }) =>
-            setRoomId(e.target.value)
-          }
+          onChangeHandler={(e: ChangeEvent) => {
+            const target = e.target as HTMLInputElement;
+            setRoomId(target.value);
+          }}
         />
         <NormalInput
           name="password"
-          value={password}
+          value={password || ''}
           placeHolder="Password"
-          onChangeHandler={(e: { target: { value: SetStateAction<string> } }) =>
-            setPassword(e.target.value)
-          }
+          onChangeHandler={(e: ChangeEvent) => {
+            const target = e.target as HTMLInputElement;
+            setPassword(target.value);
+          }}
         />
       </div>
       <div className="flex justify-end mr-4 relative -mt-8">

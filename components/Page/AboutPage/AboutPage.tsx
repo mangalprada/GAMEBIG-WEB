@@ -1,3 +1,6 @@
+import useSWR from 'swr';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import TwitchIcon from '../../UI/Icons/SocialIcons/TwitchIcon';
 import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
@@ -6,8 +9,6 @@ import RedditIcon from '../../UI/Icons/SocialIcons/RedditIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
 import EmailIcon from '@/components/UI/Icons/ProfileIcons/EmailIcon';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
-import useSWR from 'swr';
-import axios from 'axios';
 import PhoneIcon from '@/components/UI/Icons/Others/PhoneIcon';
 import WhatsApp from '@/components/UI/Icons/SocialIcons/WhatsApp';
 import { useUI } from '@/context/uiContext';
@@ -21,17 +22,18 @@ async function getPageData(arg: string) {
 
 export default function AboutPage({ pageId }: { pageId?: string }) {
   const { openSnackBar } = useUI();
+  const router = useRouter();
   const { data: pageData } = useSWR(
     `${BASE_URL}/api/page/?pageId=${pageId}`,
     getPageData
   );
 
   if (!pageData) return <LurkingCat height={100} width={100} />;
-
+  const isInExplore = router.pathname.split('/').includes('explore');
   return (
     <div className={'w-full mx-auto font-sans px-5 py-2 '}>
       <div className="flex items-center space-x-4 ml-1 mt-1 md:mt-3">
-        {pageData.phone ? (
+        {pageData.phone && !isInExplore ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
             onMouseDown={() => {

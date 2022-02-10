@@ -27,14 +27,20 @@ function BottomNavigationBar() {
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <TrophyIcon
-                  isActive={router.pathname === '/events'}
+                  isActive={
+                    router.pathname === '/events' ||
+                    router.pathname === '/live' ||
+                    router.pathname === '/past'
+                  }
                   size={26}
                 />
               </span>
               <span
                 className={
                   'text-xs -mt-0.5 flex flex-1 justify-center font-semibold ' +
-                  (router.pathname === '/events'
+                  (router.pathname === '/events' ||
+                  router.pathname === '/live' ||
+                  router.pathname === '/past'
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
                 }
@@ -70,22 +76,14 @@ function BottomNavigationBar() {
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <PageIcon
-                  isActive={
-                    router.pathname === '/page/[pageId]/events' ||
-                    router.pathname === '/page/[pageId]' ||
-                    router.pathname === '/page' ||
-                    router.pathname === '/page/create'
-                  }
+                  isActive={router.pathname.split('/').includes('page')}
                   size={26}
                 />
               </span>
               <span
                 className={
                   'text-xs -mt-0.5 flex flex-1 justify-center font-semibold ' +
-                  (router.pathname === '/page/[pageId]/events' ||
-                  router.pathname === '/page/[pageId]' ||
-                  router.pathname === '/page' ||
-                  router.pathname === '/page/create'
+                  (router.pathname.split('/').includes('page')
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
                 }
@@ -100,19 +98,19 @@ function BottomNavigationBar() {
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
                 <ExploreIcon
-                  isActive={router.pathname === '/explore'}
+                  isActive={router.pathname.split('/').includes('explore')}
                   size={24}
                 />
               </span>
               <span
                 className={
                   'text-xs -mt-1 flex flex-1 justify-center font-semibold ' +
-                  (router.pathname === '/explore'
+                  (router.pathname.split('/').includes('explore')
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
                 }
               >
-                People
+                Explore
               </span>
             </a>
           </Link>

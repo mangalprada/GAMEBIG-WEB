@@ -1,30 +1,28 @@
 import useSWR from 'swr';
 import axios from 'axios';
 import Head from 'next/head';
-import OrgCard from '../../components/Page/OrgCard';
+import ProfileCard from '../../components/Profile/ProfileCard';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import ExploreTabs from '@/components/Event/others/ExploreTabs';
 import { UserData } from '../../utilities/types';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
-import { PageFormData } from '@/utilities/page/types';
-import PageHeader from '@/components/Page/PageHeader/PageHeader';
 
 const { BASE_URL } = process.env;
 
 const fetcher = async (url: string) => {
   const response = await axios.get(url);
-  return response.data.data;
+  return response.data.users;
 };
 
 const People = () => {
-  const { data: orgs } = useSWR(`${BASE_URL}/api/page/pages`, fetcher);
+  const { data: users } = useSWR(`${BASE_URL}/api/people`, fetcher);
 
-  if (!orgs) return <LurkingCat height={300} width={300} />;
+  if (!users) return <LurkingCat height={300} width={300} />;
 
   return (
     <div>
       <Head>
-        <title>Explore</title>
+        <title>People</title>
         <meta
           name="description"
           content="Find Gamers Like you, connect with them!"
@@ -34,11 +32,16 @@ const People = () => {
       </Head>
       <Aux>
         <ExploreTabs />
-        {orgs.map((org: PageFormData) => (
-          <div className="w-full my-0.5" key={org.id}>
-            <PageHeader data={org} />
-          </div>
-        ))}
+        <div
+          className={
+            'xl:w-1/2 lg:w-2/3 md:w-5/6 w-11/12 grid grid-cols-2 sm:grid-cols-3 ' +
+            'gap-3 sm:gap-5 mt-3 mx-auto'
+          }
+        >
+          {users.map((user: UserData) => (
+            <ProfileCard user={user} key={user.uid} />
+          ))}
+        </div>
       </Aux>
     </div>
   );

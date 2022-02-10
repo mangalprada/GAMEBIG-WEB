@@ -18,10 +18,21 @@ export default function PrimaryNavigationItems() {
     <ul className="hidden md:flex items-end lg:space-x-10 lg:mr-20">
       <NavigationItem
         href="/events"
-        isActive={router.pathname === '/events'}
+        isActive={
+          router.pathname === '/events' ||
+          router.pathname === '/live' ||
+          router.pathname === '/past'
+        }
         toolTip="Events"
       >
-        <TrophyIcon isActive={router.pathname === '/events'} size={33} />
+        <TrophyIcon
+          isActive={
+            router.pathname === '/events' ||
+            router.pathname === '/live' ||
+            router.pathname === '/past'
+          }
+          size={33}
+        />
       </NavigationItem>
       <NavigationItem
         href="/openings"
@@ -33,30 +44,23 @@ export default function PrimaryNavigationItems() {
 
       <NavigationItem
         href={pageId ? `/page/${pageId}` : `/page`}
-        isActive={
-          router.pathname === '/page/[pageId]/events' ||
-          router.pathname === '/page/[pageId]' ||
-          router.pathname === '/page' ||
-          router.pathname === '/page/create'
-        }
+        isActive={router.pathname.split('/').includes('page')}
         toolTip="Org"
       >
         <PageIcon
-          isActive={
-            router.pathname === '/page/[pageId]/events' ||
-            router.pathname === '/page/[pageId]' ||
-            router.pathname === '/page' ||
-            router.pathname === '/page/create'
-          }
+          isActive={router.pathname.split('/').includes('page')}
           size={33}
         />
       </NavigationItem>
       <NavigationItem
         href="/explore"
-        isActive={router.pathname === '/explore'}
+        isActive={router.pathname.split('/').includes('explore')}
         toolTip="Explore"
       >
-        <ExploreIcon isActive={router.pathname === '/explore'} size={30} />
+        <ExploreIcon
+          isActive={router.pathname.split('/').includes('explore')}
+          size={30}
+        />
       </NavigationItem>
     </ul>
   );

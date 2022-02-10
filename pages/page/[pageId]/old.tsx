@@ -63,7 +63,7 @@ export default function Events() {
       }
     >
       <span className="text-xl text-gray-400 font-medium text-center">
-        Start hosting new Events and build your community!
+        No Events Yet!! Check back later or Contact the organizer.
       </span>
     </div>
   );

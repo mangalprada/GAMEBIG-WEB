@@ -19,7 +19,7 @@ const EventTabs = () => {
 
   return (
     <div
-      className="w-11/12 md:w-2/3 xl:w-1/2 mt-1.5 mx-auto bg-gray-900/90 rounded-md gap-0.5
+      className="w-11/12 md:w-2/3 xl:w-1/2 my-2 md:my-3 mx-auto bg-gray-900/90 rounded-md gap-0.5
     text-gray-300 font-bold font-sans text-sm sm:text-lg flex items-center justify-evenly"
     >
       <Tab label="Upcoming" href="/events" />

@@ -8,7 +8,7 @@ const EventTabs = () => {
 
   return (
     <div
-      className="md:w-2/3 xl:w-1/2 my-2 mx-2 md:mx-auto bg-gray-900/90 rounded-md gap-0.5
+      className="w-11/12 md:w-2/3 xl:w-1/2 my-2 md:my-3 mx-auto md:mx-auto bg-gray-900/90 rounded-md gap-0.5
     text-gray-300 font-bold font-sans text-sm sm:text-lg flex items-center justify-evenly"
     >
       <Link href={'/explore'} passHref>

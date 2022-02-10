@@ -40,7 +40,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
   const isInExplore = router.pathname.split('/').includes('explore');
 
   return (
-    <div className="bg-gray-900/95 w-11/12 xl:w-1/2 md:w-5/6 mx-auto my-0.5 md:my-1.5 rounded-md">
+    <div className="bg-gray-900/95 w-11/12 xl:w-1/2 md:w-5/6 mx-auto my-1 md:my-2 rounded-md">
       <div className="flex flex-row px-6 pt-2 md:pt-4 justify-between">
         <div className="flex items-center">
           {/** Avatar Logo */}

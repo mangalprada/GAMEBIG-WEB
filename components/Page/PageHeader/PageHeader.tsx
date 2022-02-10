@@ -40,7 +40,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
   const isInExplore = router.pathname.split('/').includes('explore');
 
   return (
-    <div className="bg-gray-900/90 w-11/12 xl:w-1/2 md:w-5/6 mx-auto my-1 md:my-2 rounded-md">
+    <div className="bg-gray-900/95 w-11/12 xl:w-1/2 md:w-5/6 mx-auto my-0.5 md:my-1.5 rounded-md">
       <div className="flex flex-row px-6 pt-2 md:pt-4 justify-between">
         <div className="flex items-center">
           {/** Avatar Logo */}
@@ -79,12 +79,16 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
       </div>
       <div className="flex flex-col md:flex-row sm:flex px-6 pb-2">
         <section className="flex flex-col mt-3 px-4">
-          <span className="font-semibold text-xs md:text-sm text-gray-500">
-            About us
-          </span>
-          <span className="text-gray-100 tracking-wide text-xs md:text-sm">
-            {data.about}
-          </span>
+          {data.about ? (
+            <>
+              <span className="font-semibold text-xs md:text-sm text-gray-500">
+                About us
+              </span>
+              <span className="text-gray-100 tracking-wide text-xs md:text-sm">
+                {data.about}
+              </span>
+            </>
+          ) : null}
           <AboutPage pageId={data.id} />
         </section>
         {data.video ? (

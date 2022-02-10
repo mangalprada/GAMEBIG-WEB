@@ -30,7 +30,7 @@ const PeopleConnect: FC = () => {
         >
           Connect with people and meet awesome gamers.
         </div>
-        <Link href="/people">
+        <Link href="/explore">
           <a
             className={
               'block bg-blue-600 hover:bg-blue-500 py-4 px-4 rounded-md ' +

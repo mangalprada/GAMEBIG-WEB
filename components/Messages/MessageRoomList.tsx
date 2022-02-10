@@ -29,7 +29,7 @@ const MessageRoomList = ({
   const { updateCurrentMessageRoom } = useMessages();
 
   const openPeoplePage = () => {
-    router.push('/people');
+    router.push('/explore');
   };
 
   const updateUnseenMessageCount = async (room: any) => {

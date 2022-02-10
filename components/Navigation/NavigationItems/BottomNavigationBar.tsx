@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import PageIcon from '../../UI/Icons/NavIcons/PageIcon';
-import FriendsIcon from '../../UI/Icons/NavIcons/FriendsIcon';
+import ExploreIcon from '../../UI/Icons/NavIcons/ExploreIcon';
 import JoinIcon from '../../UI/Icons/NavIcons/JoinIcon';
 import TrophyIcon from '../../UI/Icons/NavIcons/TrophyIcon';
 import { useAuth } from '../../../context/authContext';
@@ -96,18 +96,18 @@ function BottomNavigationBar() {
           </Link>
 
           {/** People */}
-          <Link href="/people" passHref>
+          <Link href="/explore" passHref>
             <a className="text-gray-600 focus:text-indigo-500 hover:text-indigo-500 py-0.5 px-1.5">
               <span className="flex justify-center items-center pt-0.5">
-                <FriendsIcon
-                  isActive={router.pathname === '/people'}
-                  size={28}
+                <ExploreIcon
+                  isActive={router.pathname === '/explore'}
+                  size={24}
                 />
               </span>
               <span
                 className={
                   'text-xs -mt-1 flex flex-1 justify-center font-semibold ' +
-                  (router.pathname === '/people'
+                  (router.pathname === '/explore'
                     ? 'text-indigo-600 '
                     : 'text-gray-400')
                 }

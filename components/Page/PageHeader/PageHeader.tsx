@@ -39,19 +39,31 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
 
   const isInExplore = router.pathname.split('/').includes('explore');
 
+  function goToOrg() {
+    if (router.pathname !== `/page/${data.id}/`)
+      router.push(`/page/${data.id}/`);
+  }
+
   return (
     <div className="bg-gray-900/95 w-11/12 xl:w-1/2 md:w-5/6 mx-auto my-1 md:my-2 rounded-md">
       <div className="flex flex-row px-6 pt-2 md:pt-4 justify-between">
         <div className="flex items-center">
           {/** Avatar Logo */}
-          <div className="flex w-12 h-12 md:w-16 md:h-16 bg-indigo-600 rounded-full items-center my-auto">
+          <div
+            className="flex w-12 h-12 md:w-16 md:h-16 bg-indigo-600 rounded-full items-center my-auto cursor-pointer"
+            onClick={goToOrg}
+          >
             <span className="self-center text-2xl md:text-4xl font-bold tracking-wide text-gray-900 font-sans m-auto">
               {data.name[0]}
             </span>
           </div>
           <div className="ml-1.5 md:ml-5">
             {/** Org Name */}
-            <span className="text-gray-300 text-lg md:text-2xl font-semibold font-sans ml-1 md:ml-2">
+            <span
+              className="text-gray-300 text-lg md:text-2xl cursor-pointer
+              font-semibold font-sans ml-1 md:ml-2 hover:underline"
+              onClick={goToOrg}
+            >
               {data.name}
             </span>
 

@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
-import TabNavigator from '@/components/Navigation/TabNavigation/TabNavigator';
 import AboutPage from '../../../components/Page/AboutPage/AboutPage';
-import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { PageFormData } from '@/utilities/page/types';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';

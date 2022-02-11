@@ -7,6 +7,7 @@ export default async function handler(req: any, res: any) {
     await firebaseAdmin
       .firestore()
       .collection('teamOpening')
+      .orderBy('noOfJoinees', 'asc')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

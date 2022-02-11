@@ -71,14 +71,3 @@ export const isUsernameTaken = async (username: string, uid: string) =>
       console.log('Error getting documents: ', error);
       return false;
     });
-
-export const updateFcmToken = async (uid: string, token: string) => {
-  try {
-    if (uid)
-      await db.collection('users').doc(uid).update({
-        fcmToken: token,
-      });
-  } catch (err) {
-    console.log(err, 'error updating token');
-  }
-};

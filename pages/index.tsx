@@ -35,6 +35,10 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
+        <script
+          src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"
+          async
+        ></script>
       </Head>
       <div
         className={

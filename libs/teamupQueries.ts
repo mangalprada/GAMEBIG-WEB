@@ -14,6 +14,7 @@ export async function createNewPost(
       photoURL: userData.photoURL,
       name: userData.name,
       uid: userData.uid,
+      noOfJoinees: 0,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     return true;

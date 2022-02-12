@@ -63,12 +63,15 @@ export default function DetailsAsParticipant({
           <TextButton name="EDIT" type="normal" onClick={openEditModal} />
         ) : null}
       </div>
-
+      <div className="flex justify-center mb-2">
+        <span className="text-base md:text-xl font-semibold text-center text-green-500">
+          {data.title}
+        </span>
+      </div>
       <div
         className={
           'grid grid-cols-2 justify-items-center md:mx-5 gap-y-4 cursor-pointer'
         }
-        // onClick={onForwardAction}
       >
         <EventCardRowItem
           content={`${games[data.gameCode].shortName} - ${data.mode}`}

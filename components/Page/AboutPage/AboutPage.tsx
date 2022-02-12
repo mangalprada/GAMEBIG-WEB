@@ -31,8 +31,8 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
   if (!pageData) return <LurkingCat height={100} width={100} />;
   const isInExplore = router.pathname.split('/').includes('explore');
   return (
-    <div className={'w-full mx-auto font-sans px-5 py-2 '}>
-      <div className="flex items-center space-x-4 ml-1 mt-1 md:mt-3">
+    <div className="w-full mx-auto font-sans py-2 ">
+      <div className="flex items-center space-x-2 md:space-x-4 ml-1 mt-1 md:mt-3">
         {pageData.phone && !isInExplore ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
@@ -46,7 +46,7 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
             }}
           >
             <PhoneIcon onClick={() => {}} size={20} />
-            <span>{pageData.phone}</span>
+            <span className="text-gray-400 text-sm">{pageData.phone}</span>
           </p>
         ) : null}
         {pageData.email ? (
@@ -62,11 +62,11 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
             }}
           >
             <EmailIcon size={18} className={'fill-current text-slate-500'} />
-            <span>{pageData.email}</span>
+            <span className="text-gray-400 text-sm">{pageData.email}</span>
           </p>
         ) : null}
       </div>
-      <div className="flex flex-row items-center space-x-4 ml-1 mt-1">
+      <div className="flex flex-row items-center space-x-2 md:space-x-4 ml-1 mt-1">
         {pageData.phone ? (
           <div
             onClick={() => {

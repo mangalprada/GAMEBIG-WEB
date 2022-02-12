@@ -32,7 +32,7 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
   const isInExplore = router.pathname.split('/').includes('explore');
   return (
     <div className="w-full mx-auto font-sans py-2 ">
-      <div className="flex items-center space-x-2 md:space-x-4 ml-1 mt-1 md:mt-3">
+      <div className="flex flex-col md:flex-row items-center space-x-3 md:space-x-4 ml-1 mt-0.5 md:mt-2">
         {pageData.phone && !isInExplore ? (
           <p
             className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
@@ -66,7 +66,7 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
           </p>
         ) : null}
       </div>
-      <div className="flex flex-row items-center space-x-2 md:space-x-4 ml-1 mt-1">
+      <div className="flex flex-row items-center space-x-3 justify-center">
         {pageData.phone ? (
           <div
             onClick={() => {

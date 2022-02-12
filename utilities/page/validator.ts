@@ -19,7 +19,8 @@ export const validationSchema = yup.object({
   phone: yup
     .string()
     .length(10, 'Mobile number must be 10 digits long')
-    .matches(phoneRegExp, 'Mobile number is not valid'),
+    .matches(phoneRegExp, 'Mobile number is not valid')
+    .required('Email is required'),
   website: yup.string().url('Enter a valid URL'),
   youtube: yup.string().url('Enter a valid URL'),
   video: yup.string().url('Enter a valid URL'),

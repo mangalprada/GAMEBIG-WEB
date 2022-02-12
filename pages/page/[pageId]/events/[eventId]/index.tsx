@@ -90,6 +90,7 @@ export default function Event() {
 
   const TabsForOthers = [
     { key: 1, label: 'Register' },
+    { key: 3, label: 'Participants' },
     { key: 4, label: 'Need Help' },
   ];
 
@@ -149,7 +150,12 @@ export default function Event() {
                 />
               ),
               2: <EventOrganizerView eventData={event} />,
-              3: <ParticipantList eventData={event} />,
+              3: (
+                <ParticipantList
+                  isPageOwner={isPageOwner()}
+                  eventData={event}
+                />
+              ),
               4: <Help pageId={event.pageId} />,
             }[tabKey]
           }

@@ -17,13 +17,6 @@ export const HostEventForm: Record<string, any> = {
         dataType: 'string',
         options: ['Solo', 'Duo', 'Squad'],
       },
-      {
-        labelName: 'Tier',
-        name: 'tier',
-        formType: 'radio',
-        dataType: 'string',
-        options: ['T1', 'T2', 'T3'],
-      },
     ],
     initialValues: {
       gameCode: 'bgmi-m',
@@ -40,6 +33,7 @@ export const HostEventForm: Record<string, any> = {
           children: [{ text: '' }],
         } as Descendant,
       ],
+      title: '',
       prize: '',
       entryFee: 0,
     },
@@ -53,13 +47,6 @@ export const HostEventForm: Record<string, any> = {
         dataType: 'string',
         options: ['Solo', 'Duo', 'Squad'],
       },
-      {
-        labelName: 'Tier',
-        name: 'tier',
-        formType: 'radio',
-        dataType: 'string',
-        options: ['T1', 'T2', 'T3'],
-      },
     ],
     initialValues: {
       gameCode: 'cod-m',
@@ -68,6 +55,7 @@ export const HostEventForm: Record<string, any> = {
       accessibility: 'Open',
       bookingPassword: '',
       tier: 'T3',
+      title: '',
       noOfSlots: 25,
       startTime: new Date(),
       description: [
@@ -89,13 +77,6 @@ export const HostEventForm: Record<string, any> = {
         dataType: 'string',
         options: ['Solo', 'Duo', 'Squad'],
       },
-      {
-        labelName: 'Tier',
-        name: 'tier',
-        formType: 'radio',
-        dataType: 'string',
-        options: ['T1', 'T2', 'T3'],
-      },
     ],
     initialValues: {
       gameCode: 'gff-m',
@@ -103,6 +84,7 @@ export const HostEventForm: Record<string, any> = {
       type: 'Custom Room',
       tier: 'T3',
       accessibility: 'Open',
+      title: '',
       bookingPassword: '',
       noOfSlots: 12,
       startTime: new Date(),

@@ -73,7 +73,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       }
     >
       {/** Header */}
-      <div className="flex flex-nowrap justify-between px-8 content-center py-5">
+      <div className="flex flex-nowrap justify-between items-center px-8 content-center py-5">
         <div className="flex flex-row">
           <EventCardAvatar
             content={data.pageName[0]}
@@ -81,7 +81,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           />
           <div>
             <span
-              className="text-gray-300  text-xs sm:text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
+              className="text-gray-300 text-xs sm:text-sm font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
               onClick={openLinkedpage}
             >
               {data.pageName}
@@ -91,7 +91,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
                 className={'fill-current text-indigo-500'}
                 size={15}
               />
-              <span className="text-gray-300 text-xs sm:text-sm font-semibold font-sans ml-1">
+              <span className="text-gray-300 text-xs font-semibold font-sans ml-1">
                 India
               </span>
             </section>
@@ -122,18 +122,14 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           />
         </EventCardRowItem>
 
-        <EventCardRowItem content={`${data.type} - ${data.tier}`} label="Tier">
+        <EventCardRowItem
+          content={`${data.type}` + (data.tier ? ` - ${data.tier}` : '')}
+          label="Tier"
+        >
           <BadgeIcon
             styles={'fill-current text-orange-800 w-4 h-4 md:w-5 md:h-5'}
           />
         </EventCardRowItem>
-
-        {/* <EventCardRowItem
-          content={`${getDecoratedDate(data.startTime)}`}
-          label="Event Date"
-        >
-          <EventIcon styles={'fill-current text-indigo-400'} />
-        </EventCardRowItem> */}
 
         <EventCardRowItem
           content={`${getDecoratedTime(data.startTime)}, ${getDecoratedDate(

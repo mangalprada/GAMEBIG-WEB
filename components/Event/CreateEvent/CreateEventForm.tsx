@@ -126,6 +126,9 @@ export default function CreateEventForm({
                     formik.setFieldValue('noOfSlots', noOfSlots);
                     setSlots(initialSlots(noOfSlots));
                   }
+                  if (input.name === 'type' && item !== 'Custom Room') {
+                    formik.setFieldValue('tier', '');
+                  }
                 }}
               />
             </section>
@@ -189,6 +192,28 @@ export default function CreateEventForm({
                 }}
               />
               {formInputComponents}
+              {formik.values.type === 'Custom Room' ? (
+                <SelectRadioButton
+                  label="Tier"
+                  items={['T1', 'T2', 'T3']}
+                  value={formik.values.tier}
+                  name="tier"
+                  handleChange={(item) => {
+                    formik.setFieldValue('tier', item);
+                  }}
+                />
+              ) : null}
+              {formik.values.type === 'Classic Tournament' ? (
+                <FormInput
+                  labelName="Title of the Tournament"
+                  name="title"
+                  placeHolder="Enter Title"
+                  value={formik.values.title}
+                  onChangeHandler={formik.handleChange}
+                  error={Boolean(formik.errors.title)}
+                  errorMessage={formik.errors.title}
+                />
+              ) : null}
               {formik.values.type === 'Classic Tournament' ? (
                 <FormInput
                   labelName="No. Of Slots"
@@ -200,16 +225,6 @@ export default function CreateEventForm({
                   errorMessage={formik.errors.noOfSlots}
                 />
               ) : null}
-              <FormInput
-                isDisabled={true}
-                labelName="Entry Fee (Comming soon)"
-                name="entryFee"
-                placeHolder="0"
-                value={formik.values.entryFee}
-                onChangeHandler={formik.handleChange}
-                error={Boolean(formik.errors.entryFee)}
-                errorMessage={formik.errors.entryFee}
-              />
               <FormInput
                 labelName="Prize / Reward (Optional)"
                 name="prize"

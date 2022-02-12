@@ -13,6 +13,7 @@ export interface EventFormData {
   bookingPassword?: string;
   accessibility: string;
   streamLink?: string;
+  title?: string;
 }
 
 export interface EventData {
@@ -34,4 +35,5 @@ export interface EventData {
   bookingPassword?: string;
   slots: Record<string, string>;
   streamLink?: string;
+  title?: string;
 }

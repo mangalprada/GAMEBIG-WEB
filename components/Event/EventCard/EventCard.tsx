@@ -97,12 +97,16 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
             </section>
           </div>
         </div>
-
         {/** Share Event */}
         <ShareEventLink
           link={`https://gamebig.in/page/${data.pageId}/events/${data._id}`}
           game={games[data.gameCode].shortName}
         />
+      </div>
+      <div className="flex justify-center mb-2">
+        <span className="text-base md:text-xl font-semibold text-center text-green-500">
+          {data.title}
+        </span>
       </div>
 
       {/** Event Contents */}

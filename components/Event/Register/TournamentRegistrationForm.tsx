@@ -131,7 +131,14 @@ export default function CustomRoomRegistrationForm({
     }
   };
   const addPlayer = () => {
-    if (!currentUser.inGameId && !currentUser.inGameName) {
+    if (
+      !currentUser.name &&
+      !currentUser.username &&
+      !currentUser.uid &&
+      !currentUser.photoURL &&
+      !currentUser.inGameId &&
+      !currentUser.inGameName
+    ) {
       openSnackBar({
         message: 'Please Add In Game Details',
         label: 'No In Game Details Found',

@@ -43,6 +43,7 @@ moduleExports = withPWA({
     BASE_URL: process.env.BASE_URL,
     MONGODB_URI: process.env.MONGODB_URI,
     DB_NAME: process.env.DB_NAME,
+    PUSHER_BEAM_INSTANCE_ID: process.env.PUSHER_BEAM_INSTANCE_ID,
   },
 });
 

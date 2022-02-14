@@ -45,9 +45,10 @@ function useProviderNotification() {
 
   useEffect(() => {
     try {
-      if (!userData.username) return;
+      const { PUSHER_BEAM_INSTANCE_ID } = process.env;
+      if (!userData.username || !PUSHER_BEAM_INSTANCE_ID) return;
       const beamsClient = new PusherPushNotifications.Client({
-        instanceId: '6c86d5cf-7468-4ffe-9242-73fc1cec1c85',
+        instanceId: PUSHER_BEAM_INSTANCE_ID,
       });
       beamsClient
         .start()

@@ -43,7 +43,7 @@ const Comment = ({
   }
 
   async function updateComment() {
-    //TODO
+    //todo
     try {
       axios.put(`${BASE_URL}/api/commentOnPost`, {
         params: { _id, postId },

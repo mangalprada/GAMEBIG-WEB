@@ -109,6 +109,12 @@ export default function Home() {
                     {notice.data.password}
                   </span>
                 </section>
+                <section>
+                  <h2 className="font-semibold text-gray-500">Slot</h2>
+                  <span className="text-gray-200 text-center font-semibold tracking-wide bg-slate-700 px-4 py-0.5 rounded-md">
+                    {notice.data.slotNumber}
+                  </span>
+                </section>
               </div>
               <div
                 onClick={(e) => {

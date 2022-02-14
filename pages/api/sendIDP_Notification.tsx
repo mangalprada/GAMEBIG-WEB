@@ -36,13 +36,16 @@ async function addNotification(uid: string, data: any, type: string) {
 export default async function handler(req: any, res: any) {
   const { data, type } = req.body;
   const participatingteams = await getParticipantsByEventId(data.eventId);
-  let users: any = [];
+
   if (participatingteams.length > 0) {
-    await participatingteams.map((participant: any) => {
-      users = [...users, ...participant.users];
-    });
-    await users.map(async (user: any) => {
-      await addNotification(user.uid, data, type);
+    await participatingteams.map(async (team: any) => {
+      await team.users.map(async (user: any) => {
+        await addNotification(
+          user.uid,
+          { ...data, slotNumber: team.slotNumber },
+          type
+        );
+      });
     });
     return res.json({
       success: true,

@@ -91,7 +91,7 @@ export default function Event() {
   const TabsForOthers = [
     { key: 1, label: 'Register' },
     { key: 3, label: 'Participants' },
-    { key: 4, label: 'Need Help' },
+    { key: 4, label: 'Contacts' },
   ];
 
   return (

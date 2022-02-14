@@ -29,7 +29,21 @@ export default function SendNotification({
     });
   };
 
-  const sendNotification = async () => {};
+  const sendNotification = async () => {
+    const { pageId, pageName, startTime } = eventData;
+    await axios.put(`${BASE_URL}/api/sendIDP_Notification`, {
+      data: {
+        roomId,
+        password,
+        eventId: eventData._id,
+        eventType: eventData.type,
+        pageId,
+        pageName,
+        startTime,
+      },
+      type: 'ID_PASSWORD',
+    });
+  };
 
   const onBtnClickHandler = () => {
     updateTournamnet();

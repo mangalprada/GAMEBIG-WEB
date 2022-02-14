@@ -7,9 +7,6 @@ export const validationSchema = yup.object({
   tier: yup.string(),
   noOfSlots: yup.number().moreThan(1),
   startTime: yup.date(),
-  // .required('Write a small description about this match'),
   prize: yup.string(),
   entryFee: yup.number(),
 });
-
-//todo

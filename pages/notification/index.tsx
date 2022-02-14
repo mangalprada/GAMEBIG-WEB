@@ -59,8 +59,8 @@ export default function Home() {
           return (
             <div
               className={
-                ' rounded-sm py-2 px-3 my-0.5 bg-slate-900 ' +
-                (notice.isSeen ? ' ' : 'ring ring-gray-600 ')
+                ' rounded-sm py-2 px-3 bg-slate-900 ' +
+                (notice.isSeen ? ' my-0.5 ' : 'ring ring-gray-600 my-1 ')
               }
               key={index}
               onClick={() => handleClick(notice.type)}

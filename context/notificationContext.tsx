@@ -14,51 +14,69 @@ function useProviderNotification() {
   const [notices, setNotices] = useState<Notification[]>([]);
   const [unseen, setUnseen] = useState<number>(0);
 
-  const fetchNotices = () => {
-    try {
-      db.collection('users')
-        .doc(userData.uid)
-        .collection('notifications')
-        .onSnapshot((snapshots) => {
-          const tempNotices: Notification[] = [];
-          let tempUnseen = 0;
-          snapshots.forEach((doc) => {
-            const notice = doc.data() as Notification;
-            const { isSeen } = notice;
-            if (!isSeen) {
-              tempUnseen += 1;
-            }
-            tempNotices.push({ ...notice, docId: doc.id });
-          });
-          setNotices(tempNotices);
-          setUnseen(tempUnseen);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const fetchNotices = () => {
+      try {
+        db.collection('users')
+          .doc(userData.uid)
+          .collection('notifications')
+          .orderBy('createdAt', 'desc')
+          .onSnapshot((snapshots) => {
+            const tempNotices: Notification[] = [];
+            let tempUnseen = 0;
+            snapshots.forEach((doc) => {
+              const notice = doc.data() as Notification;
+              const { isSeen } = notice;
+              if (!isSeen) {
+                tempUnseen += 1;
+              }
+              tempNotices.push({ ...notice, docId: doc.id });
+            });
+            setNotices(tempNotices);
+            setUnseen(tempUnseen);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
     if (userData.uid) fetchNotices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData.uid]);
 
   useEffect(() => {
     try {
-      const { PUSHER_BEAM_INSTANCE_ID } = process.env;
-      if (!userData.username || !PUSHER_BEAM_INSTANCE_ID) return;
+      if (!process || !process.env.PUSHER_BEAM_INSTANCE_ID) {
+        return;
+      }
       const beamsClient = new PusherPushNotifications.Client({
-        instanceId: PUSHER_BEAM_INSTANCE_ID,
+        instanceId: process.env.PUSHER_BEAM_INSTANCE_ID,
       });
+
+      // Check if the Beams user matches the user that is currently logged in
       beamsClient
-        .start()
-        .then(() => beamsClient.addDeviceInterest('hello'))
-        .then(() => console.log('Successfully registered and subscribed!'))
+        .getUserId()
+        .then((userId) => {
+          if (userData.uid && userId && userId !== userData.uid) {
+            // Unregister for notifications
+            return beamsClient.stop();
+          }
+          return;
+        })
         .catch(console.error);
+
+      const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
+        url: `${process.env.BASE_URL}/api/beamsToken`,
+      });
+      // Associating the device with the user when they log in and enable notifications
+      if (userData.uid)
+        beamsClient
+          .start()
+          .then(() => beamsClient.setUserId(userData.uid, beamsTokenProvider))
+          .then(() => console.log('Successfully registered and subscribed!'))
+          .catch(console.error);
     } catch (err) {
       console.log(err);
     }
-  }, [userData.username]);
+  }, [userData.uid]);
   return { notices, unseen };
 }
 

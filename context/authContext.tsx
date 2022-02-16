@@ -5,6 +5,7 @@ import localforage from 'localforage';
 import firebase from '../firebase/firebaseClient';
 import { UserData } from '../utilities/types';
 import { getUserData } from '@/libs/user';
+import * as PusherPushNotifications from '@pusher/push-notifications-web';
 
 const authContext = createContext({
   userData: {} as UserData,
@@ -34,6 +35,12 @@ function useProviderAuth() {
     localforage.removeItem('user');
     nookies.destroy(undefined, 'token');
     setAuthPageNumber(1);
+    if (process && process.env.PUSHER_BEAM_INSTANCE_ID) {
+      const beamsClient = new PusherPushNotifications.Client({
+        instanceId: process.env.PUSHER_BEAM_INSTANCE_ID,
+      });
+      beamsClient.stop().catch(console.error);
+    }
   };
 
   const handleSignIn = async (user: firebase.User) => {

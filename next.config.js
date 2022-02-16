@@ -9,6 +9,7 @@ const withTM = require('next-transpile-modules')([
 moduleExports = withPWA({
   pwa: {
     dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
     maximumFileSizeToCacheInBytes: 5000000,
   },
   outputFileTracing: false,
@@ -44,6 +45,7 @@ moduleExports = withPWA({
     MONGODB_URI: process.env.MONGODB_URI,
     DB_NAME: process.env.DB_NAME,
     PUSHER_BEAM_INSTANCE_ID: process.env.PUSHER_BEAM_INSTANCE_ID,
+    PUSHER_BEAM_SECRET_KEY: process.env.PUSHER_BEAM_SECRET_KEY,
   },
 });
 

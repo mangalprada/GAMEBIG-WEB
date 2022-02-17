@@ -56,7 +56,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
       {/** Profile photo and Edit button */}
       <div className="p-4">
         <div className="flex w-full">
-          <div className="flex flex-1 -mt-20">
+          <div className="flex flex-1 md:-mt-28 -mt-24 md:ml-4 ">
             <ProfileAvatar photoURL={userData.photoURL} />
           </div>
           {userData.username === user.username ? (

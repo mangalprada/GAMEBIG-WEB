@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, ChangeEvent, useRef } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import LoadingLottie from '../Loaders/Dots';
 import { useAuth } from '@/context/authContext';
 import ProfileAvatar from './ProfileAvatar';
 import firebase, { storage } from 'firebase/firebaseClient';

@@ -9,7 +9,7 @@ const ProfileAvatar: FC<Props> = ({ photoURL }: Props) => {
   return (
     <div
       className={
-        'rounded-full relative h-36 w-36 border-4 bg-black border-black ' +
+        'rounded-full relative h-40 w-40 md:h-48 md:w-48  border-4 bg-black border-black ' +
         'flex flex-col justify-center'
       }
     >

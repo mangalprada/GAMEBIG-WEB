@@ -96,6 +96,13 @@ export default function CustomRoomRegistrationForm({
           },
         },
       });
+      if (Notification.permission !== 'granted') {
+        openSnackBar({
+          label: 'Notification Permission Required',
+          message: 'Please allow notifications to receive ROOM ID and PASSWORD',
+          type: 'warning',
+        });
+      }
       setBookingdetails(data);
       setIsRegistered(true);
     },

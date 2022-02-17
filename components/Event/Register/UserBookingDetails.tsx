@@ -72,7 +72,7 @@ const UserBookingDetails = ({
         <GamersInfoList gamers={bookingDetails.users} />
       ) : null}
       <span
-        className="text-center text-sm text-gray-400 cursor-pointer mt-10"
+        className="text-center text-base text-gray-400 cursor-pointer mt-10"
         onClick={openModal}
       >
         Cancel Booking

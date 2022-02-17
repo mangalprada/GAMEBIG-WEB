@@ -79,7 +79,7 @@ export default function CustomRoomRegistrationForm({
       const data = {
         createdAt: new Date(),
         eventId: eventData._id,
-        slotNumber: Number(Number(currentSlotNumber)),
+        slotNumber: Number(currentSlotNumber),
         phoneNumber,
         teamName,
         users: [{ uid, name, photoURL, username }],

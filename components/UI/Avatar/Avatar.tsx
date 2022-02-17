@@ -26,7 +26,6 @@ const ProfileAvatar: FC<Props> = ({ photoURL }: Props) => {
           No Pic
         </span>
       )}
-      <div className="absolute"></div>
     </div>
   );
 };

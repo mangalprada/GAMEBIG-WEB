@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, ChangeEvent, useRef } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { useAuth } from '@/context/authContext';
 import Avatar from './Avatar';
 import firebase, { storage } from 'firebase/firebaseClient';
 import Modal from '../Modal/Modal';

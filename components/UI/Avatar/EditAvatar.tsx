@@ -160,7 +160,7 @@ const EditAvatar = ({ onUpload }: Props) => {
       <Modal isOpen={isModalOpen}>
         <div className="flex flex-col mx-auto px-4 md:px-16 mt-4">
           <div className="flex w-full justify-between items-center">
-            <TextButton type="normal" name="Cancel" onClick={closeModal} />
+            <TextButton type="fail" name="Cancel" onClick={closeModal} />
             <FixedButton name="Upload" onClick={handleUploadClick} />
           </div>
           <ReactCrop
@@ -170,10 +170,10 @@ const EditAvatar = ({ onUpload }: Props) => {
             onChange={(c) => setCrop(c)}
             onComplete={(c) => setCompletedCrop(c)}
           />
-          <span className="font-sans font-semibold text-center text-xl text-gray-300 my-8">
-            Preview
-          </span>
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center my-10 py-4 justify-center bg-slate-700 rounded-md">
+            <span className="font-sans font-semibold text-center text-xl text-gray-50 my-4">
+              Preview
+            </span>
             <canvas
               ref={previewCanvasRef}
               style={{

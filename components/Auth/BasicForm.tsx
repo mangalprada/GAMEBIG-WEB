@@ -68,7 +68,10 @@ function BasicForm({ setData }: Props) {
       }
     >
       <div className="flex justify-center">
-        <EditAvatar />
+        <EditAvatar
+          uploadLocation={`/users/profilePic/${userData.uid}`}
+          initialPhotoURL={userData.photoURL}
+        />
       </div>
       <form className="flex flex-col justify-center ">
         <FormInput

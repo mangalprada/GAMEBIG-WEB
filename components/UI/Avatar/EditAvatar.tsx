@@ -2,16 +2,19 @@ import { useCallback, useEffect, useState, ChangeEvent, useRef } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { useAuth } from '@/context/authContext';
-import ProfileAvatar from './ProfileAvatar';
+import Avatar from './Avatar';
 import firebase, { storage } from 'firebase/firebaseClient';
 import Modal from '../Modal/Modal';
 import FixedButton from '../Buttons/FixedButton';
 import TextButton from '../Buttons/TextButton';
 
-type Props = { onUpload?: (url: string) => void };
+type Props = {
+  initialPhotoURL?: string;
+  onUpload?: (url: string) => void;
+  uploadLocation: string;
+};
 
-const EditAvatar = ({ onUpload }: Props) => {
-  const { userData } = useAuth();
+const EditAvatar = ({ onUpload, uploadLocation, initialPhotoURL }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [src, setSrc] = useState<any>('');
   const imgRef = useRef<any>(null);
@@ -25,23 +28,24 @@ const EditAvatar = ({ onUpload }: Props) => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const { setUserData } = useAuth();
-
   const onSelectFile = (e: ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener('load', () => setSrc(reader.result));
       reader.readAsDataURL(target.files[0]);
+      if (target.files[0].name.endsWith('.gif')) {
+        setLoading(true);
+        uploadPicture(target.files[0]);
+        return;
+      }
       setIsModalOpen(true);
     }
   };
 
   const uploadPicture = (file: Blob) => {
     try {
-      const uploadTask = storage
-        .ref(`/users/profilePic/${userData.uid}`)
-        .put(file);
+      const uploadTask = storage.ref(uploadLocation).put(file);
       uploadTask.on(
         'state_changed',
         (snapshot) => {
@@ -62,7 +66,6 @@ const EditAvatar = ({ onUpload }: Props) => {
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            setUserData({ ...userData, photoURL: downloadURL });
             if (onUpload) onUpload(downloadURL);
             setLoading(false);
           });
@@ -131,7 +134,7 @@ const EditAvatar = ({ onUpload }: Props) => {
   return (
     <div className="flex flex-col items-center">
       <div>
-        <ProfileAvatar photoURL={userData.photoURL} />
+        <Avatar photoURL={initialPhotoURL} />
         <div className="fixed mt-[-5.6rem] ml-6">
           {loading ? (
             <div className="bg-slate-900 rounded">

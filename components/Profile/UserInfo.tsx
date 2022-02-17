@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { UserData } from '../../utilities/types';
 import TextButton from '../UI/Buttons/TextButton';
 import { useRouter } from 'next/router';
-import ProfileAvatar from '../UI/Avatar/ProfileAvatar';
+import Avatar from '../UI/Avatar/Avatar';
 import CakeIcon from '../UI/Icons/ProfileIcons/CakeIcon';
 import LocationIcon from '../UI/Icons/EventIcons/LocationIcon';
 import EmailIcon from '../UI/Icons/ProfileIcons/EmailIcon';
@@ -57,7 +57,7 @@ const UserInfo: FC<Props> = ({ userData }: Props) => {
       <div className="p-4">
         <div className="flex w-full">
           <div className="flex flex-1 md:-mt-28 -mt-24 md:ml-4 ">
-            <ProfileAvatar photoURL={userData.photoURL} />
+            <Avatar photoURL={userData.photoURL} />
           </div>
           {userData.username === user.username ? (
             <TextButton

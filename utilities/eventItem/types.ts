@@ -14,6 +14,7 @@ export interface EventFormData {
   accessibility: string;
   streamLink?: string;
   title?: string;
+  pageDisplayPicture?: string;
 }
 
 export interface EventData {
@@ -36,4 +37,5 @@ export interface EventData {
   slots: Record<string, string>;
   streamLink?: string;
   title?: string;
+  pageDisplayPicture?: string;
 }

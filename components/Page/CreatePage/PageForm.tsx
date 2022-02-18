@@ -50,7 +50,11 @@ function CreatePageForm({ pageData }: Props) {
         updatePage(value, pageData.id);
         router.push(`/page/${pageData.id}`);
       } else {
-        const pageId = await addPage({ ...value, admins: [userData.uid] });
+        const pageId = await addPage({
+          ...value,
+          displayPicture: '',
+          admins: [userData.uid],
+        });
         if (pageId) {
           await addPageIdtoAdminUser(userData.uid, pageId);
           setUserData({ ...userData, linkedPageIds: [pageId] });

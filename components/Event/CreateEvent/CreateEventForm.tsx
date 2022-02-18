@@ -21,12 +21,14 @@ export default function CreateEventForm({
   oldValues,
   pageId,
   pageName,
+  pageDisplayPicture,
 }: {
   onCancel: () => void;
   gameCode: string;
   oldValues?: EventData;
   pageId?: string;
   pageName?: string;
+  pageDisplayPicture?: string;
 }) {
   const { openSnackBar } = useUI();
   async function updateEvent(_id: string, data: EventFormData) {
@@ -43,6 +45,7 @@ export default function CreateEventForm({
         gameCode,
         pageId,
         pageName,
+        pageDisplayPicture,
         createdAt: new Date(),
       },
     });

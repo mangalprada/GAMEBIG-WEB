@@ -54,6 +54,7 @@ const EventCardWithStream = ({ event }: { event: EventData }) => {
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
           <EventCardAvatar
+            photoURL={event.pageDisplayPicture}
             content={event.pageName[0]}
             onclick={() => openLinkedpage(event.pageId)}
           />

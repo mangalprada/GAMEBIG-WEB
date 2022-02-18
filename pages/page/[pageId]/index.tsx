@@ -111,6 +111,7 @@ export default function Events() {
                       gameCode={gameCode}
                       pageId={pageData?.id}
                       pageName={pageData.name}
+                      pageDisplayPicture={pageData.displayPicture}
                     />
                   ),
                 }[pageNumber]

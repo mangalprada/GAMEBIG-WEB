@@ -13,7 +13,7 @@ const Icon: FC<Props> = ({ size, onClick }: Props) => {
       viewBox="0 0 24 24"
       width={size}
       fill="#000000"
-      className="cursor-pointer fill-current hover:text-gray-50 text-gray-400"
+      className="cursor-pointer fill-current text-gray-400"
     >
       <path d="M0 0h24v24H0V0z" fill="none" />
       <circle cx="12" cy="12" r="3" />

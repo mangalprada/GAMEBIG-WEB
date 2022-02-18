@@ -171,23 +171,8 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
             styles={'fill-current text-yellow-500 w-4 h-4 md:w-5 md:h-5'}
           />
         </EventCardRowItem>
-
-        {/** Registration Close by */}
-        <section className="col-span-2 flex flex-wrap justify-center mx-3">
-          <span
-            className={
-              'text-gray-300 text-sm font-sans font-medium ml-3 ' +
-              'flex flex-col justify-center text-center tracking-wide'
-            }
-          >
-            {`Registration open till      
-          ${getDecoratedTime(data.startTime, -10)}, ${getDecoratedDate(
-              data.startTime
-            )}`}
-          </span>
-        </section>
       </div>
-      <div className="flex flex-row justify-between items-center md:mx-20 mx-8">
+      <div className="flex flex-row justify-between items-center my-2 md:mx-20 mx-8">
         <TextButton
           name="DETAILS"
           type="normal"

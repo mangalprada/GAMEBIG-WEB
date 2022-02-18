@@ -48,10 +48,12 @@ export default function DetailsAsParticipant({
 
       <div className="flex flex-row justify-between space-x-5 mx-3 mb-2">
         <div className="flex flex-row items-center space-x-5 mx-3">
-          <EventCardAvatar
-            content={data?.pageName?.charAt(0)}
-            onclick={openLinkedPage}
-          />
+          <div className="w-6 h-6 sm:w-8 sm:h-8">
+            <EventCardAvatar
+              content={data?.pageName?.charAt(0)}
+              onclick={openLinkedPage}
+            />
+          </div>
           <h1
             className="text-indigo-600 text-xl font-semibold flex my-auto hover:underline cursor-pointer"
             onClick={openLinkedPage}

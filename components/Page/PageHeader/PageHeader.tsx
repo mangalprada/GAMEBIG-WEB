@@ -5,6 +5,7 @@ import { PageFormData } from '@/utilities/page/types';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';
 import { useAuth } from '@/context/authContext';
+import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
 
 type Props = {
   data: PageFormData;
@@ -49,13 +50,8 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
       <div className="flex flex-row px-6 pt-2 md:pt-4 justify-between">
         <div className="flex items-center">
           {/** Avatar Logo */}
-          <div
-            className="flex w-12 h-12 md:w-16 md:h-16 bg-indigo-600 rounded-full items-center my-auto cursor-pointer"
-            onClick={goToOrg}
-          >
-            <span className="self-center text-2xl md:text-4xl font-bold tracking-wide text-gray-900 font-sans m-auto">
-              {data.name[0]}
-            </span>
+          <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32">
+            <EventCardAvatar content={data.name[0]} onclick={goToOrg} />
           </div>
           <div className="ml-1.5 md:ml-5">
             {/** Org Name */}

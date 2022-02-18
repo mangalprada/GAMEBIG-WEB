@@ -53,10 +53,12 @@ const EventCardWithStream = ({ event }: { event: EventData }) => {
     <div className="my-1 w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto bg-slate-900 rounded-md border-4 md:border-8 border-slate-900">
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
-          <EventCardAvatar
-            content={event.pageName[0]}
-            onclick={() => openLinkedpage(event.pageId)}
-          />
+          <div className="w-6 h-6 sm:w-8 sm:h-8">
+            <EventCardAvatar
+              content={event.pageName[0]}
+              onclick={() => openLinkedpage(event.pageId)}
+            />
+          </div>
           <div>
             <span
               className="text-gray-300  text-xs sm:text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"

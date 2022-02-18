@@ -20,7 +20,7 @@ const EventCardAvatar: FC<Props> = ({
   return (
     <div>
       <div
-        className="relative items-center w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 m-auto"
+        className="relative w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 m-auto"
         onClick={onclick}
       >
         {photoURL ? (

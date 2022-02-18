@@ -76,7 +76,7 @@ const PageHeader: FC<Props> = ({ data }: Props) => {
           <div className="ml-1.5 md:ml-7">
             {/** Org Name */}
             <span
-              className="text-gray-300 text-xl md:text-3xl cursor-pointer
+              className="text-gray-300 text-lg sm:text-xl md:text-3xl cursor-pointer
               font-semibold font-sans ml-1 hover:underline"
               onClick={goToOrg}
             >

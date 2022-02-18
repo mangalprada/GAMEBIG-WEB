@@ -11,19 +11,17 @@ type Props = {
 const EventCardAvatar: FC<Props> = ({ content, onclick, photoURL }: Props) => {
   return (
     <div
-      className="flex flex-col items-center w-6 h-6 sm:w-8 sm:h-8 m-auto"
+      className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 m-auto"
       onClick={onclick}
     >
       {photoURL ? (
-        <div className="realtive w-6 h-6 sm:w-8 sm:h-8">
-          <Image
-            className="rounded-full"
-            src={photoURL}
-            alt="Org Profile Pic"
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
+        <Image
+          className="rounded-full"
+          src={photoURL}
+          alt="Org Profile Pic"
+          layout="fill"
+          objectFit="cover"
+        />
       ) : (
         <div className="flex justify-center m-auto w-full h-full bg-indigo-600 rounded-full cursor-pointer">
           <span className="self-center text:lg sm:text-2xl font-bold tracking-wide text-gray-900 font-sans">

@@ -63,7 +63,7 @@ export default function GameItem({
               src={games[gameCode].imageSource}
               alt="Picture of Game"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </div>
         )}

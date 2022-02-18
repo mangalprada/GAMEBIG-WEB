@@ -30,7 +30,7 @@ const EventCardRowItem: FC<Partial<Props>> = ({
             <Image
               src={image}
               alt=""
-              objectFit="contain"
+              objectFit="cover"
               layout="fill"
               className="rounded-md"
             />

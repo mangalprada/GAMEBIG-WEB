@@ -90,7 +90,7 @@ const ProfileCard: FC<Props> = ({ user }) => {
             src={user.photoURL}
             alt="Profile Picture"
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             className="rounded-full cursor-pointer"
             onClick={onProfileCardClick}
           />

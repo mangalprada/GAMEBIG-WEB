@@ -99,7 +99,7 @@ const GameForm: FC<Props> = ({
               src={game.imageSource}
               alt="Picture of Game"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </div>
           <div

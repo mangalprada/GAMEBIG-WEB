@@ -1,6 +1,7 @@
 export interface PageFormData {
   id?: string;
   name: string;
+  displayPicture?: string;
   category: string;
   about: string;
   location: string;

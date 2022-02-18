@@ -1,8 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { db } from '../../../firebase/firebaseClient';
 import { EventData } from '../../../utilities/eventItem/types';
-import HourglassIcon from '@/components/UI/Icons/EventIcons/HourglassIcon';
 import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
 import EsportsIcon from '@/components/UI/Icons/EventIcons/EsportsIcon';
@@ -12,9 +10,7 @@ import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
 import TextButton from '@/components/UI/Buttons/TextButton';
-import FixedButton from '@/components/UI/Buttons/FixedButton';
 import EventCardRowItem from './EventCardRowItem';
-import { useAuth } from '@/context/authContext';
 import { games } from '@/utilities/GameList';
 import {
   getDecoratedDate,
@@ -64,12 +60,10 @@ const EventCard: FC<Props> = ({ eventId, slotNumber }: Props) => {
       {/** Header */}
       <div className="flex flex-nowrap justify-between px-8 content-center py-5">
         <div className="flex flex-row">
-          <div className="w-6 h-6 sm:w-8 sm:h-8">
-            <EventCardAvatar
-              content={event.pageName[0]}
-              onclick={openLinkedpage}
-            />
-          </div>
+          <EventCardAvatar
+            content={event.pageName[0]}
+            onclick={openLinkedpage}
+          />
           <div>
             <span
               className="text-gray-300 text-lg font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"

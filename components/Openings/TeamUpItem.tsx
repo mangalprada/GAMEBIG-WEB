@@ -111,7 +111,7 @@ export default function TeamUpItem({ data }: Props) {
                 src={data.photoURL}
                 alt="Picture"
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
                 className="rounded-full"
               />
             </div>

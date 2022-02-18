@@ -14,6 +14,7 @@ export default async function handler(req: any, res: any) {
         pageData = {
           id: pageId,
           admins: data.admins,
+          displayPicture: data.displayPicture,
           name: data.name,
           category: data.category,
           about: data.about,

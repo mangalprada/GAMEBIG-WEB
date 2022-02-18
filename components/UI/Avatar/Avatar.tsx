@@ -19,7 +19,7 @@ const ProfileAvatar: FC<Props> = ({ photoURL }: Props) => {
           src={photoURL}
           alt="User Profile Pic"
           layout="fill"
-          objectFit="contain"
+          objectFit="cover"
         />
       ) : (
         <span className="text-center tracking-wide text-gray-200 font-medium">

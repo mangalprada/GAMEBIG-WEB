@@ -107,7 +107,7 @@ const MobileMessageContainer: FC<Props> = ({
               src={receivingUser.photoURL}
               alt="Picture of a friend"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="rounded-full"
             />
           </div>

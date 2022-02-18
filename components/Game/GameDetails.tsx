@@ -115,7 +115,7 @@ const GameDetails: FC<Props> = ({
               src={games[gameCode].imageSource}
               alt="Game Logo"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
             />
           </section>
           <h5 className="text-indigo-500 text-xl font-semibold tracking-wide my-auto cursor-default">

@@ -50,7 +50,7 @@ const EditAvatar = ({ onUpload, uploadLocation, initialPhotoURL }: Props) => {
         (snapshot) => {
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(Math.ceil(progress));
+          setProgress(Math.floor(progress));
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
               console.log('Upload is paused');
@@ -134,7 +134,7 @@ const EditAvatar = ({ onUpload, uploadLocation, initialPhotoURL }: Props) => {
     <div className="flex flex-col items-center">
       <div>
         <Avatar photoURL={initialPhotoURL} />
-        <div className="fixed mt-[-5.6rem] ml-6">
+        <div className="fixed mt-[-5.6rem] ml-6 md:ml-12">
           {loading ? (
             <div className="bg-slate-900 rounded">
               <span className="text-lg font-sans font-bold text-indigo-600 mx-1 my-0.5">

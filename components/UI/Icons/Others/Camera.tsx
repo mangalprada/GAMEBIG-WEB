@@ -2,17 +2,18 @@ import { FC } from 'react';
 
 type Props = {
   size: number;
-  onClick: () => void;
+  onClick?: (args: any) => void;
 };
 
 const Icon: FC<Props> = ({ size, onClick }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="24px"
+      height={size}
       viewBox="0 0 24 24"
-      width="24px"
+      width={size}
       fill="#000000"
+      className="cursor-pointer fill-current hover:text-gray-50 text-gray-400"
     >
       <path d="M0 0h24v24H0V0z" fill="none" />
       <circle cx="12" cy="12" r="3" />

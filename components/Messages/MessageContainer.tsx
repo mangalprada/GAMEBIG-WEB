@@ -87,7 +87,7 @@ export default function MessageContainer({
               src={receivingUser.photoURL}
               alt="Picture of a friend"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="rounded-full"
             />
           </div>

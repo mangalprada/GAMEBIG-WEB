@@ -82,7 +82,7 @@ export default function SecondaryNavigationItems() {
                     src={userData.photoURL}
                     alt="Picture of a friend"
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="cover"
                     className="rounded-full"
                   />
                 </div>

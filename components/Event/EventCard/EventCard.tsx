@@ -75,12 +75,10 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       {/** Header */}
       <div className="flex flex-nowrap justify-between items-center px-8 content-center py-5">
         <div className="flex flex-row">
-          <div className="w-6 h-6 sm:w-8 sm:h-8">
-            <EventCardAvatar
-              content={data.pageName[0]}
-              onclick={openLinkedpage}
-            />
-          </div>
+          <EventCardAvatar
+            content={data.pageName[0]}
+            onclick={openLinkedpage}
+          />
           <div>
             <span
               className="text-gray-300 text-xs sm:text-sm font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"

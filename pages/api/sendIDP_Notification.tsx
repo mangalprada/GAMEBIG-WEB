@@ -55,7 +55,7 @@ async function sendPopupNotification(userId: string, data: any) {
               data.password
             } is PASSWORD and ${data.slotNumber} is SLOT for ${data.pageName} ${
               data.eventType
-            } starting at${getDecoratedTime(
+            } starting at ${getDecoratedTime(
               data.startTime
             )}, ${getDecoratedDate(data.startTime)} . Enjoy the match🥳🎉`,
           },

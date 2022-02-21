@@ -94,7 +94,7 @@ const RespondToEvent: FC<Props> = ({
           {
             'Custom Room': (
               <CustomRoomRegistrationForm
-                eventData={eventData}
+                eventId={eventData._id}
                 teamSize={4}
                 setTeamId={setTeamId}
                 setIsRegistered={setIsRegistered}

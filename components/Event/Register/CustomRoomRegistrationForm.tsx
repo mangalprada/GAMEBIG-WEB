@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { useAuth } from '../../../context/authContext';
 import * as yup from 'yup';
 import { EventData } from '@/utilities/eventItem/types';
@@ -8,12 +8,13 @@ import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import axios from 'axios';
 import SlotsGrid from '../CreateEvent/SlotsGrid';
 import { useUI } from '@/context/uiContext';
+import LurkingCat from '@/components/UI/Loaders/LurkingCat';
 
 const { BASE_URL } = process.env;
 
 interface Props {
   teamSize: number;
-  eventData: EventData;
+  eventId: string;
   setIsRegistered: (val: boolean) => void;
   setTeamId: Dispatch<SetStateAction<string>>;
   setBookingdetails: Dispatch<SetStateAction<any>>;
@@ -46,18 +47,33 @@ function loadScript(src: string) {
 }
 
 export default function CustomRoomRegistrationForm({
-  eventData,
+  eventId,
   setIsRegistered,
   setBookingdetails,
 }: Props) {
   const {
     userData: { uid, name, photoURL, username },
   } = useAuth();
+  const [eventData, setEventData] = useState<EventData>();
 
   const { openSnackBar } = useUI();
 
-  const [slots, setSlots] = useState(eventData.slots);
+  const [slots, setSlots] = useState(null);
   const [currentSlotNumber, setCurrentSlotnumber] = useState<string>('');
+
+  useEffect(() => {
+    const getEventData = async () => {
+      if (eventId) {
+        const response = await axios.get(
+          `${BASE_URL}/api/events/?id=${eventId}`
+        );
+        setEventData(response.data.data);
+        setSlots(response.data.data.slots);
+      }
+    };
+    getEventData();
+  }, [eventId]);
+
   const formik = useFormik({
     initialValues: {
       phoneNumber: '',
@@ -67,6 +83,7 @@ export default function CustomRoomRegistrationForm({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      if (!eventData) return;
       if (currentSlotNumber === '') {
         openSnackBar({
           label: 'Select A Slot!',
@@ -78,7 +95,7 @@ export default function CustomRoomRegistrationForm({
       const { teamName, phoneNumber } = values;
       const data = {
         createdAt: new Date(),
-        eventId: eventData._id,
+        eventId: eventId,
         slotNumber: Number(currentSlotNumber),
         phoneNumber,
         teamName,
@@ -86,7 +103,7 @@ export default function CustomRoomRegistrationForm({
       };
       await axios
         .put(`${BASE_URL}/api/events`, {
-          _id: eventData._id,
+          _id: eventId,
           data: {
             $set: {
               noOfSlots: eventData.noOfSlots - 1,
@@ -117,7 +134,8 @@ export default function CustomRoomRegistrationForm({
   });
 
   function slotSelectHandler(slot: string) {
-    const newSlots = { ...slots };
+    if (!slots) return;
+    const newSlots = slots as any;
     if (slots[slot] === 'available') {
       newSlots[slot] =
         newSlots[slot] === 'available' ? 'selected' : 'available';
@@ -128,6 +146,8 @@ export default function CustomRoomRegistrationForm({
       setSlots(newSlots);
     }
   }
+
+  if (!eventData) return <LurkingCat height={150} width={150} />;
 
   return (
     <div
@@ -155,11 +175,13 @@ export default function CustomRoomRegistrationForm({
           error={Boolean(formik.errors.phoneNumber)}
           errorMessage={formik.errors.phoneNumber}
         />
-        <SlotsGrid
-          message="Pick your slot number"
-          slotSelectHandler={slotSelectHandler}
-          slots={slots}
-        />
+        {slots ? (
+          <SlotsGrid
+            message="Pick your slot number"
+            slotSelectHandler={slotSelectHandler}
+            slots={slots}
+          />
+        ) : null}
       </form>
       <ResponsiveButton
         name="Book My Slot"

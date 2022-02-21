@@ -23,7 +23,6 @@ const EventTabs = () => {
     text-gray-300 font-bold font-sans text-sm sm:text-lg flex items-center justify-evenly"
     >
       <Tab label="Upcoming" href="/events" />
-      <Tab label="Live" href="/live" />
       <Tab label="Past" href="/past" />
     </div>
   );

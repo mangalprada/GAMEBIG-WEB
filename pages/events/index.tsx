@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/authContext';
 import ResponsiveButton from '@/components/UI/Buttons/ResponsiveButton';
 import EventTabs from '@/components/Event/others/EventTabs';
+import EventCardWithStream from '@/components/Event/EventCard/EventCardWithStream';
 const { BASE_URL } = process.env;
 
 async function getEvents(arg: string) {
@@ -46,9 +47,16 @@ const Home: NextPage = () => {
     }
   };
 
+  const EventItem = ({ event }: { event: EventData }) => {
+    if (event.streamLink) {
+      return <EventCardWithStream event={event} />;
+    }
+    return <EventCard key={event._id} data={event} isPageOwner={false} />;
+  };
+
   const allEvents = events
     ? events.map((eventItem: EventData) => (
-        <EventCard key={eventItem._id} data={eventItem} isPageOwner={false} />
+        <EventItem key={eventItem._id} event={eventItem} />
       ))
     : null;
 

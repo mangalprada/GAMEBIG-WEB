@@ -31,7 +31,7 @@ export async function getEvents(
   try {
     var d1 = new Date(),
       d2 = new Date(d1);
-    d2.setMinutes(d1.getMinutes() - 10);
+    d2.setMinutes(d1.getMinutes() - 50);
     // connect to the database
     let { db } = await connectToDatabase();
     // fetch the events

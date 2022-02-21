@@ -75,7 +75,7 @@ export default function CustomRoomRegistrationForm({
         });
         return;
       }
-      const { teamName, phoneNumber, inGameId, inGameName } = values;
+      const { teamName, phoneNumber } = values;
       const data = {
         createdAt: new Date(),
         eventId: eventData._id,
@@ -84,18 +84,25 @@ export default function CustomRoomRegistrationForm({
         teamName,
         users: [{ uid, name, photoURL, username }],
       };
-      axios.post(`${BASE_URL}/api/participants`, {
-        data,
-      });
-      axios.put(`${BASE_URL}/api/events`, {
-        _id: eventData._id,
-        data: {
-          $set: {
-            noOfSlots: eventData.noOfSlots - 1,
-            slots: { ...eventData.slots, [currentSlotNumber]: 'booked' },
+      await axios
+        .put(`${BASE_URL}/api/events`, {
+          _id: eventData._id,
+          data: {
+            $set: {
+              noOfSlots: eventData.noOfSlots - 1,
+              slots: { ...eventData.slots, [currentSlotNumber]: 'booked' },
+            },
           },
-        },
-      });
+        })
+        .then(() => {
+          axios.post(`${BASE_URL}/api/participants`, {
+            data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       if (Notification.permission !== 'granted') {
         openSnackBar({
           label: 'Notification Permission Required',

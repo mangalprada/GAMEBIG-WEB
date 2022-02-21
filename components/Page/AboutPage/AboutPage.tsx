@@ -32,10 +32,10 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
   const isInExplore = router.pathname.split('/').includes('explore');
   return (
     <div className="w-full mx-auto font-sans py-2 ">
-      <div className="flex flex-col md:flex-row items-center space-x-3 md:space-x-4 ml-1 mt-0.5 md:mt-2">
+      <div className="flex flex-row items-center space-x-3 justify-center">
         {pageData.phone && !isInExplore ? (
           <p
-            className="text-gray-500 text-xs font-semibold leading-tight mb-2 space-x-1 flex items-center"
+            className="text-gray-500 text-xs font-semibold leading-tight flex items-center"
             onMouseDown={() => {
               navigator.clipboard.writeText(pageData.phone);
               openSnackBar({
@@ -45,13 +45,12 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
               });
             }}
           >
-            <PhoneIcon onClick={() => {}} size={20} />
-            <span className="text-gray-400 text-sm">{pageData.phone}</span>
+            <PhoneIcon onClick={() => {}} size={24} />
           </p>
         ) : null}
         {pageData.email ? (
           <p
-            className="text-gray-500 text-xs font-semibold leading-tight mb-2 flex flex-row space-x-1"
+            className="text-gray-500 text-xs font-semibold leading-tight flex flex-row"
             onMouseDown={() => {
               navigator.clipboard.writeText(pageData.email);
               openSnackBar({
@@ -61,12 +60,9 @@ export default function AboutPage({ pageId }: { pageId?: string }) {
               });
             }}
           >
-            <EmailIcon size={18} className={'fill-current text-slate-500'} />
-            <span className="text-gray-400 text-sm">{pageData.email}</span>
+            <EmailIcon size={26} className={'fill-current text-slate-500'} />
           </p>
         ) : null}
-      </div>
-      <div className="flex flex-row items-center space-x-3 justify-center">
         {pageData.phone ? (
           <div
             onClick={() => {

@@ -147,7 +147,7 @@ export default function DetailsAsParticipant({
                   openSnackBar({
                     label: 'Copied!',
                     message: 'Room ID copied to clipboard',
-                    type: 'warning',
+                    type: 'success',
                   });
                 }
               }}
@@ -165,7 +165,7 @@ export default function DetailsAsParticipant({
                   openSnackBar({
                     label: 'Copied!',
                     message: 'Password copied to clipboard',
-                    type: 'warning',
+                    type: 'success',
                   });
                 }
               }}

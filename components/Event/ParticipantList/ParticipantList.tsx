@@ -37,7 +37,7 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
               <tr className="rounded-lg text-sm md:text-lg font-semibold text-indigo-500">
                 <th>Team</th>
                 <th>Slot</th>
-                {isPageOwner ? <th>Phone</th> : null}
+                {isPageOwner ? <th>WhatsApp</th> : null}
               </tr>
             </thead>
             <tbody className="text-lg font-sans text-gray-100 text-center">
@@ -57,7 +57,7 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {team.phoneNumber} <WhatsApp size={22} />
+                          <WhatsApp size={22} />
                         </a>
                       </td>
                     ) : null}

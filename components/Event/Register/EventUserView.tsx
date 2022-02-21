@@ -7,6 +7,7 @@ import { useAuth } from '@/context/authContext';
 import PromptToAuth from '@/components/Auth/PromptToAuth';
 import FormInput from '@/components/UI/Inputs/FormInput';
 import AboutPage from '@/components/Page/AboutPage/AboutPage';
+import SlotsGrid from '../CreateEvent/SlotsGrid';
 
 type Props = {
   eventData: EventData;
@@ -54,6 +55,11 @@ const RespondToEvent: FC<Props> = ({
         <span className="text-gray-100 font-sans text-xl md:text-lg">
           This event is fully Booked. Check some other event.
         </span>
+        <SlotsGrid
+          message="Slots Not Available"
+          slotSelectHandler={() => {}}
+          slots={eventData.slots}
+        />
       </div>
     );
 

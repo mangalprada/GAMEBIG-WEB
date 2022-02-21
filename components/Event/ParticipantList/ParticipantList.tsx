@@ -47,12 +47,12 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                     className="bg-gray-700 table-row h-10 border-b-2 border-gray-600 rounded-md space-y-1"
                     key={index}
                   >
-                    <td className="ml-6">{team.teamName}</td>
-                    <td className="ml-6">{team.slotNumber || 'NA'}</td>
+                    <td>{team.teamName}</td>
+                    <td>{team.slotNumber || 'NA'}</td>
                     {isPageOwner ? (
                       <td>
                         <a
-                          className="flex items-center gap-1 text-center ml-6 underline text-gray-50"
+                          className="flex justify-center"
                           href={`https://api.whatsapp.com/send?phone=+91${team.phoneNumber}`}
                           target="_blank"
                           rel="noopener noreferrer"

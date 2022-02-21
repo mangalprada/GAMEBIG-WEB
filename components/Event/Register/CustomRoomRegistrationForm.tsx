@@ -94,24 +94,25 @@ export default function CustomRoomRegistrationForm({
             },
           },
         })
-        .then(() => {
-          axios.post(`${BASE_URL}/api/participants`, {
+        .then(async () => {
+          await axios.post(`${BASE_URL}/api/participants`, {
             data,
           });
+
+          if (Notification.permission !== 'granted') {
+            openSnackBar({
+              label: 'Notification Permission Required',
+              message:
+                'Please allow notifications to receive ROOM ID and PASSWORD',
+              type: 'warning',
+            });
+          }
+          setBookingdetails(data);
+          setIsRegistered(true);
         })
         .catch((err) => {
           console.log(err);
         });
-
-      if (Notification.permission !== 'granted') {
-        openSnackBar({
-          label: 'Notification Permission Required',
-          message: 'Please allow notifications to receive ROOM ID and PASSWORD',
-          type: 'warning',
-        });
-      }
-      setBookingdetails(data);
-      setIsRegistered(true);
     },
   });
 

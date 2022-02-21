@@ -9,6 +9,7 @@ import axios from 'axios';
 import SlotsGrid from '../CreateEvent/SlotsGrid';
 import { useUI } from '@/context/uiContext';
 import LurkingCat from '@/components/UI/Loaders/LurkingCat';
+import LoadingLottie from '@/components/UI/Loaders/Dots';
 
 const { BASE_URL } = process.env;
 
@@ -59,6 +60,7 @@ export default function CustomRoomRegistrationForm({
   const { openSnackBar } = useUI();
 
   const [slots, setSlots] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentSlotNumber, setCurrentSlotnumber] = useState<string>('');
 
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function CustomRoomRegistrationForm({
         });
         return;
       }
+      setIsLoading(true);
       const { teamName, phoneNumber } = values;
       const data = {
         createdAt: new Date(),
@@ -130,6 +133,7 @@ export default function CustomRoomRegistrationForm({
         .catch((err) => {
           console.log(err);
         });
+      setIsLoading(false);
     },
   });
 
@@ -145,6 +149,14 @@ export default function CustomRoomRegistrationForm({
       setCurrentSlotnumber(slot);
       setSlots(newSlots);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="my-4 md:my-16">
+        <LoadingLottie height={100} width={200} />
+      </div>
+    );
   }
 
   if (!eventData) return <LurkingCat height={150} width={150} />;

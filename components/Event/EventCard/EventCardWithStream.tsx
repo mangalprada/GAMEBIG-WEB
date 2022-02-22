@@ -85,7 +85,11 @@ const EventCardWithStream = ({ event }: { event: EventData }) => {
       </div>
       {event.streamLink ? (
         <iframe
-          src={'https://www.youtube.com/embed/' + getVideoId(event.streamLink)}
+          src={
+            'https://www.youtube.com/embed/' +
+            getVideoId(event.streamLink) +
+            '?mute=1&autoplay=1'
+          }
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen

@@ -149,13 +149,36 @@ export default function TeamUpItem({ data }: Props) {
       </div>
 
       <div
-        className="flex justify-end mb-2 mt-1 mr-4"
+        className="flex justify-between items-center mb-2 mt-1 mx-4"
         onClick={handleCardClick}
       >
         {data.noOfJoinees ? (
           <span className="text-indigo-600 text-xs sm:text-sm font-medium tracking-wide hover:underline cursor-pointer">
             {`${data.noOfJoinees} Request`}
             {data.noOfJoinees > 1 ? 's' : ''}
+          </span>
+        ) : null}
+        {data.uid !== uid ? (
+          <span
+            className="text-white font-normal  text-lg py-1 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+            onClick={() => {
+              if (!uid) {
+                router.push('/');
+                return;
+              }
+              const stringifiedData: string = JSON.stringify({
+                username: data.username,
+                name: data.name,
+                photoURL: data.photoURL,
+                uid: data.uid,
+              });
+              router.push({
+                pathname: `/messages`,
+                query: { receiver: stringifiedData },
+              });
+            }}
+          >
+            Message
           </span>
         ) : null}
       </div>

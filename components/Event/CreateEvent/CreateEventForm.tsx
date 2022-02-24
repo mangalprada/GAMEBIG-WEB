@@ -187,6 +187,7 @@ export default function CreateEventForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <TimeDatePicker
                 name="startTime"
+                timeInterval={oldValues ? 1 : 30}
                 error={false}
                 label="Date and Time"
                 initialTime={formik.values.startTime}

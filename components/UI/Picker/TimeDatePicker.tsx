@@ -30,7 +30,7 @@ const NewDatePicker = ({
         showTimeSelect
         dateFormat="MMMM d, yyyy h:mm aa"
         selected={startDate}
-        timeIntervals={timeInterval || initialTime ? 1 : 30}
+        timeIntervals={timeInterval}
         onChange={(date) => {
           changeHandler(date as Date);
           setStartDate(date as Date);

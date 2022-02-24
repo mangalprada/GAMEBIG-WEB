@@ -2,16 +2,16 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 import * as PusherPushNotifications from '@pusher/push-notifications-web';
 import { db } from '../firebase/firebaseClient';
 import { useAuth } from './authContext';
-import { Notification } from '@/utilities/notification/type';
+import { NotificationType } from '@/utilities/notification/type';
 
 const notificationContext = createContext({
-  notices: [] as Notification[],
+  notices: [] as NotificationType[],
   unseen: 0,
 });
 
 function useProviderNotification() {
   const { userData } = useAuth();
-  const [notices, setNotices] = useState<Notification[]>([]);
+  const [notices, setNotices] = useState<NotificationType[]>([]);
   const [unseen, setUnseen] = useState<number>(0);
 
   useEffect(() => {
@@ -22,10 +22,10 @@ function useProviderNotification() {
           .collection('notifications')
           .orderBy('createdAt', 'desc')
           .onSnapshot((snapshots) => {
-            const tempNotices: Notification[] = [];
+            const tempNotices: NotificationType[] = [];
             let tempUnseen = 0;
             snapshots.forEach((doc) => {
-              const notice = doc.data() as Notification;
+              const notice = doc.data() as NotificationType;
               const { isSeen } = notice;
               if (!isSeen) {
                 tempUnseen += 1;

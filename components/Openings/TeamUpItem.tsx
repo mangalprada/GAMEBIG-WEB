@@ -159,9 +159,10 @@ export default function TeamUpItem({ data }: Props) {
           </span>
         ) : null}
         {data.uid !== uid ? (
-          <FixedButton
-            name="Message"
-            onClick={() => {
+          <span
+            className="text-white font-normal  text-lg py-0.5 md:py-1 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+            onClick={(event) => {
+              event.stopPropagation();
               if (!uid) {
                 router.push('/');
                 return;
@@ -177,7 +178,9 @@ export default function TeamUpItem({ data }: Props) {
                 query: { receiver: stringifiedData },
               });
             }}
-          />
+          >
+            Message
+          </span>
         ) : null}
       </div>
 

@@ -33,9 +33,11 @@ export default function Home() {
               {
                 {
                   ID_PASSWORD: <IDPassNotification notification={notice} />,
-                  JOIN_REQUEST: <JoinRequestNotification />,
-                  NEW_FOLLOWER: <FollowerNotification />,
-                  ORGANIZER_TEXT: <OrganizerText />,
+                  JOIN_REQUEST: (
+                    <JoinRequestNotification notification={notice} />
+                  ),
+                  NEW_FOLLOWER: <FollowerNotification notification={notice} />,
+                  ORGANIZER_TEXT: <OrganizerText notification={notice} />,
                 }[notice.type]
               }
             </div>

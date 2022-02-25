@@ -149,7 +149,7 @@ export default function TeamUpItem({ data }: Props) {
       </div>
 
       <div
-        className="flex justify-between items-center mb-2 mt-1 mx-4"
+        className="flex justify-between items-center mb-2 mt-1 mx-2 md:mx-4"
         onClick={handleCardClick}
       >
         {data.noOfJoinees ? (
@@ -160,7 +160,7 @@ export default function TeamUpItem({ data }: Props) {
         ) : null}
         {data.uid !== uid ? (
           <span
-            className="text-white font-normal  text-lg py-0.5 md:py-1 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+            className="text-white font-sans font-semibold text-base py-0.5 md:py-1 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
             onClick={(event) => {
               event.stopPropagation();
               if (!uid) {

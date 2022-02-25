@@ -3,6 +3,10 @@ import useSWR from 'swr';
 import { EventData } from '@/utilities/eventItem/types';
 import { TeamType } from '@/utilities/types';
 import WhatsApp from '@/components/UI/Icons/SocialIcons/WhatsApp';
+import {
+  getDecoratedDate,
+  getDecoratedTime,
+} from '@/utilities/functions/dateConvert';
 
 const { BASE_URL } = process.env;
 
@@ -53,7 +57,24 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                       <td>
                         <a
                           className="flex justify-center"
-                          href={`https://api.whatsapp.com/send?phone=+91${team.phoneNumber}`}
+                          href={`https://api.whatsapp.com/send?phone=+91${
+                            team.phoneNumber
+                          }&text=Hello Team ${team.teamName}!  
+ %0D %0DHere are the deatils of ${eventData.pageName} ${
+                            eventData.type
+                          } starting at ${getDecoratedTime(
+                            eventData.startTime
+                          )}, ${getDecoratedDate(eventData.startTime)}. 
+                          
+                           %0D %0D *_Room Id- ${
+                             eventData.roomId
+                           }_*%0D *_password- ${
+                            eventData.password
+                          }_* %0D *_Slot- ${
+                            team.slotNumber
+                          }_* %0D   %0D Winner must take screenshot to claim the reward.
+                          
+                          %0D %0D Enjoy the match🥳🎉`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

@@ -60,7 +60,7 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                           href={`https://api.whatsapp.com/send?phone=+91${
                             team.phoneNumber
                           }&text=Hello Team ${team.teamName}!  
- %0D %0DHere are the deatils of ${eventData.pageName} ${
+ %0DHere are the details of ${eventData.pageName} ${
                             eventData.type
                           } starting at ${getDecoratedTime(
                             eventData.startTime
@@ -72,9 +72,9 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                             eventData.password
                           }_* %0D *_Slot- ${
                             team.slotNumber
-                          }_* %0D   %0D Winner must take screenshot to claim the reward.
+                          }_* %0D   %0DWinner must take screenshot to claim the reward.
                           
-                          %0D %0D Enjoy the match🥳🎉`}
+                          %0DEnjoy the match🥳🎉`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

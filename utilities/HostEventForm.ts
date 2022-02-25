@@ -27,6 +27,7 @@ export const HostEventForm: Record<string, any> = {
       tier: 'T3',
       noOfSlots: 25,
       startTime: new Date(),
+      idpTime: new Date(),
       description: [
         {
           type: 'paragraph',
@@ -58,6 +59,7 @@ export const HostEventForm: Record<string, any> = {
       title: '',
       noOfSlots: 25,
       startTime: new Date(),
+      idpTime: new Date(),
       description: [
         {
           type: 'paragraph',
@@ -88,6 +90,7 @@ export const HostEventForm: Record<string, any> = {
       bookingPassword: '',
       noOfSlots: 12,
       startTime: new Date(),
+      idpTime: new Date(),
       description: [
         {
           type: 'paragraph',

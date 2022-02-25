@@ -6,6 +6,7 @@ export interface EventFormData {
   tier: string;
   noOfSlots: number;
   startTime: Date;
+  idpTime?: string;
   description: string;
   prize: string;
   entryFee: number;
@@ -25,6 +26,7 @@ export interface EventData {
   tier: string;
   noOfSlots: number;
   startTime: string;
+  idpTime?: string;
   description: string;
   entryFee: number;
   prize: string;

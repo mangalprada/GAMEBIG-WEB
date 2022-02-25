@@ -194,6 +194,7 @@ export default function CreateEventForm({
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-slate-900 rounded-b-md">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+              {formInputComponents}
               <TimeDatePicker
                 name="startTime"
                 timeInterval={oldValues ? 1 : 30}
@@ -204,7 +205,18 @@ export default function CreateEventForm({
                   formik.setFieldValue('startTime', date);
                 }}
               />
-              {formInputComponents}
+              {formik.values.type === 'Custom Room' ? (
+                <TimeDatePicker
+                  name="idpTime"
+                  timeInterval={5}
+                  error={false}
+                  label="Room ID and Password Time"
+                  initialTime={formik.values.idpTime}
+                  changeHandler={(date: Date) => {
+                    formik.setFieldValue('idpTime', date);
+                  }}
+                />
+              ) : null}
               {formik.values.type === 'Custom Room' ? (
                 <SelectRadioButton
                   label="Tier"

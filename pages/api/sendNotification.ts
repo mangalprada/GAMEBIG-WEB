@@ -1,9 +1,5 @@
 import { firebaseAdmin } from 'firebase/firebaseAdmin';
 import PushNotifications from '@pusher/push-notifications-server';
-import {
-  getDecoratedDate,
-  getDecoratedTime,
-} from '@/utilities/functions/dateConvert';
 
 const { PUSHER_BEAM_INSTANCE_ID, PUSHER_BEAM_SECRET_KEY } = process.env;
 
@@ -35,14 +31,8 @@ async function sendPopupNotification(userId: string, data: any) {
       .publishToUsers([userId], {
         web: {
           notification: {
-            title: 'GAMEBIG event details!!',
-            body: `${data.roomId} is ROOM ID, ${
-              data.password
-            } is PASSWORD and ${data.slotNumber} is SLOT for ${data.pageName} ${
-              data.eventType
-            } starting at ${getDecoratedTime(
-              data.startTime
-            )}, ${getDecoratedDate(data.startTime)} . Enjoy the match🥳🎉`,
+            title: 'New Join Request',
+            body: `${data.requestingName} wants to join your team`,
           },
         },
       })
@@ -57,4 +47,6 @@ async function sendPopupNotification(userId: string, data: any) {
 
 export default async function handler(req: any, res: any) {
   const { data, type } = req.body;
+  addToUserNotification(data.postOwnerUid, data, type);
+  sendPopupNotification(data.postOwnerUid, data);
 }

@@ -85,7 +85,7 @@ export default function Home() {
                 {joinees.map((joinee) => (
                   <div
                     key={joinee.uid}
-                    className="w-full py-1 bg-gray-800 rounded-md flex justify-between pr-8"
+                    className="w-full py-1 bg-gray-800 rounded-md flex justify-between items-center pr-8"
                   >
                     <HorizontalProfile user={joinee} />
                     <FixedButton

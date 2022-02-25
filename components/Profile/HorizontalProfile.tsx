@@ -22,12 +22,15 @@ const HorizontalProfile = ({
         (isTransparent ? '' : 'bg-gray-800')
       }
     >
-      <section
-        className="flex gap-3 items-center justify-start "
-        onClick={() => openProfile(user.username)}
-      >
+      <section className="flex gap-3 items-center justify-start ">
         {user.photoURL ? (
-          <div className="relative h-8 w-8 md:h-12 md:w-12 cursor-pointer">
+          <div
+            className="relative h-8 w-8 md:h-12 md:w-12 cursor-pointer"
+            onClick={(event) => {
+              event.stopPropagation();
+              openProfile(user.username);
+            }}
+          >
             <Image
               src={user.photoURL}
               alt="Picture of a friend"
@@ -38,10 +41,22 @@ const HorizontalProfile = ({
           </div>
         ) : null}
         <section className="flex flex-col cursor-pointer">
-          <span className="font-semibold text-sm  md:text-lg text-gray-300 hover:text-indigo-600">
+          <span
+            className="font-semibold text-sm  md:text-lg text-gray-300 hover:text-indigo-600"
+            onClick={(event) => {
+              event.stopPropagation();
+              openProfile(user.username);
+            }}
+          >
             {user.name}
           </span>
-          <span className="font-semibold text-gray-500 text-xs md:text-base">
+          <span
+            className="font-semibold text-gray-500 text-xs md:text-base"
+            onClick={(event) => {
+              event.stopPropagation();
+              openProfile(user.username);
+            }}
+          >
             @{user.username}
           </span>
         </section>

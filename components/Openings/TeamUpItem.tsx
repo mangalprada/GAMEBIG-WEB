@@ -4,9 +4,11 @@ import { games, gameTiers } from '@/utilities/GameList';
 import { TeamUpPost } from '@/utilities/openings/TeamUpPost';
 import firebase, { db } from 'firebase/firebaseClient';
 import Image from 'next/image';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import FixedButton from '../UI/Buttons/FixedButton';
 import { useUI } from '@/context/uiContext';
+const { BASE_URL } = process.env;
 
 type Props = {
   data: TeamUpPost;
@@ -66,6 +68,17 @@ export default function TeamUpItem({ data }: Props) {
             noOfJoinees: firebase.firestore.FieldValue.increment(1),
             joineeUids: firebase.firestore.FieldValue.arrayUnion(uid),
           });
+        await axios.put(`${BASE_URL}/api/sendNotification`, {
+          data: {
+            postOwnerUid: data.uid,
+            postId: data.docId,
+            requestingUid: uid,
+            requestingUsername: username,
+            requestingName: name,
+            requestingPhotoURL: photoURL,
+          },
+          type: 'JOIN_REQUEST',
+        });
         openSnackBar({
           label: '',
           message: 'Your Requested to Join is sent!',

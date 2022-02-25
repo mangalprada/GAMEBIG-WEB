@@ -22,7 +22,10 @@ const FixedButton: FC<ButtonProps> = ({
                 : 'bg-indigo-600 hover:bg-indigo-700'))
         }
         type={type}
-        onClick={onClick}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick && onClick();
+        }}
         disabled={isDisabled}
       >
         {name}

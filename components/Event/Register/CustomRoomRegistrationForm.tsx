@@ -104,36 +104,27 @@ export default function CustomRoomRegistrationForm({
         teamName,
         users: [{ uid, name, photoURL, username }],
       };
-      await axios
-        .put(`${BASE_URL}/api/events`, {
-          _id: eventId,
-          data: {
-            $set: {
-              noOfSlots: eventData.noOfSlots - 1,
-              slots: { ...eventData.slots, [currentSlotNumber]: 'booked' },
-            },
-          },
-        })
-        .then(async () => {
-          await axios.post(`${BASE_URL}/api/participants`, {
-            data,
-          });
-
-          if (Notification.permission !== 'granted') {
-            openSnackBar({
-              label: 'Notification Permission Required',
-              message:
-                'Please allow notifications to receive ROOM ID and PASSWORD',
-              type: 'warning',
-            });
-          }
-          setBookingdetails(data);
-          setIsRegistered(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const response: any = await axios.post(`${BASE_URL}/api/participants`, {
+        data,
+      });
+      openSnackBar({
+        label: `${response.data.message}`,
+        message: '',
+        type: response.data.success ? 'success' : 'error',
+      });
       setIsLoading(false);
+      if (response.data.success) {
+        setBookingdetails(data);
+        setIsRegistered(true);
+        if (Notification.permission !== 'granted') {
+          openSnackBar({
+            label: 'Notification Permission Required',
+            message:
+              'Please allow notifications to receive ROOM ID and PASSWORD',
+            type: 'warning',
+          });
+        }
+      }
     },
   });
 

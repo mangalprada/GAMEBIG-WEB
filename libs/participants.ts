@@ -1,21 +1,52 @@
 import { connectToDatabase } from '../mongoDB/mongodbClient';
 const ObjectId = require('mongodb').ObjectId;
 
-export async function addParticipant(
-  req: { body: any },
-  res: { json: (arg0: { message: string; success: boolean }) => any }
-) {
+export async function addParticipant(req: { body: any }, res: { json: any }) {
   try {
     let { db } = await connectToDatabase();
-    await db.collection('participants').insertOne(req.body.data);
+    const {
+      body: {
+        data: { eventId, slotNumber },
+      },
+    } = req;
+    let participants = await db
+      .collection('participants')
+      .find({ eventId, slotNumber })
+      .toArray();
+
+    if (participants.length === 0) {
+      let event = await db
+        .collection('events')
+        .findOne({ _id: new ObjectId(eventId) });
+
+      await db.collection('events').updateOne(
+        {
+          _id: new ObjectId(eventId),
+        },
+        {
+          $set: {
+            noOfSlots: event.noOfSlots - 1,
+            slots: { ...event.slots, [slotNumber]: 'booked' },
+          },
+        }
+      );
+      await db.collection('participants').insertOne(req.body.data);
+    } else {
+      return res.json({
+        message: 'The Slot Number is taken. Please try another one.',
+        reason: 'Slot_Taken',
+        success: false,
+      });
+    }
 
     return res.json({
-      message: 'Participant added successfully',
+      message: 'Booking Successful',
       success: true,
     });
   } catch (error) {
+    console.log(error);
     return res.json({
-      message: new Error(error as string).message,
+      message: 'Something went wrong',
       success: false,
     });
   }

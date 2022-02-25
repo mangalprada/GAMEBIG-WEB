@@ -9,7 +9,6 @@ export default async function handler(
     // connect to the database
     let { db } = await connectToDatabase();
     const { participantId, eventId, slotNo } = req.body;
-    console.log({ participantId, eventId, slotNo });
 
     let event = await db
       .collection('events')

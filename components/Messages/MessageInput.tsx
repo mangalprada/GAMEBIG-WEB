@@ -2,6 +2,9 @@ import { useMessages } from '@/context/messageContext';
 import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import firebase, { db } from '../../firebase/firebaseClient';
+import axios from 'axios';
+
+const { BASE_URL } = process.env;
 
 type Props = {
   receivingUser: {
@@ -102,6 +105,11 @@ export default function MessageInput({
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
       setMessage('');
+      await axios.put(`${BASE_URL}/api/sendNotification`, {
+        targetUid: receivingUser.uid,
+        notificationBody: message,
+        notificationTitle: userData.name,
+      });
     } catch (e) {
       console.log(e);
     }

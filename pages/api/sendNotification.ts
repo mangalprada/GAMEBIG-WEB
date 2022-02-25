@@ -21,7 +21,11 @@ async function addToUserNotification(uid: string, data: any, type: string) {
   }
 }
 
-async function sendPopupNotification(userId: string, data: any) {
+async function sendPopupNotification(
+  userId: string,
+  notificationBody: string,
+  notificationTitle: string
+) {
   if (PUSHER_BEAM_INSTANCE_ID && PUSHER_BEAM_SECRET_KEY) {
     const beamsClient = new PushNotifications({
       instanceId: PUSHER_BEAM_INSTANCE_ID,
@@ -31,8 +35,8 @@ async function sendPopupNotification(userId: string, data: any) {
       .publishToUsers([userId], {
         web: {
           notification: {
-            title: 'New Join Request',
-            body: `${data.requestingName} wants to join your team`,
+            title: notificationTitle,
+            body: notificationBody,
           },
         },
       })
@@ -46,7 +50,8 @@ async function sendPopupNotification(userId: string, data: any) {
 }
 
 export default async function handler(req: any, res: any) {
-  const { data, type } = req.body;
-  addToUserNotification(data.postOwnerUid, data, type);
-  sendPopupNotification(data.postOwnerUid, data);
+  const { targetUid, data, type, notificationBody, notificationTitle } =
+    req.body;
+  if (data && type) addToUserNotification(targetUid, data, type);
+  sendPopupNotification(targetUid, notificationBody, notificationTitle);
 }

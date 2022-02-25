@@ -77,7 +77,10 @@ export default function TeamUpItem({ data }: Props) {
             requestingName: name,
             requestingPhotoURL: photoURL,
           },
+          targetUid: data.uid,
           type: 'JOIN_REQUEST',
+          notificationTitle: 'New Join Request',
+          notificationBody: `${name} wants to join your team`,
         });
         openSnackBar({
           label: '',
@@ -162,7 +165,12 @@ export default function TeamUpItem({ data }: Props) {
       </div>
 
       <div
-        className="flex justify-between items-center mb-2 mt-1 mx-2 md:mx-4"
+        className={
+          'flex items-center mb-2 mt-1 mx-2 md:mx-4 ' +
+          (data.noOfJoinees && data.noOfJoinees > 0
+            ? 'justify-between'
+            : 'justify-end')
+        }
         onClick={handleCardClick}
       >
         {data.noOfJoinees ? (

@@ -100,6 +100,17 @@ export default function DetailsAsParticipant({
           />
         </EventCardRowItem>
 
+        {data.idpTime ? (
+          <EventCardRowItem
+            content={getDecoratedTime(data.idpTime)}
+            label="Room Id & Password"
+          >
+            <AccessTimeIcon
+              styles={'fill-current text-blue-500 w-4 h-4 md:w-5 md:h-5'}
+            />
+          </EventCardRowItem>
+        ) : null}
+
         <EventCardRowItem content={`${data.noOfSlots}`} label="Available Slots">
           <RoomEntryIcon
             styles={'fill-current text-cyan-900 w-4 h-4 md:w-5 md:h-5'}

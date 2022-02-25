@@ -122,6 +122,15 @@ export default function CreateEventForm({
                 value={formik.values[input.name]}
                 name={input.name}
                 handleChange={(item) => {
+                  if (oldValues && ['mode', 'type'].includes(input.name)) {
+                    openSnackBar({
+                      label: 'Can not change this field',
+                      message:
+                        'For the conveinience of the participansts, this field is not editable',
+                      type: 'info',
+                    });
+                    return;
+                  }
                   formik.setFieldValue(input.name, item);
                   if (input.name === 'mode') {
                     const noOfSlots =
@@ -182,7 +191,7 @@ export default function CreateEventForm({
             Create Custom Room
           </h6>
         </div>
-        <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-gray-900">
+        <div className="flex-auto px-4 lg:px-10 py-10 pt-0 bg-gradient-to-tr from-black to-slate-900 rounded-b-md">
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="false">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <TimeDatePicker
@@ -279,9 +288,9 @@ export default function CreateEventForm({
                 slotSelectHandler={slotSelectHandler}
               />
             ) : null}
-            <span className="text-red-500 text-sm font-semibold mt-5 opacity-60">
+            <span className="text-red-400 text-lg font-bold mt-5 opacity-60">
               {
-                "Once you create an event, you can't change the SLOTS for the conveinience of the participansts."
+                "Once you create an event, you can't change the GAME MODE, GAME TYPE and SLOTS for the conveinience of the participansts."
               }
             </span>
             <ResponsiveButton

@@ -108,7 +108,7 @@ export default function SecondaryNavigationItems() {
           >
             <div className="flex gap-3">
               <div className="ring ring-indigo-600 bg-slate-900 hover:bg-indigo-600 text-base md:text-xl text-50 px-2 md:px-4 py-0.5 md:py-1 rounded-md">
-                Sign in
+                Sign In
               </div>
               <div className="ring ring-indigo-600 hover:ring-indigo-800 bg-indigo-600 hover:bg-indigo-800 text-white text-base md:text-xl px-2 md:px-4 py-0.5 md:py-1 rounded-md">
                 Sign Up

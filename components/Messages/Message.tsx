@@ -22,9 +22,6 @@ export default function Message({ data, isOwner }: Props) {
           (isOwner ? 'bg-indigo-400' : 'bg-gray-300')
         }
       >
-        <span className="block text-sm font-medium text-gray-600">
-          {data.username}
-        </span>
         <span className="block font-semibold text-lg text-gray-900">
           {data.message}
         </span>

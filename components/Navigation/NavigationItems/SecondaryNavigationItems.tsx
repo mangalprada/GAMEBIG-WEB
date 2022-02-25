@@ -103,11 +103,17 @@ export default function SecondaryNavigationItems() {
         <Link href="/">
           <a
             className={
-              'bg-indigo-600 hover:bg-indigo-800 font-semibold ' +
-              'text-md my-1.5 md:my-2 py-2 px-2 text-gray-300 rounded-md cursor-pointer'
+              'font-semibold text-md md:my-0.5 py-2 px-2 text-gray-300  cursor-pointer '
             }
           >
-            Sign&nbsp;In/ Sign&nbsp;Up
+            <div className="flex gap-3">
+              <div className="ring ring-indigo-600 bg-slate-900 hover:bg-indigo-600 text-base md:text-xl text-50 px-2 md:px-4 py-0.5 md:py-1 rounded-md">
+                Sign in
+              </div>
+              <div className="ring ring-indigo-600 hover:ring-indigo-800 bg-indigo-600 hover:bg-indigo-800 text-white text-base md:text-xl px-2 md:px-4 py-0.5 md:py-1 rounded-md">
+                Sign Up
+              </div>
+            </div>
           </a>
         </Link>
       )}

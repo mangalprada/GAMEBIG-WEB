@@ -71,17 +71,23 @@ export default function CreateEventForm({
       }
       if (oldValues?._id) {
         delete value._id;
+        delete value.idpTime;
         updateEvent(oldValues._id, {
           ...value,
           description: JSON.stringify(description),
         });
       } else {
         if (pageId && pageName) {
+          if (value.type === 'Public') {
+          }
           let event = {
             ...value,
             description: JSON.stringify(description),
           };
           if (value.type === 'Custom Room') event = { ...event, slots };
+          else {
+            delete value.idpTime;
+          }
           createEvent(event);
         }
       }

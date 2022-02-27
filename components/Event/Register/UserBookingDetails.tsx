@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import Modal from '@/components/UI/Modal/Modal';
 import FixedButton from '@/components/UI/Buttons/FixedButton';
+import { useUI } from '@/context/uiContext';
+import LoadingLottie from '@/components/UI/Loaders/Dots';
 const { BASE_URL } = process.env;
 
 const UserBookingDetails = ({
@@ -13,8 +15,10 @@ const UserBookingDetails = ({
   bookingDetails: any;
   setIsRegistered: (val: boolean) => void;
 }) => {
+  const { openSnackBar } = useUI();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const closeModal = () => {
     setOpen(false);
@@ -24,21 +28,42 @@ const UserBookingDetails = ({
     setOpen(true);
   };
 
-  const cancelBooking = () => {
+  const cancelBooking = async () => {
+    setIsLoading(true);
+    closeModal();
     try {
-      axios.post(`${BASE_URL}/api/cancelEventBooking`, {
-        participantId: bookingDetails._id,
-        eventId: bookingDetails.eventId,
-        slotNo: bookingDetails.slotNumber,
-      });
-      setIsRegistered(false);
-      router.push(window.location.pathname);
+      const response: any = await axios.post(
+        `${BASE_URL}/api/cancelEventBooking`,
+        {
+          participantId: bookingDetails._id,
+          eventId: bookingDetails.eventId,
+          slotNo: bookingDetails.slotNumber,
+        }
+      );
+      if (response.data.success) setIsRegistered(false);
+      else {
+        openSnackBar({
+          label: 'Something went wrong',
+          message: 'Try again',
+          type: 'error',
+        });
+        router.reload();
+      }
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   if (!bookingDetails) return null;
+
+  if (isLoading) {
+    return (
+      <div className="my-4 md:my-16">
+        <LoadingLottie height={100} width={200} />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -61,12 +86,16 @@ const UserBookingDetails = ({
             {bookingDetails.phoneNumber}
           </span>
         </section>
-        <section>
-          <h2 className="font-semibold text-base text-gray-500">Slot Number</h2>
-          <span className="text-xl text-center font-semibold tracking-wide rounded-md text-green-500 ">
-            {bookingDetails.slotNumber || 'Organizer Will Update'}
-          </span>
-        </section>
+        {bookingDetails.slotNumber ? (
+          <section>
+            <h2 className="font-semibold text-base text-gray-500">
+              Slot Number
+            </h2>
+            <span className="text-xl text-center font-semibold tracking-wide rounded-md text-green-500 ">
+              {bookingDetails.slotNumber}
+            </span>
+          </section>
+        ) : null}
       </div>
       {bookingDetails.users.length > 1 ? (
         <GamersInfoList gamers={bookingDetails.users} />

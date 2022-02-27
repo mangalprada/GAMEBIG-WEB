@@ -217,9 +217,9 @@ export default function CreateEventForm({
                   }}
                 />
               ) : null}
-              {formik.values.type === 'Classic Tournament' ? (
+              {formik.values.type !== 'Custom Room' ? (
                 <FormInput
-                  labelName="Title of the Tournament"
+                  labelName="Title of the Event"
                   name="title"
                   placeHolder="Enter Title"
                   value={formik.values.title}
@@ -228,11 +228,10 @@ export default function CreateEventForm({
                   errorMessage={formik.errors.title}
                 />
               ) : null}
-              {formik.values.type === 'Classic Tournament' ? (
+              {formik.values.type !== 'Custom Room' ? (
                 <FormInput
-                  labelName="No. Of Slots"
+                  labelName="No. Of Available Slots"
                   name="noOfSlots"
-                  placeHolder="Enter No. Of Slots"
                   value={formik.values.noOfSlots}
                   onChangeHandler={formik.handleChange}
                   error={Boolean(formik.errors.noOfSlots)}

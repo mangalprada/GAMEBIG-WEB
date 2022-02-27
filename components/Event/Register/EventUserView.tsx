@@ -1,6 +1,7 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import CustomRoomRegistrationForm from './CustomRoomRegistrationForm';
 import TournamentRegistrationForm from './TournamentRegistrationForm';
+import TdmRegistrationForm from './TdmRegistrationForm';
 import UserBookingDetails from './UserBookingDetails';
 import { EventData } from '@/utilities/eventItem/types';
 import { useAuth } from '@/context/authContext';
@@ -110,6 +111,15 @@ const RespondToEvent: FC<Props> = ({
             'Classic Tournament': (
               <TournamentRegistrationForm
                 eventData={eventData}
+                teamSize={4}
+                setTeamId={setTeamId}
+                setIsRegistered={setIsRegistered}
+                setBookingdetails={setBookingdetails}
+              />
+            ),
+            'TDM Tournament': (
+              <TdmRegistrationForm
+                eventId={eventData._id}
                 teamSize={4}
                 setTeamId={setTeamId}
                 setIsRegistered={setIsRegistered}

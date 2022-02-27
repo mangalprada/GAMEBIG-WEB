@@ -13,6 +13,11 @@ export default async function handler(
     let event = await db
       .collection('events')
       .findOne({ _id: new ObjectId(eventId) });
+
+    await db.collection('participants').deleteOne({
+      _id: new ObjectId(participantId),
+    });
+
     // update the published status of the event
     await db.collection('events').updateOne(
       {
@@ -25,10 +30,6 @@ export default async function handler(
         },
       }
     );
-
-    await db.collection('participants').deleteOne({
-      _id: new ObjectId(participantId),
-    });
 
     // return a message
     return res.json({

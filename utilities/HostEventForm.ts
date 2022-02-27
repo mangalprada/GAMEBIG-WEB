@@ -8,7 +8,7 @@ export const HostEventForm: Record<string, any> = {
         name: 'type',
         formType: 'radio',
         dataType: 'string',
-        options: ['Custom Room', 'Classic Tournament'],
+        options: ['Custom Room', 'Classic Tournament', 'TDM Tournament'],
       },
       {
         labelName: 'Game Mode',

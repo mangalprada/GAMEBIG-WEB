@@ -86,7 +86,7 @@ export default function CreateEventForm({
           };
           if (value.type === 'Custom Room') event = { ...event, slots };
           else {
-            delete value.idpTime;
+            delete event.idpTime;
           }
           createEvent(event);
         }

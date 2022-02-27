@@ -128,10 +128,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           />
         </EventCardRowItem>
 
-        <EventCardRowItem
-          content={`${data.type}` + (data.tier ? ` - ${data.tier}` : '')}
-          label="Tier"
-        >
+        <EventCardRowItem content={data.type} label="Event">
           <BadgeIcon
             styles={'fill-current text-orange-800 w-4 h-4 md:w-5 md:h-5'}
           />

@@ -73,7 +73,7 @@ export default function Events() {
   return (
     <Aux>
       <Head>
-        <title>Create an Event</title>
+        <title>{pageData.name}</title>
         <meta
           name="description"
           content="List of all upcoming events on GameBig"

@@ -93,7 +93,7 @@ export default function DetailsAsParticipant({
           content={`${getDecoratedTime(data.startTime)}, ${getDecoratedDate(
             data.startTime
           )}`}
-          label="Event Time"
+          label="Start Time"
         >
           <AccessTimeIcon
             styles={'fill-current text-blue-500 w-4 h-4 md:w-5 md:h-5'}

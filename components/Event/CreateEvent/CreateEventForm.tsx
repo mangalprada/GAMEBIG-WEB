@@ -210,21 +210,10 @@ export default function CreateEventForm({
                   name="idpTime"
                   timeInterval={5}
                   error={false}
-                  label="Room ID and Password Time"
+                  label="Room Id and Password Time"
                   initialTime={formik.values.idpTime}
                   changeHandler={(date: Date) => {
                     formik.setFieldValue('idpTime', date);
-                  }}
-                />
-              ) : null}
-              {formik.values.type === 'Custom Room' ? (
-                <SelectRadioButton
-                  label="Tier"
-                  items={['T1', 'T2', 'T3']}
-                  value={formik.values.tier}
-                  name="tier"
-                  handleChange={(item) => {
-                    formik.setFieldValue('tier', item);
                   }}
                 />
               ) : null}

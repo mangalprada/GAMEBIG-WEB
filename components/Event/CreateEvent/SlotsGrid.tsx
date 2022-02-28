@@ -19,6 +19,8 @@ const SlotsGrid = ({ slots, slotSelectHandler, message }: Props) => {
     }
   };
 
+  if (!slots) return null;
+
   return (
     <div className="text-center mt-4">
       <span className="text-lg text-gray-50 font-bold">{message}</span>

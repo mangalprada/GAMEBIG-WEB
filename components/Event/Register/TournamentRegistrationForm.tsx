@@ -69,16 +69,8 @@ export default function CustomRoomRegistrationForm({
         teamName,
         users: selectedUsers,
       };
-      axios.post(`${BASE_URL}/api/participants`, {
+      axios.post(`${BASE_URL}/api/participants/bookSlotForClassicTournament`, {
         data,
-      });
-      axios.put(`${BASE_URL}/api/events`, {
-        _id: eventData._id,
-        data: {
-          $set: {
-            noOfSlots: eventData.noOfSlots - 1,
-          },
-        },
       });
       setBookingdetails(data);
       setIsRegistered(true);

@@ -66,13 +66,13 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                             eventData.startTime
                           )}, ${getDecoratedDate(eventData.startTime)}. 
                           
-                           %0D %0D *_Room Id- ${
-                             eventData.roomId
-                           }_*%0D *_password- ${
+                          %0D%0D%0D *_Room Id- ${
+                            eventData.roomId
+                          }_*%0D *_password- ${
                             eventData.password
                           }_* %0D *_Slot- ${
                             team.slotNumber
-                          }_* %0D   %0DWinner must take screenshot to claim the reward.
+                          }_* %0D     %0D%0D%0DWinner must take screenshot to claim the reward.
                           
                           %0DEnjoy the match🥳🎉`}
                           target="_blank"

@@ -15,7 +15,7 @@ const GamersInfoList = ({ gamers, removeItem }: Props) => {
       {gamers.map((gamer, index) => (
         <div
           key={index}
-          className="w-full flex items-center justify-between my-1 md:pr-4 rounded-md bg-gray-800"
+          className="w-full flex items-center justify-between my-1 md:pr-4 pr-2 rounded-md bg-gray-800"
         >
           <div
             className={'m-2 py-1.5 px-2 md:py-1 md:px-4 rounded-md bg-gray-800'}
@@ -33,7 +33,7 @@ const GamersInfoList = ({ gamers, removeItem }: Props) => {
                 </div>
               ) : null}
               <section className="flex flex-col cursor-pointer">
-                <span className="font-semibold text-sm  md:text-lg text-gray-300 hover:text-indigo-600">
+                <span className="font-semibold text-xs  md:text-base text-gray-300 hover:text-indigo-600">
                   {gamer.name}
                 </span>
                 <span className="font-semibold text-gray-500 text-xs md:text-base">
@@ -42,13 +42,13 @@ const GamersInfoList = ({ gamers, removeItem }: Props) => {
               </section>
             </section>
           </div>
-          <section className="flex flex-col">
-            <span className="text-xs text-gray-500">In Game ID</span>
-            <span className={'pb-2 px-4 text-sm'}>{gamer.inGameId}</span>
+          <section className="flex flex-col text-center">
+            <span className="text-xs text-gray-500">IGI</span>
+            <span className={'text-sm'}>{gamer.inGameId}</span>
           </section>
-          <section className="flex flex-col">
-            <span className="text-xs text-gray-500">In Game Name</span>
-            <span className={'pb-2 px-4 text-sm '}>{gamer.inGameName}</span>
+          <section className="flex flex-col text-center">
+            <span className="text-xs text-gray-500">IGN</span>
+            <span className={'text-sm '}>{gamer.inGameName}</span>
           </section>
           {removeItem ? (
             <DeleteIcon size={22} onClick={() => removeItem(gamer.username)} />

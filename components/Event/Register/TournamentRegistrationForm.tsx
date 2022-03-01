@@ -14,6 +14,7 @@ import { useUI } from '@/context/uiContext';
 import { BasicUserType, GamerType } from '@/utilities/types';
 import { db } from 'firebase/firebaseClient';
 import GamersInfoList from './GamerInfoList';
+import HorizontalProfile from '@/components/Profile/HorizontalProfile';
 
 const { BASE_URL } = process.env;
 
@@ -124,11 +125,11 @@ export default function CustomRoomRegistrationForm({
   };
   const addPlayer = () => {
     if (
-      !currentUser.name &&
-      !currentUser.username &&
-      !currentUser.uid &&
-      !currentUser.photoURL &&
-      !currentUser.inGameId &&
+      !currentUser.name ||
+      !currentUser.username ||
+      !currentUser.uid ||
+      !currentUser.photoURL ||
+      !currentUser.inGameId ||
       !currentUser.inGameName
     ) {
       openSnackBar({
@@ -184,7 +185,7 @@ export default function CustomRoomRegistrationForm({
       </span>
       <div className="rounded-lg w-full h-full text-gray-300 font-sans font-semibold flex flex-col">
         <FormInput
-          labelName="USERNAME"
+          labelName="Search for player"
           name="username"
           placeHolder="search username or name"
           value={query}
@@ -205,28 +206,43 @@ export default function CustomRoomRegistrationForm({
             highLightButton={true}
           />
         ) : null}
-        <FormInput
-          labelName="IN GAME NAME"
-          name="inGameName"
-          placeHolder=""
-          value={currentUser.inGameName}
-          onChangeHandler={(e: ChangeEvent) => {
-            const target = e.target as HTMLInputElement;
-            setCurrentUser({ ...currentUser, inGameName: target.value });
-          }}
-        />
-        <FormInput
-          labelName="IN GAME ID"
-          name="inGameId"
-          placeHolder=""
-          value={currentUser.inGameId}
-          onChangeHandler={(e: ChangeEvent) => {
-            const target = e.target as HTMLInputElement;
-            setCurrentUser({ ...currentUser, inGameId: target.value });
-          }}
-        />
+        <div className="bg-slate-800 px-5 rounded-md my-2 py-4">
+          {currentUser.username ? (
+            <HorizontalProfile
+              user={{
+                username: currentUser.username,
+                name: currentUser.name,
+                photoURL: currentUser.photoURL,
+                uid: currentUser.uid,
+              }}
+              isTransparent
+            />
+          ) : null}
+          <FormInput
+            labelName="IN GAME NAME"
+            name="inGameName"
+            placeHolder=""
+            value={currentUser.inGameName}
+            onChangeHandler={(e: ChangeEvent) => {
+              const target = e.target as HTMLInputElement;
+              setCurrentUser({ ...currentUser, inGameName: target.value });
+            }}
+          />
+          <FormInput
+            labelName="IN GAME ID"
+            name="inGameId"
+            placeHolder=""
+            value={currentUser.inGameId}
+            onChangeHandler={(e: ChangeEvent) => {
+              const target = e.target as HTMLInputElement;
+              setCurrentUser({ ...currentUser, inGameId: target.value });
+            }}
+          />
+          <div className="flex justify-end">
+            <FixedButton name="Add Player" onClick={addPlayer} />
+          </div>
+        </div>
       </div>
-      <FixedButton name="Add Player" onClick={addPlayer} />
       <span className="text-base text-gray-200 my-4">
         {`${selectedUsers.length} Players Added. `}
         {selectedUsers.length < 4

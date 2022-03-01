@@ -11,7 +11,7 @@ type Props = {
 const RespondToEvent: FC<Props> = ({ eventData }) => {
   return (
     <div className="bg-slate-900 rounded-md w-11/12 mx-auto pb-4 text-gray-200">
-      Tournament
+      Tournament: Work in Progress
     </div>
   );
 };

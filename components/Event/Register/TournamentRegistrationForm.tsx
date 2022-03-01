@@ -206,8 +206,8 @@ export default function CustomRoomRegistrationForm({
             highLightButton={true}
           />
         ) : null}
-        <div className="bg-slate-800 px-5 rounded-md my-2 py-4">
-          {currentUser.username ? (
+        {currentUser.username ? (
+          <div className="bg-slate-800 px-5 rounded-md my-2 py-4">
             <HorizontalProfile
               user={{
                 username: currentUser.username,
@@ -217,31 +217,32 @@ export default function CustomRoomRegistrationForm({
               }}
               isTransparent
             />
-          ) : null}
-          <FormInput
-            labelName="IN GAME NAME"
-            name="inGameName"
-            placeHolder=""
-            value={currentUser.inGameName}
-            onChangeHandler={(e: ChangeEvent) => {
-              const target = e.target as HTMLInputElement;
-              setCurrentUser({ ...currentUser, inGameName: target.value });
-            }}
-          />
-          <FormInput
-            labelName="IN GAME ID"
-            name="inGameId"
-            placeHolder=""
-            value={currentUser.inGameId}
-            onChangeHandler={(e: ChangeEvent) => {
-              const target = e.target as HTMLInputElement;
-              setCurrentUser({ ...currentUser, inGameId: target.value });
-            }}
-          />
-          <div className="flex justify-end">
-            <FixedButton name="Add Player" onClick={addPlayer} />
+
+            <FormInput
+              labelName="IN GAME NAME"
+              name="inGameName"
+              placeHolder=""
+              value={currentUser.inGameName}
+              onChangeHandler={(e: ChangeEvent) => {
+                const target = e.target as HTMLInputElement;
+                setCurrentUser({ ...currentUser, inGameName: target.value });
+              }}
+            />
+            <FormInput
+              labelName="IN GAME ID"
+              name="inGameId"
+              placeHolder=""
+              value={currentUser.inGameId}
+              onChangeHandler={(e: ChangeEvent) => {
+                const target = e.target as HTMLInputElement;
+                setCurrentUser({ ...currentUser, inGameId: target.value });
+              }}
+            />
+            <div className="flex justify-end">
+              <FixedButton name="Add Player" onClick={addPlayer} />
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
       <span className="text-base text-gray-200 my-4">
         {`${selectedUsers.length} Players Added. `}

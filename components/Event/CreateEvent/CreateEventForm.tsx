@@ -58,7 +58,6 @@ export default function CreateEventForm({
     validationSchema: validationSchema,
     onSubmit: async (value: EventFormData, { resetForm }) => {
       const { description } = value;
-      console.log('Entered_onSubmit');
       if (
         value.accessibility === 'Password Protected' &&
         !value.bookingPassword
@@ -71,7 +70,6 @@ export default function CreateEventForm({
         return;
       }
       if (oldValues) {
-        console.log('edit values');
         delete value._id;
         if (value.type !== 'Custom Room') delete value.idpTime;
         updateEvent(oldValues._id, {
@@ -79,7 +77,6 @@ export default function CreateEventForm({
           description: JSON.stringify(description),
         });
       } else {
-        console.log('create values');
         let event = {
           ...value,
           description: JSON.stringify(description),
@@ -301,11 +298,7 @@ export default function CreateEventForm({
             <ResponsiveButton
               name={oldValues ? 'Update' : 'Create'}
               type="submit"
-              onClick={() => {
-                console.log('button clicked');
-                console.log(formik.errors);
-                formik.handleSubmit();
-              }}
+              onClick={formik.handleSubmit}
             />
           </form>
         </div>

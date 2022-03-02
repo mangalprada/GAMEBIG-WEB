@@ -301,7 +301,11 @@ export default function CreateEventForm({
             <ResponsiveButton
               name={oldValues ? 'Update' : 'Create'}
               type="submit"
-              onClick={formik.handleSubmit}
+              onClick={() => {
+                console.log('button clicked');
+                console.log(formik.errors);
+                formik.handleSubmit();
+              }}
             />
           </form>
         </div>

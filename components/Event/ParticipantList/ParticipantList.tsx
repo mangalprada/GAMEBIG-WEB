@@ -59,11 +59,11 @@ export default function ParticipantList({ eventData, isPageOwner }: Props) {
                           className="flex justify-center"
                           href={`https://api.whatsapp.com/send?phone=+91${
                             team.phoneNumber
-                          }&text=Hello Team ${team.teamName}!   
-                        %0D  
-                        %0D${eventData.pageName} ${eventData.type} details:  
-                        %0D                    
-                        %0D*_Room Id- ${eventData.roomId}_*
+                          }&text=Hello *_Team ${team.teamName}_*!   
+                        %0D%0D${eventData.pageName} ${
+                            eventData.type
+                          } details:                                            
+                        %0D%0D*_Room Id- ${eventData.roomId}_*
                         %0D*_password- ${eventData.password}_*
                         %0D*_Slot- ${team.slotNumber}_* 
                         %0D*_start time- ${getDecoratedTime(

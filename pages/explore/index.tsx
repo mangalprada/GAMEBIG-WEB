@@ -27,8 +27,11 @@ const People = () => {
         <title>Explore</title>
         <meta
           name="description"
-          content="Find Gamers Like you, connect with them!"
+          content="Check out our organizers, Find Gamers Like you and connect with them!"
+          key={'description'}
         />
+
+        <meta property="og-url" content="https://www.gamebig.in/explore" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

@@ -95,9 +95,10 @@ const Home: NextPage = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:description"
-          content="Join GameBig to connect and play with awsome gamers, just like you!"
+          content="Register for upcoming events and tournaments in COD, BGMI and FreeFire."
+          key={'og:description'}
         />
-        <meta property="og-url" content="https://www.gamebig.in" />
+        <meta property="og-url" content="https://www.gamebig.in/events" />
 
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />

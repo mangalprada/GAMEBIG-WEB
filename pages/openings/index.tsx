@@ -46,7 +46,12 @@ const JoinPage = () => {
     <div className="flex flex-col sm:static w-full sm:px-10 px-0">
       <Head>
         <title>Openings</title>
-        <meta name="description" content="Join teams and Clans!" />
+        <meta
+          name="description"
+          content="Join teams and Clans!"
+          key={'description'}
+        />
+        <meta property="og-url" content="https://www.gamebig.in/openings" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

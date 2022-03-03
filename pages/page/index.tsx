@@ -10,7 +10,9 @@ export default function Home() {
         <meta
           name="description"
           content="Create an Page and Start host custom room matches for BGMI, Call of Duty and Gerena Freefire"
+          key={'description'}
         />
+        <meta property="og-url" content="https://www.gamebig.in/page" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>

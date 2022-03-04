@@ -20,8 +20,8 @@ const FooterComponent: FC = () => {
           <div className="w-full lg:w-6/12 px-4">
             <h4 className="text-3xl font-semibold">Contact Us</h4>
             <h5 className="text-lg mt-0 mb-2 font-medium">
-              Find us on any of these platforms, we&apos;ll respond in 1-2
-              business days.
+              Find us on any of these platforms, we&apos;ll respond as ssson as
+              possible.
             </h5>
             <div className="mt-6 lg:mb-0 mb-6 flex flex-row flex-wrap">
               <button

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": ""
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.22.2",

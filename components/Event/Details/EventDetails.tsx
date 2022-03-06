@@ -16,9 +16,6 @@ import AccessTimeIcon from '@/components/UI/Icons/EventIcons/AccessTimeIcon';
 import MoneyIcon from '@/components/UI/Icons/EventIcons/MoneyIcon';
 import RoomEntryIcon from '@/components/UI/Icons/EventIcons/RoomEntryIcon';
 import EventCardRowItem from '../EventCard/EventCardRowItem';
-import { useAuth } from '@/context/authContext';
-const { THE_OG } = process.env;
-
 interface Props {
   data: EventData;
   isPageOwner: boolean;
@@ -32,7 +29,6 @@ export default function DetailsAsParticipant({
   openEditModal,
   isUserRegistered,
 }: Props) {
-  const { userData } = useAuth();
   const { openSnackBar } = useUI();
   function openLinkedPage() {
     router.push(`/page/${data.pageId}/`);
@@ -62,7 +58,7 @@ export default function DetailsAsParticipant({
             {data?.pageName}
           </h1>
         </div>
-        {isPageOwner || userData.uid === THE_OG ? (
+        {isPageOwner ? (
           <TextButton name="EDIT" type="normal" onClick={openEditModal} />
         ) : null}
       </div>

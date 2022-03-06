@@ -49,7 +49,9 @@ export default function Event() {
 
   const isPageOwner = () => {
     if (linkedPageIds && pageId) {
-      return linkedPageIds.includes(pageId as string);
+      return (
+        linkedPageIds.includes(pageId as string) || uid === process.env.THE_OG
+      );
     } else {
       return false;
     }

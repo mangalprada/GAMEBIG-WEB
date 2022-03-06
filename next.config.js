@@ -46,6 +46,7 @@ moduleExports = withPWA({
     DB_NAME: process.env.DB_NAME,
     PUSHER_BEAM_INSTANCE_ID: process.env.PUSHER_BEAM_INSTANCE_ID,
     PUSHER_BEAM_SECRET_KEY: process.env.PUSHER_BEAM_SECRET_KEY,
+    THE_OG: process.env.THE_OG,
   },
 });
 

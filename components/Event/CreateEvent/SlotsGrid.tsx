@@ -13,7 +13,7 @@ const SlotsGrid = ({ slots, slotSelectHandler, message }: Props) => {
       case 'reserved_by_org':
         return 'bg-neutral-800 text-gray-500';
       case 'selected':
-        return 'bg-green-600 text-gray-50 ring ring-indigo-600';
+        return 'bg-indigo-600 text-gray-50';
       default:
         return '';
     }

@@ -3,6 +3,7 @@ import YouTubeIcon from '../../UI/Icons/SocialIcons/YouTubeIcon';
 import InstagramIcon from '../../UI/Icons/SocialIcons/InstagramIcon';
 import FacebookIcon from '../../UI/Icons/SocialIcons/FacebookIcon';
 import DiscordIcon from '../../UI/Icons/SocialIcons/DiscordIcon';
+import WhatsApp from '@/components/UI/Icons/SocialIcons/WhatsApp';
 
 const youtube = 'https://www.youtube.com/channel/UC8pKkOctRKu8dynpUMmi43Q';
 const facebook = 'https://www.facebook.com/GameBigHQ';
@@ -23,6 +24,13 @@ const Help = ({ pageId }: { pageId: string }) => {
       </h2>
       <div className="w-11/12 mx-auto flex flex-col justify-center items-center">
         <div className="flex flex-row space-x-4 mt-2">
+          <div
+            onClick={() => {
+              window.open(`https://api.whatsapp.com/send?phone=+919861408548`);
+            }}
+          >
+            <WhatsApp size={22} />
+          </div>
           <div className="my-auto">
             <DiscordIcon
               size={25}

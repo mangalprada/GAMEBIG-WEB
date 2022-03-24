@@ -51,24 +51,20 @@ function useProviderAuth() {
     const tempUser = await getUserData(uid);
     if (tempUser.uid) {
       if (router.pathname === '/' || router.pathname === '/about') {
-        try {
-          const storage = globalThis?.sessionStorage;
-          const prevPath = storage.getItem('prevPath');
-          if (prevPath && prevPath !== '/') {
-            router.push(prevPath);
-          } else {
-            router.push('/events');
-          }
-          setAuthPageNumber(1);
-          setUserData(tempUser);
-          localforage.setItem('user', {
-            uid: tempUser.uid,
-            username: tempUser.username,
-          });
-        } catch (err) {
-          console.log(err);
+        const storage = globalThis?.sessionStorage;
+        const prevPath = storage.getItem('prevPath');
+        if (prevPath && prevPath !== '/') {
+          router.push(prevPath);
+        } else {
+          router.push('/events');
         }
       }
+      setAuthPageNumber(1);
+      setUserData(tempUser);
+      localforage.setItem('user', {
+        uid: tempUser.uid,
+        username: tempUser.username,
+      });
     } else {
       const temp = {
         name: displayName,

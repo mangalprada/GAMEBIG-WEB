@@ -42,7 +42,7 @@ const SlotsGrid = ({ slots, slotSelectHandler, message }: Props) => {
           );
         })}
       </div>
-      <div className="flex my-4 mx-auto bg-re d-400 justify-center">
+      <div className="flex my-4 mx-auto d-400 justify-center">
         <div className="flex items-center">
           <div className="rounded-sm bg-neutral-800 w-4 h-3 ml-4 mr-1"></div>
           <span className="text-sm font-semibold text-gray-500">

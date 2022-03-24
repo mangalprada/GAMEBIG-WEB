@@ -16,14 +16,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     function storePathValues() {
-      const storage = globalThis?.sessionStorage;
-      if (!storage) return;
-      const currentPath = globalThis.location.pathname;
-      const prevPath = storage.getItem('currentPath');
-      if (prevPath && (currentPath === '/' || currentPath === '/about')) {
-        storage.setItem('prevPath', prevPath);
+      try {
+        const storage = globalThis?.sessionStorage;
+        if (!storage) return;
+        const currentPath = globalThis.location.pathname;
+        const prevPath = storage.getItem('currentPath');
+        if (prevPath && (currentPath === '/' || currentPath === '/about')) {
+          storage.setItem('prevPath', prevPath);
+        }
+        storage.setItem('currentPath', currentPath);
+      } catch (error) {
+        console.log(error);
       }
-      storage.setItem('currentPath', currentPath);
     }
     storePathValues();
   }, [router.asPath]);

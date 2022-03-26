@@ -75,7 +75,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       }
     >
       {/** Header */}
-      <div className="flex flex-nowrap justify-between items-center px-4 md:px-12 content-center py-5 mb-5 bg-indigo-600/25 rounded-t-md">
+      <div className="flex flex-nowrap justify-between items-center px-4 md:px-12 content-center py-5 mb-5 bg-indigo-600/10 rounded-t-md">
         <div className="flex">
           {games[data.gameCode].imageSource ? (
             <div className="relative w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32">

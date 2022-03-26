@@ -13,6 +13,7 @@
   "dependencies": {
     "@pusher/push-notifications-server": "^1.2.4",
     "@pusher/push-notifications-web": "^1.1.0",
+    "@radix-ui/react-accordion": "^0.1.6",
     "@sentry/nextjs": "^6.17.9",
     "algoliasearch": "^4.11.0",
     "axios": "^0.26.1",

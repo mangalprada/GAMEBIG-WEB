@@ -11,13 +11,11 @@
     "test": ""
   },
   "dependencies": {
-    "@editorjs/editorjs": "^2.22.2",
     "@pusher/push-notifications-server": "^1.2.4",
     "@pusher/push-notifications-web": "^1.1.0",
-    "@radix-ui/react-accordion": "^0.1.1",
     "@sentry/nextjs": "^6.17.9",
     "algoliasearch": "^4.11.0",
-    "axios": "^0.24.0",
+    "axios": "^0.26.1",
     "firebase": "^8.9.1",
     "firebase-admin": "^9.12.0",
     "formik": "^2.2.9",
@@ -40,7 +38,7 @@
     "slate": "^0.72.0",
     "slate-history": "^0.66.0",
     "slate-react": "^0.72.1",
-    "swr": "^1.1.2",
+    "swr": "^1.2.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },

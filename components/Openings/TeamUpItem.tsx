@@ -113,8 +113,8 @@ export default function TeamUpItem({ data }: Props) {
     >
       <div
         className={
-          'flex items-center justify-between px-1.5 sm:px-3 py-1 ' +
-          'rounded-lg border-2 border-gray-800'
+          'flex items-center justify-between px-2 sm:px-4 py-1.5 ' +
+          'rounded-md bg-slate-600/30'
         }
       >
         <section
@@ -135,13 +135,13 @@ export default function TeamUpItem({ data }: Props) {
           <section className="flex flex-col cursor-pointer">
             <span
               className={
-                'font-semibold text-sm md:text-lg text-gray-300 hover:underline ' +
+                'font-semibold text-sm md:text-lg text-gray-400 hover:underline ' +
                 'hover:text-indigo-500'
               }
             >
               {data.name}
             </span>
-            <span className="font-semibold text-gray-500 text-xs md:text-base">
+            <span className="font-semibold text-gray-400 text-xs md:text-base">
               @{data.username}
             </span>
           </section>
@@ -206,7 +206,7 @@ export default function TeamUpItem({ data }: Props) {
       </div>
 
       {/** Description */}
-      <span className="text-gray-300 text-sm sm:text-lg font-medium tracking-wide px-3">
+      <span className="text-gray-400 text-sm sm:text-lg font-medium tracking-wide px-3">
         {data.description}
       </span>
 
@@ -214,114 +214,114 @@ export default function TeamUpItem({ data }: Props) {
       <div
         className={
           'grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 mt-2 gap-2 sm:gap-5 ' +
-          'cursor-pointer bg-black/30 hover:bg-black/50 px-6 py-3 rounded-md'
+          'cursor-pointer bg-slate-600/25 hover:bg-slate-600/40 px-6 py-3 rounded-md'
         }
         onClick={handleCardClick}
       >
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             Game
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.gameCode && games[data.gameCode].shortName}
           </span>
         </section>
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             Mode
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.mode}
           </span>
         </section>
         {data.perspective ? (
           <section className="flex flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Perspective
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {data.perspective}
             </span>
           </section>
         ) : null}
         {data.tier ? (
           <section className="flex flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Tier
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {getGameTier(data.tier)}
             </span>
           </section>
         ) : null}
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             K/D
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.kd}
           </span>
         </section>
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             Average Damage
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.averageDamage}
           </span>
         </section>
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             Age
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.age}+
           </span>
         </section>
         <section className="flex flex-col">
-          <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+          <span className="font-semibold text-gray-400 text-xs sm:text-sm">
             Experience
           </span>
-          <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+          <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
             {data.experience}
           </span>
         </section>
         {data.role ? (
           <section className="flex flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Role
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {data.role}
             </span>
           </section>
         ) : null}
         {data.purpose ? (
           <section className="flex flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Purpose
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {data.purpose}
             </span>
           </section>
         ) : null}
         {data.timeAvailability ? (
           <section className="flex col-span-2 flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Time Avl.
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {data.timeAvailability}
             </span>
           </section>
         ) : null}
         {data.language ? (
           <section className="flex flex-col">
-            <span className="font-semibold text-gray-500 text-xs sm:text-sm">
+            <span className="font-semibold text-gray-400 text-xs sm:text-sm">
               Language
             </span>
-            <span className="text-gray-100 tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
+            <span className="text-white tracking-wide text-base sm:text-lg font-medium pt-0.5 sm:pt-1 pl-0.5">
               {data.language}
             </span>
           </section>

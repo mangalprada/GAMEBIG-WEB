@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { EventData } from '../../../utilities/eventItem/types';
 import EventCardAvatar from '@/components/UI/Avatar/EventCardAvatar';
 import LocationIcon from '@/components/UI/Icons/EventIcons/LocationIcon';
@@ -74,29 +75,47 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
       }
     >
       {/** Header */}
-      <div className="flex flex-nowrap justify-between items-center px-8 content-center py-5">
-        <div className="flex flex-row">
-          <EventCardAvatar
-            photoURL={data.pageDisplayPicture}
-            content={data.pageName[0]}
-            onclick={openLinkedpage}
-          />
-          <div>
-            <span
-              className="text-gray-300 text-xs sm:text-sm font-semibold font-sans tracking-wide mx-3 hover:underline cursor-pointer"
-              onClick={openLinkedpage}
-            >
-              {data.pageName}
-            </span>
-            <section className="flex flex-row mx-2 items-center mt-0.5">
-              <LocationIcon
-                className={'fill-current text-indigo-500'}
-                size={15}
+      <div className="flex flex-nowrap justify-between items-center px-4 md:px-12 content-center py-5 mb-5 bg-indigo-800 rounded-t-md">
+        <div className="flex">
+          {games[data.gameCode].imageSource ? (
+            <div className="relative w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32">
+              <Image
+                src={games[data.gameCode].imageSource}
+                alt=""
+                objectFit="cover"
+                layout="fill"
+                className="rounded-md"
               />
-              <span className="text-gray-300 text-xs font-semibold font-sans ml-1">
-                India
-              </span>
-            </section>
+            </div>
+          ) : null}
+          <div className="flex flex-col justify-end md:gap-3 ml-2 mb-1">
+            <span className="ml-1 text-xl md:text-3xl font-semibold text-center text-white">
+              {data.title || data.type}
+            </span>
+            <div className="flex flex-row items-center">
+              <EventCardAvatar
+                photoURL={data.pageDisplayPicture}
+                content={data.pageName[0]}
+                onclick={openLinkedpage}
+              />
+              <div>
+                <span
+                  className="text-gray-300 text-xs sm:text-sm font-semibold font-sans tracking-wide mx-2 hover:underline cursor-pointer"
+                  onClick={openLinkedpage}
+                >
+                  {data.pageName}
+                </span>
+                <section className="flex flex-row mx-1 items-center">
+                  <LocationIcon
+                    className={'fill-current text-indigo-500'}
+                    size={15}
+                  />
+                  <span className="text-gray-300 text-xs font-semibold font-sans ml-1">
+                    India
+                  </span>
+                </section>
+              </div>
+            </div>
           </div>
         </div>
         {/** Share Event */}
@@ -105,12 +124,6 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           game={games[data.gameCode].shortName}
         />
       </div>
-      <div className="flex justify-center mb-2">
-        <span className="text-base md:text-xl font-semibold text-center text-green-500">
-          {data.title}
-        </span>
-      </div>
-
       {/** Event Contents */}
       <div
         className={
@@ -121,7 +134,6 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
         <EventCardRowItem
           content={`${games[data.gameCode].shortName} - ${data.mode}`}
           label="Game"
-          image={games[data.gameCode].imageSource}
         >
           <EsportsIcon
             styles={'fill-current text-purple-700 w-4 h-4 md:w-5 md:h-5'}
@@ -170,7 +182,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
           />
         </EventCardRowItem>
       </div>
-      <div className="flex flex-row justify-between items-center my-2 md:mx-20 mx-8">
+      <div className="flex flex-row justify-between items-center md:mt-6 mt-4 mb-2 md:mx-20 sm:mx-10 mx-6">
         <TextButton
           name="DETAILS"
           type="normal"
@@ -194,10 +206,7 @@ const EventCard: FC<Props> = ({ data, isPageOwner }: Props) => {
             ) : (
               <>
                 {isPastEvent ? (
-                  <FixedButton
-                    name="PARTICIPATE NOW"
-                    onClick={onForwardAction}
-                  />
+                  <FixedButton name="REGISTER NOW" onClick={onForwardAction} />
                 ) : null}
               </>
             )}

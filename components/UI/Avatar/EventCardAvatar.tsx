@@ -11,7 +11,7 @@ type Props = {
 const EventCardAvatar: FC<Props> = ({ content, onclick, photoURL }: Props) => {
   return (
     <div
-      className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 m-auto"
+      className="relative w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
       onClick={onclick}
     >
       {photoURL ? (

@@ -9,7 +9,7 @@ const EventTabs = () => {
       <span
         className={
           'cursor-pointer w-1/2 text-center py-1 px-4 sm:px-12 md:px-20 rounded ' +
-          (router.pathname === href ? ' bg-cyan-900' : 'hover:bg-cyan-900/40')
+          (router.pathname === href ? ' bg-slate-700' : 'hover:bg-slate-900')
         }
       >
         {label}

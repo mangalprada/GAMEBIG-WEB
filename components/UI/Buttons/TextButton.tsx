@@ -12,7 +12,7 @@ const TextButton: FC<Props> = ({ name, type, onClick }: Props) => {
       <button
         className={
           'text-sm md:text-lg font-semibold ' +
-          'my-auto shadow-sm px-4 py-2 rounded-lg bg-transparent ' +
+          'my-auto shadow-sm px-2 py-2 rounded-lg bg-transparent ' +
           (type === 'normal'
             ? 'text-indigo-500 hover:bg-gray-700'
             : type === 'success'
